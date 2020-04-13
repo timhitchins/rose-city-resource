@@ -1,7 +1,7 @@
 {
-  "name": "rcrg_online",
+  "name": "rose-city-resource",
   "version": "1.0.0",
-  "description": "",
+  "description": "A digital version of the Street Roots Rose City Resource",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -10,8 +10,16 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timhitchins/rose-city-resource.git"
+  },
+  "author": "Tim Hitchins / Mapping Action Collective",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timhitchins/rose-city-resource/issues"
+  },
+  "homepage": "https://github.com/timhitchins/rose-city-resource#readme",
   "devDependencies": {
     "concurrently": "^5.1.0",
     "nodemon": "^2.0.3"
