@@ -1,0 +1,48 @@
+/* 
+--Copywriting-Produkt-01--
+gray: #393E46 
+gray2: #85898e
+blue: #00ADB5
+white/beige: #FFF4E0
+yellow: #F8B500
+red/orange: #FC3C3C
+*/
+
+.footer {
+  background: #393e46;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* padding: 1rem; */
+  position: fixed;
+  height: 30px;
+  width: 100%;
+  -webkit-box-shadow: 0 -3px 6px 0 #777;
+  -moz-box-shadow: 0 -3px 6px 0 #777;
+  box-shadow: 0 -3px 6px 0 #777;
+  z-index: 2;
+}
+
+.footer-container {
+  display: flex;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.footer-item {
+  padding: 0.4rem 1rem 0 1rem;
+  color: white;
+  font-size: 0.75rem;
+  max-width: 100px;
+}
+
+.footer-item:hover {
+  color: #f8b500;
+}
+
+.revision-date {
+  padding: 0.2rem 0 0 1rem;
+  font-size: 0.6rem;
+  color: white;
+  min-width: 72px;
+}

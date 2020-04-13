@@ -1,0 +1,57 @@
+.about-container {
+  margin: auto;
+  width: 50%;
+  min-height: calc(97vh - 30px);
+  background: #ecedee;
+  line-height: 1.6;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.content {
+  color: #393e46;
+  padding: 25px;
+}
+
+.sr-picture {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  float: right;
+  margin-left: 15px;
+}
+
+.sr-logo {
+  border-radius: 5%;
+  max-width: 400px;
+}
+
+.mac-logo {
+  max-width: 400px;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* align horizontal */
+  align-items: center;
+}
+
+.image-container > div{
+margin: 10px;
+}
+
+@media (max-width: 992px) {
+  .about-container {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .about-container {
+    width: 40%;
+  }
+}

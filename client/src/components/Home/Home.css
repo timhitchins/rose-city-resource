@@ -1,0 +1,730 @@
+@import url('https://fonts.googleapis.com/css?family=Ultra');
+
+/* 
+--Copywriting-Produkt-01--
+gray: #393E46 
+gray2: #85898e
+gray3: #2E3238  ?????
+gray4: #d1d2d4
+blue: #00ADB5
+white/beige: #FFF4E0
+yellow: #F8B500
+red/orange: #FC3C3C
+*/
+
+.home-outer-container {
+  /* overflow: auto; */
+  margin-bottom: 35px;
+  /* margin-top: 30px; */
+}
+
+.home-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.home-container > * {
+  grid-column: 1 / span 3;
+  margin: auto;
+  text-align: center;
+}
+
+.basic-search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  /* background: #d1d2d4; */
+  /* background: #393e46; */
+  background: #2e3238;
+  /* background: #85898e; */
+  /* background: rgb(57, 62, 70); */
+  /* background: linear-gradient(
+    0deg,
+    rgba(57, 62, 70, 1) 17%,
+    rgba(209, 210, 212, 1) 100%
+  ); */
+}
+
+/* ---------------------------------- */
+/* Basic Instructions */
+
+.basic-instructions {
+  /* color: #393e46; */
+  color: #f8b500;
+  /* color: #fc3c3c; */
+  font-size: 1.75rem;
+  padding-top: 1rem;
+  max-width: 675px;
+}
+
+.instructions-span {
+  border-radius: 50%;
+  background-color: #fc3c3c;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+
+/* ------------------------------------ */
+
+/* ------------------------------------------- */
+/* Search Bar CSS */
+.search-bar {
+  width: 95%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.search-input {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid #393e46;
+  border-radius: 5px 0 0 5px;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+.search-button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #00adb5;
+  color: white;
+  font-size: 17px;
+  border: 1px solid #393e46;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.search-button:hover,
+.search-button:focus {
+  background: #008a8f;
+  outline: none;
+}
+
+.search-input:focus {
+  border: 1px solid #008a8f;
+  outline: none;
+}
+
+.advanced-search {
+  min-width: 165px;
+  text-align: right;
+  color: #00adb5;
+  align-self: flex-end;
+}
+
+.advanced-search:hover {
+  cursor: pointer;
+  color: #008a8f;
+}
+
+/* ------------------------------------------ */
+/* Icon Selector CSS */
+.all-categories {
+  width: 100%;
+}
+
+/* .test {
+  width: 100%;
+} */
+
+.browse-categories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  background: #393e46;
+  color: white;
+  cursor: pointer;
+  min-height: 40px;
+  width: 100%;
+}
+
+.browse-categories-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  background: #393e46;
+  color: white;
+  min-height: 40px;
+  border-top: 1px solid #fff4e0;
+}
+
+.browse {
+  padding-right: 5px;
+}
+
+.categories-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  grid-column: 1 / span 3;
+  width: 100%;
+}
+
+.icons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  grid-column: 1 / span 3;
+  width: 100%;
+  /* below this is for CSS transition */
+  /* height: 100%; */
+  /* transition: all 200ms linear; */
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  background: #2e3238;
+  padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+  border-top: 1px solid #fff4e0;
+  cursor: pointer;
+  min-height: 35px;
+}
+
+.icon-container:hover {
+  background: #85898e;
+}
+
+.selected-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5rem;
+  padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+  border-top: 1px solid #fff4e0;
+  background: #393e46;
+  color: white;
+  cursor: pointer;
+}
+
+.selected-item > * {
+  padding-left: 1rem;
+}
+
+.small-icon {
+  padding: 0 0.5rem 0 0.5rem;
+}
+
+.icon-name {
+  color: white;
+}
+
+.category-plus {
+  margin-left: auto;
+  order: 2;
+}
+/* --------------------------------- */
+/* CSS transition for the categories */
+
+.icons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  grid-column: 1 / span 3;
+  width: 100%;
+  max-height: 800px;
+  overflow: hidden;
+  transition: all 500ms ease-in;
+}
+
+.browse-drawer-exit {
+  max-height: 0px;
+}
+
+.browse-drawer-exit-active {
+  max-height: 0px;
+}
+
+.browse-drawer-exit-done {
+  max-height: 0px;
+}
+
+.browse-drawer-enter {
+  max-height: 800px;
+}
+
+.browse-drawer-enter-active {
+  max-height: 800px;
+}
+
+.browse-drawer-enter-done {
+  max-height: 500px;
+  transition: all 300ms ease-out;
+}
+/* ------------------------------------------ */
+/* Advanced Search Modal CSS */
+
+/* .modal-close {
+  color: #e6e6e6;
+  background: #0a0a0a;
+  border: none;
+  font-size: 16px;
+  border-radius: 3px;
+  width: 200px;
+  text-align: center;
+  display: block;
+  padding: 7px 0;
+  margin: 10px auto;
+} */
+
+.modal {
+  position: fixed;
+  top: 55px;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  overflow: scroll;
+  z-index: 10;
+}
+
+.modal-box {
+  padding: 20px;
+  background-color: #faf9f8;
+  border-radius: 5px;
+  display: inline-block;
+  /* minHeight: '300px', */
+  margin: 1rem;
+  position: relative;
+  /* min-width: '300px'; */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  justify-self: center;
+}
+
+.modal-search-heading-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* justify-items: center; */
+  height: auto;
+  width: 100%;
+  /* align-items: center; */
+  /* flex-wrap: wrap;
+  justify-content: center; */
+}
+
+.search-nav-container-1,
+.search-nav-container-2 {
+  display: flex;
+}
+
+.search-nav-container-2 {
+  justify-self: end;
+}
+
+.search-nav-container-1 {
+  color: #393e46;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-heading-title {
+  color: #393e46;
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+
+.modal-heading-spacer {
+  flex: 1;
+}
+
+.modal-heading-divider {
+  display: block;
+  border-left: 1px solid #ccc;
+  height: 25px;
+  margin-right: 10px;
+}
+
+.modal-heading-button {
+  display: table;
+  border: none;
+  border-radius: 5px;
+  background-color: #00adb5;
+  padding: 10px 15px 10px 15px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  height: auto;
+}
+
+.modal-heading-button:hover,
+.modal-heading-button:focus {
+  cursor: pointer;
+  background: #008a8f;
+}
+
+.modal-search-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+/* the container for set of checkboxes */
+.modal-search-item {
+  /* max-width: 300px;
+  margin-right: 20px; */
+}
+
+.modal-search-item-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #393e46;
+  margin-bottom: 10px;
+}
+
+.modal-search-organization,
+.modal-search-category {
+  display: block;
+  border: none;
+  /* border-radius: 5px; */
+  /* background-color: #00adb5; */
+  /* padding: 10px 15px 10px 15px; */
+  margin-right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.modal-search-category {
+  padding: 10px 5px 10px 15px;
+}
+
+.modal-search-organization {
+  padding: 10px 15px 10px 5px;
+}
+
+.adv-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #393e46;
+}
+
+/* Hide the browser's default checkbox */
+.adv-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  background-color: #eee;
+}
+
+input[type='checkbox'] {
+  -webkit-appearance: checkbox;
+}
+
+/* On mouse-over, add a grey background color */
+.adv-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.adv-container input:checked ~ .checkmark {
+  background-color: #00adb5;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.adv-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.adv-container .checkmark:after {
+  left: 6px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* ------------------------------------------- */
+/* Render this if the viewport is less than 760px */
+
+@media (max-height: 600px) {
+  .home-container {
+    /* margin-top: 10px;
+    margin-bottom: 20px; */
+    height: auto;
+    /* margin-top: 10px; */
+    margin-bottom: 35px;
+  }
+}
+
+/* Render this for viewports over 600px */
+@media (min-width: 992px) {
+  .home-container {
+    width: 100%;
+    /* max-width: 1000px; */
+    /* margin-top: 10px; */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rcr-online {
+    display: block;
+    grid-column: 1 / span 1;
+    grid-row: 1;
+    visibility: visible;
+  }
+
+  .basic-instructions {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+    margin-top: 1.5rem;
+    padding: 2rem 0 2.5rem 1rem;
+    /* border-left: 1px solid #ab9d93; */
+    /* max-width: 1000px; */
+    /* min-width: 250px; */
+    height: 100%;
+    width: 80%;
+    max-width: 955px;
+    min-width: 835px;
+  }
+
+  .search-bar {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+    width: 80%;
+  }
+
+  .submit {
+    grid-column: 1 / span 3;
+  }
+
+  .text-span {
+    font-size: 2.5rem;
+  }
+
+  /* ------------------------------ */
+  .rcrOnlineLogo-enter-done {
+    width: 250px;
+    height: 250px;
+  }
+
+  .rcrOnlineLogo-enter {
+    width: 250px;
+    height: 250px;
+  }
+
+  .rcrOnlineLogo-enter-active {
+    width: 250px;
+    height: 250px;
+  }
+
+  .rcrOnlineLogoText-enter {
+    font-size: 1.25rem;
+  }
+
+  .rcrOnlineLogoText-enter-active {
+    font-size: 2rem;
+  }
+
+  .rcrOnlineLogoText-enter-done {
+    font-size: 2rem;
+  }
+  /* --------------------------------- */
+
+  .all-categories {
+    /* width: 500px; */
+  }
+
+  .categories-container {
+    width: 100%;
+    min-width: 845px;
+    /* padding: 0 2rem 0 2rem; */
+    background: #2e3238;
+  }
+
+  .icons-container {
+    grid-column: 1 / span 3;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    /* flex-wrap: wrap;
+    width: 500px; */
+  }
+
+  .icon-container {
+    display: flex;
+    flex-direction: column;
+    background: #2e3238;
+    padding: 0.5rem;
+    text-align: center;
+    /* margin: 0.25rem; */
+    /* border-radius: 5px; */
+    align-content: space-evenly;
+    /* flex-basis: 95px; */
+    /* flex-grow: 1; */
+    /* max-width: 95px; */
+    /* width: 90px; */
+    width: 95px;
+  }
+
+  .icon-name {
+    padding-top: 5px;
+    color: white;
+  }
+
+  .icons-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    /* below are the new properties
+    to deal with div not pushing down
+    results (cards, map) */
+    position: absolute;
+    width: 100%;
+    margin-top: 90px;
+    z-index: 3;
+    -webkit-box-shadow: 0 5px 6px 0 #777;
+    -moz-box-shadow: 0 5px 6px 0 #777;
+    box-shadow: 0 5px 6px 0 #777;
+  }
+
+  .icon-dropdown-container {
+    text-align: left;
+    border-top: 1px solid white;
+    padding: 0.5rem;
+    background: #393e46;
+    cursor: pointer;
+  }
+
+  .icon-dropdown-container:hover {
+    background: #85898e;
+  }
+
+  .icon-dropdown-name {
+    padding-left: 30px;
+    color: white;
+  }
+
+  /* ----------------------------- */
+
+  .modal-search-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+/* Render this for viewports over 600px */
+@media (min-width: 993px) {
+  .basic-instructions {
+    font-size: 2.25rem;
+  }
+
+  .all-categories {
+    /* width: 725px; */
+  }
+
+  .icons-container {
+    /* width: 725px; */
+  }
+}
+
+/* ------------------------------------- */
+/* Logo CSS */
+
+.rcr-online {
+  visibility: hidden;
+  display: none;
+}
+
+.rcrOnlineLogo {
+  background-color: #fc3c3c;
+  border-radius: 50%;
+  height: 170px;
+  width: 170px;
+  text-align: center;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  -webkit-box-shadow: 0 5px 6px 0 #777;
+  -moz-box-shadow: 0 5px 6px 0 #777;
+  box-shadow: 0 5px 6px 0 #777;
+}
+
+.rcrOnlineLogoText {
+  color: #fff4e0;
+
+  font-family: 'Ultra', serif;
+  height: auto;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 1.25rem 1.25rem;
+  position: relative;
+}
+
+.rcrOnlineLogo-enter {
+  opacity: 0.01;
+}
+
+.rcrOnlineLogo-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-out;
+}
+
+.rcrOnlineLogoText-enter {
+  transform: scale(0.5) translateY(-30%);
+  opacity: 0.01;
+  width: 15%;
+}
+
+.rcrOnlineLogoText-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0%);
+  transition: all 500ms ease-out;
+  font-size: 1.25rem;
+  width: 95%;
+}
+
+.rcrOnlineLogoText-enter-done {
+  font-size: 1.25rem;
+  width: 95%;
+}
+
+.text-span {
+  color: #00adb5;
+  text-shadow: -1px -1px 0 #fff4e0, 1px -1px 0 #fff4e0, -1px 1px 0 #fff4e0,
+    1px 1px 0 #fff4e0;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+}

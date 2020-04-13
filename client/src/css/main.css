@@ -1,0 +1,71 @@
+/* 
+--Copywriting-Produkt-01--
+gray: #393E46 
+gray2: #85898e
+gray3: #2E3238  ?????
+gray4: #2E3238 
+blue: #00ADB5
+white/beige: #FFF4E0
+yellow: #F8B500
+red/orange: #FC3C3C
+*/
+/* @import url('https://fonts.googleapis.com/css?family=Roboto|Ubuntu'); */
+
+html,
+body {
+  background-color: #faf9f8;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, 'Roboto',
+    Oxygen-Sans, 'Ubuntu', Cantarell, Helvetica Neue, sans-serif;
+  box-sizing: border-box;
+  background-color: #85898e;
+}
+
+/* This is to make sure that 
+embedded components behave in 
+the content box way.
+ */
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* set max width for images
+so they are never wider than page*/
+img {
+  max-width: 100%;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+.main-content {
+  /* min-height: calc(100vh - 30px); */
+  /* min-height: 100vh; */
+  /* overflow: hidden; */
+  /* min-height: 95vh; */
+  background-color: #85898e;
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  height: 80vh;
+}
+
+@media (min-width: 992px) and (min-height: 790px) {
+  .main-content {
+    /* overflow: hidden; */
+  }
+}
