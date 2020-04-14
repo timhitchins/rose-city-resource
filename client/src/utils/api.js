@@ -1,46 +1,57 @@
-import { findDistance, inOutLocation } from './distance';
-import { type } from 'os';
+import { findDistance, inOutLocation } from "./distance";
+import { type } from "os";
 
 //the NODE resources / package
-const packageId = '2aafab06-f8b3-4a38-841b-4e3c7ab02674';
-const listingResource = '70df3c00-7370-4318-a98b-f77f4ec7a897';
-const phoneResource = 'f2b0a4b4-30a5-4b24-884e-e465f73662d4';
+// const packageId = '2aafab06-f8b3-4a38-841b-4e3c7ab02674';
+// const listingResource = '70df3c00-7370-4318-a98b-f77f4ec7a897';
+// const phoneResource = 'f2b0a4b4-30a5-4b24-884e-e465f73662d4';
+
+// new NODE ids
+const packageId = "e9c55b2c-4019-463e-8efa-622f23221402";
+const listingResource = "9be4623a-3c01-4b2d-9c7b-567a41abbc1c";
+const phoneResource = "2f66ad5d-5066-49d8-846a-6751cfd23863";
 
 // ASYNC DATA UTLS--------------------------------------------------------
 //async function to fetch revision history
 //based on rose-city-resource
 export async function getPackageData() {
-  const uri = `https://opendata.imspdx.org/api/3/action/package_show?id=${packageId}`;
+  // const uri = `https://opendata.imspdx.org/api/3/action/package_show?id=${packageId}`;
 
-  // const resourceUrl =
-  // 'https://opendata.imspdx.org/dataset/2aafab06-f8b3-4a38-841b-4e3c7ab02674/resource/70df3c00-7370-4318-a98b-f77f4ec7a897/download/listings.csv';
-  // const uri = `https://opendata.imspdx.org/api/3/action/package_search?fq=res_url:"${resourceUrl}"`;
+  // // const resourceUrl =
+  // // 'https://opendata.imspdx.org/dataset/2aafab06-f8b3-4a38-841b-4e3c7ab02674/resource/70df3c00-7370-4318-a98b-f77f4ec7a897/download/listings.csv';
+  // // const uri = `https://opendata.imspdx.org/api/3/action/package_search?fq=res_url:"${resourceUrl}"`;
 
+  // const packageData = await fetch(uri)
+  //   .catch(handleError)
+  //   .then(response => response.json());
+
+  ///new logic
+  const uri = "/api/package";
   const packageData = await fetch(uri)
     .catch(handleError)
-    .then(response => response.json());
+    .then((response) => response.json());
   return packageData;
 }
 
 //async fucntion to get data from node and add in phone records
 export async function getNodeData() {
   const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "${listingResource}"`;
-  const tempProxy = 'https://cors-anywhere.herokuapp.com/' //these need to be changed
+  const tempProxy = "https://cors-anywhere.herokuapp.com/"; //these need to be changed
 
-  const nodeData = await fetch(tempProxy+uri)
+  const nodeData = await fetch(tempProxy + uri)
     .catch(handleError)
-    .then(response => response.json())
-    .then(json => json.result.records);
+    .then((response) => response.json())
+    .then((json) => json.result.records);
 
   //get the NODE phone table
   const phoneData = await getPhoneData();
 
   //add the distance info here
   let currentCoords;
-  const position = await inOutLocation().catch(e =>
-    console.log('Error getting position: ', e)
+  const position = await inOutLocation().catch((e) =>
+    console.log("Error getting position: ", e)
   );
-  console.log('the position is: ', position);
+  console.log("the position is: ", position);
   if (
     position !== undefined
     // typeof position.coords.latitude === 'number' ||
@@ -49,7 +60,6 @@ export async function getNodeData() {
     currentCoords = [position.coords.latitude, position.coords.longitude];
   } else {
     currentCoords = null;
-
   }
 
   //get the user's location
@@ -64,13 +74,12 @@ export async function getNodeData() {
 //async funtion to get phone data
 //which will then be joined to nodeData
 export async function getPhoneData() {
-
   const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "${phoneResource}"`;
-  const tempProxy = 'https://cors-anywhere.herokuapp.com/' //these need to be changed
-  const phoneData = await fetch(tempProxy+uri)
+  const tempProxy = "https://cors-anywhere.herokuapp.com/"; //these need to be changed
+  const phoneData = await fetch(tempProxy + uri)
     .catch(handleError)
-    .then(response => response.json())
-    .then(json => json.result.records);
+    .then((response) => response.json())
+    .then((json) => json.result.records);
 
   return phoneData;
 }
@@ -80,7 +89,7 @@ export async function getPhoneData() {
 //funtion to create a data string based
 //on UTC string returned from package data
 export function dateString(utcString) {
-  return new Date(utcString).toISOString().split('T')[0];
+  return new Date(utcString).toISOString().split("T")[0];
 }
 
 //sync funtion that returns filtered node data using
@@ -109,8 +118,8 @@ export function getNodeFilteredData(
 
 //this also may not be used
 export function getFilteredSearchList(searchCats, nodeData) {
-  const filteredValsList = nodeData.map(record => {
-    return searchCats.map(cat => record[cat]);
+  const filteredValsList = nodeData.map((record) => {
+    return searchCats.map((cat) => record[cat]);
   });
   const catList = [].concat(...filteredValsList);
   return [...new Set(catList)].sort();
@@ -118,7 +127,7 @@ export function getFilteredSearchList(searchCats, nodeData) {
 
 //functions to set up category search data
 export function getCategorySearchData(nodeData, category) {
-  const genCats = nodeData.map(record => {
+  const genCats = nodeData.map((record) => {
     const generalRecord = record[category];
     return generalRecord;
   });
@@ -128,29 +137,29 @@ export function getCategorySearchData(nodeData, category) {
 export function getMainSearchData(nodeData) {
   // these will eventually need to be added in dynamically
   const genCats = [
-    'Food',
-    'Housing & Shelter',
-    'Goods',
-    'Transit',
-    'Health & Wellness',
-    'Money',
-    'Care & Safety',
-    'Work',
-    'Legal',
-    'Day Services',
-    'Specialized Assistance'
+    "Food",
+    "Housing & Shelter",
+    "Goods",
+    "Transit",
+    "Health & Wellness",
+    "Money",
+    "Care & Safety",
+    "Work",
+    "Legal",
+    "Day Services",
+    "Specialized Assistance",
   ];
 
   const mainCats = genCats.map((cat, i) => {
     const filterCats = nodeData.filter(
-      record => record.general_category === cat
+      (record) => record.general_category === cat
     );
     return filterCats;
   });
 
   const mainCatsCount = mainCats.map((cat, i) => {
-    const catVals = cat.map(c => {
-      return c['main_category'];
+    const catVals = cat.map((c) => {
+      return c["main_category"];
     });
     return countDuplicates(catVals);
   });
@@ -167,13 +176,13 @@ export function getMainSearchData(nodeData) {
 //a card taking into account NA
 export function cardPhoneTextFilter(record) {
   if (record.phone.length > 0) {
-    const cleanPhone = record.phone.map(phoneRecord => {
+    const cleanPhone = record.phone.map((phoneRecord) => {
       const phone1 = phoneRecord.phone;
       const phone2 = naRemove(phoneRecord.phone2);
       //return the new object
       return {
         type: phoneRecord.type,
-        phone: phone1 + phone2
+        phone: phone1 + phone2,
       };
     });
     return cleanPhone;
@@ -188,8 +197,8 @@ export function cardTextFilter(recordKey) {
 
 //function to build the map data object
 export function mapDataBuilder(nodeData) {
-  const mapData = nodeData.map(record => {
-    if (record.lat !== 'NA') {
+  const mapData = nodeData.map((record) => {
+    if (record.lat !== "NA") {
       const coords = [Number(record.lat), Number(record.lon)];
       const { listing, street, street2, hours, id } = record;
       return {
@@ -199,16 +208,16 @@ export function mapDataBuilder(nodeData) {
           street,
           street2: cardTextFilter(street2),
           hours: cardTextFilter(hours),
-          id
-        }
+          id,
+        },
       };
     }
   });
 
-  const mapDataFilter = mapData.filter(el => el !== undefined);
+  const mapDataFilter = mapData.filter((el) => el !== undefined);
 
-  const latArr = mapDataFilter.map(item => item.coords[0]);
-  const lonArr = mapDataFilter.map(item => item.coords[1]);
+  const latArr = mapDataFilter.map((item) => item.coords[0]);
+  const lonArr = mapDataFilter.map((item) => item.coords[1]);
   //now use the getCenter() helper function
   const center = getCenter(latArr, lonArr, [45.52345, -122.6762]);
 
@@ -227,24 +236,24 @@ export function cardDetailsFilter(nodeData, savedIds) {
 // NON-EXPORTED HELPER UTILS-------------------------------------------------------
 //helper function for buildings the direction string
 function stringBuilder(str) {
-  return str.split(' ').join('+');
+  return str.split(" ").join("+");
 }
 
 //helper function to build directions for google
 export function directionsUrlBuilder(street, city, postal_code) {
-  if (street !== 'NA') {
+  if (street !== "NA") {
     return `/${stringBuilder(street)}+${stringBuilder(city)}+${stringBuilder(
       postal_code
     )}`;
   } else {
-    return 'NA';
+    return "NA";
   }
 }
 
 //helper function to get the center of a map
 //use this in the mapDatabuilder function
 function getCenter(latArr, lonArr, defaultArr) {
-  const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
+  const average = (arr) => arr.reduce((p, c) => p + c, 0) / arr.length;
   const lat = average(latArr);
   const lon = average(lonArr);
 
@@ -258,21 +267,21 @@ function getFilteredCatParentData(categoryVals, parentVals, nodeData) {
   const checkVals = [
     // ...handleArray(searchVals),
     ...handleArray(categoryVals),
-    ...handleArray(parentVals)
-  ].filter(el => el !== null);
+    ...handleArray(parentVals),
+  ].filter((el) => el !== null);
 
-  const filteredNodeData = nodeData.filter(record => {
+  const filteredNodeData = nodeData.filter((record) => {
     //create another array to see if checkVals are in
     //the nodeVals
     const nodeVals = [
       record.listing,
       record.parent_organization,
       record.main_category,
-      record.general_category
+      record.general_category,
     ];
     //check to see if any values in one array are in the other array
     //and if so return the record
-    if (nodeVals.some(item => checkVals.indexOf(item) >= 0)) {
+    if (nodeVals.some((item) => checkVals.indexOf(item) >= 0)) {
       record.directionsUrl = directionsUrlBuilder(
         record.street,
         record.city,
@@ -284,7 +293,7 @@ function getFilteredCatParentData(categoryVals, parentVals, nodeData) {
     }
   });
   //filter out the nulls
-  return filteredNodeData.filter(el => el !== null);
+  return filteredNodeData.filter((el) => el !== null);
 }
 
 //check if a search value is in the NODE record
@@ -293,18 +302,18 @@ function getFilteredCatParentData(categoryVals, parentVals, nodeData) {
 function getFilteredSearchData(searchValue, nodeData) {
   //Polyfill from SO to use toLowerCase()
   if (!String.toLowerCase) {
-    String.toLowerCase = function(s) {
+    String.toLowerCase = function (s) {
       return String(s).toLowerCase();
     };
   }
 
-  const filterData = nodeData.map(record => {
+  const filterData = nodeData.map((record) => {
     const recordValsLower = Object.values(record).map(
-      val => {
+      (val) => {
         return String(val).toLowerCase();
       } //I miss R
     );
-    if (recordValsLower.join(' ').includes(String(searchValue).toLowerCase())) {
+    if (recordValsLower.join(" ").includes(String(searchValue).toLowerCase())) {
       record.directionsUrl = directionsUrlBuilder(
         record.street,
         record.city,
@@ -314,21 +323,21 @@ function getFilteredSearchData(searchValue, nodeData) {
     }
   });
   // remove the undefined els from the list
-  return filterData.filter(el => el);
+  return filterData.filter((el) => el);
 }
 
 //function to deal with 'NA' values
 //and return an empty string instead
 function naRemove(str) {
-  if (str === 'NA') return '';
-  return ' ' + str;
+  if (str === "NA") return "";
+  return " " + str;
 }
 
 //function to join the phone data to the nodeData based on id
 function phonePositionJoiner(nodeData, phoneData, currentCoords) {
-  const nodePhoneData = nodeData.map(listRecord => {
+  const nodePhoneData = nodeData.map((listRecord) => {
     //filter out the phone records that relate to the nodeRecord
-    const phoneKeep = phoneData.filter(phoneRecord => {
+    const phoneKeep = phoneData.filter((phoneRecord) => {
       return phoneRecord.id === listRecord.id;
     });
 
@@ -349,7 +358,7 @@ function phonePositionJoiner(nodeData, phoneData, currentCoords) {
 //count the duplicates in an array and
 //retrun an obect with the value and count
 function countDuplicates(arr) {
-  const map = arr.reduce(function(prev, cur) {
+  const map = arr.reduce(function (prev, cur) {
     prev[cur] = (prev[cur] || 0) + 1;
     return prev;
   }, {});
@@ -361,13 +370,13 @@ function countDuplicates(arr) {
 function handleArray(item) {
   if (item === undefined) return [null];
   if (Array.isArray(item)) return item;
-  if (typeof item === 'string') return [item];
+  if (typeof item === "string") return [item];
 }
 
 //for async errors
 //this can be more expressive
 function handleError(error) {
-  console.warn('Something went wrong with a fetch.', error);
+  console.warn("Something went wrong with a fetch.", error);
 
   return null;
 }
@@ -380,20 +389,20 @@ export function detailsQueryBuilder(savedIds) {
   // if(savedIds.length===0){
   //   alert('No saved listings.')
   // }
-  const queryDetailString = savedIds.join('&saved=');
+  const queryDetailString = savedIds.join("&saved=");
   return `saved=${queryDetailString}`;
 }
 
 //get the object keys based on value
 export function objectKeyByValue(obj, val) {
-  return Object.entries(obj).find(i => i[1] === val);
+  return Object.entries(obj).find((i) => i[1] === val);
 }
 
 //make a query builder that will be passed to react router
 //parameter expect an array
 export function queryBuilder(categoryVals, parentVals) {
-  let categoryString = '';
-  let parentString = '';
+  let categoryString = "";
+  let parentString = "";
 
   for (let i = 0; i < categoryVals.length; i++) {
     categoryString += `category=${encodeURIComponent(categoryVals[i])}&`;
@@ -410,8 +419,8 @@ export function queryBuilder(categoryVals, parentVals) {
 //sort the cards based on the retirned distance
 export function cardSortByDistance(data) {
   function compare(a, b) {
-    a = a['distance'];
-    b = b['distance'];
+    a = a["distance"];
+    b = b["distance"];
     if (isFinite(a - b)) {
       return a - b;
     } else {
@@ -429,16 +438,16 @@ export function cardSortByDistance(data) {
 
 //fetching utils
 export async function getSearchData(searchCats) {
-  const searchList = searchCats.join(' ,');
+  const searchList = searchCats.join(" ,");
 
   const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT ${searchList} from "${listingResource}"`;
   const searchData = await fetch(uri)
-    .then(response => response.json())
-    .then(json => json.result.records)
+    .then((response) => response.json())
+    .then((json) => json.result.records)
     .catch(handleError);
 
-  const filteredValsList = searchData.map(record => {
-    return searchCats.map(cat => record[cat]);
+  const filteredValsList = searchData.map((record) => {
+    return searchCats.map((cat) => record[cat]);
   });
   const catList = [].concat(...filteredValsList);
   return [...new Set(catList)].sort();
@@ -453,25 +462,25 @@ export async function getSelectedCategories(navCategory, selectedItem) {
 
     const jsonDataArr = await dataResponse
       .json()
-      .then(json => json.result.records)
-      .then(records => {
-        return records.map(record => Object.values(record));
+      .then((json) => json.result.records)
+      .then((records) => {
+        return records.map((record) => Object.values(record));
       });
 
     const jsonDataCount = await countDuplicates(jsonDataArr);
     // console.log('jsonDataCount', jsonDataCount);
     return jsonDataCount;
   } else {
-    const cleanSelectedItem = selectedItem.replace('&', '%26');
+    const cleanSelectedItem = selectedItem.replace("&", "%26");
     const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT main_category from "${listingResource}" WHERE ${navCategory} LIKE '${cleanSelectedItem}'`;
 
     const dataResponse = await fetch(uri).catch(handleError);
 
     const jsonDataArr = await dataResponse
       .json()
-      .then(json => json.result.records)
-      .then(records => {
-        return records.map(record => Object.values(record));
+      .then((json) => json.result.records)
+      .then((records) => {
+        return records.map((record) => Object.values(record));
       });
 
     const jsonDataCount = await countDuplicates(jsonDataArr);
@@ -487,8 +496,8 @@ export async function nodeQueryBuilder(catVals, parentVals, searchVals = []) {
   if (catVals === undefined && parentVals === undefined) {
     return null;
   } else {
-    const categoryString = queryStringBuilder(catVals, 'main');
-    const parentString = queryStringBuilder(parentVals, 'parent');
+    const categoryString = queryStringBuilder(catVals, "main");
+    const parentString = queryStringBuilder(parentVals, "parent");
 
     //put the URI together, this can be further split
     const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "${listingResource}" WHERE ${categoryString} OR ${parentString}`;
@@ -497,8 +506,8 @@ export async function nodeQueryBuilder(catVals, parentVals, searchVals = []) {
 
     const jsonDataArr = await response
       .json()
-      .then(json => json.result.records)
-      .then(records => records);
+      .then((json) => json.result.records)
+      .then((records) => records);
 
     return jsonDataArr;
   }
@@ -508,16 +517,16 @@ export async function nodeQueryBuilder(catVals, parentVals, searchVals = []) {
 
 //////data utils for switching categories
 export function categoryFwdSwitcher(category) {
-  if (category === 'general_category') {
-    return 'main_category';
+  if (category === "general_category") {
+    return "main_category";
   }
 }
 
 export function categoryBackSwitcher(category) {
-  if (category === 'main_category') {
-    return 'general_category';
+  if (category === "main_category") {
+    return "general_category";
   }
-  if (category === 'general_category') {
+  if (category === "general_category") {
     return null;
   }
 }
@@ -531,14 +540,14 @@ function queryStringBuilder(arrItem, category) {
   //sanitize the arrItem
   const arr = handleArray(arrItem);
 
-  if (category === 'main') {
+  if (category === "main") {
     if (arr !== null) {
       const categoryString = arr
-        .map(val => {
+        .map((val) => {
           const encodeUri = encodeURIComponent(val);
           return `'${encodeUri}'`;
         })
-        .join('OR main_category LIKE ');
+        .join("OR main_category LIKE ");
 
       return `main_category LIKE ${categoryString}`;
     } else {
@@ -546,14 +555,14 @@ function queryStringBuilder(arrItem, category) {
     }
   }
 
-  if (category === 'parent') {
+  if (category === "parent") {
     if (arr !== null) {
       const parentString = arr
-        .map(val => {
+        .map((val) => {
           const encodeUri = encodeURIComponent(val);
           return `'${encodeUri}'`;
         })
-        .join('OR parent_organization LIKE ');
+        .join("OR parent_organization LIKE ");
 
       return `parent_organization LIKE ${parentString}`;
     }
@@ -565,14 +574,12 @@ function queryStringBuilder(arrItem, category) {
 
 //prop-types helpers
 export function conditionalPropType(condition, message) {
-  if (typeof condition !== 'function')
+  if (typeof condition !== "function")
     throw "Wrong argument type 'condition' supplied to 'conditionalPropType'";
-  return function(props, propName, componentName) {
+  return function (props, propName, componentName) {
     if (condition(props, propName, componentName)) {
       return new Error(
-        `Invalid prop '${propName}' '${
-          props[propName]
-        }' supplied to '${componentName}'. ${message}`
+        `Invalid prop '${propName}' '${props[propName]}' supplied to '${componentName}'. ${message}`
       );
     }
   };

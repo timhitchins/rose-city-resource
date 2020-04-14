@@ -1,25 +1,29 @@
 // const keys = require('./config/keys');
 
 //express
-const express = require('express');
+const express = require("express");
 const app = express();
 
 //cors
-const cors = require('cors');
+const cors = require("cors");
 app.use(cors());
+
+//routes
+require("./routes/package")(app);
+
 
 
 //production boilerplate
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   //make sure express serves up the corret assests
   //like main.js
-  app.use(express.static('client/build'));
+  app.use(express.static("client/build"));
 
   //serve up index.html
   //this is the catch all code
-  const path = require('path');
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
