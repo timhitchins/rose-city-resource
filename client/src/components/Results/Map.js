@@ -1,24 +1,24 @@
-import React from 'react';
-import { Map, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
-import PropTypes from 'prop-types';
-import GPSIcon from './GPSIcon';
-import ErrorBoundary from './ErrorBoundary';
-import LocateControl from './LocateControl';
-import Geocoder from './Geocoder';
-import MarkerClusterGroup from 'react-leaflet-markercluster';
+import React from "react";
+import { Map, TileLayer, Marker, Popup, Tooltip } from "react-leaflet";
+import PropTypes from "prop-types";
+import GPSIcon from "./GPSIcon";
+import ErrorBoundary from "./ErrorBoundary";
+import LocateControl from "./LocateControl";
+import Geocoder from "./Geocoder";
+import MarkerClusterGroup from "react-leaflet-markercluster";
 // import PropTypes from 'prop-types';
-import MediaQuery from 'react-responsive';
-import { mapDataBuilder } from '../../utils/api';
+import MediaQuery from "react-responsive";
+import { mapDataBuilder } from "../../utils/api";
 import {
   greenLMarker,
   blueLMarker,
-  redLMarker
-} from './../../icons/mapIcons.js';
+  redLMarker,
+} from "./../../icons/mapIcons.js";
 
 class Markers extends React.Component {
   markers = [];
 
-  bindMarker = ref => {
+  bindMarker = (ref) => {
     if (ref) {
       const marker = ref.leafletElement;
       this.markers.push(marker);
@@ -31,7 +31,7 @@ class Markers extends React.Component {
     return (
       <React.Fragment>
         <MarkerClusterGroup>
-          {mapData.mapData.map(item => {
+          {mapData.mapData.map((item) => {
             return (
               <Marker
                 key={item.popup.id}
@@ -53,7 +53,7 @@ class Markers extends React.Component {
                     <div
                       className="popup-show-details"
                       onClick={() => {
-                        updateListing(item.popup.id, 'popup');
+                        updateListing(item.popup.id, "popup");
                       }}
                     >
                       Show Details
@@ -84,18 +84,18 @@ class SimpleMap extends React.Component {
     center: [45.52345, -122.6762],
     currentLocation: null,
     hasCurrentLocation: false,
-    geocodeLocation: null
+    geocodeLocation: null,
     // windowHeight: undefined,
     // windowWidth: undefined
   };
 
-  handleMapData = data => {
+  handleMapData = (data) => {
     const leafletMap = this.leafletMap.leafletElement;
 
     //create mapData and bounds
     const mapData = mapDataBuilder(data);
     this.setState(() => ({ mapData }));
-    const bounds = mapData.mapData.map(item => item.coords);
+    const bounds = mapData.mapData.map((item) => item.coords);
 
     //if there are bounds, set them and the center
     if (bounds.length > 0) {
@@ -121,14 +121,14 @@ class SimpleMap extends React.Component {
     this.setState(() => ({ zoom }));
   };
 
-  handleLocationFound = e => {
+  handleLocationFound = (e) => {
     this.setState(() => ({
       hasCurrentLocation: true,
-      currentLocation: [e.latlng.lat, e.latlng.lng]
+      currentLocation: [e.latlng.lat, e.latlng.lng],
     }));
   };
 
-  handleGeocode = e => {
+  handleGeocode = (e) => {
     this.setState(() => ({ geocodeLocation: [e.lat, e.lng] }));
   };
 
@@ -146,10 +146,12 @@ class SimpleMap extends React.Component {
     }
 
     if (this.props.selectedListing !== prevProps.selectedListing) {
-      const selectedItem = data.filter(record => record.id === selectedListing);
+      const selectedItem = data.filter(
+        (record) => record.id === selectedListing
+      );
       const selectedCoords = [
         Number(selectedItem[0].lat),
-        Number(selectedItem[0].lon)
+        Number(selectedItem[0].lon),
       ];
       leafletMap.flyTo(selectedCoords, 17);
     }
@@ -169,7 +171,7 @@ class SimpleMap extends React.Component {
         <React.Fragment>
           <MediaQuery query="(min-width: 993px)">
             <Map
-              ref={map => (this.leafletMap = map)}
+              ref={(map) => (this.leafletMap = map)}
               center={center}
               zoom={zoom}
               maxZoom={18} //set to 18 since the mapdisappears beyond that.
@@ -182,8 +184,8 @@ class SimpleMap extends React.Component {
               // onLocationfound={this.handleLocationFound}
             >
               <TileLayer
-                attribution='Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
+                attribution=""
+                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
               />
               <Markers
                 mapData={mapData}
@@ -208,7 +210,7 @@ class SimpleMap extends React.Component {
               </ErrorBoundary> */}
               <Geocoder
                 collapsed={false}
-                placeholder={'Search address...'}
+                placeholder={"Search address..."}
                 handleGeocode={this.handleGeocode}
               />
             </Map>
@@ -216,7 +218,7 @@ class SimpleMap extends React.Component {
 
           <MediaQuery query="(max-width: 992px)">
             <Map
-              ref={map => (this.leafletMap = map)}
+              ref={(map) => (this.leafletMap = map)}
               center={center}
               zoom={zoom}
               maxZoom={18} //set to 18 since the mapdisappears beyond that.
@@ -254,7 +256,7 @@ class SimpleMap extends React.Component {
                 </LocateControl>
               </ErrorBoundary> */}
               <Geocoder
-                placeholder={'Search address...'}
+                placeholder={"Search address..."}
                 handleGeocode={this.handleGeocode}
               />
             </Map>
@@ -264,7 +266,7 @@ class SimpleMap extends React.Component {
     }
     return (
       <Map
-        ref={map => (this.leafletMap = map)}
+        ref={(map) => (this.leafletMap = map)}
         center={center}
         zoom={zoom}
         maxZoom={18} //set to 18 since the mapdisappears beyond that.

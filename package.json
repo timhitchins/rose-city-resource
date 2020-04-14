@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A digital version of the Street Roots Rose City Resource",
   "main": "index.js",
+  "engines": {
+    "node": "12.6.x",
+    "npm": "6.x"
+  },
   "scripts": {
     "start": "node index.js",
     "client": "npm run start --prefix client",
