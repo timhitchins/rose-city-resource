@@ -1,13 +1,5 @@
 import { findDistance, inOutLocation } from "./distance";
-import { type } from "os";
 import fetch from "node-fetch";
-
-
-
-// new NODE ids
-const packageId = "e9c55b2c-4019-463e-8efa-622f23221402";
-const listingResource = "9be4623a-3c01-4b2d-9c7b-567a41abbc1c";
-const phoneResource = "2f66ad5d-5066-49d8-846a-6751cfd23863";
 
 // ASYNC DATA UTLS--------------------------------------------------------
 //async function to fetch revision history

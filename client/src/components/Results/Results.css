@@ -121,7 +121,7 @@ red/orange: #FC3C3C
 }
 /*  */
 
-.print-button-container{
+.print-button-container {
   visibility: hidden;
 }
 
@@ -317,8 +317,7 @@ on .card-phone-container*/
 .card-web-container:focus
 /* ,
 .card-web-container > div > a:hover,
-.card-web-container > div > a:focus  */
- {
+.card-web-container > div > a:focus  */ {
   color: #27a727;
 }
 
@@ -327,9 +326,33 @@ on .card-phone-container*/
   margin-bottom: 10px;
 }
 
+.card-item-flex {
+  grid-column: 1 / span 3;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .card-title {
   font-size: 1.1rem;
   font-weight: 500;
+}
+
+.card-title-flex {
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+
+.covid-item {
+  color: red;
+  font-weight: 500;
+}
+
+.covid-temp-listing {
+  grid-column: 3 / span 1;
+  padding: 8px;
 }
 
 .card-content {

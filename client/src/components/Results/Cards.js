@@ -1,18 +1,18 @@
-import React from 'react';
-import ScrollUpButton from 'react-scroll-up-button';
-import ReactTooltip from 'react-tooltip';
-import MediaQuery from 'react-responsive';
-import { Map, TileLayer, Marker } from 'react-leaflet';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import CountBar from './CountBar';
+import React from "react";
+import ScrollUpButton from "react-scroll-up-button";
+import ReactTooltip from "react-tooltip";
+import MediaQuery from "react-responsive";
+import { Map, TileLayer, Marker } from "react-leaflet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CountBar from "./CountBar";
 import {
   cardPhoneTextFilter,
   cardTextFilter,
-  cardSortByDistance
-} from '../../utils/api';
-import { redLMarker } from './../../icons/mapIcons';
+  cardSortByDistance,
+} from "../../utils/api";
+import { redLMarker } from "./../../icons/mapIcons";
 
-const DetailMap = props => {
+const DetailMap = (props) => {
   return (
     <React.Fragment>
       <Map
@@ -37,12 +37,12 @@ const DetailMap = props => {
 //card style when a location is
 //selected by user
 const style = {
-  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5)'
+  boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5)",
 };
 
 class Card extends React.Component {
   state = {
-    selector: 'location'
+    selector: "location",
   };
 
   cardRef = React.createRef();
@@ -60,7 +60,7 @@ class Card extends React.Component {
       handleCardClick,
       handleCardSave,
       savedDataId,
-      showMapDetail
+      showMapDetail,
     } = this.props;
 
     const textMap = {
@@ -73,7 +73,8 @@ class Card extends React.Component {
       )}`.trim(),
       parsedCity: `${record.city}, OR ${record.postal_code}`,
       parsedDescription: cardTextFilter(record.service_description),
-      parsedHours: cardTextFilter(record.hours)
+      parsedHours: cardTextFilter(record.hours),
+      parsedCOVID: cardTextFilter(record.covid_message),
     };
 
     console.log(record.main_category);
@@ -92,7 +93,7 @@ class Card extends React.Component {
             <div
               className="card-listing"
               style={
-                selectedListing === record.id ? { color: '#FC3C3C' } : null
+                selectedListing === record.id ? { color: "#FC3C3C" } : null
               }
             >
               {textMap.parsedListing}
@@ -105,14 +106,14 @@ class Card extends React.Component {
                 data-for="show-listing-tooltip"
                 onClick={() => {
                   handleCardClick(this.cardRef, record.id);
-                  updateListing(record.id, 'card');
+                  updateListing(record.id, "card");
                 }}
               >
                 <FontAwesomeIcon
                   icon="map-marker"
                   size="sm"
                   style={
-                    selectedListing === record.id ? { color: '#FC3C3C' } : null
+                    selectedListing === record.id ? { color: "#FC3C3C" } : null
                   }
                 />
                 Show
@@ -140,7 +141,7 @@ class Card extends React.Component {
                     size="sm"
                     style={
                       savedDataId.indexOf(record.id) > -1
-                        ? { color: 'green' }
+                        ? { color: "green" }
                         : null
                     }
                   />
@@ -156,7 +157,7 @@ class Card extends React.Component {
             ) : null}
           </div>
           <div className="card-street">
-            {!(textMap.parsedStreet === '') ? (
+            {!(textMap.parsedStreet === "") ? (
               <div>
                 {textMap.parsedStreet} <br />
                 {textMap.parsedCity} <br />
@@ -174,7 +175,7 @@ class Card extends React.Component {
                 ) : null}
                 <a
                   target="_blank"
-                  href={'//www.google.com/maps/dir/' + record.directionsUrl}
+                  href={"//www.google.com/maps/dir/" + record.directionsUrl}
                 >
                   Get Directions
                 </a>
@@ -183,11 +184,16 @@ class Card extends React.Component {
               <div className="card-undisclosed">Undisclosed Location</div>
             )}
           </div>
+          <div className="covid-item covid-temp-listing">
+            {textMap.parsedCOVID === "TEMPORARY COVID RESPONSE SERVICE"
+              ? textMap.parsedCOVID
+              : null}
+          </div>
           <div className="card-phone-container">
             {textMap.parsedPhone ? (
               <div>
-                <FontAwesomeIcon icon={'phone'} className="phone-icon" />
-                {textMap.parsedPhone.map(phone => {
+                <FontAwesomeIcon icon={"phone"} className="phone-icon" />
+                {textMap.parsedPhone.map((phone) => {
                   return (
                     <div key={phone.phone} className="card-phone">
                       <span>{`${phone.type}: `}</span>
@@ -201,28 +207,41 @@ class Card extends React.Component {
           <div className="card-web-container">
             {textMap.parsedWeb ? (
               <div>
-                <FontAwesomeIcon icon={'globe'} />
+                <FontAwesomeIcon icon={"globe"} />
                 {/* Annoying way to deal with external url in rr4 */}
-                <a href={'//' + textMap.parsedWeb}> website</a>
+                <a href={"//" + textMap.parsedWeb}> website</a>
               </div>
             ) : null}
           </div>
-          {!(textMap.parsedDescription === '') ? (
+          {!(textMap.parsedDescription === "") ? (
             <div className="card-item">
               <div className="card-title">Service Description:</div>
               <div className="card-content">{textMap.parsedDescription}</div>
             </div>
           ) : null}
-          {!(textMap.parsedHours === '') ? (
+          {!(textMap.parsedHours === "") ? (
             <div className="card-item">
-              <div className="card-title">Hours:</div>
-              <div className="card-content">{textMap.parsedHours}</div>
+              <div className="card-title-flex">
+                <div>Hours:</div>
+                <div className="covid-item">
+                  {textMap.parsedCOVID === "HOURS CHANGED DUE TO COVID"
+                    ? textMap.parsedCOVID
+                    : null}
+                </div>
+              </div>
+              <div className="card-content">
+                {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
+                  <div className="covid-item">{textMap.parsedCOVID}</div>
+                ) : (
+                  textMap.parsedHours
+                )}
+              </div>
             </div>
           ) : null}
         </div>
         {showMapDetail ? (
           <div className="map-details-container">
-            {record.lat !== 'NA' ? (
+            {record.lat !== "NA" ? (
               <DetailMap coords={[Number(record.lat), Number(record.lon)]} />
             ) : null}
           </div>
@@ -239,20 +258,20 @@ class Cards extends React.Component {
   //   window.scrollTo({ top: 0, behavior: 'smooth' });
   // };
 
-  cardScrollToCard = cardRef => {
+  cardScrollToCard = (cardRef) => {
     // console.log('final card ref', cardRef[0][0]);
     //the card is on the first element of the
     //the cardRef array
     window.scrollTo({
       top: cardRef[0][0].offsetTop - 60,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   };
 
   handleCardRef = (ref, id) => {
     //build up the state array without directly mutating state
-    this.setState(prevState => ({
-      cardRefs: [...prevState.cardRefs, [ref.current, id]]
+    this.setState((prevState) => ({
+      cardRefs: [...prevState.cardRefs, [ref.current, id]],
     }));
   };
 
@@ -261,10 +280,10 @@ class Cards extends React.Component {
     // console.log('cardRef', cardRef[1]);
   };
 
-  undisclosedCounter = data => {
+  undisclosedCounter = (data) => {
     let counter = 0;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].street === 'NA') {
+      if (data[i].street === "NA") {
         counter += 1;
       }
     }
@@ -275,19 +294,19 @@ class Cards extends React.Component {
     const { cardRefs } = this.state;
     const { selectedListing, clickType } = this.props;
     console.log(clickType);
-    const currentCard = cardRefs.filter(ref => ref[1] === selectedListing);
+    const currentCard = cardRefs.filter((ref) => ref[1] === selectedListing);
     if (this.props.selectedListing !== prevProps.selectedListing) {
       if (
-        window.matchMedia('(max-width: 992px)').matches &&
-        clickType === 'popup'
+        window.matchMedia("(max-width: 992px)").matches &&
+        clickType === "popup"
       ) {
         console.log(currentCard);
         this.cardScrollToCard(currentCard);
       }
-      if (window.matchMedia('(min-width: 993px)').matches) {
+      if (window.matchMedia("(min-width: 993px)").matches) {
         this.cardScrollToCard(currentCard);
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
   }
@@ -299,14 +318,14 @@ class Cards extends React.Component {
       updateListing,
       handleCardSave,
       savedDataId,
-      showMapDetail
+      showMapDetail,
     } = this.props;
     return (
       // the cards container should scroll on its own
       <div className="cards-container">
         <CountBar savedDataId={savedDataId} data={data} />
 
-        {cardSortByDistance(data).map(record => (
+        {cardSortByDistance(data).map((record) => (
           <Card
             key={record.id}
             record={record}
@@ -327,7 +346,7 @@ class Cards extends React.Component {
             AnimationDuration={500}
             // ContainerClassName="ScrollUpButton__Container"
             // TransitionClassName="ScrollUpButton__Toggled"
-            style={{ left: '50%', bottom: '35px', right: '50%' }}
+            style={{ left: "50%", bottom: "35px", right: "50%" }}
             ToggledStyle={{}}
           />
         </MediaQuery>
@@ -339,7 +358,7 @@ class Cards extends React.Component {
             AnimationDuration={500}
             // ContainerClassName="ScrollUpButton__Container"
             // TransitionClassName="ScrollUpButton__Toggled"
-            style={{ left: '240px', bottom: '35px' }}
+            style={{ left: "240px", bottom: "35px" }}
             ToggledStyle={{}}
           />
         </MediaQuery>

@@ -1,16 +1,16 @@
 import React from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip } from "react-leaflet";
 import PropTypes from "prop-types";
-import GPSIcon from "./GPSIcon";
-import ErrorBoundary from "./ErrorBoundary";
-import LocateControl from "./LocateControl";
+// import GPSIcon from "./GPSIcon";
+// import ErrorBoundary from "./ErrorBoundary";
+// import LocateControl from "./LocateControl";
 import Geocoder from "./Geocoder";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 // import PropTypes from 'prop-types';
 import MediaQuery from "react-responsive";
 import { mapDataBuilder } from "../../utils/api";
 import {
-  greenLMarker,
+  // greenLMarker,
   blueLMarker,
   redLMarker,
 } from "./../../icons/mapIcons.js";

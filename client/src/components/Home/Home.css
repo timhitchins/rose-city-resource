@@ -114,10 +114,6 @@ red/orange: #FC3C3C
   outline: none;
 }
 
-input[list] > option {
-  background-color: red;
-}
-
 
 .advanced-search {
   min-width: 165px;
