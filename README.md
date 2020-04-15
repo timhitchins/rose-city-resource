@@ -1,3 +1,3 @@
-# Rose City Resource 
+# Rose City Resource Online
 
 (This app is currently in development)

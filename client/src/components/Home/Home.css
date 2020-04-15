@@ -114,6 +114,11 @@ red/orange: #FC3C3C
   outline: none;
 }
 
+input[list] > option {
+  background-color: red;
+}
+
+
 .advanced-search {
   min-width: 165px;
   text-align: right;
@@ -131,10 +136,6 @@ red/orange: #FC3C3C
 .all-categories {
   width: 100%;
 }
-
-/* .test {
-  width: 100%;
-} */
 
 .browse-categories {
   display: flex;

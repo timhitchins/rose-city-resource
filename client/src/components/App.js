@@ -26,8 +26,6 @@ class App extends React.Component {
     savedDataId: []
   };
 
-  // resize = () => this.forceUpdate();
-
   //state lisfted from
   //Cards to keep track of saved cards
   //this may need to be moved down to results
@@ -87,15 +85,9 @@ class App extends React.Component {
     this.setState(() => ({ nodeData, searchData }));
   };
 
-  componentWillUnmount() {
-    // window.removeEventListener('resize', this.resize);
-  }
-
   render() {
-    console.log('App rerender');
 
     const { nodeData, searchData, savedDataId } = this.state;
-    // console.log(this.revisionDate);
     return (
       <React.Fragment>
         {!nodeData ? (

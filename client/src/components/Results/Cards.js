@@ -25,7 +25,7 @@ const DetailMap = props => {
       >
         <TileLayer
           attribution=""
-          url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
         <Marker position={props.coords} icon={redLMarker} />
       </Map>

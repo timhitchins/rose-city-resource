@@ -1,30 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
-import LinkButton from './LinkButton';
-import './Home.css';
-import { getFilteredSearchList, queryBuilder } from '../../utils/api';
+import React from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import LinkButton from "./LinkButton";
+import "./Home.css";
+import { getFilteredSearchList, queryBuilder } from "../../utils/api";
 
 //need this to use the react portal
-const modalRoot = document.getElementById('modal-root');
+const modalRoot = document.getElementById("modal-root");
 
 class AdvancedSearchModal extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    searchData: PropTypes.object.isRequired
+    searchData: PropTypes.object.isRequired,
   };
 
   state = {
     categoryVals: [],
     parentVals: [],
-    selection: 'Category'
+    selection: "Category",
   };
 
   // this needs to be refratored a bit to be more DRY
   toggleCheckedValue = (val, selection) => {
-    if (selection === 'Category') {
+    if (selection === "Category") {
       const categoryVals = [...this.state.categoryVals];
       const index = categoryVals.indexOf(val); // get index to determine if the aray gets spliced.
       if (index === -1) {
@@ -50,34 +50,34 @@ class AdvancedSearchModal extends React.Component {
   };
 
   selectCategory = () => {
-    this.setState({ selection: 'Category' });
+    this.setState({ selection: "Category" });
   };
 
   selectOrganization = () => {
-    this.setState({ selection: 'Organization' });
+    this.setState({ selection: "Organization" });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { categoryVals } = this.state;
-    console.log('Final Search Vals', categoryVals);
+    console.log("Final Search Vals", categoryVals);
   };
 
-  handleNoSelection = event => {
+  handleNoSelection = (event) => {
     const { categoryVals, parentVals } = this.state;
     if (categoryVals < 1 && parentVals < 1) {
       event.preventDefault();
-      alert('Please make a selection.');
+      alert("Please make a selection.");
     }
   };
 
   componentDidMount() {
     //this seems hacky.  There must be a better way...SO?
-    document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+    document.getElementsByTagName("body")[0].style.overflow = "hidden";
   }
 
   componentWillUnmount() {
-    document.getElementsByTagName('body')[0].style.overflow = 'visible';
+    document.getElementsByTagName("body")[0].style.overflow = "visible";
   }
 
   render() {
@@ -90,7 +90,7 @@ class AdvancedSearchModal extends React.Component {
     const parentCats = Object.keys(searchData.parent).sort();
 
     //style for the category selector
-    const styles = { selection: { color: '#FC3C3C' } };
+    const styles = { selection: { color: "#FC3C3C" } };
 
     return ReactDOM.createPortal(
       // loop through the search data keys to populate the
@@ -110,7 +110,7 @@ class AdvancedSearchModal extends React.Component {
               <Link
                 to={{
                   pathname: `/results`,
-                  search: queryBuilder(categoryVals, parentVals)
+                  search: queryBuilder(categoryVals, parentVals),
                 }}
                 onClick={this.handleNoSelection}
               >
@@ -125,32 +125,32 @@ class AdvancedSearchModal extends React.Component {
             <div
               className="modal-search-category"
               onClick={this.selectCategory}
-              style={selection === 'Category' ? styles.selection : null}
+              style={selection === "Category" ? styles.selection : null}
             >
-              <FontAwesomeIcon icon={'angle-left'} />
+              <FontAwesomeIcon icon={"angle-left"} />
               Category
             </div>
             <span className="modal-heading-divider" />
             <div
               className="modal-search-organization"
               onClick={this.selectOrganization}
-              style={selection === 'Organization' ? styles.selection : null}
+              style={selection === "Organization" ? styles.selection : null}
             >
               Organization
-              <FontAwesomeIcon icon={'angle-right'} />
+              <FontAwesomeIcon icon={"angle-right"} />
             </div>
           </div>
           {/* --------------------------------------------------------------------- */}
-          {selection === 'Category' ? (
+          {selection === "Category" ? (
             <form
               className="modal-search-container"
               onSubmit={this.handleSubmit}
             >
-              {generalCats.map(genCat => {
+              {generalCats.map((genCat) => {
                 return (
                   <div key={genCat} className="modal-search-item">
                     <div className="modal-search-item-title">{genCat}</div>
-                    {Object.keys(mainCatsMap[genCat]).map(mainCat => {
+                    {Object.keys(mainCatsMap[genCat]).map((mainCat) => {
                       return (
                         <React.Fragment key={mainCat}>
                           <label className="adv-container" htmlFor={mainCat}>
@@ -161,7 +161,7 @@ class AdvancedSearchModal extends React.Component {
                               name={mainCat}
                               value={mainCat}
                               // checked={false}
-                              onChange={val =>
+                              onChange={(val) =>
                                 this.toggleCheckedValue(
                                   val.target.value,
                                   selection
@@ -182,7 +182,7 @@ class AdvancedSearchModal extends React.Component {
               className="modal-search-container"
               onSubmit={this.handleSubmit}
             >
-              {parentCats.map(parentCat => {
+              {parentCats.map((parentCat) => {
                 return (
                   <React.Fragment key={parentCat}>
                     <label className="adv-container" htmlFor={parentCat}>
@@ -193,7 +193,7 @@ class AdvancedSearchModal extends React.Component {
                         name={parentCat}
                         value={parentCat}
                         // checked={false}
-                        onChange={val =>
+                        onChange={(val) =>
                           this.toggleCheckedValue(val.target.value, selection)
                         }
                       />
@@ -215,31 +215,31 @@ class AdvancedSearchModal extends React.Component {
 export default class SearchBar extends React.Component {
   static propTypes = {
     nodeData: PropTypes.array.isRequired,
-    searchData: PropTypes.object.isRequired
+    searchData: PropTypes.object.isRequired,
   };
 
   state = {
-    searchValue: '',
+    searchValue: "",
     filterSearchList: null, //haven't used the filter search list yet
-    showAdvSearchModal: false //this is for the advanced search box
+    showAdvSearchModal: false, //this is for the advanced search box
   };
 
   //for whan a user startt to enter seach item
-  handleChange = event => {
+  handleChange = (event) => {
     const value = event.target.value;
     this.setState(() => ({ searchValue: value }));
   };
 
   //run when the user submits the search
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     //we use event.prevetDefault so that the submit doesn't go to a server
     event.preventDefault();
     console.log(this.state.searchValue);
   };
 
   toggleAdvSearchModal = () => {
-    this.setState(prevState => ({
-      showAdvSearchModal: !prevState.showAdvSearchModal
+    this.setState((prevState) => ({
+      showAdvSearchModal: !prevState.showAdvSearchModal,
     }));
   };
 
@@ -251,10 +251,10 @@ export default class SearchBar extends React.Component {
     const { nodeData, searchData, match } = this.props;
 
     const searchCats = [
-      'general_category',
-      'main_category',
-      'parent_organization',
-      'listing'
+      "general_category",
+      "main_category",
+      "parent_organization",
+      "listing",
     ];
 
     const searchList = getFilteredSearchList(searchCats, nodeData);
@@ -264,7 +264,7 @@ export default class SearchBar extends React.Component {
         <form
           className=""
           onSubmit={this.handleSubmit}
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         >
           <input
             className="search-input"
@@ -279,7 +279,7 @@ export default class SearchBar extends React.Component {
           />
           {/* loop through the list of options */}
           <datalist id="data">
-            {searchList.map(item => (
+            {searchList.map((item) => (
               <option key={item} value={item} />
             ))}
           </datalist>
