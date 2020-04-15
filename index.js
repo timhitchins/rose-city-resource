@@ -1,17 +1,18 @@
-// const keys = require('./config/keys');
-
-//express
 const express = require("express");
-const app = express();
-
-//cors
 const cors = require("cors");
+const helmet = require("helmet");
+
+// app and middleware
+const app = express();
 app.use(cors());
+app.use(helmet())
+app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
+
 
 //routes
 require("./routes/package")(app);
-
-
+require("./routes/listings")(app);
+require("./routes/phone")(app);
 
 //production boilerplate
 if (process.env.NODE_ENV === "production") {

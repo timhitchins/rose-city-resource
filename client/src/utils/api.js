@@ -1,10 +1,8 @@
 import { findDistance, inOutLocation } from "./distance";
 import { type } from "os";
+import fetch from "node-fetch";
 
-//the NODE resources / package
-// const packageId = '2aafab06-f8b3-4a38-841b-4e3c7ab02674';
-// const listingResource = '70df3c00-7370-4318-a98b-f77f4ec7a897';
-// const phoneResource = 'f2b0a4b4-30a5-4b24-884e-e465f73662d4';
+
 
 // new NODE ids
 const packageId = "e9c55b2c-4019-463e-8efa-622f23221402";
@@ -15,15 +13,6 @@ const phoneResource = "2f66ad5d-5066-49d8-846a-6751cfd23863";
 //async function to fetch revision history
 //based on rose-city-resource
 export async function getPackageData() {
-  // const uri = `https://opendata.imspdx.org/api/3/action/package_show?id=${packageId}`;
-
-  // // const resourceUrl =
-  // // 'https://opendata.imspdx.org/dataset/2aafab06-f8b3-4a38-841b-4e3c7ab02674/resource/70df3c00-7370-4318-a98b-f77f4ec7a897/download/listings.csv';
-  // // const uri = `https://opendata.imspdx.org/api/3/action/package_search?fq=res_url:"${resourceUrl}"`;
-
-  // const packageData = await fetch(uri)
-  //   .catch(handleError)
-  //   .then(response => response.json());
 
   ///new logic
   const uri = "/api/package";
@@ -35,53 +24,57 @@ export async function getPackageData() {
 
 //async fucntion to get data from node and add in phone records
 export async function getNodeData() {
-  const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "${listingResource}"`;
-  const tempProxy = "https://cors-anywhere.herokuapp.com/"; //these need to be changed
 
-  const nodeData = await fetch(tempProxy + uri)
-    .catch(handleError)
-    .then((response) => response.json())
-    .then((json) => json.result.records);
+  try {
+    const uri = "/api/listings-resource";
+    const listingsResponse = await fetch(uri);
+    const listingsJson = await listingsResponse.json();
+    const listingsData = await listingsJson.result.records;
 
-  //get the NODE phone table
-  const phoneData = await getPhoneData();
+    //get the NODE phone table
+    const phoneData = await getPhoneData();
 
-  //add the distance info here
-  let currentCoords;
-  const position = await inOutLocation().catch((e) =>
-    console.log("Error getting position: ", e)
-  );
-  console.log("the position is: ", position);
-  if (
-    position !== undefined
-    // typeof position.coords.latitude === 'number' ||
-    // typeof position.coords.longitude === 'number'
-  ) {
-    currentCoords = [position.coords.latitude, position.coords.longitude];
-  } else {
-    currentCoords = null;
+    //add the distance info here
+    let currentCoords;
+    const position = await inOutLocation().catch((e) =>
+      console.log("Error getting position: ", e)
+    );
+
+    if (
+      position !== undefined
+    ) {
+      currentCoords = [position.coords.latitude, position.coords.longitude];
+    } else {
+      currentCoords = null;
+    }
+
+    //get the user's location
+    const listingsDataPhoneData = phonePositionJoiner(
+      listingsData,
+      phoneData,
+      currentCoords
+    );
+
+    return listingsDataPhoneData;
+  } catch (err) {
+    console.log(err);
   }
-
-  //get the user's location
-  // const currentCoords = await getUserCoords().then(coords => coords);
-  // console.log('currCoords', currentCoords);
-  const nodePhoneData = phonePositionJoiner(nodeData, phoneData, currentCoords);
-
-  // console.log('nodePhoneData', nodeData);
-  return nodePhoneData;
 }
 
 //async funtion to get phone data
 //which will then be joined to nodeData
 export async function getPhoneData() {
-  const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "${phoneResource}"`;
-  const tempProxy = "https://cors-anywhere.herokuapp.com/"; //these need to be changed
-  const phoneData = await fetch(tempProxy + uri)
-    .catch(handleError)
-    .then((response) => response.json())
-    .then((json) => json.result.records);
 
-  return phoneData;
+  try {
+    const uri = "/api/phone-resource";
+    const phoneResponse = await fetch(uri);
+    const phoneJson = await phoneResponse.json();
+    const phoneData = await phoneJson.result.records;
+
+    return phoneData;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // SYNC DATA UTILS-----------------------------------------------------------------
@@ -91,7 +84,6 @@ export async function getPhoneData() {
 export function dateString(utcString) {
   return new Date(utcString).toISOString().split("T")[0];
 }
-
 //sync funtion that returns filtered node data using
 //values from any of the search options (listing, parent_org, main_category)
 //this function uses helper functions
@@ -437,153 +429,153 @@ export function cardSortByDistance(data) {
 //UNUSED ASYNC DATA UTILS--------------------------------------------------------
 
 //fetching utils
-export async function getSearchData(searchCats) {
-  const searchList = searchCats.join(" ,");
+// export async function getSearchData(searchCats) {
+//   const searchList = searchCats.join(" ,");
 
-  const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT ${searchList} from "${listingResource}"`;
-  const searchData = await fetch(uri)
-    .then((response) => response.json())
-    .then((json) => json.result.records)
-    .catch(handleError);
+//   const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT ${searchList} from "${listingResource}"`;
+//   const searchData = await fetch(uri)
+//     .then((response) => response.json())
+//     .then((json) => json.result.records)
+//     .catch(handleError);
 
-  const filteredValsList = searchData.map((record) => {
-    return searchCats.map((cat) => record[cat]);
-  });
-  const catList = [].concat(...filteredValsList);
-  return [...new Set(catList)].sort();
-}
+//   const filteredValsList = searchData.map((record) => {
+//     return searchCats.map((cat) => record[cat]);
+//   });
+//   const catList = [].concat(...filteredValsList);
+//   return [...new Set(catList)].sort();
+// }
 
-//
-export async function getSelectedCategories(navCategory, selectedItem) {
-  if (selectedItem === null) {
-    const dataResponse = await fetch(
-      `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT general_category from "${listingResource}"`
-    ).catch(handleError);
+// //
+// export async function getSelectedCategories(navCategory, selectedItem) {
+//   if (selectedItem === null) {
+//     const dataResponse = await fetch(
+//       `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT general_category from "${listingResource}"`
+//     ).catch(handleError);
 
-    const jsonDataArr = await dataResponse
-      .json()
-      .then((json) => json.result.records)
-      .then((records) => {
-        return records.map((record) => Object.values(record));
-      });
+//     const jsonDataArr = await dataResponse
+//       .json()
+//       .then((json) => json.result.records)
+//       .then((records) => {
+//         return records.map((record) => Object.values(record));
+//       });
 
-    const jsonDataCount = await countDuplicates(jsonDataArr);
-    // console.log('jsonDataCount', jsonDataCount);
-    return jsonDataCount;
-  } else {
-    const cleanSelectedItem = selectedItem.replace("&", "%26");
-    const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT main_category from "${listingResource}" WHERE ${navCategory} LIKE '${cleanSelectedItem}'`;
+//     const jsonDataCount = await countDuplicates(jsonDataArr);
+//     // console.log('jsonDataCount', jsonDataCount);
+//     return jsonDataCount;
+//   } else {
+//     const cleanSelectedItem = selectedItem.replace("&", "%26");
+//     const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT main_category from "${listingResource}" WHERE ${navCategory} LIKE '${cleanSelectedItem}'`;
 
-    const dataResponse = await fetch(uri).catch(handleError);
+//     const dataResponse = await fetch(uri).catch(handleError);
 
-    const jsonDataArr = await dataResponse
-      .json()
-      .then((json) => json.result.records)
-      .then((records) => {
-        return records.map((record) => Object.values(record));
-      });
+//     const jsonDataArr = await dataResponse
+//       .json()
+//       .then((json) => json.result.records)
+//       .then((records) => {
+//         return records.map((record) => Object.values(record));
+//       });
 
-    const jsonDataCount = await countDuplicates(jsonDataArr);
-    return jsonDataCount;
-  }
-}
+//     const jsonDataCount = await countDuplicates(jsonDataArr);
+//     return jsonDataCount;
+//   }
+// }
 
-//build the query from results of search
-//include helper functions which are below
-export async function nodeQueryBuilder(catVals, parentVals, searchVals = []) {
-  //return a null is both values are undefined
-  //this can likely be handled in the adv search
-  if (catVals === undefined && parentVals === undefined) {
-    return null;
-  } else {
-    const categoryString = queryStringBuilder(catVals, "main");
-    const parentString = queryStringBuilder(parentVals, "parent");
+// //build the query from results of search
+// //include helper functions which are below
+// export async function nodeQueryBuilder(catVals, parentVals, searchVals = []) {
+//   //return a null is both values are undefined
+//   //this can likely be handled in the adv search
+//   if (catVals === undefined && parentVals === undefined) {
+//     return null;
+//   } else {
+//     const categoryString = queryStringBuilder(catVals, "main");
+//     const parentString = queryStringBuilder(parentVals, "parent");
 
-    //put the URI together, this can be further split
-    const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "${listingResource}" WHERE ${categoryString} OR ${parentString}`;
+//     //put the URI together, this can be further split
+//     const uri = `https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "${listingResource}" WHERE ${categoryString} OR ${parentString}`;
 
-    const response = await fetch(uri).catch(handleError);
+//     const response = await fetch(uri).catch(handleError);
 
-    const jsonDataArr = await response
-      .json()
-      .then((json) => json.result.records)
-      .then((records) => records);
+//     const jsonDataArr = await response
+//       .json()
+//       .then((json) => json.result.records)
+//       .then((records) => records);
 
-    return jsonDataArr;
-  }
-}
+//     return jsonDataArr;
+//   }
+// }
 
 // UNUSED SYNC DATA UTILS ------------------------------------------------
 
 //////data utils for switching categories
-export function categoryFwdSwitcher(category) {
-  if (category === "general_category") {
-    return "main_category";
-  }
-}
+// export function categoryFwdSwitcher(category) {
+//   if (category === "general_category") {
+//     return "main_category";
+//   }
+// }
 
-export function categoryBackSwitcher(category) {
-  if (category === "main_category") {
-    return "general_category";
-  }
-  if (category === "general_category") {
-    return null;
-  }
-}
+// export function categoryBackSwitcher(category) {
+//   if (category === "main_category") {
+//     return "general_category";
+//   }
+//   if (category === "general_category") {
+//     return null;
+//   }
+// }
 
 // UNUSED HELPER UTILS-----------------------------------------------------------
 
 //helper function
 //build the string while expecting an array
 //deal with category type and
-function queryStringBuilder(arrItem, category) {
-  //sanitize the arrItem
-  const arr = handleArray(arrItem);
+// function queryStringBuilder(arrItem, category) {
+//   //sanitize the arrItem
+//   const arr = handleArray(arrItem);
 
-  if (category === "main") {
-    if (arr !== null) {
-      const categoryString = arr
-        .map((val) => {
-          const encodeUri = encodeURIComponent(val);
-          return `'${encodeUri}'`;
-        })
-        .join("OR main_category LIKE ");
+//   if (category === "main") {
+//     if (arr !== null) {
+//       const categoryString = arr
+//         .map((val) => {
+//           const encodeUri = encodeURIComponent(val);
+//           return `'${encodeUri}'`;
+//         })
+//         .join("OR main_category LIKE ");
 
-      return `main_category LIKE ${categoryString}`;
-    } else {
-      return null;
-    }
-  }
+//       return `main_category LIKE ${categoryString}`;
+//     } else {
+//       return null;
+//     }
+//   }
 
-  if (category === "parent") {
-    if (arr !== null) {
-      const parentString = arr
-        .map((val) => {
-          const encodeUri = encodeURIComponent(val);
-          return `'${encodeUri}'`;
-        })
-        .join("OR parent_organization LIKE ");
+//   if (category === "parent") {
+//     if (arr !== null) {
+//       const parentString = arr
+//         .map((val) => {
+//           const encodeUri = encodeURIComponent(val);
+//           return `'${encodeUri}'`;
+//         })
+//         .join("OR parent_organization LIKE ");
 
-      return `parent_organization LIKE ${parentString}`;
-    }
-    return null;
-  }
-}
+//       return `parent_organization LIKE ${parentString}`;
+//     }
+//     return null;
+//   }
+// }
 
 // UNUSED PROP TYPE UTILS---------------------------------------------------
 
 //prop-types helpers
-export function conditionalPropType(condition, message) {
-  if (typeof condition !== "function")
-    throw "Wrong argument type 'condition' supplied to 'conditionalPropType'";
-  return function (props, propName, componentName) {
-    if (condition(props, propName, componentName)) {
-      return new Error(
-        `Invalid prop '${propName}' '${props[propName]}' supplied to '${componentName}'. ${message}`
-      );
-    }
-  };
-}
+// export function conditionalPropType(condition, message) {
+//   if (typeof condition !== "function")
+//     throw "Wrong argument type 'condition' supplied to 'conditionalPropType'";
+//   return function (props, propName, componentName) {
+//     if (condition(props, propName, componentName)) {
+//       return new Error(
+//         `Invalid prop '${propName}' '${props[propName]}' supplied to '${componentName}'. ${message}`
+//       );
+//     }
+//   };
+// }
 
 //More async funtions that interact with NODE
 // export async function getCategoryList(navCategory) {
