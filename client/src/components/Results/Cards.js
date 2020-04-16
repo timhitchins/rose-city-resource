@@ -88,6 +88,9 @@ class Card extends React.Component {
         >
           <div className="card-header">
             <div className="card-category">{textMap.parsedCategory}</div>
+            {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
+              <div className="covid-item">{textMap.parsedCOVID}</div>
+            ) : null}
           </div>
           <div className="card-header">
             <div
@@ -231,7 +234,7 @@ class Card extends React.Component {
               </div>
               <div className="card-content">
                 {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
-                  <div className="covid-item">{textMap.parsedCOVID}</div>
+                  <div className="covid-item">CLOSED</div>
                 ) : (
                   textMap.parsedHours
                 )}

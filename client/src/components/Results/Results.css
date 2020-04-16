@@ -213,9 +213,8 @@ red/orange: #FC3C3C
 
 .card-header {
   grid-column: 1 / span 3;
-  /* margin-top: -5px; */
   display: flex;
-  /* font-size: 1rem; */
+  justify-content: space-between;
 }
 
 .card-category {
