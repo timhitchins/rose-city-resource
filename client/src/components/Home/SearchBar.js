@@ -153,7 +153,7 @@ class AdvancedSearchModal extends React.Component {
                     {Object.keys(mainCatsMap[genCat]).map((mainCat) => {
                       return (
                         <React.Fragment key={mainCat}>
-                          <label className="adv-container" htmlFor={mainCat}>
+                          <label className="advanced-container" htmlFor={mainCat}>
                             {mainCat}
                             <input
                               id={mainCat}
@@ -204,7 +204,6 @@ class AdvancedSearchModal extends React.Component {
               })}
             </form>
           )}
-          {/* --------------------------------------------------------------------- */}
         </div>
       </div>,
       modalRoot
