@@ -269,7 +269,7 @@ red/orange: #FC3C3C
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.3);
-  overflow: scroll;
+  overflow-y: scroll;
   z-index: 10;
 }
 

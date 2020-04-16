@@ -11,6 +11,7 @@ import {
   cardSortByDistance,
 } from "../../utils/api";
 import { redLMarker } from "./../../icons/mapIcons";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const DetailMap = (props) => {
   return (
@@ -77,7 +78,7 @@ class Card extends React.Component {
       parsedCOVID: cardTextFilter(record.covid_message),
     };
 
-    console.log(record.main_category);
+    console.log(record)
 
     return (
       <div className="card-map-container">
@@ -137,10 +138,7 @@ class Card extends React.Component {
                   onClick={() => handleCardSave(record.id)}
                 >
                   <FontAwesomeIcon
-                    // data-tip="Save listing, print later."
-                    // data-for="save-tooltip"
                     icon="save"
-                    // className="card-save"
                     size="sm"
                     style={
                       savedDataId.indexOf(record.id) > -1

@@ -160,7 +160,6 @@ class AdvancedSearchModal extends React.Component {
                               type="checkbox"
                               name={mainCat}
                               value={mainCat}
-                              // checked={false}
                               onChange={(val) =>
                                 this.toggleCheckedValue(
                                   val.target.value,
@@ -185,14 +184,13 @@ class AdvancedSearchModal extends React.Component {
               {parentCats.map((parentCat) => {
                 return (
                   <React.Fragment key={parentCat}>
-                    <label className="adv-container" htmlFor={parentCat}>
+                    <label className="advanced-container" htmlFor={parentCat}>
                       {parentCat}
                       <input
                         id={parentCat}
                         type="checkbox"
                         name={parentCat}
                         value={parentCat}
-                        // checked={false}
                         onChange={(val) =>
                           this.toggleCheckedValue(val.target.value, selection)
                         }
