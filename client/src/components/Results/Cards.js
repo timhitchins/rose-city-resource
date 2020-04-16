@@ -78,8 +78,6 @@ class Card extends React.Component {
       parsedCOVID: cardTextFilter(record.covid_message),
     };
 
-    console.log(record)
-
     return (
       <div className="card-map-container">
         <div
@@ -103,7 +101,7 @@ class Card extends React.Component {
               {textMap.parsedListing}
             </div>
             <div className="spacer" />
-            {!isNaN(record.distance) && !showMapDetail ? (
+            {!Number.isNaN(record.distance) && !showMapDetail ? (
               <button
                 className="card-save-button"
                 data-tip="Show on map."
