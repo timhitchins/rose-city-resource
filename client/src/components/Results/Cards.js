@@ -101,8 +101,6 @@ class Card extends React.Component {
               {textMap.parsedListing}
             </div>
             <div className="spacer" />
-            {console.log(textMap.parsedListing, record.distance, showMapDetail)}
-            {console.log(record)}
             {record.lat !== "NA" || record.lon !== "NA" ? (
               <button
                 className="card-save-button"
@@ -294,14 +292,14 @@ class Cards extends React.Component {
   componentDidUpdate(prevProps) {
     const { cardRefs } = this.state;
     const { selectedListing, clickType } = this.props;
-    console.log(clickType);
+    // console.log(clickType);
     const currentCard = cardRefs.filter((ref) => ref[1] === selectedListing);
     if (this.props.selectedListing !== prevProps.selectedListing) {
       if (
         window.matchMedia("(max-width: 992px)").matches &&
         clickType === "popup"
       ) {
-        console.log(currentCard);
+        // console.log(currentCard);
         this.cardScrollToCard(currentCard);
       }
       if (window.matchMedia("(min-width: 993px)").matches) {

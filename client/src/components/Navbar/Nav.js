@@ -1,10 +1,11 @@
-import React from 'react';
-import MediaQuery from 'react-responsive';
-import { NavLink} from 'react-router-dom';
-import './Nav.css';
-import * as logo from './../../images/SR-RCR-logo-transparent-large.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CSSTransition } from 'react-transition-group';
+import React from "react";
+import MediaQuery from "react-responsive";
+import { NavLink, Link } from "react-router-dom";
+import "./Nav.css";
+import * as srLogo from "./../../images/sr-logo-sm.png";
+import * as rcrLogo from "./../../images/rcr-logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CSSTransition } from "react-transition-group";
 
 const NavDrawer = ({ navVisible, onClick }) => (
   <CSSTransition
@@ -13,8 +14,7 @@ const NavDrawer = ({ navVisible, onClick }) => (
     classNames="navdrawer"
     appear={true}
   >
-    {status => {
-      {/* console.log(status); */}
+    {(status) => {
       return (
         <div className="navdrawer">
           <NavLink
@@ -43,14 +43,14 @@ const NavDrawer = ({ navVisible, onClick }) => (
 
 class Nav extends React.Component {
   state = {
-    navDrawerVisible: false
+    navDrawerVisible: false,
   };
 
   toggleDrawer = () => {
     this.setState(() => ({ navDrawerVisible: !this.state.navDrawerVisible }));
   };
 
-  logoDrawerToggle = () =>(this.setState(() => ({ navDrawerVisible: false })))
+  logoDrawerToggle = () => this.setState(() => ({ navDrawerVisible: false }));
 
   render() {
     const { navDrawerVisible } = this.state;
@@ -59,14 +59,22 @@ class Nav extends React.Component {
       <div className="nav">
         <header>
           <nav className="nav-container">
-            <div className="logo">
+            <div className="sr-logo">
+              <a
+                href="https://streetroots.org/"
+                onClick={this.logoDrawerToggle}
+              >
+                <img src={srLogo} alt="Street Roots Home" />
+              </a>
+            </div>
+            <div className="rcr-logo">
               <NavLink
                 exact
                 activeClassName="logo-active"
                 to="/"
                 onClick={this.logoDrawerToggle}
               >
-                <img src={logo} alt="logo-home-button"/>
+                <img src={rcrLogo} alt="Rose City Resource Home" />
               </NavLink>
             </div>
             <div className="spacer" />
@@ -91,7 +99,6 @@ class Nav extends React.Component {
             <MediaQuery query="(max-width: 599px)">
               <div className="hamburger-button">
                 <FontAwesomeIcon
-                  // style={styles.content}
                   icon="bars"
                   size="2x"
                   onClick={this.toggleDrawer}

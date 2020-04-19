@@ -13,7 +13,6 @@ red/orange: #FC3C3C
   bottom: 0;
   left: 0;
   right: 0;
-  /* padding: 1rem; */
   position: fixed;
   height: 30px;
   width: 100%;
@@ -27,13 +26,18 @@ red/orange: #FC3C3C
   display: flex;
   height: 100%;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .footer-item {
-  padding: 0.4rem 1rem 0 1rem;
+  padding-right: 1rem;
   color: white;
   font-size: 0.75rem;
   max-width: 100px;
+}
+
+.mac-logo {
+  max-width: 250px;
 }
 
 .footer-item:hover {
@@ -41,7 +45,8 @@ red/orange: #FC3C3C
 }
 
 .revision-date {
-  padding: 0.2rem 0 0 1rem;
+  padding-left: 1rem;
+  margin-right: 5px;;
   font-size: 0.6rem;
   color: white;
   min-width: 72px;
