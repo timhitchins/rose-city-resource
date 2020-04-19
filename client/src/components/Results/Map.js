@@ -10,7 +10,7 @@ import MarkerClusterGroup from "react-leaflet-markercluster";
 import MediaQuery from "react-responsive";
 import { mapDataBuilder } from "../../utils/api";
 import {
-  // greenLMarker,
+  greenLMarker,
   blueLMarker,
   redLMarker,
 } from "./../../icons/mapIcons.js";
@@ -40,7 +40,7 @@ class Markers extends React.Component {
                 position={item.coords}
                 id={item.popup.id}
                 icon={
-                  selectedListing === item.popup.id ? redLMarker : blueLMarker
+                  selectedListing === item.popup.id ? greenLMarker : blueLMarker
                 }
                 // onClick={() => updateListing(item.popup.id)}
                 // onSelect={() => console.log('slected', item.popup.id)}
@@ -174,7 +174,9 @@ class SimpleMap extends React.Component {
               ref={(map) => (this.leafletMap = map)}
               center={center}
               zoom={zoom}
+              minZoom={8}
               maxZoom={18} //set to 18 since the mapdisappears beyond that.
+              // maxBounds={maxBounds}
               scrollWheelZoom={true}
               tap={true}
               dragging={true}
@@ -221,7 +223,9 @@ class SimpleMap extends React.Component {
               ref={(map) => (this.leafletMap = map)}
               center={center}
               zoom={zoom}
+              minZoom={8}
               maxZoom={18} //set to 18 since the mapdisappears beyond that.
+              // maxBounds={maxBounds}
               scrollWheelZoom={false}
               tap={false}
               dragging={false}
@@ -269,7 +273,9 @@ class SimpleMap extends React.Component {
         ref={(map) => (this.leafletMap = map)}
         center={center}
         zoom={zoom}
+        minZoom={8}
         maxZoom={18} //set to 18 since the mapdisappears beyond that.
+        // maxBounds={maxBounds}
         scrollWheelZoom={false}
         tap={false}
         dragging={false}

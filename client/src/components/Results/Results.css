@@ -302,7 +302,8 @@ on .card-phone-container*/
 .card-web-container {
   grid-column: 3 / span 1;
   padding: 10px;
-  color: #1c791c;
+  color: #00adb5;
+  /* color: #1c791c; */
   /* margin: 0 30px 10px 10px; */
 }
 
@@ -317,7 +318,8 @@ on .card-phone-container*/
 /* ,
 .card-web-container > div > a:hover,
 .card-web-container > div > a:focus  */ {
-  color: #27a727;
+  /* color: #27a727; */
+  color: #008a8f;
 }
 
 .card-item {

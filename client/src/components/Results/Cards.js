@@ -10,7 +10,7 @@ import {
   cardTextFilter,
   cardSortByDistance,
 } from "../../utils/api";
-import { redLMarker } from "./../../icons/mapIcons";
+import { redLMarker, greenLMarker } from "./../../icons/mapIcons";
 import { text } from "@fortawesome/fontawesome-svg-core";
 
 const DetailMap = (props) => {
@@ -28,7 +28,7 @@ const DetailMap = (props) => {
           attribution=""
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
-        <Marker position={props.coords} icon={redLMarker} />
+        <Marker position={props.coords} icon={greenLMarker} />
       </Map>
     </React.Fragment>
   );
@@ -95,7 +95,7 @@ class Card extends React.Component {
             <div
               className="card-listing"
               style={
-                selectedListing === record.id ? { color: "#FC3C3C" } : null
+                selectedListing === record.id ? { color: "#27a727" } : null
               }
             >
               {textMap.parsedListing}
@@ -115,7 +115,7 @@ class Card extends React.Component {
                   icon="map-marker"
                   size="sm"
                   style={
-                    selectedListing === record.id ? { color: "#FC3C3C" } : null
+                    selectedListing === record.id ? { color: "#27a727" } : null
                   }
                 />
                 Show
