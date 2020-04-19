@@ -1,31 +1,4 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-// import {
-//   faUtensils,
-//   faHome,
-//   faTshirt,
-//   faBusAlt,
-//   faHeartbeat,
-//   faMoneyBillWave,
-//   faHandHoldingHeart,
-//   faBriefcase,
-//   faBalanceScale,
-//   faSun,
-//   faHandsHelping,
-//   faBars,
-//   faPlus,
-//   faMinus,
-//   faSearch,
-//   faAngleDown,
-//   faAngleLeft,
-//   faAngleRight,
-//   faPhone,
-//   faGlobe,
-//   faPrint,
-//   faSave,
-//   faMapMarker,
-//   faSpinner
-// } from '@fortawesome/free-solid-svg-icons';
-
 //deep imports to reduce bundle size
 import { faUtensils } from '@fortawesome/free-solid-svg-icons/faUtensils';
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome';

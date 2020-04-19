@@ -1,9 +1,7 @@
 import React from "react";
-import MediaQuery from "react-responsive";
 import "./../css/About.css";
-// #00adb5
 
-const SuggestEdit = (props) => (
+const SuggestEdit = () => (
   <main className="main-container">
     <div className="submit-container">
       <iframe
@@ -13,6 +11,7 @@ const SuggestEdit = (props) => (
         frameborder="0"
         marginheight="0"
         marginwidth="0"
+        title="suggested update form"
       ></iframe>
     </div>
   </main>

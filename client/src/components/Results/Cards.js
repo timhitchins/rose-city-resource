@@ -101,7 +101,9 @@ class Card extends React.Component {
               {textMap.parsedListing}
             </div>
             <div className="spacer" />
-            {!Number.isNaN(record.distance) && !showMapDetail ? (
+            {console.log(textMap.parsedListing, record.distance, showMapDetail)}
+            {console.log(record)}
+            {record.lat !== "NA" || record.lon !== "NA" ? (
               <button
                 className="card-save-button"
                 data-tip="Show on map."

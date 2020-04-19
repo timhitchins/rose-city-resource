@@ -33,7 +33,7 @@ const NavDrawer = ({ navVisible, onClick }) => (
             to="/suggest-edit"
             onClick={onClick}
           >
-            SUGGEST EDIT
+            SUGGEST UPDATE
           </NavLink>
         </div>
       );
@@ -85,7 +85,7 @@ class Nav extends React.Component {
                 activeClassName="nav-item-active "
                 to="/suggest-edit"
               >
-                SUGGEST EDIT
+                SUGGEST UPDATE
               </NavLink>
             </MediaQuery>
             <MediaQuery query="(max-width: 599px)">
