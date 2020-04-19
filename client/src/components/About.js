@@ -3,7 +3,7 @@ import * as srLogo from './../images/sr-logo-transparent-background.png';
 import './../css/About.css';
 
 const About = props => (
-  <main>
+  <main className="main-container">
     <div className="about-container">
       <div className="content">
         <h1 style={{ textAlign: 'center', lineHeight: '1' }}>

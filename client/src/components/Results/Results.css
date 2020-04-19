@@ -314,10 +314,7 @@ on .card-phone-container*/
 }
 
 .card-web-container:hover,
-.card-web-container:focus
-/* ,
-.card-web-container > div > a:hover,
-.card-web-container > div > a:focus  */ {
+.card-web-container:focus {
   /* color: #27a727; */
   color: #008a8f;
 }
