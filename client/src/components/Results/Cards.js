@@ -302,13 +302,16 @@ class Cards extends React.Component {
         window.matchMedia("(max-width: 992px)").matches &&
         clickType === "popup"
       ) {
-        // console.log(currentCard);
         this.cardScrollToCard(currentCard);
+      }
+      if (
+        window.matchMedia("(max-width: 992px)").matches &&
+        clickType === "card"
+      ) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
       if (window.matchMedia("(min-width: 993px)").matches) {
         this.cardScrollToCard(currentCard);
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
   }
