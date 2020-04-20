@@ -256,12 +256,7 @@ class Card extends React.Component {
 class Cards extends React.Component {
   state = { currentCardRef: null, cardRefs: [] };
 
-  // cardScrollToTop = () => {
-  //   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // };
-
   cardScrollToCard = (cardRef) => {
-    console.log("final card ref", cardRef[0][0]);
     //the card is on the first element of the
     //the cardRef array
     window.scrollTo({
@@ -279,7 +274,7 @@ class Cards extends React.Component {
 
   handleCardClick = (cardRef, id) => {
     this.setState(() => ({ currentCardRef: [cardRef.current, id] }));
-    console.log("cardRef", cardRef[1]);
+
   };
 
   undisclosedCounter = (data) => {
@@ -295,7 +290,7 @@ class Cards extends React.Component {
   componentDidUpdate(prevProps) {
     const { cardRefs } = this.state;
     const { selectedListing, clickType } = this.props;
-    console.log(clickType);
+
     const currentCard = cardRefs.filter((ref) => ref[1] === selectedListing);
     if (this.props.selectedListing !== prevProps.selectedListing) {
       if (
