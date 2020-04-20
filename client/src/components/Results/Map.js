@@ -31,10 +31,10 @@ class Markers extends React.Component {
     return (
       <React.Fragment>
         <MarkerClusterGroup>
-          {mapData.mapData.map((item) => {
+          {mapData.mapData.map((item, index) => {
             return (
               <Marker
-                key={item.popup.id}
+                key={`${item.popup.id}-${index}`}
                 ref={this.bindMarker}
                 // {...this.props}
                 position={item.coords}

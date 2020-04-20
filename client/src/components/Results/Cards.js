@@ -192,9 +192,9 @@ class Card extends React.Component {
             {textMap.parsedPhone ? (
               <div>
                 <FontAwesomeIcon icon={"phone"} className="phone-icon" />
-                {textMap.parsedPhone.map((phone) => {
+                {textMap.parsedPhone.map((phone, index) => {
                   return (
-                    <div key={phone.phone} className="card-phone">
+                    <div key={`${phone.phone}-${index}`} className="card-phone">
                       <span>{`${phone.type}: `}</span>
                       {phone.phone}
                     </div>
@@ -208,7 +208,10 @@ class Card extends React.Component {
               <div>
                 <FontAwesomeIcon icon={"globe"} />
                 {/* Annoying way to deal with external url in rr4 */}
-                <a href={"//" + textMap.parsedWeb}> website</a>
+                <a target="_blank" href={"//" + textMap.parsedWeb}>
+                  {" "}
+                  website
+                </a>
               </div>
             ) : null}
           </div>
@@ -258,7 +261,7 @@ class Cards extends React.Component {
   // };
 
   cardScrollToCard = (cardRef) => {
-    // console.log('final card ref', cardRef[0][0]);
+    console.log("final card ref", cardRef[0][0]);
     //the card is on the first element of the
     //the cardRef array
     window.scrollTo({
@@ -276,7 +279,7 @@ class Cards extends React.Component {
 
   handleCardClick = (cardRef, id) => {
     this.setState(() => ({ currentCardRef: [cardRef.current, id] }));
-    // console.log('cardRef', cardRef[1]);
+    console.log("cardRef", cardRef[1]);
   };
 
   undisclosedCounter = (data) => {
@@ -292,7 +295,7 @@ class Cards extends React.Component {
   componentDidUpdate(prevProps) {
     const { cardRefs } = this.state;
     const { selectedListing, clickType } = this.props;
-    // console.log(clickType);
+    console.log(clickType);
     const currentCard = cardRefs.filter((ref) => ref[1] === selectedListing);
     if (this.props.selectedListing !== prevProps.selectedListing) {
       if (
@@ -324,9 +327,9 @@ class Cards extends React.Component {
       <div className="cards-container">
         <CountBar savedDataId={savedDataId} data={data} />
 
-        {cardSortByDistance(data).map((record) => (
+        {cardSortByDistance(data).map((record, index) => (
           <Card
-            key={record.id}
+            key={`${record.id}-${index}`}
             record={record}
             selectedListing={selectedListing}
             updateListing={updateListing}
