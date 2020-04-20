@@ -20,7 +20,7 @@ const Footer = (props) => {
           </a>
         </div>
         <div className="footer-item node-logo">
-          <a target="_blank" href="//opendata.imspdx.org/">
+          <a target="_blank" href="https://opendata.imspdx.org/">
             <img
               src="https://opendata.imspdx.org/uploads/admin/2018-02-28-230321.180610WhiteNODEwlogo.png"
               alt="NODE-logo"
