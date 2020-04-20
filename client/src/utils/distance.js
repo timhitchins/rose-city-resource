@@ -30,7 +30,7 @@ export async function inOutLocation() {
       maximumAge: 0
     });
   } catch (e) {
-    if (e.name == 'PositionError') {
+    if (e.name === 'PositionError') {
       console.log(e.message + '. code = ' + e.code);
     }
   }

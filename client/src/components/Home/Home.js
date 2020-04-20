@@ -23,8 +23,8 @@ class Home extends React.Component {
   };
 
   render() {
-    const { searchData, nodeData, revisionDate } = this.props; //grab match from React Router to pass to any of the links that need it.
-    // console.log('home', match);
+    const { searchData, nodeData } = this.props; //grab match from React Router to pass to any of the links that need it.
+
     return (
       <div className="home-outer-container">
         <div className="home-container">

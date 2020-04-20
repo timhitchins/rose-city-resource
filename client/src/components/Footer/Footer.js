@@ -12,15 +12,20 @@ const Footer = (props) => {
         </div>
         <div className="spacer" />
         <div className="footer-item mac-logo">
-          <a target="_blank" href="https://mappingaction.org/">
-            <img
-              src={macLogo}
-              alt="NODE-logo"
-            />
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://mappingaction.org/"
+          >
+            <img src={macLogo} alt="NODE-logo" />
           </a>
         </div>
         <div className="footer-item node-logo">
-          <a target="_blank" href="https://opendata.imspdx.org/">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://opendata.imspdx.org/"
+          >
             <img
               src="https://opendata.imspdx.org/uploads/admin/2018-02-28-230321.180610WhiteNODEwlogo.png"
               alt="NODE-logo"

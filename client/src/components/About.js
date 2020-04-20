@@ -1,17 +1,18 @@
-import React from 'react';
-import * as srLogo from './../images/sr-logo-transparent-background.png';
-import './../css/About.css';
+import React from "react";
+import * as srLogo from "./../images/sr-logo-transparent-background.png";
+import "./../css/About.css";
 
-const About = props => (
+const About = (props) => (
   <main className="main-container">
     <div className="about-container">
       <div className="content">
-        <h1 style={{ textAlign: 'center', lineHeight: '1' }}>
+        <h1 style={{ textAlign: "center", lineHeight: "1" }}>
           Making a Great Resource Even Better
         </h1>
         <p>
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="//www.streetroots.org/about/work/resourceguide"
           >
             <img
@@ -39,23 +40,41 @@ const About = props => (
           paper version. The curated data is hosted on the Northwest Data
           Exchange and is available to use and distribute freely.
         </p>
-        <h1 style={{ textAlign: 'center', lineHeight: '1' }}>
+        <h1 style={{ textAlign: "center", lineHeight: "1" }}>
           Learn More About the Project Partners
         </h1>
         <div className="image-container">
           <div className="sr-logo">
-            <a target="_blank" href="//streetroots.org/">
-              <img src={srLogo} alt="street-roots"/>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="//streetroots.org/"
+            >
+              <img src={srLogo} alt="street-roots" />
             </a>
           </div>
           <div className="mac-logo">
-            <a target="_blank" href="//www.mappingaction.org">
-              <img src="https://mappingaction.files.wordpress.com/2018/09/cropped-maclogo_9_18_v5.png" alt="mapping-action-collective"/>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="//www.mappingaction.org"
+            >
+              <img
+                src="https://mappingaction.files.wordpress.com/2018/09/cropped-maclogo_9_18_v5.png"
+                alt="mapping-action-collective"
+              />
             </a>
           </div>
           <div className="node-logo">
-            <a target="_blank" href="//opendata.imspdx.org/">
-              <img src="https://opendata.imspdx.org/uploads/admin/2018-02-28-230321.180610WhiteNODEwlogo.png" alt="northwest-open-data-exchange"/>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="//opendata.imspdx.org/"
+            >
+              <img
+                src="https://opendata.imspdx.org/uploads/admin/2018-02-28-230321.180610WhiteNODEwlogo.png"
+                alt="northwest-open-data-exchange"
+              />
             </a>
           </div>
         </div>

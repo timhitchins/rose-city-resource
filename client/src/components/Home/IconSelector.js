@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import MediaQuery from 'react-responsive';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CSSTransition } from 'react-transition-group';
-import { objectKeyByValue, queryBuilder } from '../../utils/api.js';
+import React from "react";
+import PropTypes from "prop-types";
+import MediaQuery from "react-responsive";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CSSTransition } from "react-transition-group";
+import { objectKeyByValue, queryBuilder } from "../../utils/api.js";
 
 //style for the icon svg itself
 const styles = {
   content: {
-    color: 'white'
-  }
+    color: "white",
+  },
 };
 
 const GeneralLarge = ({
@@ -21,7 +21,7 @@ const GeneralLarge = ({
   searchData,
   selectedData,
   submitSearch,
-  path
+  path,
   // toggleBrowseContainer,
   // isBrowseVisible
 }) => {
@@ -29,7 +29,7 @@ const GeneralLarge = ({
     <MediaQuery query="(min-width: 993px)">
       <div className="categories-container" onMouseLeave={() => onMouseExit()}>
         <div className="icons-container">
-          {Object.keys(iconMap).map(icon => {
+          {Object.keys(iconMap).map((icon) => {
             return (
               <div
                 key={icon}
@@ -50,22 +50,20 @@ const GeneralLarge = ({
         </div>
         {showDropdown ? (
           <div className="icons-dropdown-container">
-            {Object.keys(selectedData).map(selection => {
+            {Object.keys(selectedData).map((selection) => {
               return (
                 <Link
                   key={selection}
                   to={{
                     pathname: path,
-                    search: queryBuilder([selection], [])
+                    search: queryBuilder([selection], []),
                   }}
                 >
                   <div
                     className="icon-dropdown-container"
                     onClick={() => submitSearch(selection)}
                   >
-                    <div className="icon-dropdown-name">{`${selection}  (${
-                      selectedData[selection]
-                    })`}</div>
+                    <div className="icon-dropdown-name">{`${selection}  (${selectedData[selection]})`}</div>
                   </div>
                 </Link>
               );
@@ -85,7 +83,7 @@ GeneralLarge.propTypes = {
   iconMap: PropTypes.object.isRequired,
   searchData: PropTypes.object, //this is an HOC validation option
   selectedData: PropTypes.object, //this is an HOC validation option
-  submitSearch: PropTypes.func.isRequired
+  submitSearch: PropTypes.func.isRequired,
 };
 
 const GeneralSmall = ({
@@ -93,7 +91,7 @@ const GeneralSmall = ({
   iconMap,
   searchData,
   toggleBrowseContainer,
-  isBrowseVisible
+  isBrowseVisible,
 }) => {
   return (
     <MediaQuery query="(max-width: 992px)">
@@ -106,7 +104,7 @@ const GeneralSmall = ({
           <div>
             <FontAwesomeIcon
               //use the plus icon for onClick events
-              icon={'angle-down'}
+              icon={"angle-down"}
               style={styles.content}
               size="lg"
             />
@@ -118,11 +116,10 @@ const GeneralSmall = ({
           classNames="browse-drawer"
           mountOnEnter={true}
         >
-          {state => {
-            {/* console.log('browseState', state); */}
+          {(state) => {
             return (
               <div className="icons-container">
-                {Object.keys(iconMap).map(icon => {
+                {Object.keys(iconMap).map((icon) => {
                   return (
                     <div
                       key={icon}
@@ -141,7 +138,7 @@ const GeneralSmall = ({
                       <div className="category-plus">
                         <FontAwesomeIcon
                           //use the plus icon for onClick events
-                          icon={'angle-right'}
+                          icon={"angle-right"}
                           style={styles.content}
                           size="lg"
                         />
@@ -162,7 +159,7 @@ const GeneralSmall = ({
 GeneralSmall.propTypes = {
   onSelectFwd: PropTypes.func.isRequired,
   iconMap: PropTypes.object.isRequired,
-  searchData: PropTypes.object.isRequired
+  searchData: PropTypes.object.isRequired,
 };
 
 const MainSmall = ({
@@ -173,7 +170,7 @@ const MainSmall = ({
   iconMap,
   submitSearch,
   toggleBrowseContainer,
-  isBrowseVisible
+  isBrowseVisible,
 }) => {
   return (
     <MediaQuery query="(max-width: 992px)">
@@ -186,7 +183,7 @@ const MainSmall = ({
           <div>
             <FontAwesomeIcon
               //use the plus icon for onClick events
-              icon={'angle-down'}
+              icon={"angle-down"}
               style={styles.content}
               size="lg"
             />
@@ -197,7 +194,7 @@ const MainSmall = ({
           timeout={500}
           classNames="browse-drawer"
         >
-          {status => (
+          {(status) => (
             <div className="icons-container">
               <div
                 className="selected-item"
@@ -205,7 +202,7 @@ const MainSmall = ({
               >
                 <div>
                   <FontAwesomeIcon
-                    icon={'angle-left'}
+                    icon={"angle-left"}
                     style={styles.content}
                     size="lg"
                   />
@@ -219,22 +216,20 @@ const MainSmall = ({
                 </div>
                 <div>{selectedItem}</div>
               </div>
-              {Object.keys(selectedData).map(selection => {
+              {Object.keys(selectedData).map((selection) => {
                 return (
                   <Link
                     key={selection}
                     to={{
                       pathname: `/results`,
-                      search: queryBuilder([selection], [])
+                      search: queryBuilder([selection], []),
                     }}
                   >
                     <div
                       className="icon-container"
                       onClick={() => submitSearch(selection)}
                     >
-                      <div className="icon-name">{`${selection}  (${
-                        selectedData[selection]
-                      })`}</div>
+                      <div className="icon-name">{`${selection}  (${selectedData[selection]})`}</div>
                     </div>
                   </Link>
                 );
@@ -254,12 +249,12 @@ MainSmall.propTypes = {
   selectedData: PropTypes.object.isRequired,
   searchData: PropTypes.object.isRequired,
   iconMap: PropTypes.object.isRequired,
-  submitSearch: PropTypes.func.isRequired
+  submitSearch: PropTypes.func.isRequired,
 };
 
 class Selectors extends React.Component {
   state = {
-    isBrowseVisible: this.props.isVisible
+    isBrowseVisible: this.props.isVisible,
   };
 
   // setBrowserVisibility = (visProp) => {
@@ -269,7 +264,7 @@ class Selectors extends React.Component {
   // };
 
   toggleBrowseContainer = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return { isBrowseVisible: !prevState.isBrowseVisible };
     });
   };
@@ -295,26 +290,26 @@ class Selectors extends React.Component {
       searchData,
       showDropdown,
       submitSearch,
-      path
+      path,
     } = this.props;
     //set these here to make the UI render quicker upon start
     const iconMap = {
-      utensils: 'Food',
-      home: 'Housing & Shelter',
-      tshirt: 'Goods',
-      'bus-alt': 'Transit',
-      heartbeat: 'Health & Wellness',
-      'money-bill-wave': 'Money',
-      'hand-holding-heart': 'Care & Safety',
-      briefcase: 'Work',
-      'balance-scale': 'Legal',
-      sun: 'Day Services',
-      'hands-helping': 'Specialized Assistance'
+      utensils: "Food",
+      home: "Housing & Shelter",
+      tshirt: "Goods",
+      "bus-alt": "Transit",
+      heartbeat: "Health & Wellness",
+      "money-bill-wave": "Money",
+      "hand-holding-heart": "Care & Safety",
+      briefcase: "Work",
+      "balance-scale": "Legal",
+      sun: "Day Services",
+      "hands-helping": "Specialized Assistance",
     };
 
     switch (navCategory) {
       //include this switch so that the home UI renders without an async call
-      case 'general_category':
+      case "general_category":
         // case 'main_category':
         return (
           <div>
@@ -342,7 +337,7 @@ class Selectors extends React.Component {
             />
           </div>
         );
-      case 'main_category':
+      case "main_category":
         return (
           <div>
             <GeneralLarge
@@ -369,6 +364,8 @@ class Selectors extends React.Component {
             />
           </div>
         );
+      default:
+        return null;
     }
   }
 }
@@ -383,21 +380,21 @@ Selectors.propTypes = {
   selectedData: PropTypes.object, //nedd to create validation HOC
   searchData: PropTypes.object.isRequired,
   showDropdown: PropTypes.bool.isRequired,
-  submitSearch: PropTypes.func.isRequired
+  submitSearch: PropTypes.func.isRequired,
 };
 
 //All the state and methods live here and are passed down as props to all the specific components.
 class IconSelector extends React.Component {
   static propTypes = {
     nodeData: PropTypes.array.isRequired,
-    searchData: PropTypes.object.isRequired
+    searchData: PropTypes.object.isRequired,
   };
 
   state = {
-    navCategory: 'general_category',
+    navCategory: "general_category",
     selectedItem: null,
     selectedData: null,
-    showDropdown: false
+    showDropdown: false,
   };
 
   toggleSelectedItemFwd = (selectedItem, searchData) => {
@@ -405,20 +402,20 @@ class IconSelector extends React.Component {
     const selectedData = searchData.main[selectedItem];
 
     this.setState({
-      navCategory: 'main_category',
+      navCategory: "main_category",
       selectedItem,
-      selectedData
+      selectedData,
     });
   };
 
-  toggleSelectedItemBack = searchData => {
+  toggleSelectedItemBack = (searchData) => {
     const selectedData = searchData.general;
     // console.log(selectedData);
 
     this.setState({
       selectedData,
       selectedItem: null,
-      navCategory: 'general_category'
+      navCategory: "general_category",
     });
   };
 
@@ -426,10 +423,10 @@ class IconSelector extends React.Component {
     const selectedData = searchData.main[selectedItem];
 
     this.setState({
-      navCategory: 'general_category',
+      navCategory: "general_category",
       selectedItem,
       selectedData,
-      showDropdown: true
+      showDropdown: true,
     });
   };
 
@@ -437,11 +434,11 @@ class IconSelector extends React.Component {
     this.setState({
       showDropdown: false,
       selectedData: null,
-      selectedItem: null
+      selectedItem: null,
     });
 
   // this will be removed in favor of a Link tag
-  submitSearch = selection => {
+  submitSearch = (selection) => {
     // console.log(selection);
   };
 
@@ -450,7 +447,7 @@ class IconSelector extends React.Component {
       navCategory,
       selectedItem,
       selectedData,
-      showDropdown
+      showDropdown,
     } = this.state;
 
     const { searchData, path, isVisible } = this.props;

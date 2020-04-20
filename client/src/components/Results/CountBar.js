@@ -1,13 +1,6 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PropTypes from 'prop-types';
-
-// const styles = {
-//   faIcon: {
-//     color: 'white'
-//   }
-// };
+// import PropTypes from 'prop-types';
 
 class CountBar extends React.Component {
   undisclosedCounter = data => {

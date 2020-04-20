@@ -10,8 +10,7 @@ import {
   cardTextFilter,
   cardSortByDistance,
 } from "../../utils/api";
-import { redLMarker, greenLMarker } from "./../../icons/mapIcons";
-import { text } from "@fortawesome/fontawesome-svg-core";
+import { greenLMarker } from "./../../icons/mapIcons";
 
 const DetailMap = (props) => {
   return (
@@ -174,6 +173,7 @@ class Card extends React.Component {
                 ) : null}
                 <a
                   target="_blank"
+                  rel="noopener noreferrer"
                   href={"//www.google.com/maps/dir/" + record.directionsUrl}
                 >
                   Get Directions
@@ -208,8 +208,11 @@ class Card extends React.Component {
               <div>
                 <FontAwesomeIcon icon={"globe"} />
                 {/* Annoying way to deal with external url in rr4 */}
-                <a target="_blank" href={"//" + textMap.parsedWeb}>
-                  {" "}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={"//" + textMap.parsedWeb}
+                >
                   website
                 </a>
               </div>
@@ -274,7 +277,6 @@ class Cards extends React.Component {
 
   handleCardClick = (cardRef, id) => {
     this.setState(() => ({ currentCardRef: [cardRef.current, id] }));
-
   };
 
   undisclosedCounter = (data) => {

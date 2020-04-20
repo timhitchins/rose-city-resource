@@ -49,10 +49,6 @@ a {
   text-decoration: none;
 }
 .main-content {
-  /* min-height: calc(100vh - 30px); */
-  /* min-height: 100vh; */
-  /* overflow: hidden; */
-  /* min-height: 95vh; */
   background-color: #85898e;
 }
 
@@ -64,8 +60,3 @@ a {
   height: 80vh;
 }
 
-@media (min-width: 992px) and (min-height: 790px) {
-  .main-content {
-    /* overflow: hidden; */
-  }
-}
