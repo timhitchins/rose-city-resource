@@ -69,7 +69,7 @@ export async function getPhoneData() {
 //funtion to create a data string based
 //on UTC string returned from package data
 export function dateString(utcString) {
-  return new Date(utcString).toISOString().split("T")[0];
+  return utcString.split("T")[0];
 }
 //sync funtion that returns filtered node data using
 //values from any of the search options (listing, parent_org, main_category)

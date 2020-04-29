@@ -61,6 +61,8 @@ class Nav extends React.Component {
           <nav className="nav-container">
             <div className="sr-logo">
               <a
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://streetroots.org/"
                 onClick={this.logoDrawerToggle}
               >
