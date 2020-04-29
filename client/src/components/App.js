@@ -1,21 +1,21 @@
-import React from 'react';
-import Loading from './Loading';
-import Home from './Home/Home';
-import About from './About';
-import SuggestEdit from './SuggestEdit';
-import Results from './Results/Results';
-import Details from './Details';
-import Nav from './Navbar/Nav';
-import Footer from './Footer/Footer';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from "react";
+import Loading from "./Loading";
+import Home from "./Home/Home";
+import About from "./About";
+import SuggestEdit from "./SuggestEdit";
+import Results from "./Results/Results";
+import Details from "./Details";
+import Nav from "./Navbar/Nav";
+import Footer from "./Footer/Footer";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   getNodeData,
   getPackageData,
   getCategorySearchData,
   getMainSearchData,
-  dateString
-} from '../utils/api';
-import '../icons/iconsInit';
+  dateString,
+} from "../utils/api";
+import "../icons/iconsInit";
 
 class App extends React.Component {
   //data lives in the top component.
@@ -23,22 +23,22 @@ class App extends React.Component {
     navDrawerVisible: false,
     nodeData: null,
     searchData: null,
-    savedDataId: []
+    savedDataId: [],
   };
 
   //state lisfted from
   //Cards to keep track of saved cards
   //this may need to be moved down to results
-  handleCardSave = id => {
+  handleCardSave = (id) => {
     const { savedDataId } = this.state;
     // console.log('current saved state: ', savedDataId);
     if (savedDataId.indexOf(id) === -1) {
       //build up the state array without directly mutating state
-      this.setState(prevState => ({
-        savedDataId: [...prevState.savedDataId, id]
+      this.setState((prevState) => ({
+        savedDataId: [...prevState.savedDataId, id],
       }));
     } else {
-      const filterArr = savedDataId.filter(item => item !== id);
+      const filterArr = savedDataId.filter((item) => item !== id);
       this.setState(() => ({ savedDataId: filterArr }));
     }
   };
@@ -47,27 +47,27 @@ class App extends React.Component {
     this.setState(() => ({ savedDataId: [] }));
   };
   // build the searching data
-  filterData = nodeData => {
+  filterData = (nodeData) => {
     const generalCategories = getCategorySearchData(
       nodeData,
-      'general_category'
+      "general_category"
     );
     const parentCategories = getCategorySearchData(
       nodeData,
-      'parent_organization'
+      "parent_organization"
     );
     const mainCategories = getMainSearchData(nodeData);
     // return a new object with the search data
     return {
       general: generalCategories,
       main: mainCategories,
-      parent: parentCategories
+      parent: parentCategories,
     };
   };
 
   handleDrawer = () =>
-    this.setState(prev => ({
-      navDrawerVisible: !prev.navDrawerVisible
+    this.setState((prev) => ({
+      navDrawerVisible: !prev.navDrawerVisible,
     }));
 
   componentDidMount = async () => {
@@ -86,7 +86,6 @@ class App extends React.Component {
   };
 
   render() {
-
     const { nodeData, searchData, savedDataId } = this.state;
     return (
       <React.Fragment>
@@ -101,7 +100,7 @@ class App extends React.Component {
                   <Route
                     exact
                     path="/"
-                    component={props => (
+                    component={(props) => (
                       <Home
                         {...props}
                         nodeData={nodeData}
@@ -113,7 +112,7 @@ class App extends React.Component {
                   <Route exact path="/suggest-edit" component={SuggestEdit} />
                   <Route
                     path="/results"
-                    component={props => (
+                    component={(props) => (
                       <Results
                         {...props}
                         nodeData={nodeData}
@@ -127,7 +126,7 @@ class App extends React.Component {
                   <Route
                     exact
                     path="/details"
-                    component={props => (
+                    component={(props) => (
                       <Details
                         {...props}
                         nodeData={nodeData}

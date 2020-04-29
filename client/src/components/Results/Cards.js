@@ -77,7 +77,7 @@ class Card extends React.Component {
       parsedHours: cardTextFilter(record.hours),
       parsedCOVID: cardTextFilter(record.covid_message),
     };
-    
+
     return (
       <div className="card-map-container">
         <div
@@ -95,7 +95,12 @@ class Card extends React.Component {
             <div
               className="card-listing"
               style={
-                selectedListing === record.id ? { color: "#27a727" } : null
+                selectedListing === record.id
+                  ? {
+                      color: "#27a727",
+                      fontWeight: "bolder",
+                    }
+                  : null
               }
             >
               {textMap.parsedListing}

@@ -36,9 +36,8 @@ const About = (props) => (
           partnership to amplify the reach of the RCR by developing a digital
           version of it. This interactive tool is the result. The digital RCR
           incorporates data collected and maintained by Street Roots and is
-          updated in tandem with the twice-yearly distribution cycle of the
-          paper version. The curated data is hosted on the Northwest Data
-          Exchange and is available to use and distribute freely.
+          frequently updated. The curated data is hosted on the Northwest Open
+          Data Exchange and is available to use and distribute freely.
         </p>
         <h1 style={{ textAlign: "center", lineHeight: "1" }}>
           Learn More About the Project Partners
