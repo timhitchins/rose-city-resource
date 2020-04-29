@@ -9,6 +9,7 @@ import {
   cardPhoneTextFilter,
   cardTextFilter,
   cardSortByDistance,
+  cardWebAddressFixer,
 } from "../../utils/api";
 import { greenLMarker } from "./../../icons/mapIcons";
 
@@ -67,7 +68,7 @@ class Card extends React.Component {
       parsedCategory: record.main_category,
       parsedListing: record.listing,
       parsedPhone: cardPhoneTextFilter(record),
-      parsedWeb: cardTextFilter(record.website),
+      parsedWeb: cardWebAddressFixer(record.website),
       parsedStreet: `${cardTextFilter(record.street)} ${cardTextFilter(
         record.street2
       )}`.trim(),
@@ -76,7 +77,7 @@ class Card extends React.Component {
       parsedHours: cardTextFilter(record.hours),
       parsedCOVID: cardTextFilter(record.covid_message),
     };
-
+    
     return (
       <div className="card-map-container">
         <div
@@ -207,13 +208,12 @@ class Card extends React.Component {
             {textMap.parsedWeb ? (
               <div>
                 <FontAwesomeIcon icon={"globe"} />
-                {/* Annoying way to deal with external url in rr4 */}
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={"//" + textMap.parsedWeb}
+                  href={textMap.parsedWeb}
                 >
-                  website
+                  {" website"}
                 </a>
               </div>
             ) : null}

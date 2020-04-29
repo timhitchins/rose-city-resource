@@ -5,7 +5,6 @@ import fetch from "node-fetch";
 //async function to fetch revision history
 //based on rose-city-resource
 export async function getPackageData() {
-
   ///new logic
   const uri = "/api/package";
   const packageData = await fetch(uri)
@@ -16,7 +15,6 @@ export async function getPackageData() {
 
 //async fucntion to get data from node and add in phone records
 export async function getNodeData() {
-
   try {
     const uri = "/api/listings-resource";
     const listingsResponse = await fetch(uri);
@@ -32,9 +30,7 @@ export async function getNodeData() {
       console.log("Error getting position: ", e)
     );
 
-    if (
-      position !== undefined
-    ) {
+    if (position !== undefined) {
       currentCoords = [position.coords.latitude, position.coords.longitude];
     } else {
       currentCoords = null;
@@ -56,7 +52,6 @@ export async function getNodeData() {
 //async funtion to get phone data
 //which will then be joined to nodeData
 export async function getPhoneData() {
-
   try {
     const uri = "/api/phone-resource";
     const phoneResponse = await fetch(uri);
@@ -177,6 +172,15 @@ export function cardPhoneTextFilter(record) {
 
 export function cardTextFilter(recordKey) {
   return naRemove(recordKey).trim();
+}
+
+export function cardWebAddressFixer(webAddress) {
+  // if(address.indexOf("http") > 0)
+  const webAddressFilter = cardTextFilter(webAddress);
+  if(webAddress.indexOf("http") < 0 && webAddressFilter !== ""){
+    return `http://${webAddressFilter}`
+  }
+  return webAddressFilter;
 }
 
 //function to build the map data object

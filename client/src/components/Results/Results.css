@@ -145,6 +145,7 @@ red/orange: #FC3C3C
 /* the listing title */
 .card-listing {
   font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .card-print,
@@ -242,12 +243,12 @@ on .card-phone-container*/
 
 .card-title {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .card-title-flex {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 700;
   display: flex;
   justify-content: space-between;
 }
@@ -264,6 +265,7 @@ on .card-phone-container*/
 
 .card-content {
   padding: 5px;
+  line-height: 1.4;
   background: #ecedee;
 }
 
