@@ -63,7 +63,7 @@ class Nav extends React.Component {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://streetroots.org/"
+                href="https://news.streetroots.org/"
                 onClick={this.logoDrawerToggle}
               >
                 <img src={srLogo} alt="Street Roots Home" />
