@@ -82,6 +82,7 @@ class App extends React.Component {
     //nodeData
     const nodeData = await getNodeData();
     const searchData = this.filterData(nodeData);
+    console.log(searchData)
     this.setState(() => ({ nodeData, searchData }));
   };
 

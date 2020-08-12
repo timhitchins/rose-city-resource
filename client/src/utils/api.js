@@ -110,7 +110,9 @@ export function getCategorySearchData(nodeData, category) {
     const generalRecord = record[category];
     return generalRecord;
   });
-  return countDuplicates(genCats);
+  const filteredGenCats = genCats.filter((cat) => cat !== "NA");
+
+  return countDuplicates(filteredGenCats);
 }
 
 export function getMainSearchData(nodeData) {
@@ -177,8 +179,8 @@ export function cardTextFilter(recordKey) {
 export function cardWebAddressFixer(webAddress) {
   // if(address.indexOf("http") > 0)
   const webAddressFilter = cardTextFilter(webAddress);
-  if(webAddress.indexOf("http") < 0 && webAddressFilter !== ""){
-    return `http://${webAddressFilter}`
+  if (webAddress.indexOf("http") < 0 && webAddressFilter !== "") {
+    return `http://${webAddressFilter}`;
   }
   return webAddressFilter;
 }
