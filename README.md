@@ -7,14 +7,14 @@ There are two `package.json` files for installing modules in the client and serv
 For the server:
 
 ```
-cd ./rcrg_online
+cd ./rose-city-resource
 npm install
 ```
 
 For the client:
 
 ```
-cd ./rcrg_online/client
+cd ./rose-city-resource/client
 npm install
 ```
 
