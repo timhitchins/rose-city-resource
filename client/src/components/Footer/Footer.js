@@ -2,8 +2,6 @@ import React from "react";
 import * as macLogo from "../../images/mac-logo-horizontal-sm.png";
 import "./Footer.css";
 
-/* QUESTIONS: */ 
-
 /* CHANGES: Added semantic <footer> and <address> tags to improve accessibility. */
 
 /* NOTES: I left existing divs in for now since they're referenced by the stylesheet */
