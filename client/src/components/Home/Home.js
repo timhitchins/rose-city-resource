@@ -16,16 +16,13 @@ const BasicInstructions = props => {
 };
 
 /*---------------------------------------------------------*/
-//this can be truned into a functional component now that i removed state
-class Home extends React.Component {
-  static propTypes = {
-    nodeData: PropTypes.array.isRequired
-  };
+/* W.8.23.20: converted to functional component */
+const Home = props => {
 
-  render() {
-    const { searchData, nodeData } = this.props; //grab match from React Router to pass to any of the links that need it.
-
+    const { searchData, nodeData } = props; //grab match from React Router to pass to any of the links that need it.
+    
     return (
+    <section>
       <div className="home-outer-container">
         <div className="home-container">
           {/* <Logo /> */}
@@ -37,64 +34,22 @@ class Home extends React.Component {
               searchData={searchData}
             />
           </div>
-
+          {/* W.8.23.20 QUESTION: should we mark this as nav? It's essentially a secondary nav menu, so I wasn't sure. */}
           <IconSelector
-            nodeData={this.props.nodeData}
+            nodeData={props.nodeData}
             searchData={searchData}
             path={'/results'}
             isVisible={true}
           />
         </div>
       </div>
+    </section>
     );
   }
-}
+
+
+Home.propTypes = {
+  nodeData: PropTypes.array.isRequired
+};
 
 export default Home;
-/*---------------------------------------------------------*/
-
-// class Logo extends React.Component {
-//   state = {
-//     isLogoVisible: null,
-//     isLogoTextVisible: null
-//   };
-
-//   componentDidMount() {
-//     this.setState(() => ({ isLogoVisible: true }));
-//   }
-
-//   render() {
-//     // this styling is specific to the ONLINE part of the logo
-
-//     return (
-//       <div className="rcr-online">
-//         <CSSTransition
-//           in={this.state.isLogoVisible}
-//           timeout={700}
-//           classNames="rcrOnlineLogo"
-//           unmountOnExit
-//         >
-//           {status => {
-//             console.log(status);
-
-//             return (
-//               <div className="rcrOnlineLogo">
-//                 <CSSTransition
-//                   in={status === 'entered'}
-//                   timeout={500}
-//                   classNames="rcrOnlineLogoText"
-//                   unmountOnExit
-//                 >
-//                   <div className="rcrOnlineLogoText">
-//                     ROSE CITY RESOURCE
-//                     <span className="text-span"> ONLINE</span>
-//                   </div>
-//                 </CSSTransition>
-//               </div>
-//             );
-//           }}
-//         </CSSTransition>
-//       </div>
-//     );
-//   }
-// }

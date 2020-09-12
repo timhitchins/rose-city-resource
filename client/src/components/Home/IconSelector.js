@@ -21,9 +21,7 @@ const GeneralLarge = ({
   searchData,
   selectedData,
   submitSearch,
-  path,
-  // toggleBrowseContainer,
-  // isBrowseVisible
+  path
 }) => {
   return (
     <MediaQuery query="(min-width: 993px)">
@@ -70,7 +68,6 @@ const GeneralLarge = ({
             })}
           </div>
         ) : null}
-        {/* <div className="browse-categories-bottom" /> */}
       </div>
     </MediaQuery>
   );
@@ -81,8 +78,8 @@ GeneralLarge.propTypes = {
   onMouseExit: PropTypes.func.isRequired,
   showDropdown: PropTypes.bool.isRequired,
   iconMap: PropTypes.object.isRequired,
-  searchData: PropTypes.object, //this is an HOC validation option
-  selectedData: PropTypes.object, //this is an HOC validation option
+  searchData: PropTypes.object,
+  selectedData: PropTypes.object,
   submitSearch: PropTypes.func.isRequired,
 };
 
@@ -257,27 +254,14 @@ class Selectors extends React.Component {
     isBrowseVisible: this.props.isVisible,
   };
 
-  // setBrowserVisibility = (visProp) => {
-  //   this.setState(() => {
-  //     return { isBrowseVisible: visProp };
-  //   });
-  // };
-
   toggleBrowseContainer = () => {
     this.setState((prevState) => {
       return { isBrowseVisible: !prevState.isBrowseVisible };
     });
   };
 
-  // componentDidMount() {
-  //   this.setState(() => {
-  //     return { isBrowseVisible: this.props.isVisible };
-  //   });
-  // }
-
   render() {
     const { isBrowseVisible } = this.state;
-    // console.log('browse', isBrowseVisible);
 
     const {
       onMouseEnter,
@@ -398,7 +382,6 @@ class IconSelector extends React.Component {
   };
 
   toggleSelectedItemFwd = (selectedItem, searchData) => {
-    // console.log(selectedItem);
     const selectedData = searchData.main[selectedItem];
 
     this.setState({
@@ -410,7 +393,6 @@ class IconSelector extends React.Component {
 
   toggleSelectedItemBack = (searchData) => {
     const selectedData = searchData.general;
-    // console.log(selectedData);
 
     this.setState({
       selectedData,
@@ -439,7 +421,6 @@ class IconSelector extends React.Component {
 
   // this will be removed in favor of a Link tag
   submitSearch = (selection) => {
-    // console.log(selection);
   };
 
   render() {
@@ -474,60 +455,3 @@ class IconSelector extends React.Component {
 }
 
 export default IconSelector;
-
-// showSelectionBox = async (navCategory, selectedItem) => {
-//   const selectedData = await getSelectedCategories(navCategory, selectedItem);
-//   const toggleCategory = categoryFwdSwitcher(navCategory);
-
-//   this.setState(() => ({
-//     navCategory: toggleCategory,
-//     selectedItem,
-//     selectedData,
-//     showDropdown: true
-//   }));
-// };
-
-// hideSelectionBox = () => this.setState({ showDropdown: false });
-
-// toggleSelectedItemFwd = async (navCategory, selectedItem) => {
-//   // const { nodeData } = this.props;
-//   // // console.log(selectedItem);
-//   // const selectedData = getFilteredData(selectedItem, nodeData);
-//   // console.log(selectedData);
-
-//   const selectedData = await getSelectedCategories(navCategory, selectedItem);
-//   const toggleCategory = categoryFwdSwitcher(navCategory);
-
-//   this.setState(() => ({
-//     navCategory: toggleCategory,
-//     selectedItem,
-//     selectedData
-//   }));
-// };
-
-// toggleSelectedItemBack = async navCategory => {
-//   const selectedData = await getSelectedCategories(navCategory, null);
-//   const toggleCategory = categoryBackSwitcher(navCategory);
-//   this.setState(() => ({
-//     navCategory: toggleCategory,
-//     selectedData,
-//     selectedItem: null
-//   }));
-//   console.log(toggleCategory);
-// };
-
-// setCategories = async (navCategory, selectedItem) => {
-//   //do this to deal with loading...
-//   this.setState(() => ({
-//     navCategory: null,
-//     selectedData: null,
-//     selectedItem: null
-//   }));
-
-//   const selectedData = await getSelectedCategories(navCategory, selectedItem);
-//   this.setState(() => ({ navCategory, selectedItem, selectedData }));
-// };
-
-// async componentDidMount() {
-//   this.setCategories(this.state.navCategory, this.state.selectedItem);
-// }

@@ -24,6 +24,7 @@ class AdvancedSearchModal extends React.Component {
 
   // this needs to be refratored a bit to be more DRY
   toggleCheckedValue = (val, selection) => {
+    console.log(this.state);
     if (selection === "Category") {
       const categoryVals = [...this.state.categoryVals];
       const index = categoryVals.indexOf(val); // get index to determine if the aray gets spliced.
@@ -283,16 +284,9 @@ export default class SearchBar extends React.Component {
               <option key={item} value={item} />
             ))}
           </datalist>
-          {/* <Link
-            to={{
-              pathname: `/results`,
-              search: `?search=${searchValue}`
-            }}
-          >
-            <button className="search-button" type="submit" disabled={false}>
-              <FontAwesomeIcon icon="search" onClick={this.handleSubmit} />
-            </button>
-          </Link> */}
+          {/* W.8.23.20 QUESTION: how can we change this to handle multiple search terms? or misspellings, alternate capitalization, etc? 
+          
+          right now it only works if a single search term is spelled exactly correctly, with the words in order. for example, we have both Spanish language services, and mental health services in the database, but "spanish mental health" has 0 matches. What's the best way to fix this? */}
           <LinkButton
             className="search-button"
             to={`/results?search=${searchValue}`}
