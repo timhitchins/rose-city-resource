@@ -75,7 +75,7 @@ class Card extends React.Component {
       parsedCity: `${record.city}, OR ${record.postal_code}`,
       parsedDescription: cardTextFilter(record.service_description),
       parsedHours: cardTextFilter(record.hours),
-      parsedCOVID: cardTextFilter(record.covid_message),
+      parsedCOVID: cardTextFilter(record.emergency_message),
     };
 
     return (
