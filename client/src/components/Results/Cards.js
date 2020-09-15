@@ -229,6 +229,14 @@ class Card extends React.Component {
               <div className="card-content">{textMap.parsedDescription}</div>
             </div>
           ) : null}
+
+          {!(textMap.parsedCOVID ==="Lorem ipsum dolor sit amet,consectetur...")?(
+            <div className="card-item">
+              <div className="card-title">Emergency Message:</div>
+              <div className="covid-item">{textMap.parsedCOVID}</div>
+            </div>
+            ) : null} 
+
           {!(textMap.parsedHours === "") ? (
             <div className="card-item">
               <div className="card-title-flex">
