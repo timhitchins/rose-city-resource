@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSSTransition } from "react-transition-group";
 
 const NavDrawer = ({ navVisible, onClick }) => (
+
   <CSSTransition
     in={navVisible}
     timeout={200}
@@ -34,6 +35,15 @@ const NavDrawer = ({ navVisible, onClick }) => (
             onClick={onClick}
           >
             SUGGEST UPDATE
+          </NavLink>
+          {/* WILDFIRE MAP LINK  */}
+          <NavLink
+            className="nav-drawer-item"
+            exact
+            to="/wildfire-map"
+            onClick={onClick} 
+            >
+            WILDFIRE MAP
           </NavLink>
         </div>
       );
@@ -96,6 +106,14 @@ class Nav extends React.Component {
                 to="/suggest-edit"
               >
                 SUGGEST UPDATE
+              </NavLink>
+              {/* WILDFIRE MAP ROUTE  */}
+              <NavLink
+                className="nav-drawer-item"
+                exact
+                to="/wildfire-map"
+                >
+                WILDFIRE MAP
               </NavLink>
             </MediaQuery>
             <MediaQuery query="(max-width: 599px)">

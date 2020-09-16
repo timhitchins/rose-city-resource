@@ -67,6 +67,16 @@ red/orange: #FC3C3C
   margin-top: 10px;
 }
 
+.EmergencyButton {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0px 5px;
+    cursor: pointer;
+}
+
 .search-input {
   padding: 10px;
   font-size: 17px;
@@ -488,6 +498,13 @@ input[type='checkbox'] {
     grid-column: 1 / span 3;
     grid-row: 2;
     width: 80%;
+  }
+
+  .EmergencyButton {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+    width: 85%;
+    padding: 0 10px 1rem 10px;
   }
 
   .submit {
