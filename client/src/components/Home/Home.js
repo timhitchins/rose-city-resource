@@ -29,7 +29,7 @@ const Home = props => {
           <div className="basic-search-container">
             <BasicInstructions />
               <img 
-                className='EmergencyButton' 
+                className='emergency-button' 
                 src={BigRedButton} 
                 alt="Click for Emergency Wildfire Resources" />
             <SearchBar

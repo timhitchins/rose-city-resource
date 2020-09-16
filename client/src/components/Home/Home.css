@@ -67,7 +67,7 @@ red/orange: #FC3C3C
   margin-top: 10px;
 }
 
-.EmergencyButton {
+.emergency-button {
     width: 100%;
     max-width: 1000px;
     display: flex;
@@ -500,7 +500,7 @@ input[type='checkbox'] {
     width: 80%;
   }
 
-  .EmergencyButton {
+  .emergency-button {
     grid-column: 1 / span 3;
     grid-row: 2;
     width: 85%;
