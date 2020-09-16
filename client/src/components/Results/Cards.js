@@ -78,7 +78,6 @@ class Card extends React.Component {
       parsedCOVID: cardTextFilter(record.covid_message),
       parsedEmergency: cardTextFilter(record.emergency_message),
     };
-    console.log("hello");
 
     return (
       <div className="card-map-container">
@@ -231,6 +230,7 @@ class Card extends React.Component {
               <div className="card-content">{textMap.parsedDescription}</div>
             </div>
           ) : null}
+
           {!(textMap.parsedHours === "") ? (
             <div className="card-item">
               <div className="card-title-flex">
@@ -241,35 +241,21 @@ class Card extends React.Component {
                     : null}
                 </div>
               </div>
-
-            
-                 <div className="card-header">
-            <div className="card-category">{textMap.parsedCategory}</div>
-            {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
-              <div className="covid-item">{textMap.parsedCOVID}</div>
-            ) : null}
-          </div>
+              <div className="card-content">
+                {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
+                  <div className="covid-item">CLOSED</div>
+                ) : (
+                  textMap.parsedHours
+                )}
+              </div>
             </div>
           ) : null}
-
-          <div className="card-content">
-            {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
-              <div className="covid-item">CLOSED</div>
-            ) : (
-              textMap.parsedHours
-            )}
-          </div>
-
-          {!(textMap.parsedEmergency === "Lorem ipsum dolor sit amet, consectetur...") ? (
-                <div className="card-item">
-                  <div className="card-title">Emergency Message:</div>
-                  <div className="card-emergency">
-                    {textMap.parsedEmergency}
-                  </div>
-                </div>
-              ) : null}
-
-
+             {!(textMap.parsedEmergency ==="Lorem ipsum dolor sit amet, consectetur...") ? (
+            <div className="card-item">
+              <div className="card-title">Emergency Message:</div>
+              <div className="emergency-item">{textMap.parsedEmergency}</div>
+            </div>
+          ) : null}
         </div>
         {showMapDetail ? (
           <div className="map-details-container">
