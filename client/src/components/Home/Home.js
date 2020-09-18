@@ -28,10 +28,14 @@ const Home = props => {
         <div className="home-container">
           <div className="basic-search-container">
             <BasicInstructions />
-              <img 
-                className='emergency-button' 
-                src={BigRedButton} 
-                alt="Click for Emergency Wildfire Resources" />
+              {/* extra div so the Link tag doesn't mess with flexbox spacing */}
+              <div className='emergency-button'>
+                <Link to="results?search=Fire%20Assistance%20Resources">
+                  <img  
+                    src={BigRedButton} 
+                    alt="Click for Emergency Wildfire Resources" />
+                </Link>
+              </div>
             <SearchBar
               //"Search for a Service... "
               nodeData={nodeData}

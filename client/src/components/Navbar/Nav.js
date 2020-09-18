@@ -36,15 +36,6 @@ const NavDrawer = ({ navVisible, onClick }) => (
           >
             SUGGEST UPDATE
           </NavLink>
-          {/* WILDFIRE MAP LINK  */}
-          {/* <NavLink
-            className="nav-drawer-item"
-            exact
-            to="/wildfire-map"
-            onClick={onClick} 
-            >
-            WILDFIRE MAP
-          </NavLink> */}
         </div>
       );
     }}
@@ -107,14 +98,6 @@ class Nav extends React.Component {
               >
                 SUGGEST UPDATE
               </NavLink>
-              {/* WILDFIRE MAP ROUTE  */}
-              {/* <NavLink
-                className="nav-drawer-item"
-                exact
-                to="/wildfire-map"
-                >
-                WILDFIRE MAP
-              </NavLink> */}
             </MediaQuery>
             <MediaQuery query="(max-width: 599px)">
               <div className="hamburger-button">
