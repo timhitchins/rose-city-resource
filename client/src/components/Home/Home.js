@@ -35,7 +35,7 @@ const Home = props => {
                     src={BigRedButton} 
                     alt="Click for Emergency Wildfire Resources" />
                 </Link>
-              </div>
+            </div>
             <SearchBar
               //"Search for a Service... "
               nodeData={nodeData}
