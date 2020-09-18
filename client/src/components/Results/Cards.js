@@ -250,10 +250,12 @@ class Card extends React.Component {
               </div>
             </div>
           ) : null}
-             {!(textMap.parsedEmergency ==="Lorem ipsum dolor sit amet, consectetur...") ? (
+             {!(textMap.parsedEmergency ==="") ? (
             <div className="card-item">
-              <div className="card-title">Emergency Message:</div>
-              <div className="emergency-item">{textMap.parsedEmergency}</div>
+              <div className="card-title-flex">
+               <div className="emergency-item">Emergency Message:</div>
+               </div>
+              <div className="card-content emergency-content">{textMap.parsedEmergency}</div>
             </div>
           ) : null}
         </div>

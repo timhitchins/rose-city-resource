@@ -253,6 +253,10 @@ on .card-phone-container*/
   justify-content: space-between;
 }
 
+.emergency-content{
+  background-color:#ffe6e6;
+}
+
 .emergency-item{
  background-color:#fc3c3c; 
  padding: 4px;
