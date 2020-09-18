@@ -255,7 +255,7 @@ class Card extends React.Component {
               <div className="card-title-flex">
                <div className="emergency-item">Emergency Message:</div>
                </div>
-              <div className="card-content emergency-content">{textMap.parsedEmergency}</div>
+              <div className="emergency-content">{textMap.parsedEmergency}</div>
             </div>
           ) : null}
         </div>

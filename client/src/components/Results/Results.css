@@ -255,6 +255,8 @@ on .card-phone-container*/
 
 .emergency-content{
   background: red;
+  padding:5px;
+  line-height: 1.4;
 }
 
 .emergency-item{
