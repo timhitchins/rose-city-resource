@@ -6,8 +6,6 @@ import './Home.css';
 import { Link } from 'react-router-dom';
 import BigRedButton from './../../images/emergencyResourcesButton.png'
 
-/*---------------------------------------------------------*/
-
 const BasicInstructions = props => {
   return (
     <div className="basic-instructions">
@@ -17,7 +15,6 @@ const BasicInstructions = props => {
   );
 };
 
-/*---------------------------------------------------------*/
 const Home = props => {
 
     const { searchData, nodeData } = props; //grab match from React Router to pass to any of the links that need it.
