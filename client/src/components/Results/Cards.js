@@ -253,7 +253,7 @@ class Card extends React.Component {
              {!(textMap.parsedEmergency ==="") ? (
             <div className="card-item">
               <div className="card-title-flex">
-               <div className="emergency-item">Emergency Message:</div>
+               <div className="card-title">Emergency Message:</div>
                </div>
               <div className="emergency-content">{textMap.parsedEmergency}</div>
             </div>

@@ -254,14 +254,13 @@ on .card-phone-container*/
 }
 
 .emergency-content{
-  background: red;
-  padding:5px;
-  line-height: 1.4;
+  background-color:#ffe6e6;
 }
 
 .emergency-item{
- font-size:1.1rem;
- font-weight:600;
+  background-color: #fc3c3c;
+  padding: 4px;
+  color:white;
 }
 
 .covid-item {
