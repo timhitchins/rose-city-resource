@@ -68,12 +68,13 @@ red/orange: #FC3C3C
 }
 
 .emergency-button {
-    width: 100%;
+    width: 95%;
     max-width: 1000px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 0px 5px;
+    margin-bottom: .5em;
+    margin-top: 1em;
     cursor: pointer;
 }
 
@@ -503,8 +504,8 @@ input[type='checkbox'] {
   .emergency-button {
     grid-column: 1 / span 3;
     grid-row: 2;
-    width: 85%;
-    padding: 0 10px 1rem 10px;
+    width: 80%;
+    margin-top: 0px;
   }
 
   .submit {

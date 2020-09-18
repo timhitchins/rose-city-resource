@@ -4,7 +4,7 @@ import IconSelector from './IconSelector';
 import SearchBar from './SearchBar';
 import './Home.css';
 import { Link } from 'react-router-dom';
-import BigRedButton from './../../images/bigRedButton.png';
+import BigRedButton from './../../images/emergencyResourcesButton.png'
 
 /*---------------------------------------------------------*/
 
