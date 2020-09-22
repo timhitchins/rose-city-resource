@@ -1,3 +1,4 @@
+//these ids are public facing
 if (process.env.NODE_ENV === "production") {
   module.exports = {
     NODE_PACKAGE_ID: "e9c55b2c-4019-463e-8efa-622f23221402",
