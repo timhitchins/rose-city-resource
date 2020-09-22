@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSSTransition } from "react-transition-group";
 
 const NavDrawer = ({ navVisible, onClick }) => (
+
   <CSSTransition
     in={navVisible}
     timeout={200}
