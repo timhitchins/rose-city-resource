@@ -4,13 +4,9 @@ import { Link } from 'react-router-dom';
 import IconSelector from './IconSelector';
 import SearchBar from './SearchBar';
 import './Home.css';
-<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 // import EmergencyButtonSmall from './EmergencyButton';
-import BigRedButton from './../../../images/emergencyResourcesButton.png';
-=======
-import EmergencyButton from './EmergencyButton';
->>>>>>> Clean up EmergencyButton CSS
+import EmergencyButton from './EmergencyButton/EmergencyButton';
 
 const BasicInstructions = props => {
   return (
@@ -31,19 +27,7 @@ const Home = props => {
         <div className="home-container">
           <div className="basic-search-container">
             <BasicInstructions />
-<<<<<<< HEAD
-              {/* extra div so the Link tag doesn't mess with flexbox spacing */}
-              <div className='emergency-button-large'>
-                <Link to="results?search=Fire%20Assistance%20Resources">
-                  <img  
-                    src={BigRedButton} 
-                    alt="Click for Emergency Wildfire Resources" />
-                </Link>
-            </div>
-            {/* <EmergencyButtonSmall /> */}
-=======
             <EmergencyButton />
->>>>>>> Clean up EmergencyButton CSS
             <SearchBar
               nodeData={nodeData}
               searchData={searchData}
