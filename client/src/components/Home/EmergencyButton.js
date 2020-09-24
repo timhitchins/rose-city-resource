@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './EmergencyButton2.css';
+import './EmergencyButton.css';
 import flameIcon from './../../images/flameIcon.png';
 
-const EmergencyButtonSmall = () => { 
+const EmergencyButton = () => { 
   return (
     <Link 
       to="results?search=Fire%20Assistance%20Resources"
-      className='emergency-button-small'>
+      className='emergency-button'>
       <img src={flameIcon} alt="white flame icon" />
       <p>CLICK FOR EMERGENCY RESOURCES</p>
       <img src={flameIcon} alt="white flame icon" />
@@ -15,4 +15,4 @@ const EmergencyButtonSmall = () => {
   )
 }
 
-export default EmergencyButtonSmall;
+export default EmergencyButton;

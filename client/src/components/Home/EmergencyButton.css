@@ -1,9 +1,10 @@
-.emergency-button-small {
+.emergency-button {
   width: 95%;
   max-width: 1000px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
   margin-bottom: .5em;
   margin-top: 1em;
   cursor: pointer;
@@ -12,57 +13,36 @@
   border-radius: 5px;
 }
 
-.emergency-button-small p {
-color: white;
-font-size: 1.5em;
-line-height: 0;
-/* font-family: "HelveticaNeue-CondensedBold", "HelveticaNeueBoldCondensed", "HelveticaNeue-Bold-Condensed", "Helvetica Neue Bold Condensed", "HelveticaNeueBold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosCnBold', "Helvetica", "Tahoma", "Geneva", "Arial Narrow", "Arial", sans-serif; */
-font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue Bold Condensed", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-font-weight: 900;
-font-stretch: condensed;
+.emergency-button p {
+  color: white;
+  font-size: 1.5em;
+  line-height: 0;
+  font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue Bold Condensed", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 900;
+  font-stretch: condensed;
 }
 
-.emergency-button-small img {
+.emergency-button img {
   max-height: 1.5em;
-  display: inline;
+  margin: 0 1em;
+  padding: 0;
 }
-/* @media (min-width: 992px) {
-  .emergency-button-small {
-    display: none
-  }
-} */
 
-/* @media (min-width: 768px) {
-  .emergency-button {
-    grid-column: 1 / span 3;
-    grid-row: 2;
-  }
-
-  .emergency-button p {
-    font-size: 2em;
-    line-height: 0%;
-  }
-}
-*/
-@media (min-width: 992px) {
-  .emergency-button-small {
-    width: 80%;
+@media (min-width: 768px) {
+  .emergency-button img {
+    padding: none;
+    margin: 0 2em;
   }
 } 
 
-.emergency-button-large {
-  width: 80%;
-  max-width: 1000px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-bottom: .5em;
-  margin-top: 1em;
-  cursor: pointer;
-}
-
-@media (max-width: 992px) {
-  .emergency-button-large {
-    display: none;
+@media (min-width: 992px) {
+  .emergency-button {
+    width: 80%;
+    font-size: 1.5em;
+    margin-top: 0px;
   }
-}
+  .emergency-button img {
+    max-height: 1.5em;
+    padding: none;
+  }
+} 
