@@ -1,14 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './EmergencyButton.css';
+import './EmergencyButton2.css';
+import flameIcon from './../../images/flameIcon.png';
 
 const EmergencyButtonSmall = () => { 
   return (
-    <div className="emergency-button-small">
-      <Link to="results?search=Fire%20Assistance%20Resources">
-        <p>CLICK FOR EMERGENCY RESOURCES</p>
-      </Link>
-    </div>
+    <Link 
+      to="results?search=Fire%20Assistance%20Resources"
+      className='emergency-button-small'>
+      <img src={flameIcon} alt="white flame icon" />
+      <p>CLICK FOR EMERGENCY RESOURCES</p>
+      <img src={flameIcon} alt="white flame icon" />
+    </Link>
   )
 }
 

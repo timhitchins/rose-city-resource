@@ -16,18 +16,23 @@
 color: white;
 font-size: 1.5em;
 line-height: 0;
-font-family: "HelveticaNeue-CondensedBold", "HelveticaNeueBoldCondensed", "HelveticaNeue-Bold-Condensed", "Helvetica Neue Bold Condensed", "HelveticaNeueBold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosCnBold', "Helvetica", "Tahoma", "Geneva", "Arial Narrow", "Arial", sans-serif;
+/* font-family: "HelveticaNeue-CondensedBold", "HelveticaNeueBoldCondensed", "HelveticaNeue-Bold-Condensed", "Helvetica Neue Bold Condensed", "HelveticaNeueBold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosCnBold', "Helvetica", "Tahoma", "Geneva", "Arial Narrow", "Arial", sans-serif; */
+font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue Bold Condensed", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 font-weight: 900;
 font-stretch: condensed;
 }
 
-@media (min-width: 992px) {
+.emergency-button-small img {
+  max-height: 1.5em;
+  display: inline;
+}
+/* @media (min-width: 992px) {
   .emergency-button-small {
     display: none
   }
-}
+} */
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .emergency-button {
     grid-column: 1 / span 3;
     grid-row: 2;
@@ -38,12 +43,12 @@ font-stretch: condensed;
     line-height: 0%;
   }
 }
-
-@media (max-width: 992px) {
-  .emergency-button {
+*/
+@media (min-width: 992px) {
+  .emergency-button-small {
     width: 80%;
   }
-}
+} 
 
 .emergency-button-large {
   width: 80%;
