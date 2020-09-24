@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import IconSelector from './IconSelector';
 import SearchBar from './SearchBar';
 import './Home.css';
-import EmergencyButton from './EmergencyButton';
+import EmergencyButton from './EmergencyButton/EmergencyButton';
 
 const BasicInstructions = props => {
   return (
