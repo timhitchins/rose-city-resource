@@ -4,9 +4,13 @@ import { Link } from 'react-router-dom';
 import IconSelector from './IconSelector';
 import SearchBar from './SearchBar';
 import './Home.css';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 // import EmergencyButtonSmall from './EmergencyButton';
 import BigRedButton from './../../../images/emergencyResourcesButton.png';
+=======
+import EmergencyButton from './EmergencyButton';
+>>>>>>> Clean up EmergencyButton CSS
 
 const BasicInstructions = props => {
   return (
@@ -16,9 +20,6 @@ const BasicInstructions = props => {
     </div>
   );
 };
-
-//784px breakpoint and below - custom CSS
-//above that: the image
 
 const Home = props => {
 
@@ -30,6 +31,7 @@ const Home = props => {
         <div className="home-container">
           <div className="basic-search-container">
             <BasicInstructions />
+<<<<<<< HEAD
               {/* extra div so the Link tag doesn't mess with flexbox spacing */}
               <div className='emergency-button-large'>
                 <Link to="results?search=Fire%20Assistance%20Resources">
@@ -39,6 +41,9 @@ const Home = props => {
                 </Link>
             </div>
             {/* <EmergencyButtonSmall /> */}
+=======
+            <EmergencyButton />
+>>>>>>> Clean up EmergencyButton CSS
             <SearchBar
               nodeData={nodeData}
               searchData={searchData}
