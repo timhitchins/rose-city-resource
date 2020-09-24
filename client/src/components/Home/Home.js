@@ -30,13 +30,13 @@ const Home = props => {
           <div className="basic-search-container">
             <BasicInstructions />
               {/* extra div so the Link tag doesn't mess with flexbox spacing */}
-              {/* <div className='emergency-button'>
+              <div className='emergency-button-large'>
                 <Link to="results?search=Fire%20Assistance%20Resources">
                   <img  
                     src={BigRedButton} 
                     alt="Click for Emergency Wildfire Resources" />
                 </Link>
-            </div> */}
+            </div>
             <EmergencyButtonSmall />
             <SearchBar
               nodeData={nodeData}
