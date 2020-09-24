@@ -65,6 +65,29 @@ red/orange: #FC3C3C
   margin-top: 10px;
 }
 
+/* .emergency-button {
+    width: 95%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: .5em;
+    margin-top: 1em;
+    cursor: pointer;
+    background-color: #990000;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+.emergency-button p {
+  color: white;
+  font-size: 1.5em;
+  line-height: 0;
+  font-family: "HelveticaNeue-CondensedBold", "HelveticaNeueBoldCondensed", "HelveticaNeue-Bold-Condensed", "Helvetica Neue Bold Condensed", "HelveticaNeueBold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosCnBold', "Helvetica", "Tahoma", "Geneva", "Arial Narrow", "Arial", sans-serif;
+  font-weight: 900;
+  font-stretch: condensed;
+} */
+
 .search-input {
   padding: 10px;
   font-size: 17px;
@@ -474,7 +497,18 @@ input[type='checkbox'] {
     grid-row: 2;
     width: 80%;
   }
-  
+
+  /* .emergency-button {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+    width: 80%;
+  }
+
+  .emergency-button p {
+    font-size: 2em;
+    line-height: 0%;
+  } */
+
   .submit {
     grid-column: 1 / span 3;
   }
