@@ -56,7 +56,7 @@ font-stretch: condensed;
   cursor: pointer;
 }
 
-@media (min-width: 992px) {
+@media (max-width: 992px) {
   .emergency-button-large {
     display: none;
   }
