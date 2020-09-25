@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './EmergencyButton2.css';
-import flameIcon from './../../images/flameIcon.png';
+import emergencyResourcesButton from './src/images/emergencyResourcesButton.png';
 
 const EmergencyButtonSmall = () => { 
   return (
