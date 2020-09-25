@@ -1,6 +1,6 @@
 import React from "react";
-import * as macLogo from "../images/mac-logo-horizontal-sm.png";
-import './../css/Footer.css';
+import * as macLogo from "../../images/mac-logo-horizontal-sm.png";
+import './../../css/Footer.css';
 
 const Footer = (props) => {
   return (
