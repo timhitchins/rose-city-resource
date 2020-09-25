@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import IconSelector from './IconSelector';
 import SearchBar from './SearchBar';
 import './../../css/Home.css';
+import emergencyResourcesButton from './../../images/emergency-resources-button.png';
 
 const BasicInstructions = props => {
   return (
@@ -23,7 +25,15 @@ const Home = props => {
         <div className="home-container">
           <div className="basic-search-container">
             <BasicInstructions />
+            <Link 
+              className='emergency-button'
+              to="results?search=Fire%20Assistance%20Resources">
+              <img  
+                src={emergencyResourcesButton} 
+                alt="Click for Emergency Wildfire Resources" />
+            </Link>
             <SearchBar
+              //"Search for a Service..."
               nodeData={nodeData}
               searchData={searchData}
             />
