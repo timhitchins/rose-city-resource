@@ -5,7 +5,7 @@ import About from "./About";
 import SuggestEdit from "./SuggestEdit";
 import Results from "./Results/Results";
 import Details from "./Details";
-import Nav from "./Navbar/Nav";
+import Nav from "./Nav";
 import Footer from "./Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {

@@ -7,7 +7,7 @@ import SearchBar from '../Home/SearchBar';
 import Cards from './Cards';
 import SimpleMap from './Map';
 import { getNodeFilteredData, detailsQueryBuilder } from '../../utils/api';
-import './Results.css';
+import './../../css/Results.css';
 
 class Results extends React.Component {
   state = {
