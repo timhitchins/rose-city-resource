@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import IconSelector from './IconSelector';
 import SearchBar from './SearchBar';
-import './Home.css';
-import EmergencyButton from './EmergencyButton/EmergencyButton';
+import './../../css/Home.css';
 
 const BasicInstructions = props => {
   return (
@@ -24,7 +23,6 @@ const Home = props => {
         <div className="home-container">
           <div className="basic-search-container">
             <BasicInstructions />
-            <EmergencyButton />
             <SearchBar
               nodeData={nodeData}
               searchData={searchData}

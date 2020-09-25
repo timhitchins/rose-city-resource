@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import LinkButton from "./LinkButton";
-import "./Home.css";
+import './../../css/Home.css';
 import { getFilteredSearchList, queryBuilder } from "../../utils/api";
 
 //need this to use the react portal
