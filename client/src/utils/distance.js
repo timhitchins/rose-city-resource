@@ -9,9 +9,7 @@ export function findDistance(point1, point2) {
   const pointDistance = distance.default(from, to, options);
   return pointDistance;
 }
-/* W.8.23.20 Q: Why is this not exported? Does it not need to be? 
 
-Also can I convert this to AXIOS? */ 
 function getCurrentLocation(options) {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(

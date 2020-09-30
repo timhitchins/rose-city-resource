@@ -1,12 +1,12 @@
 import React from "react";
-import Loading from "./Loading";
+import Loading from "./static_components/Loading";
 import Home from "./Home/Home";
-import About from "./About";
-import SuggestEdit from "./SuggestEdit";
+import About from "./static_components/About";
+import SuggestEdit from "./static_components/SuggestEdit";
 import Results from "./Results/Results";
 import Details from "./Details";
-import Nav from "./Navbar/Nav";
-import Footer from "./Footer/Footer";
+import Nav from "./Nav";
+import Footer from "./static_components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   getNodeData,

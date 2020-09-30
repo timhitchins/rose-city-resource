@@ -13,9 +13,7 @@ red/orange: #FC3C3C
 */
 
 .home-outer-container {
-  /* overflow: auto; */
   margin-bottom: 35px;
-  /* margin-top: 30px; */
 }
 
 .home-container {
@@ -65,17 +63,6 @@ red/orange: #FC3C3C
   justify-content: flex-start;
   margin-bottom: 10px;
   margin-top: 10px;
-}
-
-.emergency-button {
-    width: 95%;
-    max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-bottom: .5em;
-    margin-top: 1em;
-    cursor: pointer;
 }
 
 .search-input {
@@ -256,19 +243,6 @@ red/orange: #FC3C3C
 }
 /* ------------------------------------------ */
 /* Advanced Search Modal CSS */
-
-/* .modal-close {
-  color: #e6e6e6;
-  background: #0a0a0a;
-  border: none;
-  font-size: 16px;
-  border-radius: 3px;
-  width: 200px;
-  text-align: center;
-  display: block;
-  padding: 7px 0;
-  margin: 10px auto;
-} */
 
 .modal {
   position: fixed;
@@ -469,7 +443,7 @@ input[type='checkbox'] {
   }
 }
 
-/* Render this for viewports over 600px */
+/* Render this for viewports over 992px */
 @media (min-width: 992px) {
   .home-container {
     width: 100%;
@@ -500,14 +474,7 @@ input[type='checkbox'] {
     grid-row: 2;
     width: 80%;
   }
-
-  .emergency-button {
-    grid-column: 1 / span 3;
-    grid-row: 2;
-    width: 80%;
-    margin-top: 0px;
-  }
-
+  
   .submit {
     grid-column: 1 / span 3;
   }
@@ -684,4 +651,25 @@ input[type='checkbox'] {
     1px 1px 0 #fff4e0;
   font-family: sans-serif;
   font-size: 1.5rem;
+}
+
+/* --- emergency resources button styles TEMP --- */
+.emergency-button {
+  width: 95%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: .5em;
+  margin-top: 1em;
+  cursor: pointer;
+}
+
+@media (min-width: 992px) {
+  .emergency-button {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+    width: 80%;
+    margin-top: 0px;
+  }
 }
