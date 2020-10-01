@@ -1,7 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+<<<<<<< HEAD
 const compression = require("compression");
+=======
+const path = require("path");
+>>>>>>> d4252d7... add /listings_node route that returns JSON data from NODE
 
 // app and middleware
 const app = express();
