@@ -18,3 +18,5 @@ module.exports = (app) => {
 
   });
 };
+
+// https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "61cee891-7d0f-4ebe-b8ea-c0c8d6cb27e7"
