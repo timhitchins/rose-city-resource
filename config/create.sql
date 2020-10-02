@@ -24,3 +24,7 @@ CREATE TABLE phone (
   phone2 VARCHAR(50),
   type VARCHAR(255)
 )
+
+CREATE TABLE meta (
+  last_update timestamp without time zone
+)
