@@ -1,0 +1,24 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "env": {
+        "DB_HOST": "ec2-54-166-251-173.compute-1.amazonaws.com",
+        "DB_USER": "cbnzctixnbwpcw",
+        "DB_PASSWORD": "6ec7c0a49dfebf313cbcfa4b7c6888257e7454bed848e4551816c0516b55573a",
+        "DB_PORT": "5432",
+        "DB_DATABASE": "dhv4s58jfgasi"
+      },
+      "program": "${workspaceFolder}/index.js"
+    }
+  ]
+}

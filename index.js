@@ -9,11 +9,10 @@ app.use(cors());
 app.use(helmet())
 app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
 
-
 //routes
-// require("./routes/package")(app);
+require("./routes/package")(app);
 require("./routes/listings")(app);
-// require("./routes/phone")(app);
+require("./routes/phone")(app);
 
 //production boilerplate
 if (process.env.NODE_ENV === "production") {
