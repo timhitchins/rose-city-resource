@@ -14,7 +14,8 @@ module.exports = (app) => {
     // Source the connection string from environment variables
     // Heroku updates these variables when it makes changes (and this information WILL change)
     // TODO: we can probably just use process.env.DATABASE_URL
-    const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
+    const connectionString = process.env.DATABASE_URL;
+    //const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
 
     // Connect to the database
     let client = new Client({
