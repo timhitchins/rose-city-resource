@@ -1,13 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const compression = require("compression");
 
 // app and middleware
 const app = express();
 app.use(cors());
 app.use(helmet())
 app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
-
+app.use(compression());
 
 //routes
 require("./routes/package")(app);
