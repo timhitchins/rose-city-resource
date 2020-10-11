@@ -8,7 +8,13 @@ module.exports = (app) => {
     let client = new Client({
       connectionString: keys.PG_CONNECTION_STRING, ssl: { rejectUnauthorized: false }
     });
-    await client.connect();
+    await client.connect().catch(async error => {
+      if (process.env.NODE_ENV == undefined || process.env.NODE_ENV !== "production") {
+        await res.send(`error: ${error} --- connection string: ${connectionString}`);
+      }
+      client.end();
+      return;
+    });
 
     // Pull the listing table and parse into JSON
     client.query('SELECT last_update from public.meta;', async (sqlerr, sqlres) => {
