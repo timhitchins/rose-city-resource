@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
-const path = require("path");
 
 // app and middleware
 const app = express();
@@ -22,7 +21,6 @@ if (process.env.NODE_ENV === "production") {
 
   //serve up index.html
   //this is the catch all code
-  const path = require("path");
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
