@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const expressStaticGzip = require("express-static-gzip");
-//const compression = require("compression");
+const compression = require("compression");
 
 // app and middleware
 const app = express();
@@ -14,7 +14,7 @@ app.use("/", expressStaticGzip("/build/", {
   orderPreference: ['br']
 }));
 //
-//app.use(compression());
+app.use(compression());
 
 //routes
 require("./routes/package")(app);
