@@ -12,11 +12,15 @@ module.exports = (app) => {
 
     // Pull the listing table and parse into JSON
     client.query('SELECT * from public.phone;', async (sqlerr, sqlres) => {
-      if (sqlerr) { /* TODO: remove res.send() for production and log instead */ await res.send(sqlerr); client.end(); return; }
-
-      // Shape the JSON data to match the format of NODE
-      // The client application still expects the data to match this format
-      // TODO: if the client only needs the records we can just return those and tweak api.js
+      if (sqlerr) {
+        if (process.env.NODE_ENV == undefined || process.env.NODE_ENV !== "production") {
+          await res.send(sqlerr);
+        }
+        client.end();
+        return;
+      }
+      
+      // Shape the JSON data to match the format of NODE data that the client application expects
       let json = {
         help: "https://opendata.imspdx.org/api/3/action/help_show?name=datastore_search_sql",
         success: true,

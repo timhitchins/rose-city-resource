@@ -18,7 +18,6 @@ export async function getNodeData() {
   try {
     const uri = "/api/listings-resource";
     const listingsResponse = await fetch(uri);
-    console.log(listingsResponse);
     const listingsJson = await listingsResponse.json();
     const listingsData = await listingsJson.result.records;
 
