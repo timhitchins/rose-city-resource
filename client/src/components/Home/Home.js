@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import IconSelector from './IconSelector';
 import SearchBar from './SearchBar';
-import './Home.css';
-import { Link } from 'react-router-dom';
-// import EmergencyButtonSmall from './EmergencyButton';
-import EmergencyButton from './EmergencyButton/EmergencyButton';
+import './../../css/Home.css';
 
 const BasicInstructions = props => {
   return (
@@ -27,8 +24,8 @@ const Home = props => {
         <div className="home-container">
           <div className="basic-search-container">
             <BasicInstructions />
-            <EmergencyButton />
             <SearchBar
+              //"Search for a Service..."
               nodeData={nodeData}
               searchData={searchData}
             />
