@@ -6,7 +6,7 @@ module.exports = (app) => {
 
     // Connect to the database
     let client = new Client({
-      connectionString: PG_CONNECTION_STRING, ssl: { rejectUnauthorized: false }
+      connectionString: keys.PG_CONNECTION_STRING, ssl: { rejectUnauthorized: false }
     });
     await client.connect();
 
@@ -22,7 +22,7 @@ module.exports = (app) => {
       // Return JSON to the client
       await res.json(json);
       await client.end();
-      
+
     })
   });
 };
