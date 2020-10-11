@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from 'react-dom';
+import ReactDOM from 'react-dom';
 import WebFont from 'webfontloader';
 import App from './components/App';
 import './css/main.css';
@@ -26,4 +26,4 @@ WebFont.load({
   }
 });
 
-render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
