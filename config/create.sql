@@ -1,3 +1,5 @@
+-- SQL commands to create the tables used by this version of Rose City Resource
+
 CREATE TABLE listing (
   id VARCHAR(255),
   general_category VARCHAR(255),
