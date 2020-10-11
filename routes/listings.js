@@ -1,25 +1,12 @@
 const keys = require("../config/nodeKeys")
 const { Client } = require('pg');
 
-/*
-  ISSUE-10 WORK IN PROGRESS
-  TODO: this comment can be removed once no longer needed
-  Original data source (Northwest Open Data Exchange) which returns JSON:
-  https://opendata.imspdx.org/api/3/action/datastore_search_sql?sql=SELECT * from "61cee891-7d0f-4ebe-b8ea-c0c8d6cb27e7"
-*/
-
 module.exports = (app) => {
   app.get("/api/listings-resource", async (req, res) => {
 
-    // Source the connection string from environment variables
-    // Heroku updates these variables when it makes changes (and this information WILL change)
-    // TODO: we can probably just use process.env.DATABASE_URL
-    const connectionString = process.env.DATABASE_URL;
-    //const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
-
     // Connect to the database
     let client = new Client({
-      connectionString: connectionString, ssl: { rejectUnauthorized: false }
+      connectionString: PG_CONNECTION_STRING, ssl: { rejectUnauthorized: false }
     });
     await client.connect();
 
@@ -43,6 +30,7 @@ module.exports = (app) => {
       // Return JSON to the client
       await res.json(json);
       await client.end();
+      
     });
   });
 };
