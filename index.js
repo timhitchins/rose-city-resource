@@ -13,6 +13,7 @@ app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
 require("./routes/package")(app);
 require("./routes/listings")(app);
 require("./routes/phone")(app);
+require("./routes/admin")(app);
 
 //production boilerplate
 if (process.env.NODE_ENV === "production") {

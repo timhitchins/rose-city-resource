@@ -135,7 +135,11 @@ class App extends React.Component {
                       />
                     )}
                   />
-
+                  <Route
+                    exact path="/admin" render = {() =>
+                      window.location.href = 'http://localhost:5000/admin'
+                    }
+                  />
                   {/* for all other routes */}
                   <Route render={() => <p>Not Found</p>} />
                 </Switch>
