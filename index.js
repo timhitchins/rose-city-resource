@@ -15,6 +15,7 @@ app.use(compression());
 require("./routes/package")(app);
 require("./routes/listings")(app);
 require("./routes/phone")(app);
+require("./routes/admin")(app);
 
 //production boilerplate
 if (process.env.NODE_ENV === "production") {
