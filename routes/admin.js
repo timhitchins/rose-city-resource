@@ -14,7 +14,7 @@ let template = `
   <html>
     <head>
     <title>Rose City Resource Admin Page</title>
-      <link rel="stylesheet} href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
       <script>
         function runEtlScript() {
 
@@ -85,7 +85,7 @@ module.exports = (app) => {
     if (action === 'runetl') {
 
       /* Prepare to run the ETL script */
-      await clearTables();
+      //await clearTables();
       log('Job Start');
 
       /* Run the ETL script */

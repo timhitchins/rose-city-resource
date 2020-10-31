@@ -13,6 +13,6 @@ if (process.env.NODE_ENV === "production") {
     NODE_LISTING_RESOURCE: "61cee891-7d0f-4ebe-b8ea-c0c8d6cb27e7",
     NODE_PHONE_RESOURCE: "4407461b-e99d-4d8e-8a44-18483aa8d13c",
     /* The local development postgres connection string requires manually adding environment variables to the dev machine */
-    PG_CONNECTION_STRING: `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
+    PG_CONNECTION_STRING: process.env.DATABASE_URL
   };
 }

@@ -6,24 +6,24 @@ from airtable import Airtable
 import pandas
 from geopy.geocoders import Nominatim
 
-# The database connection string is the first argument passed to this script when run from node.js
-# connection_string = str(sys.argv[1])
 AIRTABLE_API_KEY = os.environ['AIRTABLE_API_KEY']
 AIRTABLE_BASE_ID = os.environ['AIRTABLE_BASE_ID']
-#connection_string = os.environ['DATABASE_URL']
-connection_string = 'postgres://qfcdprzzhwtuly:e62bd3110e4182bcfda2fde33db85d49c9f89c3385880d9fd75ecc892102c6e1@ec2-54-166-251-173.compute-1.amazonaws.com:5432/dhv4s58jfgasi'
+DATABASE_URL = os.environ['DATABASE_URL'] or str(sys.argv[1])
 
 # Connect to the database
-db = psycopg2.connect(connection_string)
+db = psycopg2.connect(DATABASE_URL)
 cursor = db.cursor()
 
 
 # --------- Helper Functions --------- #
 
+# Log activity to a postgres table
 def log(message):
     query = ("select etl_log('{msg}');").format(msg=message)
     cursor.execute(query)
     db.commit()
+
+# Create a table in postgres
 
 
 def create_import_table(table_name, json_data):
@@ -74,32 +74,32 @@ log("Python ETL Script Start")
 
 # --------- PHASE 1: Import from Airtables --------- #
 
-# log("Import the listings airtable")
+log("Import the listings airtable")
 # listings_airtable = Airtable(AIRTABLE_BASE_ID, 'listings', AIRTABLE_API_KEY)
 # listings = listings_airtable.get_all()
 # create_import_table('etl_import_1', listings)
 # del listings_airtable
 # del listings
-# log("Import the phone airtable")
+log("Import the phone airtable")
 # phone_airtable = Airtable(AIRTABLE_BASE_ID, 'phone', AIRTABLE_API_KEY)
 # phone = phone_airtable.get_all()
 # create_import_table('etl_import_2', phone)
 # del phone_airtable
 # del phone
-# log("Import the address airtable")
+log("Import the address airtable")
 # address_airtable = Airtable(AIRTABLE_BASE_ID, 'address', AIRTABLE_API_KEY)
 # address = address_airtable.get_all()
 # create_import_table('etl_import_3', address)
 # del address_airtable
 # del address
-# log("Import the contacts airtable")
+log("Import the contacts airtable")
 # contacts_airtable = Airtable(
 #     AIRTABLE_BASE_ID, 'contacts', AIRTABLE_API_KEY)
 # contacts = contacts_airtable.get_all()
 # create_import_table('etl_import_5', contacts)
 # del contacts_airtable
 # del contacts
-# log("Import the contacts airtable")
+log("Import the contacts airtable")
 # parent_airtable = Airtable(
 #     AIRTABLE_BASE_ID, 'parent_organization', AIRTABLE_API_KEY)
 # parent = parent_airtable.get_all()
@@ -109,12 +109,14 @@ log("Python ETL Script Start")
 
 # --------- PHASE 2: Merge multiple tables into a single staging table --------- #
 
+log("Merge the import tables")
 # query = ("select etl_merge_import_tables();")
 # cursor.execute(query)
 # db.commit()
 
 # --------- PHASE 3: Geocode addresses --------- #
 
+log("Geocode addresses")
 # geolocator = Nominatim(user_agent="rose-city-resource")
 # query = "SELECT * FROM etl_staging_1;"
 # cursor.execute(query)
@@ -145,11 +147,18 @@ log("Python ETL Script Start")
 
 # --------- PHASE 4: Additional data pre-processing and sanitization --------- #
 
-query = ("select etl_finalize_staging_table();")
-cursor.execute(query)
-db.commit()
+log("Finalize the staging table")
+# query = ("select etl_finalize_staging_table();")
+# cursor.execute(query)
+# db.commit()
 
 # --------- PHASE 5: Validate data --------- #
+
+log("Validate data in the staging table")
+query = "select etl_validate_staging_table();"
+cursor.execute(query)
+rows = cursor.fetchall()
+# for row in rows:
 
 
 # Close the connection
