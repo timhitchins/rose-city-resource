@@ -23,7 +23,7 @@ const Footer = (props) => {
             </a>
             </address>
           </div>
-          <div className="footer-item node-logo">
+          {/* <div className="footer-item node-logo">
           <address>
             <a
               target="_blank"
@@ -36,7 +36,7 @@ const Footer = (props) => {
               />
             </a>
             </address>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
