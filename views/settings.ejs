@@ -1,0 +1,45 @@
+<%- include('./partials/head'); %>
+<h1>Settings</h1>
+
+<ul>
+  <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+  <li><%= error.message %></li>
+  <% }) %> <% } %>
+</ul>
+<form action="/admin/settings" method="POST">
+  <h4>Change your password</h4>
+  <div>
+    <label for="password">Current Password:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="Current Password"
+      required
+    />
+  </div>
+  <div>
+    <label for="newPass1">New Password:</label>
+    <input
+      type="password"
+      id="newPass1"
+      name="newPass1"
+      placeholder="New Password"
+      required
+    />
+  </div>
+  <div>
+    <label for="newPass2">Confirm New Password:</label>
+    <input
+      type="password"
+      id="newPass2"
+      name="newPass2"
+      placeholder="Confirm Password"
+      required
+    />
+  </div>
+  <div>
+    <input type="submit" value="Submit" />
+    <a href="/admin/dashboard">Cancel</a>
+  </div>
+</form>
