@@ -1,23 +1,5 @@
 <%- include('./partials/head'); %>
-  <h1>Login</h1>
-
-  <ul>
-    <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
-    <li><%= error.message %></li>
-    <% }) %> <% } %>
-  </ul>
-
-  <ul>
-    <% if(messages.success_msg) { %>
-    <li><%= messages.success_msg %></li>
-    <% } %>
-  </ul>
-
-  <ul>
-    <% if (messages.error) { %>
-    <li><%= messages.error %></li>
-    <% } %>
-  </ul>
+  <h1>Admin Login</h1>
 
   <form action="/admin/login" method="POST">
     <div>
@@ -40,5 +22,6 @@
     </div>
     <div>
       <input type="submit" value="Login" />
+      <a href="/admin/help">Login Help</a>
     </div>
   </form>

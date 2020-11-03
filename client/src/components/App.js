@@ -76,7 +76,7 @@ class App extends React.Component {
     const packageData = await getPackageData();
     this.revisionDate = dateString(
       // packageData.result.results[0].metadata_modified
-      packageData.result.metadata_modified
+    packageData.result.metadata_modified
     );
 
     //nodeData
