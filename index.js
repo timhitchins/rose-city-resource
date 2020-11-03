@@ -4,7 +4,6 @@ const helmet = require("helmet");
 const compression = require("compression");
 const path = require("path");
 
-
 // app and middleware
 const app = express();
 app.use(cors());
@@ -41,15 +40,12 @@ app.get('/admin/dashboard', (req, res) => {
   res.render('admin.ejs');
 });
 
-app.get("/admin/register", (req, res) => {
-  res.render("register.ejs");
-});
-
 app.get("/admin/login", (req, res) => {
   // flash sets a messages variable. passport sets the error message
   //console.log(req.session.flash.error);
   res.render("login.ejs");
 });
+
 app.get('/admin/help', (req, res) => {
   res.render('help.ejs');
 });
@@ -57,6 +53,71 @@ app.get('/admin/help', (req, res) => {
 app.get('/admin/settings', (req, res) => {
   res.render('changePassword.ejs');
 });
+
+app.post("/admin/register", async (req, res) => {
+  let { name, email, password, password2 } = req.body;
+
+  let errors = [];
+
+  console.log({
+    name,
+    email,
+    password,
+    password2
+  });
+
+  if (!name || !email || !password || !password2) {
+    errors.push({ message: "Please enter all fields" });
+  }
+
+  if (password.length < 6) {
+    errors.push({ message: "Password must be a least 6 characters long" });
+  }
+
+  if (password !== password2) {
+    errors.push({ message: "Passwords do not match" });
+  }
+
+  if (errors.length > 0) {
+    res.render("register", { errors, name, email, password, password2 });
+  } else {
+    hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
+    // Validation passed
+    pool.query(
+      `SELECT * FROM users
+        WHERE email = $1`,
+      [email],
+      (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(results.rows);
+
+        if (results.rows.length > 0) {
+          return res.render("register", {
+            message: "Email already registered"
+          });
+        } else {
+          pool.query(
+            `INSERT INTO users (name, email, password)
+                VALUES ($1, $2, $3)
+                RETURNING id, password`,
+            [name, email, hashedPassword],
+            (err, results) => {
+              if (err) {
+                throw err;
+              }
+              console.log(results.rows);
+              req.flash("success_msg", "You are now registered. Please log in");
+              res.redirect("/users/login");
+            }
+          );
+        }
+      }
+    );
+  }
+});                     
 
 //heroku dynamic port binding
 const PORT = process.env.PORT || 5000;

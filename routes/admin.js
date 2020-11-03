@@ -1,7 +1,12 @@
 const keys = require("../config/nodeKeys");
-const { Pool } = require('pg');
 const { spawn } = require('child_process');
 const { SSL_OP_EPHEMERAL_RSA } = require("constants");
+/* Passport config modules */
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
+
+/* Database config to connect to Postgres DB hosted on Heroku */
+const { Pool } = require('pg');
 
 const pool = new Pool({
   connectionString: keys.PG_CONNECTION_STRING,
@@ -48,6 +53,11 @@ module.exports = (app) => {
       });
     })
   });
+  /* -------- Passport config -------- */
+  
+
+
+
 };
 
 /* Helper function to clear all tables like public.etl_% */
