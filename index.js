@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === "production") {
 
 /* Routes for data admin users only */
 /* Admin dashboard */
-app.get('/admin', (req, res) => {
+app.get('/admin/dashboard', (req, res) => {
   res.render('admin.ejs');
 });
 
@@ -52,6 +52,10 @@ app.get("/admin/login", (req, res) => {
 });
 app.get('/admin/help', (req, res) => {
   res.render('help.ejs');
+});
+
+app.get('/admin/settings', (req, res) => {
+  res.render('changePassword.ejs');
 });
 
 //heroku dynamic port binding
