@@ -1,89 +1,61 @@
-// const { pool } = require('./queryDatabase');
-// const LocalStrategy = require("passport-local").Strategy;
-// const bcrypt = require("bcrypt");
-// require("dotenv").config();
-// const queryDatabase = require('./queryDatabase');
+const LocalStrategy = require("passport-local").Strategy;
+const { pool } = require("./dbConfig");
+const bcrypt = require("bcrypt");
 
-// // queryDatabase(
-// //   //pool.query
-// //   (
-// //     'SELECT * FROM users', (err, results) => {
-// //       if (err) { throw err } 
-// //       else if (results) {
-// //         console.log(results);
-// //       }
-// //     }
-// //   )
-// // )
-// const successCallback = (results) => {
-//   console.log(results.rows[o])
-// }
+function initialize(passport) {
 
-// queryDatabase(
-//   `INSERT INTO users ('user5', 'email5@gmail.com', 'password') RETURNING id, password`, successCallback(results)
-// )
+  const authenticateUser = (email, password, done) => {
 
-// // app.post("/users/register", async (req, res) => {
-// //   let { name, email, password, password2 } = req.body;
+    pool.query(
+      `SELECT * FROM users WHERE email = $1`, [email],
+      (err, results) => {
+        if (err) { throw err; }
+        if (results.rows.length > 0) {
+          const user = results.rows[0];
+          bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (err) {
+              console.log(err);
+            }
+            if (isMatch) {
+              return done(null, user);
+            } else {
+              //password is incorrect
+              return done(null, false, { message: "Password is incorrect" });
+            }
+          });
+        } else {
+          // No user
+          return done(null, false, {
+            message: "No user with that email address"
+          });
+        }
+      }
+    );
+  };
 
-// //   let errors = [];
+  passport.use(
+    new LocalStrategy(
+      { usernameField: "email", passwordField: "password" },
+      authenticateUser
+    )
+  );
+  // Stores user details inside session. serializeUser determines which data of the user
+  // object should be stored in the session. The result of the serializeUser method is attached
+  // to the session as req.session.passport.user = {}. Here for instance, it would be (as we provide
+  //   the user id as the key) req.session.passport.user = {id: 'xyz'}
+  passport.serializeUser((user, done) => done(null, user.id));
 
-// //   console.log({
-// //     name,
-// //     email,
-// //     password,
-// //     password2
-// //   });
+  // In deserializeUser that key is matched with the in memory array / database or any data resource.
+  // The fetched object is attached to the request object as req.user
 
-// //   if (!name || !email || !password || !password2) {
-// //     errors.push({ message: "Please enter all fields" });
-// //   }
+  passport.deserializeUser((id, done) => {
+    pool.query(`SELECT * FROM users WHERE id = $1`, [id], (err, results) => {
+      if (err) {
+        return done(err);
+      }
+      return done(null, results.rows[0]);
+    });
+  });
+}
 
-// //   if (password.length < 6) {
-// //     errors.push({ message: "Password must be a least 6 characters long" });
-// //   }
-
-// //   if (password !== password2) {
-// //     errors.push({ message: "Passwords do not match" });
-// //   }
-
-// //   if (errors.length > 0) {
-// //     res.render("register", { errors, name, email, password, password2 });
-// //   } else {
-// //     hashedPassword = await bcrypt.hash(password, 10);
-// //     console.log(hashedPassword);
-// //     // Validation passed
-// //     pool.query(
-// //       `SELECT * FROM users
-// //         WHERE email = $1`,
-// //       [email],
-// //       (err, results) => {
-// //         if (err) {
-// //           console.log(err);
-// //         }
-// //         console.log(results.rows);
-
-// //         if (results.rows.length > 0) {
-// //           return res.render("register", {
-// //             message: "Email already registered"
-// //           });
-// //         } else {
-// //           pool.query(
-// //             `INSERT INTO users (name, email, password)
-// //                 VALUES ($1, $2, $3)
-// //                 RETURNING id, password`,
-// //             [name, email, hashedPassword],
-// //             (err, results) => {
-// //               if (err) {
-// //                 throw err;
-// //               }
-// //               console.log(results.rows);
-// //               req.flash("success_msg", "You are now registered. Please log in");
-// //               res.redirect("/users/login");
-// //             }
-// //           );
-// //         }
-// //       }
-// //     );
-// //   }
-// // });                     
+module.exports = initialize;

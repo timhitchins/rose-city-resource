@@ -1,11 +1,14 @@
-// const { Pool } = require('pg');
+const { Pool } = require('pg');
 
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   max: 1,
-//   ssl: { rejectUnauthorized: false }
-// });
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 1,
+  ssl: { rejectUnauthorized: false }
+});
 
+module.exports = pool;
+
+/* ----- Function Kent and I wrote to export access to the pool, without directly exposing it to multiple files at once. Needs work. ----- */
 // function queryDatabase(queryString, args=null, onSuccess, onError=null) {
 //   pool.query(queryString, args, (err, results) => {
 //     if (err) { 
