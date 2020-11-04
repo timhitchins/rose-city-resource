@@ -1,11 +1,35 @@
 const express = require("express");
+const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 const path = require("path");
+/* --- Passport modules + config  --- */
+const { pool } = require("./dbConfig");
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const flash = require("express-flash");
+const session = require("express-session");
+require("dotenv").config();
 
-// app and middleware
-const app = express();
+const initializePassport = require("./passportConfig");
+
+initializePassport(passport);
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+
+// middleware
 app.use(cors());
 app.use(helmet())
 app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
@@ -54,70 +78,29 @@ app.get('/admin/settings', (req, res) => {
   res.render('changePassword.ejs');
 });
 
-app.post("/admin/register", async (req, res) => {
-  let { name, email, password, password2 } = req.body;
-
-  let errors = [];
-
-  console.log({
-    name,
-    email,
-    password,
-    password2
-  });
-
-  if (!name || !email || !password || !password2) {
-    errors.push({ message: "Please enter all fields" });
+/* uses the info from our initialize function in passportConfig.js */
+app.post(
+  "/admin/login",
+  passport.authenticate("local", {
+    successRedirect: "/admin/dashboard",
+    failureRedirect: "/admin/login",
+    failureFlash: true
+  })
+);
+/* built in Passport functions that we use to protect routes */ 
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/dashboard");
   }
+  next();
+}
 
-  if (password.length < 6) {
-    errors.push({ message: "Password must be a least 6 characters long" });
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
   }
-
-  if (password !== password2) {
-    errors.push({ message: "Passwords do not match" });
-  }
-
-  if (errors.length > 0) {
-    res.render("register", { errors, name, email, password, password2 });
-  } else {
-    hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
-    // Validation passed
-    pool.query(
-      `SELECT * FROM users
-        WHERE email = $1`,
-      [email],
-      (err, results) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log(results.rows);
-
-        if (results.rows.length > 0) {
-          return res.render("register", {
-            message: "Email already registered"
-          });
-        } else {
-          pool.query(
-            `INSERT INTO users (name, email, password)
-                VALUES ($1, $2, $3)
-                RETURNING id, password`,
-            [name, email, hashedPassword],
-            (err, results) => {
-              if (err) {
-                throw err;
-              }
-              console.log(results.rows);
-              req.flash("success_msg", "You are now registered. Please log in");
-              res.redirect("/users/login");
-            }
-          );
-        }
-      }
-    );
-  }
-});                     
+  res.redirect("/users/login");
+}                
 
 //heroku dynamic port binding
 const PORT = process.env.PORT || 5000;
