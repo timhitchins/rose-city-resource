@@ -1,8 +1,10 @@
 <%- include('./partials/head'); %>
 <h1>Street Roots Admin Page</h1>
 
-<% if (typeof message !== 'undefined' ) { %>
-<p><%= message %></p>
+<% if(message && message.length > 0) { %>
+  <div>
+    <%= message %>
+  </div>
 <% } %>
 
 <a href="/admin/login">Login</a>

@@ -1,6 +1,12 @@
 <%- include('./partials/head'); %>
   <h1>Admin Login</h1>
 
+  <% if(error && error.length > 0) { %>
+    <div>
+      <%= error %>
+    </div>
+<% } %>
+
   <form action="/admin/login" method="POST">
     <div>
       <input
