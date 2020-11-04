@@ -43,6 +43,7 @@ app.set("view engine", "ejs");
 require("./routes/package")(app);
 require("./routes/listings")(app);
 require("./routes/phone")(app);
+/* Winter note: since this isn't being overseen by passport, idk how to protect it. see below */
 require("./routes/admin")(app);
 
 //production boilerplate
@@ -58,24 +59,34 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-/* Routes for data admin users only */
-/* Admin dashboard */
-app.get('/admin/dashboard', (req, res) => {
+/* ADMIN ROUTES */
+// placeholder landing page; can be removed
+app.get('/', checkAuthenticated, (req, res) => {
+  console.log(req.isAuthenticated())  
+  res.render('index.ejs');
+});
+//admin dashboard - where the ETL script can be triggered and run
+app.get('/admin/dashboard', checkNotAuthenticated, (req, res) => {
+  console.log(req.isAuthenticated())  
   res.render('admin.ejs');
 });
+// change password
+app.get('/admin/settings', checkNotAuthenticated, (req, res) => {
+  console.log(req.isAuthenticated())  
+  res.render('changePassword.ejs');
+});
 
-app.get("/admin/login", (req, res) => {
+// admin user login
+app.get("/admin/login", checkAuthenticated, (req, res) => {
+  console.log(req.isAuthenticated())  
   // flash sets a messages variable. passport sets the error message
   //console.log(req.session.flash.error);
   res.render("login.ejs");
 });
 
-app.get('/admin/help', (req, res) => {
-  res.render('help.ejs');
-});
-
-app.get('/admin/settings', (req, res) => {
-  res.render('changePassword.ejs');
+app.get("/admin/logout", (req, res) => {
+  req.logout();
+  res.render("index", { message: "You have logged out successfully" });
 });
 
 /* uses the info from our initialize function in passportConfig.js */
@@ -90,7 +101,7 @@ app.post(
 /* built in Passport functions that we use to protect routes */ 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/users/dashboard");
+    return res.redirect("/admin/dashboard");
   }
   next();
 }
@@ -99,7 +110,7 @@ function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/users/login");
+  res.redirect("/admin/login");
 }                
 
 //heroku dynamic port binding

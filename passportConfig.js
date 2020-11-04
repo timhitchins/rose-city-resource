@@ -17,16 +17,14 @@ function initialize(passport) {
               console.log(err);
             }
             if (isMatch) {
-              console.log('reached isMatch')
               return done(null, user);
             } else {
               //password is incorrect
-              console.log('incorrect password')
               return done(null, false, { message: "Password is incorrect" });
             }
           });
         } else {
-          // No user
+          /* CHECK THIS. doesn't seem to be reaching this far. */
           return done(null, false, {
             message: "No user with that email address"
           });
