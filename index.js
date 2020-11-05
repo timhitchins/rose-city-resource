@@ -4,32 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 const path = require("path");
-/* passport modules and config */
-const passport = require("passport");
-const flash = require("express-flash");
-const session = require("express-session");
 require("dotenv").config();
-
-// const initializePassport = require("./passportConfig");
-
-// initializePassport(passport);
-
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false
-//   })
-// );
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(flash());
-// app.use(function(req,res,next){
-//   res.locals.error = req.flash("error");
-//   res.locals.success = req.flash("success")
-//   next();
-// })
 
 // middleware
 app.use(cors());

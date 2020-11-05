@@ -8,60 +8,33 @@ const flash = require("express-flash");
 const session = require("express-session");
 require("dotenv").config();
 
-// const initializePassport = require("./../passportConfig");
-
-// initializePassport(passport);
-
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false
-//   })
-// );
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(flash());
-// app.use(function(req,res,next){
-//   res.locals.error = req.flash("error");
-//   res.locals.success = req.flash("success")
-//   next();
-// })
-
-/* Database config to connect to Postgres DB hosted on Heroku */
-// const { Pool } = require('pg');
-
-// const pool = new Pool({
-//   connectionString: keys.PG_CONNECTION_STRING,
-//   max: 1,
-//   ssl: { rejectUnauthorized: false }
-// });
-
 module.exports = (app) => {
+
+  /* ---- Initialize and configure passport ----- */
   const initializePassport = require("./../passportConfig");
+  initializePassport(passport);
 
-initializePassport(passport);
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false
+    })
+  );
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(flash());
+  app.use(function(req,res,next){
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success")
+    next();
   })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-app.use(function(req,res,next){
-  res.locals.error = req.flash("error");
-  res.locals.success = req.flash("success")
-  next();
-})
   // Sets the view engine to ejs so it can render the admin view code
   app.set("view engine", "ejs");
+
   /* Home controller for the admin page */
+  /* NOTE: you have to be logged in to access this route. For dev purposes, use "email2@gmail.com" and "password" to log in. */
   app.get("/admin/dashboard", checkNotAuthenticated, async (req, res) => {
     const { action } = req.query;
 
@@ -77,7 +50,7 @@ app.use(function(req,res,next){
       python.stdout.on('data', data => {
         log(data.toString());
       })
-
+      
     }
     else {
       res.render('admin.ejs');
