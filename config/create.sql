@@ -128,7 +128,7 @@ CREATE FUNCTION etl_validate_staging_table(out void) AS $$
   SELECT 'Address (missing geolocation)' as Test,
   'Address: ' || street as Details, id, listing
   FROM etl_staging_1
-  WHERE (street IS NOT NULL AND (lon = '' OR lat = ''))
+  WHERE (street IS NOT NULL AND street <> '' AND (lon = '' OR lat = ''))
   UNION ALL
   -- Phone number exists but type is null (causing it not to show up in the phone field)
   SELECT 'Phone (missing type)' as Test,

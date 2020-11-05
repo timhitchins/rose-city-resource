@@ -25,7 +25,7 @@ module.exports = (app) => {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());
-  app.use(function(req,res,next){
+  app.use(function (req, res, next) {
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success")
     next();
@@ -95,7 +95,7 @@ module.exports = (app) => {
       failureFlash: true
     })
   );
-  /* Passport middleware functions that to protect routes */ 
+  /* Passport middleware functions that to protect routes */
   function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
       return res.redirect("/admin/dashboard");
@@ -108,7 +108,7 @@ module.exports = (app) => {
       return next();
     }
     res.redirect("/admin/login");
-  }   
+  }
 
 
 };
