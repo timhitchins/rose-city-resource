@@ -6,6 +6,11 @@
       <%= error %>
     </div>
   <% } %>
+  <% if(message && message.length > 0) { %>
+    <div>
+      <%= message %>
+    </div>
+  <% } %>
 
   <form action="/admin/login" method="POST">
     <div>

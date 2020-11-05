@@ -50,7 +50,7 @@ module.exports = (app) => {
       python.stdout.on('data', data => {
         log(data.toString());
       })
-      
+
     }
     else {
       res.render('admin.ejs');
@@ -71,35 +71,19 @@ module.exports = (app) => {
     })
   });
 
-  /* ADMIN ROUTES */
-  // // placeholder landing page; can be removed, but is good template code 
-  // app.get('/', checkAuthenticated, (req, res) => {
-  //   console.log(req.isAuthenticated())  
-  //   res.render('index.ejs');
-  // });
-  // Kent's admin dashboard - where the ETL script can be triggered and run
-  // app.get('/admin/dashboard', checkNotAuthenticated, (req, res) => {
-  //   console.log(req.isAuthenticated())  
-  //   res.render('admin.ejs');
-  // });
-  // change password
-  app.get('/admin/settings', checkNotAuthenticated, (req, res) => {
-    console.log(req.isAuthenticated())  
-    res.render('changePassword.ejs');
-  });
-
+  /* MORE ADMIN ROUTES */
   // admin user login
   app.get("/admin/login", checkAuthenticated, (req, res) => {
-    console.log(req.isAuthenticated())  
-    // flash sets a messages variable. passport sets the error message
-    console.log(req.session.flash.error);
-    res.render("login.ejs");
+    res.render("login.ejs", { message: null });
   });
-
+  // change password - this currently doesn't have logic to make it work; it's a placeholder page that we'd need to build out
+  app.get('/admin/settings', checkNotAuthenticated, (req, res) => {
+    res.render('changePassword.ejs');
+  });
+  // logout - takes the user back to the login screen, with a success message
   app.get("/admin/logout", (req, res) => {
     req.logout();
-    console.log(req.isAuthenticated())  
-    res.render("index", { message: "You have logged out successfully" });
+    res.render("login.ejs", { message: "You have logged out successfully" });
   });
 
   /* this info is from our initialize function in passportConfig.js */
