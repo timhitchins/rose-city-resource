@@ -2,9 +2,32 @@ const keys = require("../config/nodeKeys");
 const { spawn } = require('child_process');
 const { SSL_OP_EPHEMERAL_RSA } = require("constants");
 const pool = require('./../dbConfig');
-/* ----- Passport config modules ----- */ 
-//const LocalStrategy = require('passport-local').Strategy;
-// const bcrypt = require('bcrypt');
+/* --- Passport modules + config  --- */
+const passport = require("passport");
+const flash = require("express-flash");
+const session = require("express-session");
+require("dotenv").config();
+
+// const initializePassport = require("./../passportConfig");
+
+// initializePassport(passport);
+
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false
+//   })
+// );
+
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(flash());
+// app.use(function(req,res,next){
+//   res.locals.error = req.flash("error");
+//   res.locals.success = req.flash("success")
+//   next();
+// })
 
 /* Database config to connect to Postgres DB hosted on Heroku */
 // const { Pool } = require('pg');
@@ -16,10 +39,30 @@ const pool = require('./../dbConfig');
 // });
 
 module.exports = (app) => {
+  const initializePassport = require("./../passportConfig");
+
+initializePassport(passport);
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(function(req,res,next){
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success")
+  next();
+})
   // Sets the view engine to ejs so it can render the admin view code
   app.set("view engine", "ejs");
   /* Home controller for the admin page */
-  app.get("/admin", async (req, res) => {
+  app.get("/admin/dashboard", checkNotAuthenticated, async (req, res) => {
     const { action } = req.query;
 
     if (action === 'runetl') {
@@ -42,7 +85,7 @@ module.exports = (app) => {
   });
 
   /* API method to pull ETL status from the public.etl_run_log table */
-  app.get("/admin/etlstatus", async (req, res) => {
+  app.get("/admin/etlstatus", checkNotAuthenticated, async (req, res) => {
     let log = null;
     pool.connect((err, client, release) => {
       if (err) { console.log(err); release(); return; }
@@ -54,6 +97,63 @@ module.exports = (app) => {
       });
     })
   });
+
+  /* ADMIN ROUTES */
+  // // placeholder landing page; can be removed, but is good template code 
+  // app.get('/', checkAuthenticated, (req, res) => {
+  //   console.log(req.isAuthenticated())  
+  //   res.render('index.ejs');
+  // });
+  // Kent's admin dashboard - where the ETL script can be triggered and run
+  // app.get('/admin/dashboard', checkNotAuthenticated, (req, res) => {
+  //   console.log(req.isAuthenticated())  
+  //   res.render('admin.ejs');
+  // });
+  // change password
+  app.get('/admin/settings', checkNotAuthenticated, (req, res) => {
+    console.log(req.isAuthenticated())  
+    res.render('changePassword.ejs');
+  });
+
+  // admin user login
+  app.get("/admin/login", checkAuthenticated, (req, res) => {
+    console.log(req.isAuthenticated())  
+    // flash sets a messages variable. passport sets the error message
+    console.log(req.session.flash.error);
+    res.render("login.ejs");
+  });
+
+  app.get("/admin/logout", (req, res) => {
+    req.logout();
+    console.log(req.isAuthenticated())  
+    res.render("index", { message: "You have logged out successfully" });
+  });
+
+  /* this info is from our initialize function in passportConfig.js */
+  app.post(
+    "/admin/login",
+    passport.authenticate("local", {
+      successRedirect: "/admin/dashboard",
+      failureRedirect: "/admin/login",
+      failureFlash: true
+    })
+  );
+  /* Passport middleware functions that to protect routes */ 
+  function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return res.redirect("/admin/dashboard");
+    }
+    next();
+  }
+
+  function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect("/admin/login");
+  }   
+
+
 };
 
 /* Helper function to clear all tables like public.etl_% */
@@ -75,63 +175,3 @@ const log = async message => {
     });
   });
 }
-
-/* -------- Passport config -------- */
-// NOTE: this can be extracted into another file, however atm there concerns about the security of importing pool multiple times, so it's here for now, for convenience until refactor
-// function initialize(passport) {
-
-//   const authenticateUser = (email, password, done) => {
-
-//     pool.query(
-//       `SELECT * FROM users WHERE email = $1`, [email],
-//       (err, results) => {
-//         if (err) { throw err; }
-//         if (results.rows.length > 0) {
-//           const user = results.rows[0];
-//           bcrypt.compare(password, user.password, (err, isMatch) => {
-//             if (err) {
-//               console.log(err);
-//             }
-//             if (isMatch) {
-//               return done(null, user);
-//             } else {
-//               //password is incorrect
-//               return done(null, false, { message: "Password is incorrect" });
-//             }
-//           });
-//         } else {
-//           // No user
-//           return done(null, false, {
-//             message: "No user with that email address"
-//           });
-//         }
-//       }
-//     );
-//   };
-
-//   passport.use(
-//     new LocalStrategy(
-//       { usernameField: "email", passwordField: "password" },
-//       authenticateUser
-//     )
-//   );
-//   // Stores user details inside session. serializeUser determines which data of the user
-//   // object should be stored in the session. The result of the serializeUser method is attached
-//   // to the session as req.session.passport.user = {}. Here for instance, it would be (as we provide
-//   //   the user id as the key) req.session.passport.user = {id: 'xyz'}
-//   passport.serializeUser((user, done) => done(null, user.id));
-
-//   // In deserializeUser that key is matched with the in memory array / database or any data resource.
-//   // The fetched object is attached to the request object as req.user
-
-//   passport.deserializeUser((id, done) => {
-//     pool.query(`SELECT * FROM users WHERE id = $1`, [id], (err, results) => {
-//       if (err) {
-//         return done(err);
-//       }
-//       return done(null, results.rows[0]);
-//     });
-//   });
-// }
-
-// module.initializePassport = initialize;
