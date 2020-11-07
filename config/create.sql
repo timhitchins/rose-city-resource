@@ -1,87 +1,51 @@
--- SQL commands to create the tables used by this version of Rose City Resource
+/* SQL commands to create the tables used by this version of Rose City Resource */
 
-CREATE EXTENSION IF NOT EXISTS citext;
+/*
+    NOTE:
+    - Tables that begin with 'etl_' are only used during the ETL process and for previewing imported data
+    - Tables neeeded for production are prefaced with 'production_'
+    - Run the commands in this file when setting up a new database instance and then run the ETL process at least once to populate with data
+*/
 
--- ISSUE 10 TABLES (FOR REFERENCE)
+/* Extensions */
+CREATE EXTENSION IF NOT EXISTS citext; -- Allows case-insensitive data columns such as an email address
 
--- CREATE TABLE listing (
---   id VARCHAR(255),
---   general_category VARCHAR(255),
---   main_category VARCHAR(255),
---   parent_organization VARCHAR(255),
---   listing TEXT,
---   service_description TEXT,
---   covid_message VARCHAR(255),
---   emergency_message VARCHAR(255),
---   street VARCHAR(255),
---   street2 VARCHAR(255),
---   city VARCHAR(255),
---   postal_code VARCHAR(10),
---   website VARCHAR(1024),
---   hours TEXT,
---   lon VARCHAR(255),
---   lat VARCHAR(255)
--- )
-
--- CREATE TABLE phone (
---   id VARCHAR(50),
---   phone_id VARCHAR(50),
---   phone VARCHAR(50),
---   phone2 VARCHAR(50),
---   type VARCHAR(255)
--- )
-
--- CREATE TABLE meta (
---   last_update timestamp without time zone
--- )
-
-CREATE TABLE prod_listing (
-  id VARCHAR(255),
-  general_category VARCHAR(255),
-  main_category VARCHAR(255),
-  parent_organization VARCHAR(255),
-  listing TEXT,
-  service_description TEXT,
-  covid_message VARCHAR(255),
-  emergency_message VARCHAR(255),
-  street VARCHAR(255),
-  street2 VARCHAR(255),
-  city VARCHAR(255),
-  postal_code VARCHAR(10),
-  website VARCHAR(1024),
-  hours TEXT,
-  lon VARCHAR(255),
-  lat VARCHAR(255),
-  phone VARCHAR(50),
-  phone2 VARCHAR(50)
+/* Contains data related to the production data set */
+CREATE TABLE IF NOT EXISTS production_meta (
+  last_update timestamp with time zone
 )
 
-CREATE TABLE prod_meta (
-  last_update timestamp without time zone
+/* Contains login credentials for the admin page */
+CREATE TABLE IF NOT EXISTS production_user (
+    id SERIAL PRIMARY KEY,
+    name character varying(256) NOT NULL,
+    email character varying(128) NOT NULL,
+    password character varying(256) NOT NULL
 )
 
-CREATE TABLE prod_user (
-  id serial primary key,
-  email citext
-)
+/* NOTE: the production_data table is created by the SQL function etl_import_to_production() */
 
-CREATE TABLE etl_run_meta (
-  start_time timestamp without time zone,
-  end_time timestamp without time zone,
+/* Contains data related to the ETL job */
+CREATE TABLE IF NOT EXISTS etl_run_meta (
+  start_time timestamp with time zone,
+  end_time timestamp with time zone,
   started_by int
 )
 
-CREATE TABLE etl_run_log (
-  time_stamp timestamp without time zone,
-  log_message text
+/* Contains the ETL log */
+CREATE TABLE IF NOT EXISTS etl_run_log (
+  time_stamp timestamp with time zone,
+  message text
 )
 
+/* Adds an entry to the ETL log */
 DROP FUNCTION IF EXISTS etl_log;
 CREATE FUNCTION etl_log(in message character varying, out void) AS '
   INSERT INTO public.etl_run_log (time_stamp, message)
   VALUES (current_timestamp, message)
 ' LANGUAGE sql;
 
+/* Clears data from all ETL tables (tables still exist but with no rows) */
 DROP FUNCTION IF EXISTS etl_clear_tables;
 CREATE FUNCTION etl_clear_tables() RETURNS void AS $$
   DECLARE row record;
@@ -98,32 +62,36 @@ CREATE FUNCTION etl_clear_tables() RETURNS void AS $$
   END;
 $$ LANGUAGE plpgsql;
 
+/* Combines the data from the import tables into a single staging table */
 DROP FUNCTION IF EXISTS etl_merge_import_tables;
 CREATE FUNCTION etl_merge_import_tables(out void) AS $$
   DROP TABLE IF EXISTS etl_staging_1; CREATE TABLE etl_staging_1 AS
-	  SELECT general_category, main_category, I6.name as parent_organization,
-	  I5.listing_organization as listing, service_description, covid_message,
+	  SELECT general_category, main_category, I5.name as parent_organization,
+	  I4.listing_organization as listing, service_description, covid_message,
 	  I3.street, street2, city, postal_code, website, hours, '' as lon, '' as lat,
-	  REPLACE((
-      SELECT string_agg(I2.phone || ' (' || I2.type || ')', ', ')
+	  REGEXP_REPLACE((
+      SELECT string_agg(I2.type || ': ' || I2.phone, ', ')
       FROM etl_import_2 as I2 WHERE I1.listing = I2.listing GROUP BY I2.listing
-    ), ' ()', '') as phone,
+    ), '^\: ', '') as phone,
 	  (SELECT I3.street || ', ' || city || ', OR ' || postal_code) as full_address
 	  FROM etl_import_1 as I1
 	  LEFT JOIN etl_import_3 as I3 ON I1.street = I3.id
-	  LEFT JOIN etl_import_5 as I5 ON I1.contacts = I5.id
-	  LEFT JOIN etl_import_6 as I6 ON I1.parent_organization = I6.id
+	  LEFT JOIN etl_import_4 as I4 ON I1.contacts = I4.id
+	  LEFT JOIN etl_import_5 as I5 ON I1.parent_organization = I5.id
 	  ORDER BY listing;
   ALTER TABLE etl_staging_1 ADD COLUMN id SERIAL PRIMARY KEY;
 $$ LANGUAGE sql;
 
+/* Perform additional actions on the staging table after geocoding is complete */
 DROP FUNCTION IF EXISTS etl_finalize_staging_table;
-CREATE FUNCTION etl_finalize_staging_table(in message character varying, out void) AS '
+CREATE FUNCTION etl_finalize_staging_table(out void) AS '
   ALTER TABLE etl_staging_1 DROP COLUMN full_address;
 ' LANGUAGE sql;
 
+/* Perform validation against the staging table and return any issues found */
 DROP FUNCTION IF EXISTS etl_validate_staging_table;
-CREATE FUNCTION etl_validate_staging_table(out void) AS $$
+CREATE FUNCTION etl_validate_staging_table()
+RETURNS TABLE (Test text, Details text, id int, listing text) AS $$
   -- Address exists but either lat or lon is an empty string
   SELECT 'Address (missing geolocation)' as Test,
   'Address: ' || street as Details, id, listing
@@ -134,5 +102,30 @@ CREATE FUNCTION etl_validate_staging_table(out void) AS $$
   SELECT 'Phone (missing type)' as Test,
   'Number: ' || phone as Details, id, listing
   FROM etl_staging_1
-  WHERE phone NOT LIKE '%(%'
+  WHERE phone NOT LIKE ':%'
+  -- Maybe check for multiple records with the same listing + parent?
 $$ LANGUAGE sql;
+
+/* Get the size of the database in human-friendly units */
+DROP FUNCTION IF EXISTS get_database_size;
+CREATE FUNCTION get_database_size(out character varying) AS '
+  SELECT pg_size_pretty(pg_database_size(current_database()));
+' LANGUAGE sql;
+
+/* Get the total number of rows in the database */
+DROP FUNCTION IF EXISTS get_database_numrows;
+CREATE FUNCTION get_database_numrows(out real) AS $$
+  SELECT SUM(reltuples)
+  FROM pg_class C
+  LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+  WHERE nspname NOT IN ('pg_catalog', 'information_schema') AND relkind='r';
+$$ LANGUAGE sql;
+
+/* Imports the content of the staging table to the production table */
+DROP FUNCTION IF EXISTS etl_import_to_production;
+CREATE FUNCTION etl_import_to_production(out void) AS '
+  DROP TABLE IF EXISTS production_data; CREATE TABLE production_data AS
+  SELECT * FROM etl_staging_1;
+  DELETE FROM production_meta;
+  INSERT INTO production_meta (last_update) VALUES (NOW());
+' LANGUAGE sql;

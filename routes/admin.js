@@ -7,6 +7,7 @@ const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
 require("dotenv").config();
+const path = require('path');
 
 module.exports = (app) => {
 
@@ -16,7 +17,7 @@ module.exports = (app) => {
 
   app.use(
     session({
-      secret: process.env.SESSION_SECRET,
+      secret: 'true',
       resave: false,
       saveUninitialized: false
     })
@@ -41,16 +42,32 @@ module.exports = (app) => {
     if (action === 'runetl') {
 
       /* Prepare to run the ETL script */
-      //await clearTables();
+      await clearTables().catch(e => console.log(e));
       log('Job Start');
 
       /* Run the ETL script */
-      const python = spawn('python3', ['ETL/main.py', keys.PG_CONNECTION_STRING]);
-      python.stderr.pipe(python.stdout);
-      python.stdout.on('data', data => {
+      const file = path.resolve('ETL/main.py');
+      const python = spawn('python3', [file, keys.PG_CONNECTION_STRING]);
+      python.on('spawn', (code) => {
+        console.log('spawn: ' + code)
+      })
+      python.on('error', (err) => {
+        console.log('error: ' + err)
+      })
+      python.on('exit', (code) => {
+        console.log('exit code: ' + code)
+      })
+      python.stderr.on('data', (data) => {
+        console.log(data)
         log(data.toString());
       })
-
+      python.stdout.on('data', (data) => {
+        console.log(data)
+        log(data.toString());
+      })
+    }
+    else if (action === 'runprod') {
+      const status = await importToProduction();
     }
     else {
       res.render('admin.ejs');
@@ -58,12 +75,13 @@ module.exports = (app) => {
   });
 
   /* API method to pull ETL status from the public.etl_run_log table */
-  app.get("/admin/etlstatus", checkNotAuthenticated, async (req, res) => {
+  app.get("/admin/dashboard/etlstatus", checkNotAuthenticated, async (req, res) => {
     let log = null;
     pool.connect((err, client, release) => {
       if (err) { console.log(err); release(); return; }
       client.query('select * from etl_run_log order by time_stamp asc;', (err, result) => {
         if (err) { release(); return; }
+        console.log('result: ' + result.rows)
         log = result.rows;
         release();
         res.json(log);
@@ -129,6 +147,19 @@ const log = async message => {
     if (err) { release(); return; }
     client.query(`select etl_log('${message}');`, (err, result) => {
       release();
+    });
+  });
+}
+
+const importToProduction = async message => {
+  pool.connect(async (err, client, release) => {
+    if (err) { release(); return false; }
+    client.query(`select etl_import_to_production();`, (err, result) => {
+      release();
+      if (err) {
+        return false;
+      }
+      return true;
     });
   });
 }

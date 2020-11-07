@@ -7,7 +7,7 @@ function initialize(passport) {
   const authenticateUser = (email, password, done) => {
 
     pool.query(
-      `SELECT * FROM users WHERE email = $1`, [email],
+      `SELECT * FROM production_user WHERE email = $1`, [email],
       (err, results) => {
         if (err) { throw err; }
         if (results.rows.length > 0) {
@@ -49,7 +49,7 @@ function initialize(passport) {
   // The fetched object is attached to the request object as req.user
 
   passport.deserializeUser((id, done) => {
-    pool.query(`SELECT * FROM users WHERE id = $1`, [id], (err, results) => {
+    pool.query(`SELECT * FROM production_user WHERE id = $1`, [id], (err, results) => {
       if (err) {
         return done(err);
       }

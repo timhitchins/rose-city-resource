@@ -74,9 +74,10 @@ class App extends React.Component {
     // window.addEventListener('resize', this.resize);
     //package/revision data
     const packageData = await getPackageData();
+    console.log(packageData)
     this.revisionDate = dateString(
       // packageData.result.results[0].metadata_modified
-    packageData.result.metadata_modified
+      packageData//.result.metadata_modified
     );
 
     //nodeData
@@ -92,62 +93,62 @@ class App extends React.Component {
         {!nodeData ? (
           <Loading />
         ) : (
-          <Router>
-            <div>
-              <div className="main-content">
-                <Nav />
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    component={(props) => (
-                      <Home
-                        {...props}
-                        nodeData={nodeData}
-                        searchData={searchData}
-                      />
-                    )}
-                  />
-                  <Route exact path="/about" component={About} />
-                  <Route exact path="/suggest-edit" component={SuggestEdit} />
-                  <Route
-                    path="/results"
-                    component={(props) => (
-                      <Results
-                        {...props}
-                        nodeData={nodeData}
-                        searchData={searchData}
-                        handleCardSave={this.handleCardSave}
-                        handleSaveDelete={this.handleSaveDelete}
-                        savedDataId={savedDataId}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/details"
-                    component={(props) => (
-                      <Details
-                        {...props}
-                        nodeData={nodeData}
-                        handleCardSave={this.handleCardSave}
-                        savedDataId={savedDataId}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact path="/admin" render = {() =>
-                      window.location.href = 'http://localhost:5000/admin'
-                    }
-                  />
-                  {/* for all other routes */}
-                  <Route render={() => <p>Not Found</p>} />
-                </Switch>
+            <Router>
+              <div>
+                <div className="main-content">
+                  <Nav />
+                  <Switch>
+                    <Route
+                      exact
+                      path="/"
+                      component={(props) => (
+                        <Home
+                          {...props}
+                          nodeData={nodeData}
+                          searchData={searchData}
+                        />
+                      )}
+                    />
+                    <Route exact path="/about" component={About} />
+                    <Route exact path="/suggest-edit" component={SuggestEdit} />
+                    <Route
+                      path="/results"
+                      component={(props) => (
+                        <Results
+                          {...props}
+                          nodeData={nodeData}
+                          searchData={searchData}
+                          handleCardSave={this.handleCardSave}
+                          handleSaveDelete={this.handleSaveDelete}
+                          savedDataId={savedDataId}
+                        />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/details"
+                      component={(props) => (
+                        <Details
+                          {...props}
+                          nodeData={nodeData}
+                          handleCardSave={this.handleCardSave}
+                          savedDataId={savedDataId}
+                        />
+                      )}
+                    />
+                    <Route
+                      exact path="/admin" render={() =>
+                        window.location.href = 'http://localhost:5000/admin/dashboard'
+                      }
+                    />
+                    {/* for all other routes */}
+                    <Route render={() => <p>Not Found</p>} />
+                  </Switch>
+                </div>
+                <Footer revisionDate={this.revisionDate} />
               </div>
-              <Footer revisionDate={this.revisionDate} />
-            </div>
-          </Router>
-        )}
+            </Router>
+          )}
       </React.Fragment>
     );
   }

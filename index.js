@@ -20,6 +20,9 @@ app.set("view engine", "ejs");
 require("./routes/package")(app);
 require("./routes/listings")(app);
 require("./routes/phone")(app);
+require("./routes/query")(app);
+require("./routes/query-staging")(app);
+require("./routes/last-update")(app);
 require("./routes/admin")(app);
 
 //production boilerplate

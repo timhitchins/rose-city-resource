@@ -1,65 +1,103 @@
-  <head>
+<head>
   <title>Rose City Resource Admin Page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
-    <script>
-      function runEtlScript() {
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
+  <script>
+    function staging() {
 
-        /* Prompt for confirmation */
-        let confirmation = confirm("Are you sure you want to import data?");
-        if (confirmation == false){ return; }
-        document.getElementById('status').innerText = 'Preparing to run import process...';
+      /* Prompt for confirmation */
+      let confirmation = confirm("Import data to staging?");
+      if (confirmation == false) { return; }
+      document.getElementById('status').innerText = 'Preparing to run import process...';
 
-        /* Trigger the ETL process to start */
-        fetch(window.location.href + '?' + new URLSearchParams({ action: 'runetl' }), { method: 'GET' })
-          .catch(e=>{ document.getElementById('status').innerText = 'Failed to start import process'; })
+      /* Trigger the ETL process to start */
+      fetch(window.location.href + '?' + new URLSearchParams({ action: 'runetl' }), { method: 'GET' })
+        .catch(e => { document.getElementById('status').innerText = 'Failed to start import process'; })
 
-        /* Query the server for ETL status on an interval */
-        window.setInterval(async function() {
+      /* Query the server for ETL status on an interval */
+      window.setInterval(async function () {
 
-          /* Fetch and display ETL logs */
-          let etlLog = await fetch(window.location.href + '/etlstatus')
-            .catch(e=>{ /* Ignore */ })
-          let json = await etlLog.json();
-          console.log(json)
-          let logDiv = document.getElementById('etl-log');
-          logDiv.innerHTML = 
-            json.map(L => {
-              let dt = new Date(L.time_stamp);
-              dt.setHours(dt.getHours() - 7);
-              return '<tr><td style="color: navy;">' + dt.toLocaleTimeString() + '</td><td style="color:blue;">' + L.message + '</td></tr>'
+        /* Fetch and display ETL logs */
+        let etlLog = await fetch(window.location.href + '/etlstatus')
+          .catch(e => { /* Ignore */ })
+        let json = await etlLog.json().catch(e => console.log(e));
+        if (json === null || json === undefined || json === '') {
+          return;
+        }
+        console.log(json);
+        let logDiv = document.getElementById('etl-log');
+        logDiv.innerHTML =
+          json.map(L => {
+            let dt = new Date(L.time_stamp);
+            return '<tr><td style="color: navy;">' + dt.toLocaleString() + '</td><td style="color:blue;">' + L.message + '</td></tr>'
           }).join('')
 
-          /* Update the status message */
-          const jobStart = json.filter(L => L.message === 'Job Start')
-          const jobEnd = json.filter(L => L.message === 'Job End')
-          if (jobStart && jobStart.length === 1){
-            document.getElementById('status').innerText = 'Import process is running...';
-          }
-          if (jobEnd && jobEnd.length === 1){
-            document.getElementById('status').innerText = 'Import completed successfully';
-            clearInterval(this);
-          }
-        }, 10000)
+        /* Update the status message */
+        const jobStart = json.filter(L => L.message === 'Job Start')
+        const jobEnd = json.filter(L => L.message === 'Job End')
+        if (jobStart && jobStart.length === 1) {
+          document.getElementById('status').innerText = 'Import process is running...';
+        }
+        if (jobEnd && jobEnd.length === 1) {
+          document.getElementById('status').innerText = 'Import completed successfully';
+          clearInterval(this);
+        }
+      }, 10000)
 
-      }
-    </script>
-  </head>
-  <body class='container' style='text-align: center'>
-    <br />
-    <a href="/admin/settings">Settings</a> |
-    <a href="/admin/logout">Logout</a>
-    <h1>RCR Admin Dashboard</h1>
-    <div>Import Airtable data into Rose City Resource</div>
-    <br/>
-    <button onclick='runEtlScript()'>Import Airtable Data</button>
-    <br/>
-    <br/>
-    <div><span id='status'></span></div>
-    <br/>
-    <details open>
-      <summary>Logs</summary>
-      <table style='margin-left: auto; margin-right: auto'>
-        <tbody id='etl-log'></tbody>
-      </table>
-    </details>
-  </body>
+    }
+
+    function production() {
+
+      // TODO: Check to ensure that the staging job finished successfully and other safety criteria
+
+      /* Prompt for confirmation */
+      let confirmation = confirm("The PRODUCTION table will be updated. Proceed?");
+      if (confirmation == false) { return; }
+      document.getElementById('status').innerText = 'Preparing to update production...';
+
+      /* Trigger the production udpate process to start */
+      fetch(window.location.href + '?' + new URLSearchParams({ action: 'runprod' }), { method: 'GET' })
+        .catch(e => { document.getElementById('status').innerText = 'Failed to start import process'; })
+
+      /* Query the server for status on an interval */
+      window.setTimeout(async function () {
+
+        /* Check if the production table has been updated */
+        let etlLog = await fetch('/api/last-update')
+          .catch(e => { /* Ignore */ })
+        let json = await etlLog.json().catch(e => console.log(e));
+        if (json === null || json === undefined || json === '') {
+          return;
+        }
+        console.log(json);
+        let logDiv = document.getElementById('etl-log');
+        logDiv.innerHTML =
+          '<tr><td style="color: navy;">' + new Date(L.time_stamp).toLocaleString() + '</td><td style="color:blue;">Production Last Updated: ' + json + '</td></tr>'
+
+      }, 20000)
+
+    }
+  </script>
+</head>
+
+<body class='container' style='text-align: center'>
+  <br />
+  <a href="/admin/settings">Settings</a> |
+  <a href="/admin/logout">Logout</a>
+  <h1>RCR Admin Dashboard</h1>
+  <div>Import Airtable data into Rose City Resource</div>
+  <br />
+  <button onclick='staging()'>Import to Staging</button>
+  <br />
+  <br />
+  <button onclick='production()'>Import to Production</button>
+  <br />
+  <br />
+  <div><span id='status'></span></div>
+  <br />
+  <details open>
+    <summary>Logs</summary>
+    <table style='margin-left: auto; margin-right: auto'>
+      <tbody id='etl-log'></tbody>
+    </table>
+  </details>
+</body>
