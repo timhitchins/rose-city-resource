@@ -35,12 +35,12 @@ class Results extends React.Component {
       parent: queryVals.parent
     };
 
-    const { nodeData } = this.props;
+    const { records } = this.props;
     const data = getFilteredRecords(
       dataMap.search,
       dataMap.category,
       dataMap.parent,
-      nodeData
+      records
     );
 
     this.setState(() => ({
@@ -60,12 +60,12 @@ class Results extends React.Component {
         parent: queryVals.parent
       };
 
-      const { nodeData } = this.props;
+      const { records } = this.props;
       const data = getFilteredRecords(
         dataMap.search,
         dataMap.category,
         dataMap.parent,
-        nodeData
+        records
       );
 
       this.setState(() => ({
@@ -95,7 +95,7 @@ class Results extends React.Component {
   render() {
     const { data, loading, selectedListing, clickType } = this.state;
     const {
-      nodeData,
+      records,
       searchData,
       handleCardSave,
       handleSaveDelete,
@@ -115,10 +115,10 @@ class Results extends React.Component {
     return (
       <div>
         <div className="basic-search-container">
-          <SearchBar nodeData={nodeData} searchData={searchData} />
+          <SearchBar records={records} searchData={searchData} />
         </div>
         <IconSelector
-          nodeData={nodeData}
+          records={records}
           searchData={searchData}
           path={'/results'}
           isVisible={false}
@@ -186,8 +186,8 @@ export default Results;
 //   const data = await nodeQueryBuilder(dataMap.category, dataMap.parent);
 //   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
 // } else {
-//   const { nodeData } = this.props;
-//   const data = getFilteredData(dataMap.search, nodeData);
+//   const { records } = this.props;
+//   const data = getFilteredData(dataMap.search, records);
 //   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
 // }
 //-------------------------------------------------------------------
@@ -199,8 +199,8 @@ export default Results;
 //   const data = await nodeQueryBuilder(dataMap.category, dataMap.parent);
 //   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
 // } else {
-//   const { nodeData } = this.props;
-//   const data = getFilteredData(dataMap.search, nodeData);
+//   const { records } = this.props;
+//   const data = getFilteredData(dataMap.search, records);
 //   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
 // }
 // -----------------------------------------------------------------------

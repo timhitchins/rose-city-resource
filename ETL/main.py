@@ -176,7 +176,6 @@ cursor.execute(query)
 size = cursor.fetchone()[0]
 log("Peak postgres resource utilization: " +
     str(numrows) + " rows, " + str(size) + " disk space")
-
 log("Finalize the staging table")
 query = ("select etl_finalize_staging_table();")
 cursor.execute(query)

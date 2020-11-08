@@ -14,6 +14,7 @@ import {
   getCategorySearchData,
   getMainSearchData,
   dateString,
+  getQueryStringParameterValue
 } from "../utils/api";
 import "../icons/iconsInit";
 
@@ -21,7 +22,7 @@ class App extends React.Component {
   //data lives in the top component.
   state = {
     navDrawerVisible: false,
-    nodeData: null,
+    records: null,
     searchData: null,
     savedDataId: [],
   };
@@ -47,16 +48,16 @@ class App extends React.Component {
     this.setState(() => ({ savedDataId: [] }));
   };
   // build the searching data
-  filterData = (nodeData) => {
+  filterData = (records) => {
     const generalCategories = getCategorySearchData(
-      nodeData,
+      records,
       "general_category"
     );
     const parentCategories = getCategorySearchData(
-      nodeData,
+      records,
       "parent_organization"
     );
-    const mainCategories = getMainSearchData(nodeData);
+    const mainCategories = getMainSearchData(records);
     // return a new object with the search data
     return {
       general: generalCategories,
@@ -73,29 +74,28 @@ class App extends React.Component {
   componentDidMount = async () => {
     // window.addEventListener('resize', this.resize);
     //package/revision data
-    const packageData = await getRecordsLastUpdatedTimestamp();
-    console.log(packageData)
-    this.revisionDate = dateString(
-      // packageData.result.results[0].metadata_modified
-      packageData//.result.metadata_modified
-    );
+    const lastUpdated = await getRecordsLastUpdatedTimestamp();
+    this.revisionDate = dateString(lastUpdated);
 
-    //nodeData
-    const nodeData = await getRecords();
-    const searchData = this.filterData(nodeData);
-    this.setState(() => ({ nodeData, searchData }));
+    //records
+    const records = await getRecords();
+    const searchData = this.filterData(records);
+    this.setState(() => ({ records, searchData }));
   };
 
   render() {
-    const { nodeData, searchData, savedDataId } = this.state;
+    const { records, searchData, savedDataId } = this.state;
     return (
       <React.Fragment>
-        {!nodeData ? (
+        {!records ? (
           <Loading />
         ) : (
             <Router>
               <div>
                 <div className="main-content">
+                  {getQueryStringParameterValue('datatable') === 'staging'
+                    ? <div><center>This site is using preview data. To view production data, remove 'datatable=staging' from the URL bar</center></div>
+                    : <React.Fragment />}
                   <Nav />
                   <Switch>
                     <Route
@@ -104,7 +104,7 @@ class App extends React.Component {
                       component={(props) => (
                         <Home
                           {...props}
-                          nodeData={nodeData}
+                          records={records}
                           searchData={searchData}
                         />
                       )}
@@ -116,7 +116,7 @@ class App extends React.Component {
                       component={(props) => (
                         <Results
                           {...props}
-                          nodeData={nodeData}
+                          records={records}
                           searchData={searchData}
                           handleCardSave={this.handleCardSave}
                           handleSaveDelete={this.handleSaveDelete}
@@ -130,7 +130,7 @@ class App extends React.Component {
                       component={(props) => (
                         <Details
                           {...props}
-                          nodeData={nodeData}
+                          records={records}
                           handleCardSave={this.handleCardSave}
                           savedDataId={savedDataId}
                         />

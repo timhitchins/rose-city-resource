@@ -181,31 +181,31 @@ class AdvancedSearchModal extends React.Component {
               })}
             </form>
           ) : (
-            <form
-              className="modal-search-container"
-              onSubmit={this.handleSubmit}
-            >
-              {parentCats.map((parentCat) => {
-                return (
-                  <React.Fragment key={parentCat}>
-                    <label className="advanced-container" htmlFor={parentCat}>
-                      {parentCat}
-                      <input
-                        id={parentCat}
-                        type="checkbox"
-                        name={parentCat}
-                        value={parentCat}
-                        onChange={(val) =>
-                          this.toggleCheckedValue(val.target.value, selection)
-                        }
-                      />
-                      <span className="checkmark" />
-                    </label>
-                  </React.Fragment>
-                );
-              })}
-            </form>
-          )}
+              <form
+                className="modal-search-container"
+                onSubmit={this.handleSubmit}
+              >
+                {parentCats.map((parentCat) => {
+                  return (
+                    <React.Fragment key={parentCat}>
+                      <label className="advanced-container" htmlFor={parentCat}>
+                        {parentCat}
+                        <input
+                          id={parentCat}
+                          type="checkbox"
+                          name={parentCat}
+                          value={parentCat}
+                          onChange={(val) =>
+                            this.toggleCheckedValue(val.target.value, selection)
+                          }
+                        />
+                        <span className="checkmark" />
+                      </label>
+                    </React.Fragment>
+                  );
+                })}
+              </form>
+            )}
         </div>
       </div>,
       modalRoot
@@ -215,7 +215,7 @@ class AdvancedSearchModal extends React.Component {
 
 export default class SearchBar extends React.Component {
   static propTypes = {
-    nodeData: PropTypes.array.isRequired,
+    records: PropTypes.array.isRequired,
     searchData: PropTypes.object.isRequired,
   };
 
@@ -249,7 +249,7 @@ export default class SearchBar extends React.Component {
 
   render() {
     const { searchValue, showAdvSearchModal } = this.state;
-    const { nodeData, searchData, match } = this.props;
+    const { records, searchData, match } = this.props;
 
     const searchCats = [
       "general_category",
@@ -258,7 +258,7 @@ export default class SearchBar extends React.Component {
       "listing",
     ];
 
-    const searchList = getFilteredSearchList(searchCats, nodeData);
+    const searchList = getFilteredSearchList(searchCats, records);
 
     return (
       <div className="search-bar">

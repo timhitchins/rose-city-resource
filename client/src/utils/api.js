@@ -1,12 +1,7 @@
 import { findDistance, inOutLocation } from "./distance";
 import fetch from "node-fetch";
 
-/* Get a query string parameter by name */
-function getQueryStringParameterValue(paramName) {
-  const qs = window.location.search;
-  const params = new URLSearchParams(qs);
-  return params.get(paramName);
-}
+// ASYNC DATA UTLS--------------------------------------------------------
 
 /* Get the time stamp of the last update to the production_data table */
 export async function getRecordsLastUpdatedTimestamp() {
@@ -18,7 +13,7 @@ export async function getRecordsLastUpdatedTimestamp() {
 }
 
 /* Add the distance that the listing's address is from the user as a property on the listing */
-async function addDistancesToRecords(listingData) {
+async function addDistancesToRecords(records) {
   // Attempt to get the user's geolocation from the browser
   let currentCoords;
   const position = await inOutLocation().catch((e) =>
@@ -31,18 +26,23 @@ async function addDistancesToRecords(listingData) {
   }
 
   // Calculate the distance between the user's location and the geolocation of each listing and add to the listing
-  for (let i = 0; i < listingData.length; i++) {
-    const listCoords = [Number(listingData[i].lat), Number(listingData[i].lon)];
+  for (let i = 0; i < records.length; i++) {
+    if (records[i].lat === '' || records[i].lon === '') {
+      records[i].distance = null;
+      continue;
+    }
+    const listCoords = [Number(records[i].lat), Number(records[i].lon)];
     let distance;
     if (Array.isArray(currentCoords)) {
       distance = findDistance(currentCoords, listCoords);
     } else {
       distance = null;
     }
-    listingData[i].distance = distance;
+
+    records[i].distance = distance;
   }
 
-  return listingData;
+  return records;
 }
 
 /* Download and initialize listings data by fetching JSON from the appropriate API route */
@@ -74,26 +74,26 @@ export function getFilteredRecords(
   searchVals,
   categoryVals,
   parentVals,
-  nodeData
+  records
 ) {
   //if the searchVal is undefined then
   //do this
   if (searchVals === undefined) {
-    const filteredNodeData = getFilteredCatParentData(
+    const filteredrecords = getFilteredCatParentData(
       categoryVals,
       parentVals,
-      nodeData
+      records
     );
-    return filteredNodeData;
+    return filteredrecords;
   } else {
-    const filteredNodeData = getFilteredSearchData(searchVals, nodeData);
-    return filteredNodeData;
+    const filteredrecords = getFilteredSearchData(searchVals, records);
+    return filteredrecords;
   }
 }
 
 //this also may not be used
-export function getFilteredSearchList(searchCats, nodeData) {
-  const filteredValsList = nodeData.map((record) => {
+export function getFilteredSearchList(searchCats, records) {
+  const filteredValsList = records.map((record) => {
     return searchCats.map((cat) => record[cat]);
   });
   const catList = [].concat(...filteredValsList);
@@ -101,8 +101,8 @@ export function getFilteredSearchList(searchCats, nodeData) {
 }
 
 //functions to set up category search data
-export function getCategorySearchData(nodeData, category) {
-  const genCats = nodeData.map((record) => {
+export function getCategorySearchData(records, category) {
+  const genCats = records.map((record) => {
     const generalRecord = record[category];
     return generalRecord;
   });
@@ -111,7 +111,7 @@ export function getCategorySearchData(nodeData, category) {
   return countDuplicates(filteredGenCats);
 }
 
-export function getMainSearchData(nodeData) {
+export function getMainSearchData(records) {
   // these will eventually need to be added in dynamically
   const genCats = [
     "Food",
@@ -128,7 +128,7 @@ export function getMainSearchData(nodeData) {
   ];
 
   const mainCats = genCats.map((cat, i) => {
-    const filterCats = nodeData.filter(
+    const filterCats = records.filter(
       (record) => record.general_category === cat
     );
     return filterCats;
@@ -152,7 +152,7 @@ export function getMainSearchData(nodeData) {
 /* Extract phone information from a record into the format needed to display in a card */
 export function cardPhoneTextFilter(record) {
   const rawphone = record.phone;
-  if (rawphone == null || rawphone == '') {
+  if (rawphone === null || rawphone === '') {
     return null;
   }
   const split = rawphone.split(', ');
@@ -190,7 +190,7 @@ export function cardWebAddressFixer(webAddress) {
 //function to build the map data object
 export function mapDataBuilder(records) {
   const mapData = records.map((record) => {
-    if (record.lat != '' && record.lon != '') {
+    if (record.lat !== '' && record.lon !== '') {
       const coords = [Number(record.lat), Number(record.lon)];
       const { listing, street, street2, hours, id } = record;
       return {
@@ -203,10 +203,12 @@ export function mapDataBuilder(records) {
           id,
         },
       };
+    } else {
+      return null;
     }
   });
 
-  const mapDataFilter = mapData.filter((el) => el !== undefined);
+  const mapDataFilter = mapData.filter((el) => el !== null && el !== undefined);
   const latArr = mapDataFilter.map((item) => item.coords[0]);
   const lonArr = mapDataFilter.map((item) => item.coords[1]);
   const center = getCenter(latArr, lonArr, [45.52345, -122.6762]);
@@ -224,6 +226,14 @@ export function cardDetailsFilter(records, savedIds) {
 }
 
 // NON-EXPORTED HELPER UTILS-------------------------------------------------------
+
+/* Get a query string parameter by name */
+export function getQueryStringParameterValue(paramName) {
+  const qs = window.location.search;
+  const params = new URLSearchParams(qs);
+  return params.get(paramName);
+}
+
 //helper function for buildings the direction string
 function stringBuilder(str) {
   return str != null ? str.split(" ").join("+") : '';
@@ -252,7 +262,7 @@ function getCenter(latArr, lonArr, defaultArr) {
 }
 
 //check if parent or category vals in records
-//helper for getFilteredNodeData
+//helper for getFilteredrecords
 function getFilteredCatParentData(categoryVals, parentVals, records) {
   const checkVals = [
     // ...handleArray(searchVals),
@@ -278,14 +288,16 @@ function getFilteredCatParentData(categoryVals, parentVals, records) {
         record.postal_code
       );
       return record;
+    } else {
+      return null;
     }
   });
 }
 
 //check if a search value is in the NODE record
 //this function is gonna be used for individual searches
-//helper for getFilteredNodeData
-function getFilteredSearchData(searchValue, nodeData) {
+//helper for getFilteredrecords
+function getFilteredSearchData(searchValue, records) {
   //Polyfill from SO to use toLowerCase()
   if (!String.toLowerCase) {
     String.toLowerCase = function (s) {
@@ -293,7 +305,7 @@ function getFilteredSearchData(searchValue, nodeData) {
     };
   }
 
-  const filterData = nodeData.map((record) => {
+  const filterData = records.map((record) => {
     const recordValsLower = Object.values(record).map(
       (val) => {
         return String(val).toLowerCase();
@@ -306,6 +318,8 @@ function getFilteredSearchData(searchValue, nodeData) {
         record.postal_code
       );
       return record;
+    } else {
+      return null;
     }
   });
   // remove the undefined els from the list

@@ -15,9 +15,9 @@ class Details extends React.Component {
   state = { cardDetailsData: null };
 
   componentDidMount() {
-    const { nodeData } = this.props;
+    const { records } = this.props;
     const queryVals = queryString.parse(this.props.location.search);
-    const detailsData = cardDetailsFilter(nodeData, queryVals.saved);
+    const detailsData = cardDetailsFilter(records, queryVals.saved);
     // this logic should be in utils
     // but I need to refactor the way I used
     // the directionsUrlBuilder

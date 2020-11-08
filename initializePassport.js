@@ -1,31 +1,29 @@
 const LocalStrategy = require("passport-local").Strategy;
-const pool = require('./dbConfig');
 const bcrypt = require("bcrypt");
 
-function initialize(passport) {
+async function initialize(passport, pool) {
 
-  const authenticateUser = (email, password, done) => {
-
-    pool.query(
+  const authenticateUser = async (email, password, done) => {
+    await pool.query(
       `SELECT * FROM production_user WHERE email = $1`, [email],
-      (err, results) => {
+      async (err, results) => {
         if (err) { throw err; }
         if (results.rows.length > 0) {
           const user = results.rows[0];
-          bcrypt.compare(password, user.password, (err, isMatch) => {
+          await bcrypt.compare(password, user.password, async (err, isMatch) => {
             if (err) {
               console.log(err);
             }
             if (isMatch) {
-              return done(null, user);
+              return await done(null, user);
             } else {
               //password is incorrect
-              return done(null, false, { message: "Password is incorrect" });
+              return await done(null, false, { message: "Password is incorrect" });
             }
           });
         } else {
           /* CHECK THIS. doesn't seem to be reaching this far. */
-          return done(null, false, {
+          return await done(null, false, {
             message: "No user with that email address"
           });
         }
@@ -48,12 +46,12 @@ function initialize(passport) {
   // In deserializeUser that key is matched with the in memory array / database or any data resource.
   // The fetched object is attached to the request object as req.user
 
-  passport.deserializeUser((id, done) => {
-    pool.query(`SELECT * FROM production_user WHERE id = $1`, [id], (err, results) => {
+  passport.deserializeUser(async (id, done) => {
+    await pool.query(`SELECT * FROM production_user WHERE id = $1`, [id], async (err, results) => {
       if (err) {
-        return done(err);
+        return await done(err);
       }
-      return done(null, results.rows[0]);
+      return await done(null, results.rows[0]);
     });
   });
 }

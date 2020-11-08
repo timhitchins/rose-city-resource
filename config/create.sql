@@ -2,7 +2,7 @@
 
 /*
     NOTE:
-    - Tables that begin with 'etl_' are only used during the ETL process and for previewing imported data
+    - Tables that begin with 'etl_' are only used during the ETL process and for previewing imported data with '&datatable=staging'
     - Tables neeeded for production are prefaced with 'production_'
     - Run the commands in this file when setting up a new database instance and then run the ETL process at least once to populate with data
 */
@@ -104,6 +104,7 @@ RETURNS TABLE (Test text, Details text, id int, listing text) AS $$
   FROM etl_staging_1
   WHERE phone NOT LIKE ':%'
   -- Maybe check for multiple records with the same listing + parent?
+  -- Check for latitudes too far off from 45.52345 or longitudes too far off from -122.6762?
 $$ LANGUAGE sql;
 
 /* Get the size of the database in human-friendly units */

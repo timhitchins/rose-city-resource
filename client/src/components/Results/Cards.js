@@ -69,7 +69,7 @@ class Card extends React.Component {
       parsedListing: record.listing,
       parsedPhone: cardPhoneTextFilter(record),
       parsedWeb: cardWebAddressFixer(record.website),
-      parsedStreet: record.street != null && record.street != '' ? `${cardTextFilter(record.street)} ${cardTextFilter(
+      parsedStreet: record.street !== null && record.street !== '' ? `${cardTextFilter(record.street)} ${cardTextFilter(
         record.street2
       )}`.trim() : '',
       parsedCity: `${record.city}, OR ${record.postal_code}`,
