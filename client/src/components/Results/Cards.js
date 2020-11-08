@@ -69,9 +69,9 @@ class Card extends React.Component {
       parsedListing: record.listing,
       parsedPhone: cardPhoneTextFilter(record),
       parsedWeb: cardWebAddressFixer(record.website),
-      parsedStreet: `${cardTextFilter(record.street)} ${cardTextFilter(
+      parsedStreet: record.street != null && record.street != '' ? `${cardTextFilter(record.street)} ${cardTextFilter(
         record.street2
-      )}`.trim(),
+      )}`.trim() : '',
       parsedCity: `${record.city}, OR ${record.postal_code}`,
       parsedDescription: cardTextFilter(record.service_description),
       parsedHours: cardTextFilter(record.hours),
@@ -97,16 +97,16 @@ class Card extends React.Component {
               style={
                 selectedListing === record.id
                   ? {
-                      color: "#27a727",
-                      fontWeight: "bolder",
-                    }
+                    color: "#27a727",
+                    fontWeight: "bolder",
+                  }
                   : null
               }
             >
               {textMap.parsedListing}
             </div>
             <div className="spacer" />
-            {record.lat !== "NA" || record.lon !== "NA" ? (
+            {record.lat !== "" || record.lon !== "" ? (
               <button
                 className="card-save-button"
                 data-tip="Show on map."
@@ -161,7 +161,7 @@ class Card extends React.Component {
             ) : null}
           </div>
           <div className="card-street">
-            {!(textMap.parsedStreet === "") ? (
+            {textMap.parsedStreet != null && textMap.parsedStreet !== '' ? (
               <div>
                 {textMap.parsedStreet} <br />
                 {textMap.parsedCity} <br />
@@ -186,8 +186,8 @@ class Card extends React.Component {
                 </a>
               </div>
             ) : (
-              <div className="card-undisclosed">Undisclosed Location</div>
-            )}
+                <div className="card-undisclosed">Undisclosed Location</div>
+              )}
           </div>
           <div className="covid-item covid-temp-listing">
             {textMap.parsedCOVID === "TEMPORARY COVID RESPONSE SERVICE"
@@ -243,15 +243,15 @@ class Card extends React.Component {
                 {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
                   <div className="covid-item">CLOSED</div>
                 ) : (
-                  textMap.parsedHours
-                )}
+                    textMap.parsedHours
+                  )}
               </div>
             </div>
           ) : null}
         </div>
         {showMapDetail ? (
           <div className="map-details-container">
-            {record.lat !== "NA" ? (
+            {record.lat !== "" ? (
               <DetailMap coords={[Number(record.lat), Number(record.lon)]} />
             ) : null}
           </div>
@@ -287,7 +287,7 @@ class Cards extends React.Component {
   undisclosedCounter = (data) => {
     let counter = 0;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].street === "NA") {
+      if (data[i].street === "") {
         counter += 1;
       }
     }

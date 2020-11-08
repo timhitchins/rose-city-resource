@@ -69,9 +69,7 @@
           return;
         }
         console.log(json);
-        let logDiv = document.getElementById('etl-log');
-        logDiv.innerHTML =
-          '<tr><td style="color: navy;">' + new Date(L.time_stamp).toLocaleString() + '</td><td style="color:blue;">Production Last Updated: ' + json + '</td></tr>'
+        document.getElementById('status').innerText = `Production table latest update was on: ${json}`
 
       }, 20000)
 

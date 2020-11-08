@@ -6,7 +6,7 @@ import IconSelector from '../Home/IconSelector';
 import SearchBar from '../Home/SearchBar';
 import Cards from './Cards';
 import SimpleMap from './Map';
-import { getNodeFilteredData, detailsQueryBuilder } from '../../utils/api';
+import { getFilteredRecords, detailsQueryBuilder } from '../../utils/api';
 import './../../css/Results.css';
 
 class Results extends React.Component {
@@ -36,7 +36,7 @@ class Results extends React.Component {
     };
 
     const { nodeData } = this.props;
-    const data = getNodeFilteredData(
+    const data = getFilteredRecords(
       dataMap.search,
       dataMap.category,
       dataMap.parent,
@@ -61,7 +61,7 @@ class Results extends React.Component {
       };
 
       const { nodeData } = this.props;
-      const data = getNodeFilteredData(
+      const data = getFilteredRecords(
         dataMap.search,
         dataMap.category,
         dataMap.parent,

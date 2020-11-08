@@ -1,22 +1,15 @@
 import { findDistance, inOutLocation } from "./distance";
 import fetch from "node-fetch";
 
+/* Get a query string parameter by name */
 function getQueryStringParameterValue(paramName) {
   const qs = window.location.search;
   const params = new URLSearchParams(qs);
   return params.get(paramName);
 }
 
-// ASYNC DATA UTLS--------------------------------------------------------
-//async function to fetch revision history
-//based on rose-city-resource
-export async function getPackageData() {
-  ///new logic
-  // const uri = "/api/package";
-  // const packageData = await fetch(uri)
-  //   .catch(handleError)
-  //   .then((response) => response.json());
-  // return packageData;
+/* Get the time stamp of the last update to the production_data table */
+export async function getRecordsLastUpdatedTimestamp() {
   const uri = '/api/last-update';
   const last_update = await fetch(uri)
     .catch(handleError)
@@ -24,126 +17,48 @@ export async function getPackageData() {
   return last_update
 }
 
-//async fucntion to get data from node and add in phone records
-export async function getNodeData() {
+/* Add the distance that the listing's address is from the user as a property on the listing */
+async function addDistancesToRecords(listingData) {
+  // Attempt to get the user's geolocation from the browser
+  let currentCoords;
+  const position = await inOutLocation().catch((e) =>
+    console.log("Error getting position: ", e)
+  );
+  if (position !== undefined) {
+    currentCoords = [position.coords.latitude, position.coords.longitude];
+  } else {
+    currentCoords = null;
+  }
 
+  // Calculate the distance between the user's location and the geolocation of each listing and add to the listing
+  for (let i = 0; i < listingData.length; i++) {
+    const listCoords = [Number(listingData[i].lat), Number(listingData[i].lon)];
+    let distance;
+    if (Array.isArray(currentCoords)) {
+      distance = findDistance(currentCoords, listCoords);
+    } else {
+      distance = null;
+    }
+    listingData[i].distance = distance;
+  }
+
+  return listingData;
+}
+
+/* Download and initialize listings data by fetching JSON from the appropriate API route */
+export async function getRecords() {
   const uri = getQueryStringParameterValue('datatable') === 'staging'
     ? '/api/query-staging'
     : '/api/query'
-
   try {
     const queryResponse = await fetch(uri).catch(e => console.log(e));
-    const queryJson = await queryResponse.json().catch(e => console.log(e));
-    console.log(queryJson)
-    //add the distance info here
-    let currentCoords;
-    const position = await inOutLocation().catch(e => console.log(e))
-    // const position = await inOutLocation().catch((e) =>
-    //   console.log("Error getting position: ", e)
-    // );
-    // const position = await getCurrentLocation({ enableHighAccuracy: true, timeout: 5000, maximumAge: 0 })
-    //   .catch(e => {
-    //     if (e.name === 'PositionError') {
-    //       console.log(e.message + '. code = ' + e.code);
-    //     }
-    //   })
-
-    if (position !== undefined) {
-      currentCoords = [position.coords.latitude, position.coords.longitude];
-    } else {
-      currentCoords = null;
-    }
-    console.log(currentCoords)
-    //calculate the distance here
-    for (let i = 0; i < queryJson.length; i++) {
-      const listCoords = [Number(queryJson[i].lat), Number(queryJson[i].lon)];
-      let distance;
-      //handle whether an array was returned
-      if (Array.isArray(currentCoords)) {
-        distance = findDistance(currentCoords, listCoords);
-      } else {
-        distance = null;
-      }
-      queryJson[i].distance = distance;
-    }
-    console.log(queryJson)
-
-    return queryJson;
-
+    const listingData = await queryResponse.json().catch(e => console.log(e));
+    const initializedListingData = await addDistancesToRecords(listingData)
+    return initializedListingData;
   } catch (err) {
     console.log(err);
   }
-
-  //function to join the phone data to the nodeData based on id
-  // function phonePositionJoiner(nodeData, phoneData, currentCoords) {
-  //   const nodePhoneData = nodeData.map((listRecord) => {
-  //     //filter out the phone records that relate to the nodeRecord
-  //     const phoneKeep = phoneData.filter((phoneRecord) => {
-  //       return phoneRecord.id === listRecord.id;
-  //     });
-
-  //     //calculate the distance here
-  //     const listCoords = [Number(listRecord.lat), Number(listRecord.lon)];
-  //     let distance;
-  //     //handle whether an array was returned
-  //     if (Array.isArray(currentCoords)) {
-  //       distance = findDistance(currentCoords, listCoords);
-  //     } else {
-  //       distance = null;
-  //     }
-  //     return Object.assign(listRecord, { phone: phoneKeep, distance: distance });
-  //   });
-  //   return nodePhoneData;
-  // }
-
-  // try {
-  //   const uri = "/api/listings-resource";
-  //   const listingsResponse = await fetch(uri);
-  //   const listingsJson = await listingsResponse.json();
-  //   const listingsData = await listingsJson.result.records;
-
-  //   //get the NODE phone table
-  //   const phoneData = await getPhoneData();
-
-  //   //add the distance info here
-  //   let currentCoords;
-  //   const position = await inOutLocation().catch((e) =>
-  //     console.log("Error getting position: ", e)
-  //   );
-
-  //   if (position !== undefined) {
-  //     currentCoords = [position.coords.latitude, position.coords.longitude];
-  //   } else {
-  //     currentCoords = null;
-  //   }
-
-  //   //get the user's location
-  //   const listingsDataPhoneData = phonePositionJoiner(
-  //     listingsData,
-  //     phoneData,
-  //     currentCoords
-  //   );
-
-  //   return listingsDataPhoneData;
-  // } catch (err) {
-  //   console.log(err);
-  // }
 }
-
-//async funtion to get phone data
-//which will then be joined to nodeData
-// export async function getPhoneData() {
-//   try {
-//     const uri = "/api/phone-resource";
-//     const phoneResponse = await fetch(uri);
-//     const phoneJson = await phoneResponse.json();
-//     const phoneData = await phoneJson.result.records;
-
-//     return phoneData;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
 
 // SYNC DATA UTILS-----------------------------------------------------------------
 
@@ -155,7 +70,7 @@ export function dateString(utcString) {
 //sync funtion that returns filtered node data using
 //values from any of the search options (listing, parent_org, main_category)
 //this function uses helper functions
-export function getNodeFilteredData(
+export function getFilteredRecords(
   searchVals,
   categoryVals,
   parentVals,
@@ -234,24 +149,7 @@ export function getMainSearchData(nodeData) {
   return mainCategory;
 }
 
-//function to return phone records obejct in
-//a card taking into account NA
-// export function cardPhoneTextFilter(record) {
-//   if (record.phone.length > 0) {
-//     const cleanPhone = record.phone.map((phoneRecord) => {
-//       const phone1 = phoneRecord.phone;
-//       const phone2 = naRemove(phoneRecord.phone2);
-//       //return the new object
-//       return {
-//         type: phoneRecord.type,
-//         phone: phone1 + phone2,
-//       };
-//     });
-//     return cleanPhone;
-//   } else {
-//     return null;
-//   }
-// }
+/* Extract phone information from a record into the format needed to display in a card */
 export function cardPhoneTextFilter(record) {
   const rawphone = record.phone;
   if (rawphone == null || rawphone == '') {
@@ -262,8 +160,8 @@ export function cardPhoneTextFilter(record) {
     return split.map(number => {
       if (number.includes(':')) {
         return {
-          type: number.split(':')[0],
-          phone: number.split(':')[1]
+          type: number.split(': ')[0],
+          phone: number.split(': ')[1]
         }
       }
       else {
@@ -274,8 +172,6 @@ export function cardPhoneTextFilter(record) {
       }
     })
   }
-
-  return
 }
 
 export function cardTextFilter(recordKey) {
@@ -292,9 +188,9 @@ export function cardWebAddressFixer(webAddress) {
 }
 
 //function to build the map data object
-export function mapDataBuilder(nodeData) {
-  const mapData = nodeData.map((record) => {
-    if (record.lat !== "NA") {
+export function mapDataBuilder(records) {
+  const mapData = records.map((record) => {
+    if (record.lat != '' && record.lon != '') {
       const coords = [Number(record.lat), Number(record.lon)];
       const { listing, street, street2, hours, id } = record;
       return {
@@ -311,21 +207,19 @@ export function mapDataBuilder(nodeData) {
   });
 
   const mapDataFilter = mapData.filter((el) => el !== undefined);
-
   const latArr = mapDataFilter.map((item) => item.coords[0]);
   const lonArr = mapDataFilter.map((item) => item.coords[1]);
-  //now use the getCenter() helper function
   const center = getCenter(latArr, lonArr, [45.52345, -122.6762]);
 
   return { mapData: mapDataFilter, center };
 }
 
-export function cardDetailsFilter(nodeData, savedIds) {
+export function cardDetailsFilter(records, savedIds) {
   function exists(rec) {
     return savedIds.indexOf(rec.id) > -1;
   }
 
-  const filteredDetailsData = nodeData.filter(exists);
+  const filteredDetailsData = records.filter(exists);
   return filteredDetailsData;
 }
 
@@ -337,7 +231,7 @@ function stringBuilder(str) {
 
 //helper function to build directions for google
 export function directionsUrlBuilder(street, city, postal_code) {
-  if (street !== "NA") {
+  if (street !== '') {
     return `/${stringBuilder(street)}+${stringBuilder(city)}+${stringBuilder(
       postal_code
     )}`;
@@ -359,14 +253,14 @@ function getCenter(latArr, lonArr, defaultArr) {
 
 //check if parent or category vals in records
 //helper for getFilteredNodeData
-function getFilteredCatParentData(categoryVals, parentVals, nodeData) {
+function getFilteredCatParentData(categoryVals, parentVals, records) {
   const checkVals = [
     // ...handleArray(searchVals),
     ...handleArray(categoryVals),
     ...handleArray(parentVals),
   ].filter((el) => el !== null);
 
-  const filteredNodeData = nodeData.filter((record) => {
+  return records.filter((record) => {
     //create another array to see if checkVals are in
     //the nodeVals
     const nodeVals = [
@@ -384,12 +278,8 @@ function getFilteredCatParentData(categoryVals, parentVals, nodeData) {
         record.postal_code
       );
       return record;
-    } else {
-      return null;
     }
   });
-  //filter out the nulls
-  return filteredNodeData.filter((el) => el !== null);
 }
 
 //check if a search value is in the NODE record

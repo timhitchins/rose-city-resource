@@ -11,7 +11,7 @@ module.exports = (app) => {
       if (process.env.NODE_ENV == undefined || process.env.NODE_ENV !== "production") {
         await res.send(`error: ${error} --- connection string: ${connectionString}`).catch(e => console.log(e));;
       }
-      client.end();
+      await client.end();
       return;
     });
 
@@ -25,7 +25,7 @@ module.exports = (app) => {
             console.log(e);
           }
         }
-        client.end();
+        await client.end();
         return;
       }
 

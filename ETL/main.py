@@ -146,7 +146,10 @@ i_id = columns.index('id')
 i_full_address = columns.index('full_address')
 rows = cursor.fetchall()
 for row in rows:
-    location = geolocator.geocode(row[i_full_address])
+    address = row[i_full_address]
+    if address == None or address == '':
+        continue
+    location = geolocator.geocode(address)
     lat = ''
     lon = ''
     try:

@@ -9,8 +9,8 @@ import Nav from "./Nav";
 import Footer from "./static_components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
-  getNodeData,
-  getPackageData,
+  getRecords,
+  getRecordsLastUpdatedTimestamp,
   getCategorySearchData,
   getMainSearchData,
   dateString,
@@ -73,7 +73,7 @@ class App extends React.Component {
   componentDidMount = async () => {
     // window.addEventListener('resize', this.resize);
     //package/revision data
-    const packageData = await getPackageData();
+    const packageData = await getRecordsLastUpdatedTimestamp();
     console.log(packageData)
     this.revisionDate = dateString(
       // packageData.result.results[0].metadata_modified
@@ -81,7 +81,7 @@ class App extends React.Component {
     );
 
     //nodeData
-    const nodeData = await getNodeData();
+    const nodeData = await getRecords();
     const searchData = this.filterData(nodeData);
     this.setState(() => ({ nodeData, searchData }));
   };

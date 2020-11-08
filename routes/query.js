@@ -11,12 +11,12 @@ module.exports = (app) => {
       if (process.env.NODE_ENV == undefined || process.env.NODE_ENV !== "production") {
         await res.send(`error: ${error} --- connection string: ${connectionString}`).catch(e => console.log(e));;
       }
-      client.end();
+      await client.end();
       return;
     });
 
     /* Pull the listing table and parse into JSON */
-    client.query("SELECT * FROM etl_staging_1", async (sqlerr, sqlres) => {
+    client.query("SELECT * FROM production_data", async (sqlerr, sqlres) => {
       if (sqlerr) {
         if (process.env.NODE_ENV == undefined || process.env.NODE_ENV !== "production") {
           try {
@@ -25,7 +25,7 @@ module.exports = (app) => {
             console.log(e);
           }
         }
-        client.end();
+        await client.end();
         return;
       }
 
