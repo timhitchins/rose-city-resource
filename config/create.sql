@@ -69,10 +69,12 @@ CREATE FUNCTION etl_merge_import_tables(out void) AS $$
 	  SELECT general_category, main_category, I5.name as parent_organization,
 	  I4.listing_organization as listing, service_description, covid_message,
 	  I3.street, street2, city, postal_code, website, hours, '' as lon, '' as lat,
-	  REGEXP_REPLACE((
-      SELECT string_agg(I2.type || ': ' || I2.phone, ', ')
-      FROM etl_import_2 as I2 WHERE I1.listing = I2.listing GROUP BY I2.listing
-    ), '^\: ', '') as phone,
+    REGEXP_REPLACE(
+      REGEXP_REPLACE((
+        SELECT string_agg(I2.type || ':' || I2.phone, ',')
+        FROM etl_import_2 as I2 WHERE I1.listing = I2.listing GROUP BY I2.listing
+      ), /* Replace unwanted characters with nothing */'^\:\s*|^\s+|\s+$|\s*\(|\)', '', 'g'),
+     /* Replace spaces between numbers with a dash */'(?<=\d)(\s+|\-\s|\s\-)(?=\d)', '-', 'g') as phone,
 	  (SELECT I3.street || ', ' || city || ', OR ' || postal_code) as full_address
 	  FROM etl_import_1 as I1
 	  LEFT JOIN etl_import_3 as I3 ON I1.street = I3.id

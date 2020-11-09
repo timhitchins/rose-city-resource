@@ -23,7 +23,7 @@
         if (json === null || json === undefined || json === '') {
           return;
         }
-        console.log(json);
+
         let logDiv = document.getElementById('etl-log');
         logDiv.innerHTML =
           json.map(L => {
@@ -68,7 +68,7 @@
         if (json === null || json === undefined || json === '') {
           return;
         }
-        console.log(json);
+
         document.getElementById('status').innerText = `Production table latest update was on: ${json}`
 
       }, 20000)

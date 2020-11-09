@@ -14,7 +14,7 @@ import {
   getCategorySearchData,
   getMainSearchData,
   dateString,
-  getQueryStringParameterValue
+  getDatatableVersion
 } from "../utils/api";
 import "../icons/iconsInit";
 
@@ -93,8 +93,8 @@ class App extends React.Component {
             <Router>
               <div>
                 <div className="main-content">
-                  {getQueryStringParameterValue('datatable') === 'staging'
-                    ? <div><center>This site is using preview data. To view production data, remove 'datatable=staging' from the URL bar</center></div>
+                  {getDatatableVersion() === 'staging'
+                    ? <div><center>This site is using preview data. To view production data, please close the tab and reload the site</center></div>
                     : <React.Fragment />}
                   <Nav />
                   <Switch>

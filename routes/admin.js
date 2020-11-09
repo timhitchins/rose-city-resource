@@ -71,7 +71,6 @@ module.exports = async (app, pool) => {
     await pool.query('select * from etl_run_log order by time_stamp asc;', async (err, result) => {
       if (err) { await release(); return; }
       log = result.rows;
-      await release();
       await res.json(log);
     });
   });
@@ -119,29 +118,32 @@ module.exports = async (app, pool) => {
     await res.redirect("/admin/login");
   }
 
+  /* Clear all tables like public.etl_% */
+  const clearTables = async () => {
+    await pool.query('select etl_clear_tables();', async (err, result) => {
+      if (err) {
+        console.log(err)
+      }
+    });
+  }
+
+  /* Log a message to the database */
+  const log = async message => {
+    await pool.query(`select etl_log('${message}');`, async (err, result) => {
+      if (err) {
+        console.log(err)
+      }
+    });
+  }
+
+  /* Import staging data to production */
+  const importToProduction = async message => {
+    await pool.query(`select etl_import_to_production();`, async (err, result) => {
+      if (err) {
+        console.log(err)
+      }
+    });
+  }
+
 };
 
-/* Clear all tables like public.etl_% */
-const clearTables = async () => {
-  await pool.query('select etl_clear_tables();', async (err, result) => {
-    await release();
-  });
-}
-
-/* Log a message to the database */
-const log = async message => {
-  await pool.query(`select etl_log('${message}');`, async (err, result) => {
-    await release();
-  });
-}
-
-/* Import staging data to production */
-const importToProduction = async message => {
-  await client.query(`select etl_import_to_production();`, async (err, result) => {
-    await release();
-    if (err) {
-      return false;
-    }
-    return true;
-  });
-}

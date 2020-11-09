@@ -1,6 +1,8 @@
 import { findDistance, inOutLocation } from "./distance";
 import fetch from "node-fetch";
 
+let _datatableVersion = '';
+
 // ASYNC DATA UTLS--------------------------------------------------------
 
 /* Get the time stamp of the last update to the production_data table */
@@ -47,13 +49,20 @@ async function addDistancesToRecords(records) {
 
 /* Download and initialize listings data by fetching JSON from the appropriate API route */
 export async function getRecords() {
+
   const uri = getQueryStringParameterValue('datatable') === 'staging'
     ? '/api/query-staging'
     : '/api/query'
+
   try {
     const queryResponse = await fetch(uri).catch(e => console.log(e));
     const listingData = await queryResponse.json().catch(e => console.log(e));
-    const initializedListingData = await addDistancesToRecords(listingData)
+    const initializedListingData = await addDistancesToRecords(listingData);
+
+    _datatableVersion = uri === '/api/query-staging'
+      ? 'staging'
+      : 'production'
+
     return initializedListingData;
   } catch (err) {
     console.log(err);
@@ -155,13 +164,13 @@ export function cardPhoneTextFilter(record) {
   if (rawphone === null || rawphone === '') {
     return null;
   }
-  const split = rawphone.split(', ');
+  const split = rawphone.split(',');
   if (split != null && split.length && split.length > 0) {
     return split.map(number => {
       if (number.includes(':')) {
         return {
-          type: number.split(': ')[0],
-          phone: number.split(': ')[1]
+          type: number.split(':')[0],
+          phone: number.split(':')[1]
         }
       }
       else {
@@ -226,13 +235,6 @@ export function cardDetailsFilter(records, savedIds) {
 }
 
 // NON-EXPORTED HELPER UTILS-------------------------------------------------------
-
-/* Get a query string parameter by name */
-export function getQueryStringParameterValue(paramName) {
-  const qs = window.location.search;
-  const params = new URLSearchParams(qs);
-  return params.get(paramName);
-}
 
 //helper function for buildings the direction string
 function stringBuilder(str) {
@@ -360,6 +362,17 @@ function handleError(error) {
 }
 
 // EXPORTED HELPER UTILS ----------------------------------------------
+
+/* Get a query string parameter by name */
+export function getQueryStringParameterValue(paramName) {
+  const qs = window.location.search;
+  const params = new URLSearchParams(qs);
+  return params.get(paramName);
+}
+
+export function getDatatableVersion() {
+  return _datatableVersion;
+}
 
 //function to generate query
 //for detaisl page
