@@ -1,5 +1,4 @@
 import { findDistance, inOutLocation } from "./distance";
-import fetch from "node-fetch";
 
 let _datatableVersion = '';
 
@@ -47,7 +46,7 @@ async function addDistancesToRecords(records) {
   return records;
 }
 
-/* Download and initialize listings data by fetching JSON from the appropriate API route */
+/* Download records by fetching JSON from the appropriate API route */
 export async function getRecords() {
 
   const uri = getQueryStringParameterValue('datatable') === 'staging'
@@ -56,14 +55,16 @@ export async function getRecords() {
 
   try {
     const queryResponse = await fetch(uri).catch(e => console.log(e));
-    const listingData = await queryResponse.json().catch(e => console.log(e));
-    const initializedListingData = await addDistancesToRecords(listingData);
+    const records = await queryResponse.json().catch(e => console.log(e));
+
+    // Add the distance that each record's geolocation is from the user's location
+    const recordsWithDistances = await addDistancesToRecords(records);
 
     _datatableVersion = uri === '/api/query-staging'
       ? 'staging'
       : 'production'
 
-    return initializedListingData;
+    return recordsWithDistances;
   } catch (err) {
     console.log(err);
   }
