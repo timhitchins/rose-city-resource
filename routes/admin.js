@@ -69,7 +69,10 @@ module.exports = async (app, pool) => {
   app.get("/admin/dashboard/etlstatus", checkNotAuthenticated, async (req, res) => {
     let log = null;
     await pool.query('select * from etl_run_log order by time_stamp asc;', async (err, result) => {
-      if (err) { await release(); return; }
+      if (err) {
+        console.log(err)
+        return;
+      }
       log = result.rows;
       await res.json(log);
     });

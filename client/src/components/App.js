@@ -138,7 +138,7 @@ class App extends React.Component {
                     />
                     <Route
                       exact path="/admin" render={() =>
-                        window.location.href = 'http://localhost:5000/admin/dashboard'
+                        window.location.href = [window.location.protocol, '//', window.location.host.replace(/\d+/, '5000'), '/admin/dashboard'].join('')
                       }
                     />
                     {/* for all other routes */}
