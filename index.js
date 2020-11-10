@@ -7,9 +7,10 @@ const path = require("path");
 const { Pool } = require('pg');
 const app = express();
 
+/* Heroku free postgres allows up to 20 concurrent connections */
 const pool = new Pool({
   connectionString: keys.PG_CONNECTION_STRING,
-  max: 18,
+  max: 20,
   ssl: { rejectUnauthorized: false }
 });
 
@@ -36,8 +37,8 @@ require("./routes/last-update")(app, pool);
 require("./routes/admin")(app, pool);
 
 /* Check for database connectivity and provide a human-friendly message on failure */
-const testDatabaseQuery = async () => {
-  await pool.query(`select last_update from production_meta`, (err, res) => {
+const testDatabaseQuery = () => {
+  pool.query(`select last_update from production_meta`, (err, res) => {
     if (err) {
       console.log('Error connnecting to the database!');
       if (process.env.DATABASE_URL === undefined || process.env.DATABASE_URL === null || process.env.DATABASE_URL === '') {
