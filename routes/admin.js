@@ -4,6 +4,7 @@ const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 module.exports = (app, pool) => {
 
@@ -102,9 +103,19 @@ module.exports = (app, pool) => {
   });
 
   app.post('/admin/register', (req, res) => {
-    // create and call async function here
-    const { name, email, password } = req.body;
-    console.log([name, email, password]);
+    const registerUser = async () => {
+      try {
+        const { name, role, email, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await pool.query('INSERT INTO production_user (name, role, email, password) VALUES ($1, $2, $3, $4)', [name, role, email, hashedPassword]
+        );
+        console.log(`You have succesfully registered user ${email}.`);
+        res.render('admin');
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    registerUser();
   });
 
   /* Change password */
@@ -118,12 +129,6 @@ module.exports = (app, pool) => {
     req.logout();
     res.render("login.ejs", { message: "You have logged out successfully" });
   });
-
-  /* for reference/to show Kent */
-  // app.get("/admin/logout", checkAuthenticated, async (req, res) => {
-  //   await req.logout();
-  //   await res.render("login.ejs", { message: "You have logged out successfully" });
-  // });
 
   /* Handle input from the login form */
   app.post(
