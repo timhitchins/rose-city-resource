@@ -6,7 +6,6 @@
     <li><%= error.message %></li>
     <% }) %> <% } %>
   </ul>
-  <p><em>Developer note: this page is not connected to the database and will not work.</em></p>
   <form action="/admin/register" method="POST">
     <div>
       <label for="name">First and Last Name:</label>
@@ -17,6 +16,13 @@
         placeholder="First and last name"
         required
       />
+    </div>
+    <div>
+      <label for="role">User Role:</label>
+      <select name="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
     </div>
     <div>
       <label for="email">Email: </label>
