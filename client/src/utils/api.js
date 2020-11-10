@@ -8,8 +8,21 @@ let _datatableVersion = '';
 export async function getRecordsLastUpdatedTimestamp() {
   const uri = '/api/last-update';
   const last_update = await fetch(uri)
-    .catch(handleError)
-    .then(r => r.json())
+    .catch(e => {
+      console.log(e);
+      handleError();
+    })
+    .then(r => {
+      if (r.ok) {
+        return r.json().catch(e => {
+          console.log(e);
+        })
+      }
+      else {
+        console.log('Unable to connect to the server');
+        return '';
+      }
+    })
   return last_update
 }
 
@@ -56,7 +69,12 @@ export async function getRecords() {
   try {
     const queryResponse = await fetch(uri).catch(e => console.log(e));
     const records = await queryResponse.json().catch(e => console.log(e));
-
+    if (!queryResponse.ok) {
+      console.log('Server error: ' + queryResponse.statusText);
+    }
+    if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+      return null;
+    }
     // Add the distance that each record's geolocation is from the user's location
     const recordsWithDistances = await addDistancesToRecords(records);
 
@@ -75,8 +93,12 @@ export async function getRecords() {
 //funtion to create a data string based
 //on UTC string returned from package data
 export function dateString(utcString) {
-  return utcString.split("T")[0];
+  if (utcString === null || !(utcString instanceof String) || utcString === '') {
+    return '';
+  }
+  return utcString.split("T")[0] || utcString;
 }
+
 //sync funtion that returns filtered node data using
 //values from any of the search options (listing, parent_org, main_category)
 //this function uses helper functions
@@ -102,6 +124,9 @@ export function getFilteredRecords(
 }
 
 export function getFilteredSearchList(searchCats, records) {
+  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+    return null;
+  }
   const filteredValsList = records.map((record) => {
     return searchCats.map((cat) => record[cat]);
   });
@@ -111,6 +136,9 @@ export function getFilteredSearchList(searchCats, records) {
 
 //functions to set up category search data
 export function getCategorySearchData(records, category) {
+  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+    return null;
+  }
   const genCats = records.map((record) => {
     const generalRecord = record[category];
     return generalRecord;
@@ -121,6 +149,9 @@ export function getCategorySearchData(records, category) {
 }
 
 export function getMainSearchData(records) {
+  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+    return null;
+  }
   // these will eventually need to be added in dynamically
   const genCats = [
     "Food",
@@ -198,6 +229,9 @@ export function cardWebAddressFixer(webAddress) {
 
 //function to build the map data object
 export function mapDataBuilder(records) {
+  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+    return null;
+  }
   const mapData = records.map((record) => {
     if (record.lat !== '' && record.lon !== '') {
       const coords = [Number(record.lat), Number(record.lon)];
@@ -226,6 +260,9 @@ export function mapDataBuilder(records) {
 }
 
 export function cardDetailsFilter(records, savedIds) {
+  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+    return null;
+  }
   function exists(rec) {
     return savedIds.indexOf(rec.id) > -1;
   }
@@ -300,6 +337,9 @@ function getFilteredCatParentData(categoryVals, parentVals, records) {
 //this function is gonna be used for individual searches
 //helper for getFilteredrecords
 function getFilteredSearchData(searchValue, records) {
+  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+    return null;
+  }
   //Polyfill from SO to use toLowerCase()
   if (!String.toLowerCase) {
     String.toLowerCase = function (s) {
