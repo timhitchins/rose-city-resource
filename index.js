@@ -35,6 +35,19 @@ require("./routes/query-staging")(app, pool);
 require("./routes/last-update")(app, pool);
 require("./routes/admin")(app, pool);
 
+/* Check for database connectivity and provide a human-friendly message on failure */
+const testDatabaseQuery = async () => {
+  await pool.query(`select last_update from production_meta`, (err, res) => {
+    if (err) {
+      console.log('Error connnecting to the database!');
+      if (process.env.DATABASE_URL === undefined || process.env.DATABASE_URL === null || process.env.DATABASE_URL === '') {
+        console.log('Please check that the DATABASE_URL environment variable is correct');
+      }
+    }
+  });
+}
+testDatabaseQuery();
+
 /* Default handler for requests not handled by one of the above routes */
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
