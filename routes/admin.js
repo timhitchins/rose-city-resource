@@ -74,26 +74,43 @@ module.exports = async (app, pool) => {
         return;
       }
       log = result.rows;
-      await res.json(log);
+        res.json(log);
     });
   });
 
   /* Login */
-  app.get("/admin/login", checkAuthenticated, async (req, res) => {
-    await res.render("login.ejs", { message: null });
+  app.get("/admin/login", checkAuthenticated, (req, res) => {
+    res.render("login.ejs", { message: null });
+  });
+
+  /* Register new user (NOTE: this is an admin privilege only, and is intentionally *not* outward facing) */
+  app.get('/admin/register', checkNotAuthenticated, (req, res) => {
+    res.render('registerUser.ejs');
+  });
+
+  app.post('/admin/register', (req, res) => {
+    // create and call async function here
+    const { name, email, password } = req.body;
+    console.log([name, email, password]);
   });
 
   /* Change password */
   /* TODO: add logic to make this work, so that if a user has a default password they are required to change it */
-  app.get('/admin/settings', checkNotAuthenticated, async (req, res) => {
-    await res.render('changePassword.ejs');
+  app.get('/admin/settings', checkNotAuthenticated, (req, res) => {
+    res.render('changePassword.ejs');
   });
 
   /* Logout */
-  app.get("/admin/logout", async (req, res) => {
-    await req.logout();
-    await res.render("login.ejs", { message: "You have logged out successfully" });
+  app.get("/admin/logout", checkAuthenticated, (req, res) => {
+    req.logout();
+    res.render("login.ejs", { message: "You have logged out successfully" });
   });
+
+  /* for reference/to show Kent */
+  // app.get("/admin/logout", checkAuthenticated, async (req, res) => {
+  //   await req.logout();
+  //   await res.render("login.ejs", { message: "You have logged out successfully" });
+  // });
 
   /* Handle input from the login form */
   app.post(
@@ -106,24 +123,24 @@ module.exports = async (app, pool) => {
   );
 
   /* Passport middleware function to protect routes */
-  async function checkAuthenticated(req, res, next) {
+  function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-      return await res.redirect("/admin/dashboard");
+      return res.redirect("/admin/dashboard");
     }
-    await next();
+     next();
   }
 
   /* Passport middleware function to protect routes */
-  async function checkNotAuthenticated(req, res, next) {
+  function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-      return await next();
+      return next();
     }
-    await res.redirect("/admin/login");
+     res.redirect("/admin/login");
   }
 
   /* Clear all tables like public.etl_% */
   const clearTables = async () => {
-    await pool.query('select etl_clear_tables();', async (err, result) => {
+     await pool.query('select etl_clear_tables();', async (err, result) => {
       if (err) {
         console.log(err)
       }

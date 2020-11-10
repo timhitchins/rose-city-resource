@@ -101,7 +101,6 @@ export function getFilteredRecords(
   }
 }
 
-//this also may not be used
 export function getFilteredSearchList(searchCats, records) {
   const filteredValsList = records.map((record) => {
     return searchCats.map((cat) => record[cat]);
