@@ -67,7 +67,7 @@
               div.innerHTML = "<span>The preview data is empty. Please report this to the MAC development team.</span>";
             }
             else {
-              div.innerHTML = "<span style='font-size: 22px;'>The preview data is imported successfully and is ready to be imported to the live site.</span>";
+              div.innerHTML = "<span style='font-size: 20px; font-family: 'Courier New', Courier, monospace;'>The preview data is imported successfully and is ready to be imported to the live site.</span>";
             }
           }
         }
@@ -153,15 +153,15 @@
   <br />
   <details closed>
     <summary><strong>Instructions</strong></summary>
-  <div>
-    Instructions: this admin page supports a two-step data import process from Airtables to Rose City Resource.<br>
-    The flow is: <strong>Airtables --> Preview Site --> Live Site</strong><br>
-    NOTE: the data must <em>first be imported to the Preview Site</em> before it can be imported to the Live Site.<br>
-    Step 1) Import data from Airtable into Rose City Resource by choosing <em>Import Data to Preview Site</em><br>
-    Step 2) Validate the preview data by testing the preview site. A link to preview the imported data will be
-    provided.<br>
-    Step 3) Import data from the preview site to the live site by choosing <em>Import Data to Live Site</em>
-  </div>
+    <div style="font-family: 'Courier New', Courier, monospace; font-size: 14px;">
+      Instructions: this admin page supports a two-step data import process from Airtables to Rose City Resource.<br>
+      The flow is: <strong>Airtables --> Preview Site --> Live Site</strong><br>
+      NOTE: the data must <em>first be imported to the Preview Site</em> before it can be imported to the Live Site.<br>
+      Step 1) Import data from Airtable into Rose City Resource by choosing <em>Import Data to Preview Site</em><br>
+      Step 2) Validate the preview data by testing the preview site. A link to preview the imported data will be
+      provided.<br>
+      Step 3) Import data from the preview site to the live site by choosing <em>Import Data to Live Site</em>
+    </div>
 </details>
   <br />
   <button onclick='staging()'>Import Data to Preview Site</button>
