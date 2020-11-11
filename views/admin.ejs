@@ -39,10 +39,11 @@
         }
         if (jobEnd && jobEnd.length === 1) {
           // window.location.protocol//host?datatable=staging
-          document.getElementById('status').innerHTML = `Import completed successfully <br/> <a href="${window.location.protocol}` + `//` + `admin/dashboard" target="_blank">Click to View Site Preview</a>`;
+          const previewPage = [window.location.protocol, '//', window.location.host, '?datatable=staging'].join('');
+          document.getElementById('status').innerHTML = 'Preview data import completed successfully <br/> <a href="' + previewPage + '"target="_blank">Click to View Preview Site</a>';
           clearInterval(this);
         }
-      }, 10000)
+      }, 3000)
 
     }
 
@@ -85,12 +86,11 @@
   <br />
   <button onclick='staging()'>Import Data to Preview Site</button>
   <br />
+  <div class="preview-div"><span class="preview-span" id='status'></span></div>
   <br />
   <button onclick='production()'>Import Data to Live Site</button>
   <br />
   <br />
-  <div><span id='status'></span></div>
-  <div><span id='winter-test'></span></div>
   <br />
   <details open>
     <summary>Logs</summary>
