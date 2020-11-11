@@ -25,7 +25,7 @@ module.exports = (app, pool) => {
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success")
     next();
-  })
+  });
 
   /* Default handler for the admin page */
   app.get("/admin/dashboard", checkNotAuthenticated, async (req, res, next) => {
@@ -35,7 +35,7 @@ module.exports = (app, pool) => {
 
       if (action === 'runetl') {
         /* The 'Import to Staging' button was clicked */
-
+        console.log('here 1')
         /* Prepare to run the ETL script */
         await clearTables().catch(e => console.log(e));
         log('Job Start');
@@ -43,6 +43,7 @@ module.exports = (app, pool) => {
         /* Run the ETL script */
         const file = path.resolve('ETL/main.py');
         const python = spawn('python3', [file, keys.PG_CONNECTION_STRING]);
+        console.log('here 2')
         python.on('spawn', (code) => {
           console.log('spawn: ' + code)
         })
@@ -73,7 +74,7 @@ module.exports = (app, pool) => {
   });
 
   /* API method to pull ETL status from the public.etl_run_log table */
-  app.get("/admin/dashboard/etlstatus", async (req, res) => {
+  app.get("/admin/dashboard/etlstatus", async (req, res, next) => {
     try {
 
       let log = null;

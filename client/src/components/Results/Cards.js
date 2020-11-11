@@ -327,6 +327,7 @@ class Cards extends React.Component {
       savedDataId,
       showMapDetail,
     } = this.props;
+
     return (
       // the cards container should scroll on its own
       <div className="cards-container">
