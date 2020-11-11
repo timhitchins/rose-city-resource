@@ -132,3 +132,13 @@ CREATE FUNCTION etl_import_to_production(out void) AS '
   DELETE FROM production_meta;
   INSERT INTO production_meta (last_update) VALUES (NOW());
 ' LANGUAGE sql;
+
+/* Safety check for the buttons on the admin page */
+DROP FUNCTION IF EXISTS get_etl_status;
+CREATE FUNCTION get_etl_status()
+RETURNS TABLE (etl_ran_to_completion boolean, minutes_since_last_log float) AS $$
+  SELECT
+    (SELECT COUNT(*) FROM etl_run_log WHERE message LIKE '%Python ETL Script End%') > 0 as etl_ran_to_completion,
+    (EXTRACT(EPOCH FROM current_timestamp - (SELECT MAX(time_stamp)))/60) as minutes_since_last_log
+  FROM etl_run_log
+$$ LANGUAGE sql;
