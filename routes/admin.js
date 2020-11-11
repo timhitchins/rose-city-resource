@@ -73,7 +73,7 @@ module.exports = (app, pool) => {
   });
 
   /* API method to pull ETL status from the public.etl_run_log table */
-  app.get("/admin/dashboard/etlstatus", checkNotAuthenticated, async (req, res) => {
+  app.get("/admin/dashboard/etlstatus", async (req, res) => {
     try {
 
       let log = null;
