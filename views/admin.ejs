@@ -5,7 +5,7 @@
     function staging() {
 
       /* Prompt for confirmation */
-      let confirmation = confirm("Import data to staging?");
+      let confirmation = confirm("Import data to preview site?");
       if (confirmation == false) { return; }
       document.getElementById('status').innerText = 'Preparing to run import process...';
 
@@ -33,15 +33,17 @@
 
         /* Update the status message */
         const jobStart = json.filter(L => L.message === 'Job Start')
-        const jobEnd = json.filter(L => L.message === 'Job End')
+        const jobEnd = json.filter(L => L.message === 'Python ETL Script End')
         if (jobStart && jobStart.length === 1) {
-          document.getElementById('status').innerText = 'Import process is running...';
+          document.getElementById('status').innerHTML = 'Import process is running...';
         }
         if (jobEnd && jobEnd.length === 1) {
-          document.getElementById('status').innerText = 'Import completed successfully';
+          // window.location.protocol//host?datatable=staging
+          const previewPage = [window.location.protocol, '//', window.location.host, '?datatable=staging'].join('');
+          document.getElementById('status').innerHTML = 'Preview data import completed successfully <br/> <a href="' + previewPage + '"target="_blank">Click to View Preview Site</a>';
           clearInterval(this);
         }
-      }, 10000)
+      }, 3000)
 
     }
 
@@ -50,7 +52,7 @@
       // TODO: Check to ensure that the staging job finished successfully and other safety criteria
 
       /* Prompt for confirmation */
-      let confirmation = confirm("The PRODUCTION table will be updated. Proceed?");
+      let confirmation = confirm("The LIVE SITE will be updated. Proceed?");
       if (confirmation == false) { return; }
       document.getElementById('status').innerText = 'Preparing to update production...';
 
@@ -80,15 +82,17 @@
 <body class='container' style='text-align: center'>
   <%- include('./partials/links'); %>
   <h1>RCR Admin Dashboard</h1>
-  <div>Import Airtable data into Rose City Resource</div>
+  <div>Import updated data from Airtable into Rose City Resource</div>
   <br />
-  <button onclick='staging()'>Import to Staging</button>
+  <button onclick='staging()'>Import Data to Preview Site</button>
+  <br />
+  <div class="preview-div">
+    <span class="preview-span" id='status'></span>
+  </div>
+  <br />
+  <button onclick='production()'>Import Data to Live Site</button>
   <br />
   <br />
-  <button onclick='production()'>Import to Production</button>
-  <br />
-  <br />
-  <div><span id='status'></span></div>
   <br />
   <details open>
     <summary>Logs</summary>

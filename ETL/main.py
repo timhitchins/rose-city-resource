@@ -7,7 +7,7 @@ import pandas
 from geopy.geocoders import Nominatim
 
 AIRTABLE_API_KEY = os.environ.get('AIRTABLE_API_KEY')
-AIRTABLE_BASE_ID = os.environ.get('AIRTABLE_BASE_ID')
+AIRTABLE_BASE_ID = os.environ.get('AIRTABLE_BASE_ID')                
 
 if AIRTABLE_API_KEY == None or AIRTABLE_API_KEY == '':
     print('The Airtable API key is missing')
