@@ -37,7 +37,7 @@ module.exports = (app, pool) => {
         /* The 'Import to Staging' button was clicked */
 
         /* Prepare to run the ETL script */
-        //await clearTables().catch(e => console.log(e));
+        await clearTables().catch(e => console.log(e));
         log('Job Start');
 
         /* Run the ETL script */
