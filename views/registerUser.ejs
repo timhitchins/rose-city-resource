@@ -1,6 +1,11 @@
 <%- include('./partials/head'); %>
-  <h1>Register New User</h1>
-
+<div>
+  <br />
+  <a href="/admin/dashboard">Dashboard</a> |
+  <a href="/admin/logout">Logout</a>
+</div>
+  <h1>Admin Settings</h1>
+  <h5>Create New User</h5>
   <ul>
     <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
     <li><%= error.message %></li>
@@ -16,13 +21,6 @@
         placeholder="First and last name"
         required
       />
-    </div>
-    <div>
-      <label for="role">User Role:</label>
-      <select name="role" required>
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
-      </select>
     </div>
     <div>
       <label for="email">Email: </label>
@@ -45,7 +43,15 @@
       />
     </div>
     <div>
-      <input type="submit" value="Register" />
+      <label for="role">User Role:
+      <select name="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+    </label>
+    </div>
+    <div>
+      <input type="submit" value="Create" />
       <a href="/admin/dashboard">Cancel</a>
     </div>
   </form>

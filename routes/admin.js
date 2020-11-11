@@ -112,7 +112,7 @@ module.exports = async (app, pool) => {
   });
 
   /* Logout */
-  app.get("/admin/logout", checkAuthenticated, (req, res) => {
+  app.get("/admin/logout", (req, res) => {
     req.logout();
     res.render("login.ejs", { message: "You have logged out successfully" });
   });
