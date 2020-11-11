@@ -144,24 +144,16 @@
 
 <body class='container' style='text-align: center'>
   <%- include('./partials/links'); %>
-  <div style='display:flex; justify-content: space-between'>
-    <div
-      style='height: 40px; border: 1px solid gray; border-radius: 15px; padding: 10px; font-size: 10px; font-family: monospace;'>
-      <div><span>Database Rows in Use: </span><span id='database-rows'>&nbsp;</span><span> / 10,000</span></div>
-      <div><span>Database Space in Use: </span><span id='database-space'>&nbsp;</span><span> / 1 GB</span></div>
-    </div>
-    <div>
-      <h1>RCR Admin Dashboard</h1>
-    </div>
-    <div
-      style='height: 40px; border: 1px solid gray; border-radius: 15px; padding: 10px; font-size: 10px; font-family: monospace;'>
-      <div>Live Site Updated:</div>
-      <div id='last-update-time'>&nbsp;</div>
-    </div>
+  <h1>RCR Admin Dashboard</h1>
+  <div style='border: 1px solid grey; border-radius: 5px;'>
+    <div><em>Live Site Last Update: <span id='last-update-time'>&nbsp;</span></em></div>
+    <div><span>Database Rows in Use: </span><span id='database-rows'>&nbsp;</span><span> / 10,000</span></div>
+    <div><span>Database Space in Use: </span><span id='database-space'>&nbsp;</span><span> / 1 GB</span></div>
   </div>
-
-  <div
-    style='border: 1px solid lightgray; border-radius: 15px; padding: 10px; font-size: 12px; font-family: monospace;'>
+  <br />
+  <details closed>
+    <summary><strong>Instructions</strong></summary>
+  <div>
     Instructions: this admin page supports a two-step data import process from Airtables to Rose City Resource.<br>
     The flow is: <strong>Airtables --> Preview Site --> Live Site</strong><br>
     NOTE: the data must <em>first be imported to the Preview Site</em> before it can be imported to the Live Site.<br>
@@ -170,6 +162,7 @@
     provided.<br>
     Step 3) Import data from the preview site to the live site by choosing <em>Import Data to Live Site</em>
   </div>
+</details>
   <br />
   <button onclick='staging()'>Import Data to Preview Site</button>
   <br />
