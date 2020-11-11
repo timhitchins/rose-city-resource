@@ -32,7 +32,7 @@
       div.innerHTML =
         logs.map(L => {
           let dt = new Date(L.time_stamp);
-          return '<tr><td style="color: navy; min-width: 150px; border: none; padding:2">' + dt.toLocaleString() + '</td><td style="color:blue; border: none; padding:2">' + L.message + '</td></tr>'
+          return '<tr><td style="color: navy; min-width: 150px; border: none; padding:4">' + dt.toLocaleString() + '</td><td style="color:blue; border: none; padding:4;">' + L.message + '</td></tr>'
         }).join('')
     }
 
@@ -177,8 +177,8 @@
   <br />
   <details open>
     <summary>Logs</summary>
-    <table cellpadding='0' cellspacing='5'
-      style='margin-left:auto; margin-right:auto; font-size:14px; font-family:monospace;'>
+    <table cellpadding='0' cellspacing='0'
+      style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
       <tbody id='etl-log'></tbody>
     </table>
   </details>
