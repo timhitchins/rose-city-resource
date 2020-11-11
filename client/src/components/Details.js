@@ -18,6 +18,7 @@ class Details extends React.Component {
     const { records } = this.props;
     const queryVals = queryString.parse(this.props.location.search);
     const detailsData = cardDetailsFilter(records, queryVals.saved);
+
     // this logic should be in utils
     // but I need to refactor the way I used
     // the directionsUrlBuilder
@@ -35,6 +36,7 @@ class Details extends React.Component {
   render() {
     const { savedDataId, handleCardSave } = this.props;
     const { cardDetailsData } = this.state;
+
     if (cardDetailsData !== null) {
       return (
         <div className="details-outer-container">

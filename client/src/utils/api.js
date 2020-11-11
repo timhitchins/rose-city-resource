@@ -261,13 +261,9 @@ export function mapDataBuilder(records) {
 
 export function cardDetailsFilter(records, savedIds) {
   if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
-    return null;
+    return [];
   }
-  function exists(rec) {
-    return savedIds.indexOf(rec.id) > -1;
-  }
-
-  const filteredDetailsData = records.filter(exists);
+  const filteredDetailsData = records.filter(r => savedIds.includes(r.id.toString()));
   return filteredDetailsData;
 }
 
