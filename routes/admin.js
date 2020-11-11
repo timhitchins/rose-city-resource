@@ -44,25 +44,25 @@ module.exports = (app, pool) => {
         const file = path.resolve('ETL/main.py');
         const python = spawn('python3', [file, keys.PG_CONNECTION_STRING]);
         python.on('spawn', (code) => {
-          console.log('spawn: ' + code)
+          console.log('Python spawn: ' + code)
         })
         python.on('error', (err) => {
-          console.log('error: ' + err)
+          console.log('Python error: ' + err)
         })
         python.on('exit', (code) => {
-          console.log('exit code: ' + code)
+          console.log('Python exit code: ' + code)
         })
         python.stderr.on('data', (data) => {
-          log(data.toString());
+          log('Python stderr: ' + data.toString());
         })
         python.stdout.on('data', (data) => {
-          log(data.toString());
+          log('Python stdout: ' + data.toString());
         })
         res.send('true');
         return;
       }
       else if (action === 'runprod') {
-        console.log('run prod')
+
         /* The 'Import to Production' button was clicked */
         await importToProduction();
         res.send('true');
@@ -105,6 +105,46 @@ module.exports = (app, pool) => {
       let log = null;
 
       await pool.query('select * from get_etl_status();', async (err, result) => {
+        if (err) {
+          console.log(err)
+          return;
+        }
+        log = result.rows;
+        res.json(log);
+      });
+
+    } catch (e) {
+      return next(e);
+    }
+  });
+
+  /* API method to get database rows in use */
+  app.get("/admin/dashboard/pg-rows", async (req, res, next) => {
+    try {
+
+      let log = null;
+
+      return await pool.query('select get_database_numrows();', async (err, result) => {
+        if (err) {
+          console.log(err)
+          return;
+        }
+        log = result.rows;
+        res.json(log);
+      });
+
+    } catch (e) {
+      return next(e);
+    }
+  });
+
+  /* API method to get database space in use */
+  app.get("/admin/dashboard/pg-space", async (req, res, next) => {
+    try {
+
+      let log = null;
+
+      await pool.query('select get_database_size();', async (err, result) => {
         if (err) {
           console.log(err)
           return;

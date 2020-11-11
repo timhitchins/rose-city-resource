@@ -117,8 +117,8 @@ CREATE FUNCTION get_database_size(out character varying) AS '
 
 /* Get the total number of rows in the database */
 DROP FUNCTION IF EXISTS get_database_numrows;
-CREATE FUNCTION get_database_numrows(out real) AS $$
-  SELECT SUM(reltuples)
+CREATE FUNCTION get_database_numrows(out character varying) AS $$
+  SELECT CAST(SUM(reltuples) as VARCHAR)
   FROM pg_class C
   LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
   WHERE nspname NOT IN ('pg_catalog', 'information_schema') AND relkind='r';
