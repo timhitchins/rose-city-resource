@@ -93,7 +93,7 @@ export async function getRecords() {
 //funtion to create a data string based
 //on UTC string returned from package data
 export function dateString(utcString) {
-  if (utcString === null || !(utcString instanceof String) || utcString === '') {
+  if (utcString === null || typeof utcString !== 'string' || utcString === '') {
     return '';
   }
   return utcString.split("T")[0] || utcString;

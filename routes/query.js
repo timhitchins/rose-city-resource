@@ -1,29 +1,26 @@
-const keys = require("../config/nodeKeys")
-const { Client } = require('pg');
-
 module.exports = (app, pool) => {
-  app.get("/api/query", async (req, res) => {
+  app.get("/api/query", async (req, res, next) => {
+    try {
 
-    /* Pull the listing table and parse into JSON */
-    await pool.query("SELECT * FROM production_data", async (sqlerr, sqlres) => {
-      if (sqlerr) {
-        if (process.env.NODE_ENV == undefined || process.env.NODE_ENV !== "production") {
-          try {
-            await res.send(sqlerr);
-          } catch (e) {
-            console.log(e);
+      /* Pull the listing table and parse into JSON */
+      await pool.query("SELECT * FROM production_data", async (sqlerr, sqlres) => {
+        if (sqlerr) {
+          if (process.env.NODE_ENV == undefined || process.env.NODE_ENV !== "production") {
+            try {
+              await res.send(sqlerr);
+            } catch (e) {
+              console.log(e);
+            }
           }
+          return;
         }
-        return;
-      }
 
-      /* Return JSON to the client */
-      try {
+        /* Return JSON to the client */
         await res.json(sqlres.rows);
-      } catch (e) {
-        console.log(e);
-      }
 
-    });
+      });
+    } catch (e) {
+      return next(e);
+    }
   });
 };

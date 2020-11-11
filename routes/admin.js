@@ -6,11 +6,11 @@ const session = require("express-session");
 const path = require('path');
 const bcrypt = require('bcrypt');
 
-module.exports = async (app, pool) => {
+module.exports = (app, pool) => {
 
   /* Configure Passport, the login mechanism for the admin page */
   const initializePassport = require("../initializePassport");
-  await initializePassport(passport, pool);
+  initializePassport(passport, pool);
   app.use(
     session({
       secret: 'secret',
@@ -28,55 +28,68 @@ module.exports = async (app, pool) => {
   })
 
   /* Default handler for the admin page */
-  app.get("/admin/dashboard", checkNotAuthenticated, async (req, res) => {
-    const { action } = req.query;
+  app.get("/admin/dashboard", checkNotAuthenticated, async (req, res, next) => {
+    try {
 
-    if (action === 'runetl') {
-      /* The 'Import to Staging' button was clicked */
+      const { action } = req.query;
 
-      /* Prepare to run the ETL script */
-      await clearTables().catch(e => console.log(e));
-      log('Job Start');
+      if (action === 'runetl') {
+        /* The 'Import to Staging' button was clicked */
 
-      /* Run the ETL script */
-      const file = path.resolve('ETL/main.py');
-      const python = spawn('python3', [file, keys.PG_CONNECTION_STRING]);
-      python.on('spawn', (code) => {
-        console.log('spawn: ' + code)
-      })
-      python.on('error', (err) => {
-        console.log('error: ' + err)
-      })
-      python.on('exit', (code) => {
-        console.log('exit code: ' + code)
-      })
-      python.stderr.on('data', (data) => {
-        log(data.toString());
-      })
-      python.stdout.on('data', (data) => {
-        log(data.toString());
-      })
-    }
-    else if (action === 'runprod') {
-      /* The 'Import to Production' button was clicked */
-      const status = await importToProduction();
-    }
-    else {
-      res.render('admin.ejs');
+        /* Prepare to run the ETL script */
+        await clearTables().catch(e => console.log(e));
+        log('Job Start');
+
+        /* Run the ETL script */
+        const file = path.resolve('ETL/main.py');
+        const python = spawn('python3', [file, keys.PG_CONNECTION_STRING]);
+        python.on('spawn', (code) => {
+          console.log('spawn: ' + code)
+        })
+        python.on('error', (err) => {
+          console.log('error: ' + err)
+        })
+        python.on('exit', (code) => {
+          console.log('exit code: ' + code)
+        })
+        python.stderr.on('data', (data) => {
+          log(data.toString());
+        })
+        python.stdout.on('data', (data) => {
+          log(data.toString());
+        })
+      }
+      else if (action === 'runprod') {
+        /* The 'Import to Production' button was clicked */
+        const status = await importToProduction();
+      }
+      else {
+        res.render('admin.ejs');
+      }
+
+    } catch (e) {
+      return next(e);
     }
   });
 
   /* API method to pull ETL status from the public.etl_run_log table */
   app.get("/admin/dashboard/etlstatus", checkNotAuthenticated, async (req, res) => {
-    let log = null;
-    await pool.query('select * from etl_run_log order by time_stamp asc;', async (err, result) => {
-      if (err) {
-        console.log(err)
-        return;
-      }
-      log = result.rows;
+    try {
+
+      let log = null;
+
+      await pool.query('select * from etl_run_log order by time_stamp asc;', async (err, result) => {
+        if (err) {
+          console.log(err)
+          return;
+        }
+        log = result.rows;
         res.json(log);
-    });
+      });
+
+    } catch (e) {
+      return next(e);
+    }
   });
 
   /* Login */
@@ -132,7 +145,7 @@ module.exports = async (app, pool) => {
     if (req.isAuthenticated()) {
       return res.redirect("/admin/dashboard");
     }
-     next();
+    next();
   }
 
   /* Passport middleware function to protect routes */
@@ -140,12 +153,12 @@ module.exports = async (app, pool) => {
     if (req.isAuthenticated()) {
       return next();
     }
-     res.redirect("/admin/login");
+    res.redirect("/admin/login");
   }
 
   /* Clear all tables like public.etl_% */
   const clearTables = async () => {
-     await pool.query('select etl_clear_tables();', async (err, result) => {
+    await pool.query('select etl_clear_tables();', async (err, result) => {
       if (err) {
         console.log(err)
       }
