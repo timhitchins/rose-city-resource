@@ -136,9 +136,11 @@ CREATE FUNCTION etl_import_to_production(out void) AS '
 /* Safety check for the buttons on the admin page */
 DROP FUNCTION IF EXISTS get_etl_status;
 CREATE FUNCTION get_etl_status()
-RETURNS TABLE (etl_ran_to_completion boolean, minutes_since_last_log float) AS $$
+RETURNS TABLE (etl_started VARCHAR(16), etl_ran_to_completion VARCHAR(16), minutes_since_last_log VARCHAR(64), etl_staging_1_num_rows VARCHAR(16)) AS $$
   SELECT
-    (SELECT COUNT(*) FROM etl_run_log WHERE message LIKE '%Python ETL Script End%') > 0 as etl_ran_to_completion,
-    (EXTRACT(EPOCH FROM current_timestamp - (SELECT MAX(time_stamp)))/60) as minutes_since_last_log
+  	CAST((SELECT COUNT(*) FROM etl_run_log WHERE message LIKE '%Python ETL Script Start%') > 0 as VARCHAR) as etl_started,
+    CAST((SELECT COUNT(*) FROM etl_run_log WHERE message LIKE '%Python ETL Script End%') > 0 as VARCHAR) as etl_ran_to_completion,
+    CAST((EXTRACT(EPOCH FROM current_timestamp - (SELECT MAX(time_stamp)))/60) as VARCHAR) as minutes_since_last_log,
+	CAST((SELECT COUNT(*) FROM etl_staging_1) as VARCHAR) as etl_staging_1_num_rows
   FROM etl_run_log
 $$ LANGUAGE sql;

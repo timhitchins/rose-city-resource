@@ -37,7 +37,7 @@ module.exports = (app, pool) => {
         /* The 'Import to Staging' button was clicked */
 
         /* Prepare to run the ETL script */
-        await clearTables().catch(e => console.log(e));
+        //await clearTables().catch(e => console.log(e));
         log('Job Start');
 
         /* Run the ETL script */
@@ -58,13 +58,19 @@ module.exports = (app, pool) => {
         python.stdout.on('data', (data) => {
           log(data.toString());
         })
+        res.send('true');
+        return;
       }
       else if (action === 'runprod') {
+        console.log('run prod')
         /* The 'Import to Production' button was clicked */
-        const status = await importToProduction();
+        await importToProduction();
+        res.send('true');
+        return;
       }
       else {
         res.render('admin.ejs');
+        return;
       }
 
     } catch (e) {
@@ -73,7 +79,7 @@ module.exports = (app, pool) => {
   });
 
   /* API method to pull logs from the public.etl_run_log table */
-  app.get("/admin/dashboard/etllog", async (req, res, next) => {
+  app.get("/admin/dashboard/etl-log", async (req, res, next) => {
     try {
 
       let log = null;
@@ -93,12 +99,12 @@ module.exports = (app, pool) => {
   });
 
   /* API method to get the status of the ETL job */
-  app.get("/admin/dashboard/etlstatus", async (req, res, next) => {
+  app.get("/admin/dashboard/etl-status", async (req, res, next) => {
     try {
 
       let log = null;
 
-      await pool.query('select get_etl_status();', async (err, result) => {
+      await pool.query('select * from get_etl_status();', async (err, result) => {
         if (err) {
           console.log(err)
           return;
@@ -195,10 +201,10 @@ module.exports = (app, pool) => {
   }
 
   /* Import staging data to production */
-  const importToProduction = async message => {
+  const importToProduction = async () => {
     await pool.query(`select etl_import_to_production();`, async (err, result) => {
       if (err) {
-        console.log(err)
+        console.log(err);
       }
     });
   }

@@ -2,7 +2,62 @@
   <title>Rose City Resource Admin Page</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
   <script>
-    function staging() {
+
+    async function fetchEtlLogs() {
+      let logs = await fetch(window.location.href + '/etl-log')
+        .catch(e => console.log(e))
+      return await logs.json().catch(e => console.log(e));
+    }
+
+    function renderEtlLogs(logs) {
+      let div = document.getElementById('etl-log');
+      div.innerHTML =
+        logs.map(L => {
+          let dt = new Date(L.time_stamp);
+          return '<tr><td style="color: navy; min-width: 150px; border: none; padding:2">' + dt.toLocaleString() + '</td><td style="color:blue; border: none; padding:2">' + L.message + '</td></tr>'
+        }).join('')
+    }
+
+    async function fetchEtlStatus() {
+      const status = await fetch(window.location.href + '/etl-status')
+        .catch(e => console.log(e));
+      return await status.json().catch(e => console.log(e));
+    }
+
+    function renderEtlStatus(status) {
+      let div = document.getElementById('etl-status');
+      if (status.etl_started.toLowerCase() === 'false') {
+        /* Has NOT started */
+        div.innerHTML = "<span>&nbsp;</span>"
+      }
+      else {
+        /* HAS started */
+        if (status.etl_ran_to_completion.toLowerCase() === 'false') {
+          /* Has NOT completed */
+          div.innerHTML = '<span>The ETL process has started. Please allow up to 30 minutes for the process to complete.</span>';
+        }
+        else if (status.etl_ran_to_completion.toLowerCase() === 'true') {
+          /* HAS completed */
+          if (parseInt(status.minutes_since_last_log) > 60 * 48) {
+            /* More than 24 hours ago */
+            div.innerHTML = "<span>The ETL process ran more than 48 hours ago. Please run it again, since the source data may have changed.</span>";
+          }
+          else {
+            /* Less than 24 hours ago */
+            if (parseInt(status.etl_staging_1_num_rows) < 1) {
+              /* The staging table is empty */
+              div.innerHTML = "<span>The preview data is empty. Please report this to the MAC development team.</span>";
+            }
+            else {
+              div.innerHTML = "<span>The preview data is imported successfully and is ready to be imported to the live site.</span>";
+            }
+          }
+        }
+      }
+
+    }
+
+    async function staging() {
 
       /* Prompt for confirmation */
       let confirmation = confirm("Import data to preview site?");
@@ -17,39 +72,26 @@
       window.setInterval(async function () {
 
         /* Fetch and display ETL logs */
-        let etlLog = await fetch(window.location.href + '/etlstatus')
-          .catch(e => { /* Ignore */ })
-        let json = await etlLog.json().catch(e => console.log(e));
-        if (json === null || json === undefined || json === '') {
-          return;
-        }
-
-        let logDiv = document.getElementById('etl-log');
-        logDiv.innerHTML =
-          json.map(L => {
-            let dt = new Date(L.time_stamp);
-            return '<tr><td style="color: navy;">' + dt.toLocaleString() + '</td><td style="color:blue;">' + L.message + '</td></tr>'
-          }).join('')
+        const logs = await fetchEtlLogs();
+        renderEtlLogs(logs);
 
         /* Update the status message */
-        const jobStart = json.filter(L => L.message === 'Job Start')
-        const jobEnd = json.filter(L => L.message === 'Python ETL Script End')
+        const jobStart = logs.filter(L => L.message === 'Job Start')
+        const jobEnd = logs.filter(L => L.message === 'Python ETL Script End')
         if (jobStart && jobStart.length === 1) {
           document.getElementById('status').innerHTML = 'Import process is running...';
         }
         if (jobEnd && jobEnd.length === 1) {
           // window.location.protocol//host?datatable=staging
-          const previewPage = [window.location.protocol, '//', window.location.host, '?datatable=staging'].join('');
+          const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
           document.getElementById('status').innerHTML = 'Preview data import completed successfully <br/> <a href="' + previewPage + '"target="_blank">Click to View Preview Site</a>';
           clearInterval(this);
         }
-      }, 3000)
+      }, 4000)
 
     }
 
-    function production() {
-
-      // TODO: Check to ensure that the staging job finished successfully and other safety criteria
+    async function production() {
 
       /* Prompt for confirmation */
       let confirmation = confirm("The LIVE SITE will be updated. Proceed?");
@@ -57,23 +99,18 @@
       document.getElementById('status').innerText = 'Preparing to update production...';
 
       /* Trigger the production udpate process to start */
-      fetch(window.location.href + '?' + new URLSearchParams({ action: 'runprod' }), { method: 'GET' })
+      const status = await fetch(window.location.href + '?' + new URLSearchParams({ action: 'runprod' }), { method: 'GET' })
         .catch(e => { document.getElementById('status').innerText = 'Failed to start import process'; })
-
+      console.log(status)
       /* Query the server for status on an interval */
-      window.setTimeout(async function () {
+      window.setInterval(async function () {
 
         /* Check if the production table has been updated */
-        let etlLog = await fetch('/api/last-update')
-          .catch(e => { /* Ignore */ })
-        let json = await etlLog.json().catch(e => console.log(e));
-        if (json === null || json === undefined || json === '') {
-          return;
-        }
+        let res = await fetch('/api/last-update').catch(e => console.log(e));
+        let timestamp = await res.json().catch(e => console.log(e));
+        document.getElementById('status').innerText = `Live Site Updated (UTC Time Zone): ${timestamp}\nThis time will update automatically once the live site is updated. Please allow up to 5 minutes.`;
 
-        document.getElementById('status').innerText = `Production table latest update was on: ${json}`
-
-      }, 20000)
+      }, 2000)
 
     }
   </script>
@@ -82,7 +119,14 @@
 <body class='container' style='text-align: center'>
   <%- include('./partials/links'); %>
   <h1>RCR Admin Dashboard</h1>
-  <div>Import updated data from Airtable into Rose City Resource</div>
+  <div>Instructions: this admin page supports a two-step data import process from Airtables to Rose City Resource.<br>
+    The flow is like this: Airtables --> Preview Site --> Live Site.<br>
+    NOTE: the data must first be imported to the Preview Site before it can be imported to the Live Site.<br>
+    Step 1) Import data from Airtable into Rose City Resource by choosing <em>Import Data to Preview Site</em><br>
+    Step 2) Validate the preview data by testing the preview site. A link to preview the imported data will be shown
+    once the import is successful.<br>
+    Step 3) Import data from the preview site to the live site by choosing <em>Import Data to Live Site</em>
+  </div>
   <br />
   <button onclick='staging()'>Import Data to Preview Site</button>
   <br />
@@ -90,14 +134,44 @@
     <span class="preview-span" id='status'></span>
   </div>
   <br />
-  <button onclick='production()'>Import Data to Live Site</button>
+  <button disabled id='import-live' onclick='production()'>Import Data to Live Site</button>
   <br />
   <br />
+  <div id='etl-status' style='color:gray; border: 1px dashed lightgray'>&nbsp;</div>
   <br />
   <details open>
     <summary>Logs</summary>
-    <table style='margin-left: auto; margin-right: auto'>
+    <table cellpadding='0' cellspacing='0'
+      style='margin-left:auto; margin-right:auto; font-size:10px; font-family:monospace;'>
       <tbody id='etl-log'></tbody>
     </table>
   </details>
+  <script>
+    (async () => {
+
+      /* Fetch and display ETL logs */
+      renderEtlLogs(await fetchEtlLogs());
+
+      window.setInterval(async function () {
+
+        /* Fetch and display ETL status */
+        const statusArr = await fetchEtlStatus();
+        const status = statusArr[0];
+        renderEtlStatus(status);
+
+        /* Enable import to live site button if that should be an option */
+        const started = status.etl_started.toLowerCase();
+        const completed = status.etl_ran_to_completion.toLowerCase();
+        const minutes = parseInt(status.minutes_since_last_log);
+        const numrows = parseInt(status.etl_staging_1_num_rows);
+        if (started === 'true' && completed === 'true' && minutes < 60 * 48 && numrows > 1) {
+          const button = document.getElementById('import-live').disabled = false;
+        }
+        else {
+          const button = document.getElementById('import-live').disabled = true;
+        }
+
+      }, 5000)
+    })();
+  </script>
 </body>
