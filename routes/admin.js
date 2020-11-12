@@ -118,6 +118,24 @@ module.exports = (app, pool) => {
     }
   });
 
+  /* API method to get the ETL data validation results */
+  app.get("/admin/dashboard/etl-validation", async (req, res, next) => {
+    try {
+      let data = null;
+      await pool.query('select * from etl_validate_staging_table();', async (err, result) => {
+        if (err) {
+          console.log(err)
+          return;
+        }
+        data = result.rows;
+        res.json(data);
+      });
+
+    } catch (e) {
+      return next(e);
+    }
+  });
+
   /* API method to get database rows in use */
   app.get("/admin/dashboard/pg-rows", async (req, res, next) => {
     try {

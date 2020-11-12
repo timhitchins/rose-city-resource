@@ -6,28 +6,31 @@
     async function fetchPgRows() {
       let data = await fetch(window.location.href + '/pg-rows')
         .catch(e => console.log(e))
-      return await data === null ? '' : data.json().catch(e => console.log(e));
+      return await data === undefined ? '' : data.json().catch(e => console.log(e));
     }
 
     async function fetchPgSpace() {
       let data = await fetch(window.location.href + '/pg-space')
         .catch(e => console.log(e))
-      return await data == null ? '' : data.json().catch(e => console.log(e));
+      return await data == undefined ? '' : data.json().catch(e => console.log(e));
     }
 
     async function fetchLastUpdate() {
       let data = await fetch('/api/last-update')
         .catch(e => console.log(e))
-      return await data === null ? '' : data.json().catch(e => console.log(e));
+      return await data === undefined ? '' : data.json().catch(e => console.log(e));
     }
 
     async function fetchEtlLogs() {
       let logs = await fetch(window.location.href + '/etl-log')
         .catch(e => console.log(e))
-      return await logs === null ? '' : logs.json().catch(e => console.log(e));
+      return await logs === undefined ? '' : logs.json().catch(e => console.log(e));
     }
 
     function renderEtlLogs(logs) {
+      if (logs == null) {
+        return;
+      }
       let div = document.getElementById('etl-log');
       div.innerHTML =
         logs.map(L => {
@@ -39,10 +42,13 @@
     async function fetchEtlStatus() {
       const status = await fetch(window.location.href + '/etl-status')
         .catch(e => console.log(e));
-      return await status === null ? '' : status.json().catch(e => console.log(e));
+      return await status === undefined ? '' : status.json().catch(e => console.log(e));
     }
 
     function renderEtlStatus(status) {
+      if (status == null) {
+        return;
+      }
       let div = document.getElementById('etl-status');
       if (status.etl_started.toLowerCase() === 'false') {
         /* Has NOT started */
@@ -75,6 +81,23 @@
 
     }
 
+    async function fetchDataValidationItems() {
+      const data = await fetch(window.location.href + '/etl-validation')
+        .catch(e => console.log(e));
+      return await data === undefined ? '' : data.json().catch(e => console.log(e));
+    }
+
+    function renderValidationItems(items) {
+      if (items == null) {
+        return;
+      }
+      let div = document.getElementById('etl-validation');
+      div.innerHTML =
+        items.map(L => {
+          return '<tr><td style="color: navy; white-space: nowrap; border: none; padding:4">' + L.test + '</td><td style="color:blue; border: none; padding:4;">' + L.details + '</td><td style="color:blue; border: none; padding:4;">' + L.id + '</td><td style="color:blue; border: none; padding:4;">' + L.listing + '</td></tr>'
+        }).join('')
+    }
+
     async function staging() {
 
       /* Prompt for confirmation */
@@ -102,13 +125,17 @@
         renderEtlLogs(logs);
 
         /* Update the status message */
-        const jobStart = logs.filter(L => L.message === 'Job Start')
-        const jobEnd = logs.filter(L => L.message === 'Python ETL Script End')
+        const jobStart = logs.filter(L => L.message === 'Job Start');
+        const jobEnd = logs.filter(L => L.message === 'Python ETL Script End');
+        const stagingFinalized = logs.filter(L => L.message === 'Finalize the staging table');
+        if (stagingFinalized && stagingFinalized.length >= 1) {
+          const items = await fetchDataValidationItems();
+          renderValidationItems(items)
+        }
         if (jobStart && jobStart.length >= 1) {
           document.getElementById('status').innerHTML = 'Import process is running...';
         }
         if (jobEnd && jobEnd.length >= 1) {
-          // window.location.protocol//host?datatable=staging
           const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
           document.getElementById('status').innerHTML = '<span>&#10004;&nbsp;Successfully imported to the Preview Site!</span><br/> <a href="' + previewPage + '"target="_blank">Click to View Preview Site</a>';
           clearInterval(stagingInterval);
@@ -183,6 +210,14 @@
   <br />
   <div id='etl-status' style='color:gray; border: 1px dashed lightgray'>&nbsp;</div>
   <br />
+  <details open>
+    <summary>Data Validation Errors</summary>
+    <table cellpadding='0' cellspacing='0'
+      style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
+      <tbody id='etl-validation'></tbody>
+    </table>
+  </details>
+  <br>
   <details open>
     <summary>Logs</summary>
     <table cellpadding='0' cellspacing='0'
