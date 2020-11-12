@@ -6,25 +6,25 @@
     async function fetchPgRows() {
       let data = await fetch(window.location.href + '/pg-rows')
         .catch(e => console.log(e))
-      return await data.json().catch(e => console.log(e));
+      return await data === null ? '' : data.json().catch(e => console.log(e));
     }
 
     async function fetchPgSpace() {
       let data = await fetch(window.location.href + '/pg-space')
         .catch(e => console.log(e))
-      return await data.json().catch(e => console.log(e));
+      return await data == null ? '' : data.json().catch(e => console.log(e));
     }
 
     async function fetchLastUpdate() {
       let data = await fetch('/api/last-update')
         .catch(e => console.log(e))
-      return await data.json().catch(e => console.log(e));
+      return await data === null ? '' : data.json().catch(e => console.log(e));
     }
 
     async function fetchEtlLogs() {
       let logs = await fetch(window.location.href + '/etl-log')
         .catch(e => console.log(e))
-      return await logs.json().catch(e => console.log(e));
+      return await logs === null ? '' : logs.json().catch(e => console.log(e));
     }
 
     function renderEtlLogs(logs) {
@@ -39,7 +39,7 @@
     async function fetchEtlStatus() {
       const status = await fetch(window.location.href + '/etl-status')
         .catch(e => console.log(e));
-      return await status.json().catch(e => console.log(e));
+      return await status === null ? '' : status.json().catch(e => console.log(e));
     }
 
     function renderEtlStatus(status) {
@@ -81,6 +81,14 @@
       let confirmation = confirm("Import data to preview site?");
       if (confirmation == false) { return; }
       document.getElementById('status').innerText = 'Preparing to run import process...';
+
+      /* Safety check to abort if ETL is in progress */
+      const logs = await fetchEtlLogs();
+      const hasStartMessage = (logs.filter(i => i.message === 'Python ETL Script Start')).length >= 1;
+      const hasEndMessage = (logs.filter(i => i.message === 'Python ETL Script End')).length >= 1;
+      if (hasStartMessage && !hasEndMessage) {
+        document.getElementById('status').innerText = 'There is already an import in progress. Please allow up to 30 minutes for that process to complete.';
+      }
 
       /* Trigger the ETL process to start */
       fetch(window.location.href + '?' + new URLSearchParams({ action: 'runetl' }), { method: 'GET' })
@@ -162,7 +170,7 @@
       provided.<br>
       Step 3) Import data from the preview site to the live site by choosing <em>Import Data to Live Site</em>
     </div>
-</details>
+  </details>
   <br />
   <button onclick='staging()'>Import Data to Preview Site</button>
   <br />

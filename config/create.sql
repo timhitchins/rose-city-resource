@@ -131,6 +131,7 @@ CREATE FUNCTION etl_import_to_production(out void) AS '
   SELECT * FROM etl_staging_1;
   DELETE FROM production_meta;
   INSERT INTO production_meta (last_update) VALUES (NOW());
+  DELETE FROM etl_run_log;
 ' LANGUAGE sql;
 
 /* Safety check for the buttons on the admin page */
