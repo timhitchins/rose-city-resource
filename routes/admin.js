@@ -28,7 +28,7 @@ module.exports = (app, pool) => {
   });
 
   /* Default handler for the admin page */
-  app.get("/admin/dashboard", checkNotAuthenticated, async (req, res, next) => {
+  app.get("/admin/dashboard", userIsAuthenticated, async (req, res, next) => {
     try {
 
       const { action } = req.query;
@@ -69,7 +69,7 @@ module.exports = (app, pool) => {
         return;
       }
       else {
-        res.render('admin.ejs');
+        res.render('dashboard.ejs');
         return;
       }
 
@@ -177,12 +177,12 @@ module.exports = (app, pool) => {
   });
 
   /* Login */
-  app.get("/admin/login", checkAuthenticated, (req, res) => {
+  app.get("/admin/login", userIsNotAuthenticated, (req, res) => {
     res.render("login.ejs", { message: null });
   });
 
   /* Register new user (NOTE: this is an admin privilege only, and is intentionally *not* outward facing) */
-  app.get('/admin/register', checkNotAuthenticated, (req, res) => {
+  app.get('/admin/register', userIsAuthenticated, (req, res) => {
     res.render('registerUser.ejs');
   });
 
@@ -204,7 +204,7 @@ module.exports = (app, pool) => {
 
   /* Change password */
   /* TODO: add logic to make this work, so that if a user has a default password they are required to change it */
-  app.get('/admin/settings', checkNotAuthenticated, (req, res) => {
+  app.get('/admin/settings', userIsAuthenticated, (req, res) => {
     res.render('changePassword.ejs');
   });
 
@@ -225,7 +225,7 @@ module.exports = (app, pool) => {
   );
 
   /* Passport middleware function to protect routes */
-  function checkAuthenticated(req, res, next) {
+  function userIsNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
       return res.redirect("/admin/dashboard");
     }
@@ -233,7 +233,7 @@ module.exports = (app, pool) => {
   }
 
   /* Passport middleware function to protect routes */
-  function checkNotAuthenticated(req, res, next) {
+  function userIsAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
       return next();
     }
