@@ -69,7 +69,8 @@ module.exports = (app, pool) => {
         return;
       }
       else {
-        res.render('dashboard.ejs');
+        console.log(req.user);
+        res.render('dashboard.ejs', { userData: req.user });
         return;
       }
 
@@ -182,11 +183,11 @@ module.exports = (app, pool) => {
   });
 
   /* Register new user (NOTE: this is an admin privilege only, and is intentionally *not* outward facing) */
-  app.get('/admin/register', userIsAuthenticated, (req, res) => {
+  app.get('/admin/register', userIsAdmin, (req, res) => {
     res.render('registerUser.ejs');
   });
 
-  app.post('/admin/register', (req, res) => {
+  app.post('/admin/register', userIsAdmin, (req, res) => {
     const registerUser = async () => {
       try {
         const { name, role, email, password } = req.body;
@@ -194,7 +195,7 @@ module.exports = (app, pool) => {
         const newUser = await pool.query('INSERT INTO production_user (name, role, email, password) VALUES ($1, $2, $3, $4)', [name, role, email, hashedPassword]
         );
         console.log(`You have succesfully registered user ${email}.`);
-        res.render('admin');
+        res.render('dashboard');
       } catch (err) {
         console.log(err);
       }
@@ -204,7 +205,7 @@ module.exports = (app, pool) => {
 
   /* Change password */
   /* TODO: add logic to make this work, so that if a user has a default password they are required to change it */
-  app.get('/admin/settings', userIsAuthenticated, (req, res) => {
+  app.get('/admin/changePassword', userIsAuthenticated, (req, res) => {
     res.render('changePassword.ejs');
   });
 
@@ -238,6 +239,14 @@ module.exports = (app, pool) => {
       return next();
     }
     res.redirect("/admin/login");
+  }
+
+  //this is for the "Create User" route, which should be accesible by logged-in Admin users only
+  function userIsAdmin(req, res, next) {
+    if (req.isAuthenticated() && req.user.role === "admin") {
+      return next();
+    }
+    res.redirect("/admin/dashboard");
   }
 
   /* Clear all tables like public.etl_% */

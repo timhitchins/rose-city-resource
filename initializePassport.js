@@ -33,10 +33,27 @@ async function initialize(passport, pool) {
 
   passport.use(
     new LocalStrategy(
-      { usernameField: "email", passwordField: "password" },
-      authenticateUser
+      { usernameField: "email", passwordField: "password", roleField: 'role' },
+      authenticateUser 
     )
   );
+
+  // passport.use(new LocalStrategy({
+  //   usernameField: "email", passwordField: "password", roleField: 'role' , passReqToCallback: true,
+  // },
+  //   function(username, password, role, done) {
+  //     User.findOne({ username: username }, function (err, user) {
+  //       if (err) { return done(err); }
+  //       if (!user) { return done(null, false); }
+  //       if (!user.verifyPassword(password)) { return done(null, false); }
+  //       return done(null, user);
+  //     });
+  //   }
+  // ));
+
+
+
+
   // Stores user details inside session. serializeUser determines which data of the user
   // object should be stored in the session. The result of the serializeUser method is attached
   // to the session as req.session.passport.user = {}. Here for instance, it would be (as we provide

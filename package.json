@@ -40,6 +40,7 @@
     "node-postgres": "^0.6.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "passport-local-roles": "^1.0.1",
     "pg": "^8.3.3"
   }
 }
