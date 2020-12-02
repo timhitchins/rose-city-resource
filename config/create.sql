@@ -145,3 +145,11 @@ RETURNS TABLE (etl_started VARCHAR(16), etl_ran_to_completion VARCHAR(16), minut
 	CAST((SELECT COUNT(*) FROM etl_staging_1) as VARCHAR) as etl_staging_1_num_rows
   FROM etl_run_log
 $$ LANGUAGE sql;
+
+/* Change password for user account matching the provided email address */
+DROP FUNCTION IF EXISTS change_password;
+CREATE FUNCTION change_password(in _email character varying (128), in _password character varying (256), out void) AS '
+  UPDATE production_user
+  SET password=_password
+  WHERE email = _email;
+' LANGUAGE sql;
