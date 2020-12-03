@@ -33,7 +33,7 @@ async function addDistancesToRecords(records) {
   const position = await inOutLocation().catch((e) =>
     console.log("Error getting position: ", e)
   );
-  if (position !== undefined) {
+  if (position !== undefined && position !== null) {
     currentCoords = [position.coords.latitude, position.coords.longitude];
   } else {
     currentCoords = null;

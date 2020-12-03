@@ -12,7 +12,7 @@ async function initialize(passport, pool) {
           const user = results.rows[0];
           await bcrypt.compare(password, user.password, async (err, isMatch) => {
             if (err) {
-              console.log(err);
+              console.print(err);
             }
             if (isMatch) {
               return await done(null, user);

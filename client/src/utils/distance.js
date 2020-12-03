@@ -31,7 +31,8 @@ export async function inOutLocation() {
   })
     .catch(e => {
       if (e.name === 'PositionError') {
-        console.log(e.message + '. code = ' + e.code);
+        console.error(e.message + '. code = ' + e.code);
+        return null;
       }
     })
 }

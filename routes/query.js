@@ -9,7 +9,8 @@ module.exports = (app, pool) => {
             try {
               await res.send(sqlerr);
             } catch (e) {
-              console.log(e);
+              console.error(e);
+              res.sendStatus(500);
             }
           }
           return;

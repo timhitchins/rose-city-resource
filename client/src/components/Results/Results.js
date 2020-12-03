@@ -178,29 +178,3 @@ class Results extends React.Component {
   }
 }
 export default Results;
-
-// REMOVED FROM COMPONENT DID MOUNT------------------------------------------------------------------------
-//if the search parameter doesn't exist show the parent org and category
-//else set the state to the result of the single search
-// if (dataMap.search === undefined) {
-//   const data = await nodeQueryBuilder(dataMap.category, dataMap.parent);
-//   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
-// } else {
-//   const { records } = this.props;
-//   const data = getFilteredData(dataMap.search, records);
-//   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
-// }
-//-------------------------------------------------------------------
-
-// REMOVED FROM COMPONENT DID UPDATE-----------------------------------------------------------------------
-//if the search parameter doesn't exist show the parent org and category
-//else set the state to the result of the single search
-// if (dataMap.search === undefined) {
-//   const data = await nodeQueryBuilder(dataMap.category, dataMap.parent);
-//   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
-// } else {
-//   const { records } = this.props;
-//   const data = getFilteredData(dataMap.search, records);
-//   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
-// }
-// -----------------------------------------------------------------------

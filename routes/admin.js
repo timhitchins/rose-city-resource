@@ -37,17 +37,17 @@ module.exports = (app, pool) => {
         /* The 'Import to Staging' button was clicked */
 
         /* Prepare to run the ETL script */
-        await clearTables().catch(e => console.log(e));
+        await clearTables().catch(e => console.error('Error clearing tables from Node.js', e.stack));
         log('Job Start');
 
         /* Run the ETL script */
         const file = path.resolve('ETL/main.py');
-        const python = spawn('python3', [file, keys.PG_CONNECTION_STRING]);
+        const python = spawn('python3', [file, keys.DATABASE_URL]);
         python.on('spawn', (code) => {
           console.log('Python spawn: ' + code)
         })
         python.on('error', (err) => {
-          console.log('Python error: ' + err)
+          console.error('Python error: ' + err)
         })
         python.on('exit', (code) => {
           console.log('Python exit code: ' + code)
@@ -69,7 +69,6 @@ module.exports = (app, pool) => {
         return;
       }
       else {
-        console.log(req.user);
         res.render('dashboard.ejs', { userData: req.user });
         return;
       }
@@ -85,9 +84,10 @@ module.exports = (app, pool) => {
 
       let log = null;
 
-      await pool.query('select * from etl_run_log order by time_stamp asc;', async (err, result) => {
+      await pool.query('SELECT * FROM etl_run_log ORDER BY time_stamp ASC;', async (err, result) => {
         if (err) {
-          console.log(err)
+          console.error('Error executing query ', err.stack);
+          res.sendStatus(500);
           return;
         }
         log = result.rows;
@@ -105,9 +105,10 @@ module.exports = (app, pool) => {
 
       let log = null;
 
-      await pool.query('select * from get_etl_status();', async (err, result) => {
+      await pool.query('SELECT * FROM get_etl_status();', async (err, result) => {
         if (err) {
-          console.log(err)
+          console.error('Error executing query ', err.stack);
+          res.sendStatus(500);
           return;
         }
         log = result.rows;
@@ -123,9 +124,10 @@ module.exports = (app, pool) => {
   app.get("/admin/dashboard/etl-validation", async (req, res, next) => {
     try {
       let data = null;
-      await pool.query('select * from etl_validate_staging_table();', async (err, result) => {
+      await pool.query('SELECT * FROM etl_validate_staging_table();', async (err, result) => {
         if (err) {
-          console.log(err)
+          console.error('Error executing query ', err.stack);
+          res.sendStatus(500);
           return;
         }
         data = result.rows;
@@ -143,9 +145,10 @@ module.exports = (app, pool) => {
 
       let log = null;
 
-      return await pool.query('select get_database_numrows();', async (err, result) => {
+      return await pool.query('SELECT get_database_numrows();', async (err, result) => {
         if (err) {
-          console.log(err)
+          console.error('Error executing query ', err.stack);
+          res.sendStatus(500);
           return;
         }
         log = result.rows;
@@ -163,9 +166,10 @@ module.exports = (app, pool) => {
 
       let log = null;
 
-      await pool.query('select get_database_size();', async (err, result) => {
+      await pool.query('SELECT get_database_size();', async (err, result) => {
         if (err) {
-          console.log(err)
+          console.error('Error executing query ', err.stack);
+          res.sendStatus(500);
           return;
         }
         log = result.rows;
@@ -194,18 +198,17 @@ module.exports = (app, pool) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await pool.query('INSERT INTO production_user (name, role, email, password) VALUES ($1, $2, $3, $4)', [name, role, email, hashedPassword]
         );
-        console.log(`You have succesfully registered user ${email}.`);
         res.render('dashboard');
       } catch (err) {
-        console.log(err);
+        console.error(err);
+        res.sendStatus(500);
       }
     }
     registerUser();
   });
 
   /* Change password */
-  /* TODO: add logic to make this work, so that if a user has a default password they are required to change it */
-  app.get('/admin/changePassword', userIsAuthenticated, (req, res) => {
+   app.get('/admin/changePassword', userIsAuthenticated, (req, res) => {
     res.render('changePassword.ejs');
   });
 
@@ -244,8 +247,7 @@ module.exports = (app, pool) => {
   });
 
   /* Handle input from the login form */
-  app.post(
-    "/admin/login",
+  app.post("/admin/login",
     passport.authenticate("local", {
       successRedirect: "/admin/dashboard",
       failureRedirect: "/admin/login",
@@ -279,27 +281,30 @@ module.exports = (app, pool) => {
 
   /* Clear all tables like public.etl_% */
   const clearTables = async () => {
-    await pool.query('select etl_clear_tables();', async (err, result) => {
+    await pool.query('SELECT etl_clear_tables();', async (err, result) => {
       if (err) {
-        console.log(err)
+        console.error('Error executing query ', err.stack);
+        res.sendStatus(500);
       }
     });
   }
 
   /* Log a message to the database */
   const log = async message => {
-    await pool.query(`select etl_log('${message}');`, async (err, result) => {
+    await pool.query(`SELECT etl_log('${message}');`, async (err, result) => {
       if (err) {
-        console.log(err)
+        console.error('Error executing query ', err.stack);
+        res.sendStatus(500);
       }
     });
   }
 
   /* Import staging data to production */
   const importToProduction = async () => {
-    await pool.query(`select etl_import_to_production();`, async (err, result) => {
+    await pool.query(`SELECT etl_import_to_production();`, async (err, result) => {
       if (err) {
-        console.log(err);
+        console.error('Error executing query ', err.stack);
+        res.sendStatus(500);
       }
     });
   }

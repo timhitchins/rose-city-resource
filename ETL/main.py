@@ -25,6 +25,10 @@ if DATABASE_URL == None or DATABASE_URL == '':
 
 if DATABASE_URL == None or DATABASE_URL == '':
     print('The postgres connection string DATABASE_URL is missing')
+    print('The local development postgres connection string requires manually adding environment variables')
+    print('The DATABASE_URL string can be found by logging into Heroku and navigating to the postgres add-on details')
+    print('The DATABASE_URL from Heroku should be copied verbatim to the same local development environment variable')
+    print('Use the env command to verify that the current terminal instance contains the DATABASE_URL environment variable')
     sys.exit(12)
 
 # Connect to the database
@@ -97,18 +101,21 @@ listings = listings_airtable.get_all()
 create_import_table('etl_import_1', listings)
 del listings_airtable
 del listings
+
 log("Import the phone airtable")
 phone_airtable = Airtable(AIRTABLE_BASE_ID, 'phone', AIRTABLE_API_KEY)
 phone = phone_airtable.get_all()
 create_import_table('etl_import_2', phone)
 del phone_airtable
 del phone
+
 log("Import the address airtable")
 address_airtable = Airtable(AIRTABLE_BASE_ID, 'address', AIRTABLE_API_KEY)
 address = address_airtable.get_all()
 create_import_table('etl_import_3', address)
 del address_airtable
 del address
+
 log("Import the contacts airtable")
 contacts_airtable = Airtable(
     AIRTABLE_BASE_ID, 'contacts', AIRTABLE_API_KEY)
@@ -116,6 +123,7 @@ contacts = contacts_airtable.get_all()
 create_import_table('etl_import_4', contacts)
 del contacts_airtable
 del contacts
+
 log("Import the contacts airtable")
 parent_airtable = Airtable(
     AIRTABLE_BASE_ID, 'parent_organization', AIRTABLE_API_KEY)
@@ -134,6 +142,7 @@ db.commit()
 # --------- PHASE 3: Geocode addresses --------- #
 
 log("Geocode addresses")
+# GeoPy Nominatim usage policy requires the HTTP User-Agent to be set to the application name
 geolocator = Nominatim(user_agent="rose-city-resource")
 query = "SELECT * FROM etl_staging_1;"
 cursor.execute(query)
@@ -145,13 +154,17 @@ i_lon = columns.index('lon')
 i_id = columns.index('id')
 i_full_address = columns.index('full_address')
 rows = cursor.fetchall()
+
 for row in rows:
+
     address = row[i_full_address]
     if address == None or address == '':
         continue
+
     location = geolocator.geocode(address)
     lat = ''
     lon = ''
+
     try:
         lat = location.latitude
     except:
@@ -160,6 +173,7 @@ for row in rows:
         lon = location.longitude
     except:
         lon = ''
+
     sql = "UPDATE etl_staging_1 SET lat='{0}', lon='{1}' WHERE id='{2}';".format(
         lat, lon, row[i_id])
     cursor.execute(sql)
@@ -171,24 +185,20 @@ for row in rows:
 query = "select get_database_numrows()"
 cursor.execute(query)
 numrows = cursor.fetchone()[0]
+
 query = "select get_database_size()"
 cursor.execute(query)
 size = cursor.fetchone()[0]
+
 log("Peak postgres resource utilization: " +
     str(numrows) + " rows, " + str(size) + " disk space")
+
 log("Finalize the staging table")
 query = ("select etl_finalize_staging_table();")
 cursor.execute(query)
 db.commit()
 
-# --------- PHASE 5: Validate data --------- #
-
-log("Validate data in the staging table")
-query = "select etl_validate_staging_table();"
-cursor.execute(query)
-rows = cursor.fetchall()
-# for row in rows:
-# TODO: create/send email or generate a file with a report
+# --------- END --------- #
 
 # Close the connection
 log("Python ETL Script End")

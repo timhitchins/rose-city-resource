@@ -9,14 +9,14 @@ const app = express();
 
 /* Heroku free postgres allows up to 20 concurrent connections */
 const pool = new Pool({
-  connectionString: keys.PG_CONNECTION_STRING,
+  connectionString: keys.DATABASE_URL,
   max: 20,
   ssl: { rejectUnauthorized: false }
 });
 
 pool.on('error', async (error, client) => {
   if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== "production") {
-    console.log(`pool.error: ${error}; connection.string: ${keys.PG_CONNECTION_STRING}`);
+    console.error(`Database pool error: ${error}; Connection string: ${keys.DATABASE_URL}`);
   }
 });
 
@@ -40,9 +40,9 @@ require("./routes/admin")(app, pool);
 const testDatabaseQuery = () => {
   pool.query(`select last_update from production_meta`, (err, res) => {
     if (err) {
-      console.log('Error connnecting to the database!');
-      if (process.env.DATABASE_URL === undefined || process.env.DATABASE_URL === null || process.env.DATABASE_URL === '') {
-        console.log('Please check that the DATABASE_URL environment variable is correct');
+      console.error('Error connnecting to the database!');
+      if (keys.DATABASE_URL === undefined || keys.DATABASE_URL === null || keys.DATABASE_URL === '') {
+        console.error('Please check that the DATABASE_URL environment variable is correct. See comments in nodeKeys.js for further information.');
       }
     }
   });

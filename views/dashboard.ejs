@@ -5,26 +5,26 @@
 
     async function fetchPgRows() {
       let data = await fetch(window.location.href + '/pg-rows')
-        .catch(e => console.log(e))
-      return await data === undefined ? '' : data.json().catch(e => console.log(e));
+        .catch(e => console.error(e))
+      return await data === undefined ? '' : data.json().catch(e => console.error(e));
     }
 
     async function fetchPgSpace() {
       let data = await fetch(window.location.href + '/pg-space')
-        .catch(e => console.log(e))
-      return await data == undefined ? '' : data.json().catch(e => console.log(e));
+        .catch(e => console.error(e))
+      return await data == undefined ? '' : data.json().catch(e => console.error(e));
     }
 
     async function fetchLastUpdate() {
       let data = await fetch('/api/last-update')
-        .catch(e => console.log(e))
-      return await data === undefined ? '' : data.json().catch(e => console.log(e));
+        .catch(e => console.error(e))
+      return await data === undefined ? '' : data.json().catch(e => console.error(e));
     }
 
     async function fetchEtlLogs() {
       let logs = await fetch(window.location.href + '/etl-log')
-        .catch(e => console.log(e))
-      return await logs === undefined ? '' : logs.json().catch(e => console.log(e));
+        .catch(e => console.error(e))
+      return await logs === undefined ? '' : logs.json().catch(e => console.error(e));
     }
 
     function renderEtlLogs(logs) {
@@ -41,8 +41,8 @@
 
     async function fetchEtlStatus() {
       const status = await fetch(window.location.href + '/etl-status')
-        .catch(e => console.log(e));
-      return await status === undefined ? '' : status.json().catch(e => console.log(e));
+        .catch(e => console.error(e));
+      return await status === undefined ? '' : status.json().catch(e => console.error(e));
     }
 
     function renderEtlStatus(status) {
@@ -58,19 +58,19 @@
         /* HAS started */
         if (status.etl_ran_to_completion.toLowerCase() === 'false') {
           /* Has NOT completed */
-          div.innerHTML = '<span>The ETL process has started. Please allow up to 30 minutes for the process to complete.</span>';
+          div.innerHTML = '<span>The Import to Preview process has started. Please allow up to 30 minutes for the process to complete.</span>';
         }
         else if (status.etl_ran_to_completion.toLowerCase() === 'true') {
           /* HAS completed */
           if (parseInt(status.minutes_since_last_log) > 60 * 48) {
             /* More than 24 hours ago */
-            div.innerHTML = "<span>The ETL process ran more than 48 hours ago. Please run it again, since the source data may have changed.</span>";
+            div.innerHTML = "<span>The Import to Preview process ran more than 48 hours ago. Please run it again, since the source data may have changed.</span>";
           }
           else {
             /* Less than 24 hours ago */
             if (parseInt(status.etl_staging_1_num_rows) < 1) {
               /* The staging table is empty */
-              div.innerHTML = "<span>The preview data is empty. Please report this to the MAC development team.</span>";
+              div.innerHTML = "<span>The preview data is empty. Please report this to the development team.</span>";
             }
             else {
               div.innerHTML = "<span style='font-size: 20px; font-family: 'Courier New', Courier, monospace;'>The preview data is imported successfully and is ready to be imported to the live site.</span>";
@@ -83,8 +83,8 @@
 
     async function fetchDataValidationItems() {
       const data = await fetch(window.location.href + '/etl-validation')
-        .catch(e => console.log(e));
-      return await data === undefined ? '' : data.json().catch(e => console.log(e));
+        .catch(e => console.error(e));
+      return await data === undefined ? '' : data.json().catch(e => console.error(e));
     }
 
     function renderValidationItems(items) {
@@ -118,7 +118,7 @@
         .catch(e => { document.getElementById('status').innerText = 'Failed to start import process'; })
 
       /* Query the server for ETL status on an interval */
-      var stagingInterval = window.setInterval(async function () {
+      const stagingInterval = window.setInterval(async function () {
 
         /* Fetch and display ETL logs */
         const logs = await fetchEtlLogs();
@@ -156,7 +156,7 @@
         .catch(e => { document.getElementById('status').innerHTML = '<span>&#10008;&nbsp;Failed to start import process</span>'; })
 
       /* Query the server for status on an interval */
-      var prodInterval = window.setInterval(async function () {
+      const prodInterval = window.setInterval(async function () {
 
         /* Check if the production table has been updated */
         let timestamp = await fetchLastUpdate();
