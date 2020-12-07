@@ -44,13 +44,13 @@ module.exports = (app, pool) => {
         const file = path.resolve('ETL/main.py');
         const python = spawn('python3', [file, keys.DATABASE_URL]);
         python.on('spawn', (code) => {
-          console.log('Python spawn: ' + code)
+          console.info('Python spawn: ' + code)
         })
         python.on('error', (err) => {
           console.error('Python error: ' + err)
         })
         python.on('exit', (code) => {
-          console.log('Python exit code: ' + code)
+          console.info('Python exit code: ' + code)
         })
         python.stderr.on('data', (data) => {
           log('Python stderr: ' + data.toString());

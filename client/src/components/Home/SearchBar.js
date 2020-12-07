@@ -24,7 +24,6 @@ class AdvancedSearchModal extends React.Component {
 
   // this needs to be refratored a bit to be more DRY
   toggleCheckedValue = (val, selection) => {
-    console.log(this.state);
     if (selection === "Category") {
       const categoryVals = [...this.state.categoryVals];
       const index = categoryVals.indexOf(val); // get index to determine if the aray gets spliced.
@@ -61,7 +60,6 @@ class AdvancedSearchModal extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { categoryVals } = this.state;
-    console.log("Final Search Vals", categoryVals);
   };
 
   handleNoSelection = (event) => {
@@ -235,7 +233,6 @@ export default class SearchBar extends React.Component {
   handleSubmit = (event) => {
     //we use event.prevetDefault so that the submit doesn't go to a server
     event.preventDefault();
-    console.log(this.state.searchValue);
   };
 
   toggleAdvSearchModal = () => {

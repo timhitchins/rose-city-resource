@@ -32,7 +32,6 @@ class App extends React.Component {
   //this may need to be moved down to results
   handleCardSave = (id) => {
     const { savedDataId } = this.state;
-    // console.log('current saved state: ', savedDataId);
     if (savedDataId.indexOf(id) === -1) {
       //build up the state array without directly mutating state
       this.setState((prevState) => ({
@@ -137,8 +136,9 @@ class App extends React.Component {
                       )}
                     />
                     <Route
-                      exact path="/admin" render={() =>
-                        window.location.href = [window.location.protocol, '//', window.location.host.replace(/\d+/, '5000'), '/admin/dashboard'].join('')
+                      exact path="/admin" render={(props) => {
+                          window.location.href = [window.location.protocol, '//', window.location.host.replace(/\d+/, '5000'), '/admin/dashboard'].join('')
+                        }
                       }
                     />
                     {/* for all other routes */}

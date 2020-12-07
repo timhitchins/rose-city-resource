@@ -9,17 +9,17 @@ export async function getRecordsLastUpdatedTimestamp() {
   const uri = '/api/last-update';
   const last_update = await fetch(uri)
     .catch(e => {
-      console.log(e);
+      console.error(e);
       handleError();
     })
     .then(r => {
       if (r.ok) {
         return r.json().catch(e => {
-          console.log(e);
+          console.error(e);
         })
       }
       else {
-        console.log('Unable to connect to the server');
+        console.error('Unable to connect to the server');
         return '';
       }
     })
@@ -31,7 +31,7 @@ async function addDistancesToRecords(records) {
   // Attempt to get the user's geolocation from the browser
   let currentCoords;
   const position = await inOutLocation().catch((e) =>
-    console.log("Error getting position: ", e)
+    console.error("Error getting position: ", e)
   );
   if (position !== undefined && position !== null) {
     currentCoords = [position.coords.latitude, position.coords.longitude];
@@ -67,10 +67,10 @@ export async function getRecords() {
     : '/api/query'
 
   try {
-    const queryResponse = await fetch(uri).catch(e => console.log(e));
-    const records = await queryResponse.json().catch(e => console.log(e));
+    const queryResponse = await fetch(uri).catch(e => console.error('Error fetching records', e));
+    const records = await queryResponse.json().catch(e => console.error(e));
     if (!queryResponse.ok) {
-      console.log('Server error: ' + queryResponse.statusText);
+      console.error('Server error: ' + queryResponse.statusText);
     }
     if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
       return null;
@@ -84,7 +84,7 @@ export async function getRecords() {
 
     return recordsWithDistances;
   } catch (err) {
-    console.log(err);
+    console.error('Error querying records', err);
   }
 }
 

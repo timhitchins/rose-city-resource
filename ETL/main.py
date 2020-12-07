@@ -62,10 +62,10 @@ def create_import_table(table_name, json_data):
     data.columns = new_columns
     print(new_columns)
     # Drop and Create the table
-    sql = "DROP TABLE IF EXISTS {}; ".format(table_name)
-    sql += "CREATE TABLE {} (".format(table_name)
+    sql = f"DROP TABLE IF EXISTS {table_name}; "
+    sql += f"CREATE TABLE {table_name} ("
     for name in data.columns:
-        sql += "{} TEXT".format(name)
+        sql += f"{name} TEXT"
         if name != list(data.columns)[-1]:
             sql += ','
     sql += "); "
@@ -73,8 +73,7 @@ def create_import_table(table_name, json_data):
     db.commit()
 
     # Iterate through each row and add values
-    sql = "INSERT INTO {} (".format(table_name) + \
-        ','.join(data.columns) + ") VALUES "
+    sql = f"INSERT INTO {table_name} ({','.join(data.columns)}) VALUES "
     allrowvalues = []
     for index, row in data.iterrows():
         currentrowvalues = []
@@ -84,7 +83,7 @@ def create_import_table(table_name, json_data):
                 "'" + str(row[col]).replace("'", "").replace("[", "").replace("]", "").replace("nan", "") + "'")
         allrowvalues.append(','.join(currentrowvalues))
     for item in allrowvalues:
-        sql += "({})".format(item)
+        sql += f"({item})"
         if item != list(allrowvalues)[-1]:
             sql += ','
     cursor.execute(sql)
@@ -174,8 +173,7 @@ for row in rows:
     except:
         lon = ''
 
-    sql = "UPDATE etl_staging_1 SET lat='{0}', lon='{1}' WHERE id='{2}';".format(
-        lat, lon, row[i_id])
+    sql = f"UPDATE etl_staging_1 SET lat='{lat}', lon='{lon}' WHERE id='{row[i_id]}';"
     cursor.execute(sql)
     db.commit()
 

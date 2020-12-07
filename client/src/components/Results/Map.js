@@ -37,8 +37,6 @@ class Markers extends React.Component {
                 icon={
                   selectedListing === item.popup.id ? greenLMarker : blueLMarker
                 }
-                // onClick={() => updateListing(item.popup.id)}
-                // onSelect={() => console.log('slected', item.popup.id)}
               >
                 <Popup>
                   <div className="popup-container">
@@ -101,11 +99,6 @@ class SimpleMap extends React.Component {
   };
 
   handleLocationClick = () => {
-    // const leafletMap = this.leafletMap;
-    // console.log('handle click', this.leafletMap);
-    // if (leafletMap != null) {
-    //   leafletMap.leafletElement.locate({ setView: true, maxZoom: 18 });
-    // }
   };
 
   //for whatever reason the leaflet element is firing as null
@@ -326,7 +319,7 @@ export default SimpleMap;
 //       console.log('Location', [e.latitude, e.longitude]);
 //     })
 //     .on('locationerror', function(e) {
-//       console.log(e);
+//       console.error(e);
 //       alert('Location access denied.');
 //     });
 // };
