@@ -23,6 +23,6 @@ module.exports = (app, pool) => {
     } catch (e) {
       return next(e);
     }
-
+    
   });
 };

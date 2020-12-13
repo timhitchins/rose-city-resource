@@ -80,7 +80,7 @@ def create_import_table(table_name, json_data):
         for col in data.columns:
             # Get the values for the current row and sanitize them into clean string data
             currentrowvalues.append(
-                "'" + str(row[col]).replace("'", "").replace("[", "").replace("]", "").replace("nan", "") + "'")
+                "'" + str(row[col]).replace("'", "").replace("[", "").replace("]", "").replace("^nan$", "") + "'")
         allrowvalues.append(','.join(currentrowvalues))
     for item in allrowvalues:
         sql += f"({item})"
