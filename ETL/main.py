@@ -5,6 +5,7 @@ import json
 from airtable import Airtable
 import pandas
 from geopy.geocoders import Nominatim
+import re
 
 AIRTABLE_API_KEY = os.environ.get('AIRTABLE_API_KEY')
 AIRTABLE_BASE_ID = os.environ.get('AIRTABLE_BASE_ID')
