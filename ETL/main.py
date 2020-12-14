@@ -80,7 +80,7 @@ def create_import_table(table_name, json_data):
         for col in data.columns:
             # Get the values for the current row and sanitize them into clean string data
             currentrowvalues.append(
-                "'" + str(row[col]).replace("'", "").replace("[", "").replace("]", "").replace("^nan$", "") + "'")
+                "'" + str(row[col]).replace("'", "").replace("[", "").replace("]", "").replace("\Wnan\W", "") + "'")
         allrowvalues.append(','.join(currentrowvalues))
     for item in allrowvalues:
         sql += f"({item})"
@@ -123,7 +123,7 @@ create_import_table('etl_import_4', contacts)
 del contacts_airtable
 del contacts
 
-log("Import the contacts airtable")
+log("Import the parent_organization airtable")
 parent_airtable = Airtable(
     AIRTABLE_BASE_ID, 'parent_organization', AIRTABLE_API_KEY)
 parent = parent_airtable.get_all()
