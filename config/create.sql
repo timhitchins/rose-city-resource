@@ -96,15 +96,15 @@ CREATE FUNCTION etl_validate_staging_table()
 RETURNS TABLE (Test text, Details text, id int, listing text) AS $$
   -- Address exists but either lat or lon is an empty string
   SELECT 'Address (missing geolocation)' as Test,
-  'Address: ' || street as Details, id, listing
+  street as Details, id, listing
   FROM etl_staging_1
   WHERE (street IS NOT NULL AND street <> '' AND (lon = '' OR lat = ''))
   UNION ALL
   -- Phone number exists but type is null (causing it not to show up in the phone field)
   SELECT 'Phone (missing type)' as Test,
-  'Number: ' || phone as Details, id, listing
+  phone as Details, id, listing
   FROM etl_staging_1
-  WHERE phone NOT LIKE ':%'
+  WHERE phone !~ '\w+\:[\d-]+(\,\w+\:[\d-]+)*'
   -- Maybe check for multiple records with the same listing + parent?
   -- Check for latitudes too far off from 45.52345 or longitudes too far off from -122.6762?
 $$ LANGUAGE sql;

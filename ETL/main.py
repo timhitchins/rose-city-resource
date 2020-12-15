@@ -157,9 +157,20 @@ rows = cursor.fetchall()
 
 for row in rows:
 
-    address = row[i_full_address]
-    if address == None or address == '':
+    _address = str(row[i_full_address])
+    if _address == None or _address == '':
         continue
+    address = re.sub(r'First', '1st', _address, re.IGNORECASE)
+    address = re.sub(r'Second', '2nd', address, re.IGNORECASE)
+    address = re.sub(r'Third', '3rd', address, re.IGNORECASE)
+    address = re.sub(r'Fourth', '4th', address, re.IGNORECASE)
+    address = re.sub(r'Fifth', '5th', address, re.IGNORECASE)
+    address = re.sub(r'Sixth', '6th', address, re.IGNORECASE)
+    address = re.sub(r'Seventh', '7th', address, re.IGNORECASE)
+    address = re.sub(r'Eighth', '8th', address, re.IGNORECASE)
+    address = re.sub(r'Ninth', '9th', address, re.IGNORECASE)
+    address = re.sub(r'MLK Jr', 'Martin Luther King Jr', address, re.IGNORECASE)
+    address = re.sub(r'MLK', 'Martin Luther King', address, re.IGNORECASE)
 
     location = geolocator.geocode(address)
     lat = ''

@@ -284,7 +284,6 @@ module.exports = (app, pool) => {
     await pool.query('SELECT etl_clear_tables();', async (err, result) => {
       if (err) {
         console.error('Error executing query ', err.stack);
-        res.sendStatus(500);
       }
     });
   }
@@ -294,7 +293,6 @@ module.exports = (app, pool) => {
     await pool.query(`SELECT etl_log('${message}');`, async (err, result) => {
       if (err) {
         console.error('Error executing query ', err.stack);
-        res.sendStatus(500);
       }
     });
   }
@@ -304,7 +302,6 @@ module.exports = (app, pool) => {
     await pool.query(`SELECT etl_import_to_production();`, async (err, result) => {
       if (err) {
         console.error('Error executing query ', err.stack);
-        res.sendStatus(500);
       }
     });
   }
