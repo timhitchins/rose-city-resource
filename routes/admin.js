@@ -212,33 +212,29 @@ module.exports = (app, pool) => {
     res.render('changePassword.ejs');
   });
 
-
-  // CHANGE PASSWORD POST ROUTE
-  /*
-  app.post('./admin/changePassword', userIsAuthenticated, (req, res) => {
-    const { password, newPass1, newPass2 } = req.body;
-    /* TODO: 
-    1. check that the current password matches the password in the database
-
-    2. check that the two new passwords match, throw an error /req.flash error message if they don't
-
-    // if (newPass1 !== newPass2) {
-      req.error('New passwords must match.');
+  /* Handle input from the change password form */
+  app.post('/admin/changePassword', userIsAuthenticated, (req, res) => {
+    const { newPass1, newPass2 } = req.body;
+ 
+    let newPassword = '';
+    if (newPass1 !== newPass2) {
+      req.error('New passwords must match');
     } else {
-      const newPassword = newPass1;
+      newPassword = newPass1;
     }
 
-    3. if the new passwords match, bcrypt them:
+    try {
+      bcrypt.hash(newPassword, 10)
+      .then(hashedPassword => {
+        changePassword(req.user.email, hashedPassword);
+        res.redirect("/admin/dashboard");
+      })
+    }
+    catch (e) {
+      res.sendStatus(500);
+    }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    
-    
-    4. store the new, bcrypted password in the DB, using "upsert"
-
-    /* KENT: the sql command to upset the new password goes here */
-    /*
-  }); */
-  
+  });
 
   /* Logout */
   app.get("/admin/logout", (req, res) => {
@@ -306,5 +302,13 @@ module.exports = (app, pool) => {
     });
   }
 
+    /* Change password */
+    const changePassword = async (email, password) => {
+      await pool.query(`SELECT change_password($1, $2)`, [email, password], async (err, result) => {
+        if (err) {
+          console.error('Error executing query ', err.stack);
+        }
+      });
+    }
 };
 
