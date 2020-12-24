@@ -166,17 +166,6 @@ for row in rows:
         continue
 
     address = _address
-    #address = re.sub(r'First', '1st', _address, re.IGNORECASE)
-    #address = re.sub(r'Second', '2nd', address, re.IGNORECASE)
-    #address = re.sub(r'Third', '3rd', address, re.IGNORECASE)
-    #address = re.sub(r'Fourth', '4th', address, re.IGNORECASE)
-    #address = re.sub(r'Fifth', '5th', address, re.IGNORECASE)
-    #address = re.sub(r'Sixth', '6th', address, re.IGNORECASE)
-    #address = re.sub(r'Seventh', '7th', address, re.IGNORECASE)
-    #address = re.sub(r'Eighth', '8th', address, re.IGNORECASE)
-    #address = re.sub(r'Ninth', '9th', address, re.IGNORECASE)
-    #address = re.sub(r'MLK Jr', 'Martin Luther King Jr', address, re.IGNORECASE)
-    #address = re.sub(r'MLK', 'Martin Luther King', address, re.IGNORECASE)
 
     location = geolocator.geocode(address)
     lat = ''
@@ -188,9 +177,6 @@ for row in rows:
         lat = ''
     try:
         lon = location.longitude
-        #if (str(lon) == '7.540121' and str(lat) == '44.933143'): # Stopgap solution for the (7.540121, 44.933143) problem
-        #    lon = ''
-        #    lat = ''
     except:
         lon = ''
 
