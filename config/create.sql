@@ -69,13 +69,13 @@ CREATE FUNCTION etl_merge_import_tables(out void) AS $$
 	  SELECT general_category, main_category, I5.name as parent_organization,
 	  I4.listing_organization as listing, service_description, covid_message,
 	  I3.street, street2, city, postal_code, website, hours, '' as lon, '' as lat,
-    REGEXP_REPLACE(
-      REGEXP_REPLACE((
-        SELECT string_agg(I2.type || ':' || I2.phone, ',')
-        FROM etl_import_2 as I2 WHERE I1.listing = I2.listing GROUP BY I2.listing
-      ), /* Replace unwanted characters with nothing */'^\:\s*|^\s+|\s+$|\s*\(|\)', '', 'g'),
-     /* Replace spaces between numbers with a dash */'(?<=\d)(\s+|\-\s|\s\-)(?=\d)', '-', 'g') as phone,
-	  (SELECT I3.street || ', ' || city || ', OR ' || postal_code) as full_address
+	  REGEXP_REPLACE(
+	    REGEXP_REPLACE((
+		  SELECT string_agg(I2.type || ':' || I2.phone, ',')
+			FROM etl_import_2 AS I2 WHERE I1.listing = I2.listing OR I2.listing LIKE '%' || I1.listing || '%' /* I2.listing can be a comma-separated list */
+	    ), /* Replace unwanted characters with nothing */'^\:\s*|^\s+|\s+$|\s*\(|\)', '', 'g'),
+	       /* Replace spaces between numbers with a dash */'(?<=\d)(\s+|\-\s|\s\-)(?=\d)', '-', 'g') as phone,
+	  CASE WHEN I3.street <> '' THEN (SELECT I3.street || ', ' || city || ', OR ' || postal_code) ELSE '' END AS full_address
 	  FROM etl_import_1 as I1
 	  LEFT JOIN etl_import_3 as I3 ON I1.street = I3.id
 	  LEFT JOIN etl_import_4 as I4 ON I1.contacts = I4.id

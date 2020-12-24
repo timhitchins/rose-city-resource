@@ -4,8 +4,10 @@ import os
 import json
 from airtable import Airtable
 import pandas
-from geopy.geocoders import Nominatim
+from geopy.geocoders import GoogleV3
 import re
+
+geolocator = GoogleV3(api_key=os.environ.get('GOOGLE_API_KEY'))
 
 AIRTABLE_API_KEY = os.environ.get('AIRTABLE_API_KEY')
 AIRTABLE_BASE_ID = os.environ.get('AIRTABLE_BASE_ID')
@@ -142,8 +144,6 @@ db.commit()
 # --------- PHASE 3: Geocode addresses --------- #
 
 log("Geocode addresses")
-# GeoPy Nominatim usage policy requires the HTTP User-Agent to be set to the application name
-geolocator = Nominatim(user_agent="rose-city-resource")
 query = "SELECT * FROM etl_staging_1;"
 cursor.execute(query)
 columns = []
@@ -153,24 +153,30 @@ i_lat = columns.index('lat')
 i_lon = columns.index('lon')
 i_id = columns.index('id')
 i_full_address = columns.index('full_address')
+i_street_address = columns.index('street')
 rows = cursor.fetchall()
 
 for row in rows:
 
-    _address = str(row[i_full_address])
-    if _address == None or _address == '':
+    _address = str(row[i_full_address]) # Check for an empty full address needed to continue processing lat and lon
+    if _address == None or _address == '' or len(_address) <= 0 or _address == 'None':
         continue
-    address = re.sub(r'First', '1st', _address, re.IGNORECASE)
-    address = re.sub(r'Second', '2nd', address, re.IGNORECASE)
-    address = re.sub(r'Third', '3rd', address, re.IGNORECASE)
-    address = re.sub(r'Fourth', '4th', address, re.IGNORECASE)
-    address = re.sub(r'Fifth', '5th', address, re.IGNORECASE)
-    address = re.sub(r'Sixth', '6th', address, re.IGNORECASE)
-    address = re.sub(r'Seventh', '7th', address, re.IGNORECASE)
-    address = re.sub(r'Eighth', '8th', address, re.IGNORECASE)
-    address = re.sub(r'Ninth', '9th', address, re.IGNORECASE)
-    address = re.sub(r'MLK Jr', 'Martin Luther King Jr', address, re.IGNORECASE)
-    address = re.sub(r'MLK', 'Martin Luther King', address, re.IGNORECASE)
+    _street = str(row[i_street_address]) # Skip empty street addresses which should NOT have lat or lon
+    if _street == None or _street == '' or len(_street) <= 0 or _street == 'None':
+        continue
+
+    address = _address
+    #address = re.sub(r'First', '1st', _address, re.IGNORECASE)
+    #address = re.sub(r'Second', '2nd', address, re.IGNORECASE)
+    #address = re.sub(r'Third', '3rd', address, re.IGNORECASE)
+    #address = re.sub(r'Fourth', '4th', address, re.IGNORECASE)
+    #address = re.sub(r'Fifth', '5th', address, re.IGNORECASE)
+    #address = re.sub(r'Sixth', '6th', address, re.IGNORECASE)
+    #address = re.sub(r'Seventh', '7th', address, re.IGNORECASE)
+    #address = re.sub(r'Eighth', '8th', address, re.IGNORECASE)
+    #address = re.sub(r'Ninth', '9th', address, re.IGNORECASE)
+    #address = re.sub(r'MLK Jr', 'Martin Luther King Jr', address, re.IGNORECASE)
+    #address = re.sub(r'MLK', 'Martin Luther King', address, re.IGNORECASE)
 
     location = geolocator.geocode(address)
     lat = ''
@@ -182,10 +188,13 @@ for row in rows:
         lat = ''
     try:
         lon = location.longitude
+        #if (str(lon) == '7.540121' and str(lat) == '44.933143'): # Stopgap solution for the (7.540121, 44.933143) problem
+        #    lon = ''
+        #    lat = ''
     except:
         lon = ''
 
-    sql = f"UPDATE etl_staging_1 SET lat='{lat}', lon='{lon}' WHERE id='{row[i_id]}';"
+    sql = f"UPDATE etl_staging_1 SET lat='{lat}', lon='{lon}' WHERE id={row[i_id]};"
     cursor.execute(sql)
     db.commit()
 
