@@ -17,7 +17,7 @@ class Details extends React.Component {
   componentDidMount() {
     const { records } = this.props;
     const queryVals = queryString.parse(this.props.location.search);
-    const detailsData = cardDetailsFilter(records, queryVals.saved);
+    const detailsData = cardDetailsFilter(records, new Array().concat(queryVals.saved));
 
     // this logic should be in utils
     // but I need to refactor the way I used

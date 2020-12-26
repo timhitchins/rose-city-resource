@@ -302,9 +302,11 @@ export function cardDetailsFilter(records, savedIds) {
   ) {
     return [];
   }
+  console.log(savedIds);
   const filteredDetailsData = records.filter((r) =>
     savedIds.includes(r.id.toString())
   );
+  console.log(filteredDetailsData);
   return filteredDetailsData;
 }
 
