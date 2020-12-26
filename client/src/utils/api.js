@@ -1,100 +1,115 @@
 import { findDistance, inOutLocation } from "./distance";
 
-let _datatableVersion = '';
+let _datatableVersion = "";
 
 // ASYNC DATA UTLS--------------------------------------------------------
 
 /* Get the time stamp of the last update to the production_data table */
 export async function getRecordsLastUpdatedTimestamp() {
-  const uri = '/api/last-update';
+  const uri = "/api/last-update";
   const last_update = await fetch(uri)
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
       handleError();
     })
-    .then(r => {
+    .then((r) => {
       if (r.ok) {
-        return r.json().catch(e => {
+        return r.json().catch((e) => {
           console.error(e);
-        })
+        });
+      } else {
+        console.error("Unable to connect to the server");
+        return "";
       }
-      else {
-        console.error('Unable to connect to the server');
-        return '';
-      }
-    })
-  return last_update
+    });
+  return last_update;
 }
 
 /* Add the distance that the listing's address is from the user as a property on the listing */
-async function addDistancesToRecords(records) {
+export async function addUserDistancesToRecords(records) {
   // Attempt to get the user's geolocation from the browser
-  let currentCoords;
-  const position = await inOutLocation().catch((e) =>
-    console.error("Error getting position: ", e)
-  );
-  if (position !== undefined && position !== null) {
-    currentCoords = [position.coords.latitude, position.coords.longitude];
-  } else {
-    currentCoords = null;
-  }
-
-  // Calculate the distance between the user's location and the geolocation of each listing and add to the listing
-  for (let i = 0; i < records.length; i++) {
-    if (records[i].lat === '' || records[i].lon === '') {
-      records[i].distance = null;
-      continue;
-    }
-    const listCoords = [Number(records[i].lat), Number(records[i].lon)];
-    let distance;
-    if (Array.isArray(currentCoords)) {
-      distance = findDistance(currentCoords, listCoords);
+  try {
+    let currentCoords;
+    const position = await inOutLocation();
+    if (position !== undefined && position !== null) {
+      currentCoords = [position.coords.latitude, position.coords.longitude];
     } else {
-      distance = null;
+      currentCoords = null;
     }
 
-    records[i].distance = distance;
-  }
+    // Calculate the distance between the user's location and the geolocation of each listing and add to the listing
+    for (let i = 0; i < records.length; i++) {
+      if (records[i].lat === "" || records[i].lon === "") {
+        records[i].distance = null;
+        continue;
+      }
+      const listCoords = [Number(records[i].lat), Number(records[i].lon)];
+      let distance;
+      if (Array.isArray(currentCoords)) {
+        distance = findDistance(currentCoords, listCoords);
+      } else {
+        distance = null;
+      }
 
-  return records;
+      records[i].distance = distance;
+    }
+
+    return records;
+  } catch (err) {
+    console.error(`An error occurred calculating distance: ${err.message}.`);
+    return records;
+  }
 }
 
 /* Download records by fetching JSON from the appropriate API route */
 export async function getRecords() {
-
-  const uri = getQueryStringParameterValue('datatable') === 'staging'
-    ? '/api/query-staging'
-    : '/api/query'
+  const uri =
+    getQueryStringParameterValue("datatable") === "staging"
+      ? "/api/query-staging"
+      : "/api/query";
 
   try {
-    const queryResponse = await fetch(uri).catch(e => console.error('Error fetching records', e));
-    const records = await queryResponse.json().catch(e => console.error(e));
+    const queryResponse = await fetch(uri);
+    const records = await queryResponse.json();
     if (!queryResponse.ok) {
-      console.error('Server error: ' + queryResponse.statusText);
+      console.error("Server error: " + queryResponse.statusText);
     }
-    if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+    if (
+      records === null ||
+      records === undefined ||
+      !(records instanceof Array) ||
+      records.length === 0
+    ) {
       return null;
     }
-    // Add the distance that each record's geolocation is from the user's location
-    const recordsWithDistances = await addDistancesToRecords(records);
 
-    _datatableVersion = uri === '/api/query-staging'
-      ? 'staging'
-      : 'production'
+    const recorsWithNullDistance = addNullDistanceToRecords(records);
 
-    return recordsWithDistances;
+    _datatableVersion = uri === "/api/query-staging" ? "staging" : "production";
+
+    return recorsWithNullDistance;
   } catch (err) {
-    console.error('Error querying records', err);
+    console.error("Error querying records", err.message);
   }
 }
 
 // SYNC DATA UTILS-----------------------------------------------------------------
 
-//funtion to create a data string based
+// function to add dummy null distance key to records before
+// user input from browser geolocator
+function addNullDistanceToRecords(records) {
+  const dummDistanceRecords = records.map((record) => {
+    record.distance = null;
+    return record;
+  });
+  return dummDistanceRecords;
+}
+
+//function to create a data string based
 //on UTC string returned from package data
 export function dateString(utcString) {
-  if (utcString === null || typeof utcString !== 'string' || utcString === '') {
-    return '';
+  if (utcString === null || typeof utcString !== "string" || utcString === "") {
+    return "";
   }
   return utcString.split("T")[0] || utcString;
 }
@@ -124,7 +139,12 @@ export function getFilteredRecords(
 }
 
 export function getFilteredSearchList(searchCats, records) {
-  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
     return null;
   }
   const filteredValsList = records.map((record) => {
@@ -136,7 +156,12 @@ export function getFilteredSearchList(searchCats, records) {
 
 //functions to set up category search data
 export function getCategorySearchData(records, category) {
-  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
     return null;
   }
   const genCats = records.map((record) => {
@@ -149,7 +174,12 @@ export function getCategorySearchData(records, category) {
 }
 
 export function getMainSearchData(records) {
-  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
     return null;
   }
   // these will eventually need to be added in dynamically
@@ -192,25 +222,24 @@ export function getMainSearchData(records) {
 /* Extract phone information from a record into the format needed to display in a card */
 export function cardPhoneTextFilter(record) {
   const rawphone = record.phone;
-  if (rawphone === null || rawphone === '') {
+  if (rawphone === null || rawphone === "") {
     return null;
   }
-  const split = rawphone.split(',');
+  const split = rawphone.split(",");
   if (split != null && split.length && split.length > 0) {
-    return split.map(number => {
-      if (number.includes(':')) {
+    return split.map((number) => {
+      if (number.includes(":")) {
         return {
-          type: number.split(':')[0],
-          phone: number.split(':')[1]
-        }
-      }
-      else {
+          type: number.split(":")[0],
+          phone: number.split(":")[1],
+        };
+      } else {
         return {
-          type: 'Contact',
-          phone: number
-        }
+          type: "Contact",
+          phone: number,
+        };
       }
-    })
+    });
   }
 }
 
@@ -229,11 +258,16 @@ export function cardWebAddressFixer(webAddress) {
 
 //function to build the map data object
 export function mapDataBuilder(records) {
-  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
     return null;
   }
   const mapData = records.map((record) => {
-    if (record.lat !== '' && record.lon !== '') {
+    if (record.lat !== "" && record.lon !== "") {
       const coords = [Number(record.lat), Number(record.lon)];
       const { listing, street, street2, hours, id } = record;
       return {
@@ -260,10 +294,17 @@ export function mapDataBuilder(records) {
 }
 
 export function cardDetailsFilter(records, savedIds) {
-  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
     return [];
   }
-  const filteredDetailsData = records.filter(r => savedIds.includes(r.id.toString()));
+  const filteredDetailsData = records.filter((r) =>
+    savedIds.includes(r.id.toString())
+  );
   return filteredDetailsData;
 }
 
@@ -271,12 +312,12 @@ export function cardDetailsFilter(records, savedIds) {
 
 //helper function for buildings the direction string
 function stringBuilder(str) {
-  return str != null ? str.split(" ").join("+") : '';
+  return str != null ? str.split(" ").join("+") : "";
 }
 
 //helper function to build directions for google
 export function directionsUrlBuilder(street, city, postal_code) {
-  if (street !== '') {
+  if (street !== "") {
     return `/${stringBuilder(street)}+${stringBuilder(city)}+${stringBuilder(
       postal_code
     )}`;
@@ -333,7 +374,12 @@ function getFilteredCatParentData(categoryVals, parentVals, records) {
 //this function is gonna be used for individual searches
 //helper for getFilteredrecords
 function getFilteredSearchData(searchValue, records) {
-  if (records === null || records === undefined || !(records instanceof Array) || records.length === 0) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
     return null;
   }
   //Polyfill from SO to use toLowerCase()

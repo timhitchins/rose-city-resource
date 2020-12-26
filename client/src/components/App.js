@@ -10,11 +10,12 @@ import Footer from "./static_components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   getRecords,
+  addUserDistancesToRecords,
   getRecordsLastUpdatedTimestamp,
   getCategorySearchData,
   getMainSearchData,
   dateString,
-  getDatatableVersion
+  getDatatableVersion,
 } from "../utils/api";
 import "../icons/iconsInit";
 
@@ -70,16 +71,25 @@ class App extends React.Component {
       navDrawerVisible: !prev.navDrawerVisible,
     }));
 
+  handleGetData = async () => {
+    const records = await getRecords();
+    const searchData = this.filterData(records);
+    this.setState(() => ({ records, searchData }));
+    return records;
+  };
+
+  handleBrowserGeolocatorInput = async (records) => {
+    const distRecords = await addUserDistancesToRecords(records);
+    this.setState(() => ({ records: distRecords }));
+  };
+
   componentDidMount = async () => {
-    // window.addEventListener('resize', this.resize);
     //package/revision data
     const lastUpdated = await getRecordsLastUpdatedTimestamp();
     this.revisionDate = dateString(lastUpdated);
 
-    //records
-    const records = await getRecords();
-    const searchData = this.filterData(records);
-    this.setState(() => ({ records, searchData }));
+    const records = await this.handleGetData();
+    this.handleBrowserGeolocatorInput(records);
   };
 
   render() {
@@ -89,66 +99,79 @@ class App extends React.Component {
         {!records ? (
           <Loading />
         ) : (
-            <Router>
-              <div>
-                <div className="main-content">
-                  {getDatatableVersion() === 'staging'
-                    ? <div><center>This site is using preview data. To view production data, please close the tab and reload the site</center></div>
-                    : <React.Fragment />}
-                  <Nav />
-                  <Switch>
-                    <Route
-                      exact
-                      path="/"
-                      component={(props) => (
-                        <Home
-                          {...props}
-                          records={records}
-                          searchData={searchData}
-                        />
-                      )}
-                    />
-                    <Route exact path="/about" component={About} />
-                    <Route exact path="/suggest-edit" component={SuggestEdit} />
-                    <Route
-                      path="/results"
-                      component={(props) => (
-                        <Results
-                          {...props}
-                          records={records}
-                          searchData={searchData}
-                          handleCardSave={this.handleCardSave}
-                          handleSaveDelete={this.handleSaveDelete}
-                          savedDataId={savedDataId}
-                        />
-                      )}
-                    />
-                    <Route
-                      exact
-                      path="/details"
-                      component={(props) => (
-                        <Details
-                          {...props}
-                          records={records}
-                          handleCardSave={this.handleCardSave}
-                          savedDataId={savedDataId}
-                        />
-                      )}
-                    />
-                    <Route
-                      exact path="/admin" render={(props) => {
-                          window.location.href = [window.location.protocol, '//', window.location.host.replace(/\d+/, '5000'), '/admin/dashboard'].join('')
-                        }
-                      }
-                    />
-                    {/* for all other routes */}
-                    <Route render={() => <p>Not Found</p>} />
-                  </Switch>
-                </div>
-                <Footer revisionDate={this.revisionDate} />
+          <Router>
+            <div>
+              <div className="main-content">
+                {getDatatableVersion() === "staging" ? (
+                  <div>
+                    <center>
+                      This site is using preview data. To view production data,
+                      please close the tab and reload the site
+                    </center>
+                  </div>
+                ) : (
+                  <React.Fragment />
+                )}
+                <Nav />
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    component={(props) => (
+                      <Home
+                        {...props}
+                        records={records}
+                        searchData={searchData}
+                      />
+                    )}
+                  />
+                  <Route exact path="/about" component={About} />
+                  <Route exact path="/suggest-edit" component={SuggestEdit} />
+                  <Route
+                    path="/results"
+                    component={(props) => (
+                      <Results
+                        {...props}
+                        records={records}
+                        searchData={searchData}
+                        handleCardSave={this.handleCardSave}
+                        handleSaveDelete={this.handleSaveDelete}
+                        savedDataId={savedDataId}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/details"
+                    component={(props) => (
+                      <Details
+                        {...props}
+                        records={records}
+                        handleCardSave={this.handleCardSave}
+                        savedDataId={savedDataId}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/admin"
+                    render={(props) => {
+                      window.location.href = [
+                        window.location.protocol,
+                        "//",
+                        window.location.host.replace(/\d+/, "5000"),
+                        "/admin/dashboard",
+                      ].join("");
+                    }}
+                  />
+                  {/* for all other routes */}
+                  <Route render={() => <p>Not Found</p>} />
+                </Switch>
               </div>
-            </Router>
-          )}
+              <Footer revisionDate={this.revisionDate} />
+            </div>
+          </Router>
+        )}
       </React.Fragment>
     );
   }
