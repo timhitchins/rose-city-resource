@@ -23,6 +23,15 @@
   min-height: 100%;
 }
 
+.about-container a {
+  color: #008a8f;
+}
+
+.about-container a:hover {
+  color: #00adb5;
+  text-decoration: underline;
+}
+
 .submit-container {
   height: calc(100vh - 30px);
   max-height: 100%;

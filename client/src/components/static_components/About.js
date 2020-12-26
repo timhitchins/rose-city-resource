@@ -17,8 +17,8 @@ const About = (props) => (
           >
             <img
               className="sr-picture"
-              src="https://mappingaction.files.wordpress.com/2018/12/RCRG.jpg"
-              alt="street-roots-RCR"
+              src="https://rose-city-resource.s3-us-west-2.amazonaws.com/RCRG.jpg"
+              alt="RCR paper version"
             />
           </a>
           The Street Roots Rose City Resource (RCR) is a 4’x 4′, 104 page guide
@@ -36,8 +36,12 @@ const About = (props) => (
           partnership to amplify the reach of the RCR by developing a digital
           version of it. This interactive tool is the result. The digital RCR
           incorporates data collected and maintained by Street Roots and is
-          frequently updated. The curated data is hosted on the Northwest Open
-          Data Exchange and is available to use and distribute freely.
+          frequently updated. The curated data for this application is available
+          for non-commercial use. Please contact
+          <a href="mailto:tim@mappingaction.org?subject=RCR Data Request">
+            {` tim@mappingaction.org `}
+          </a>
+          to request access.
         </p>
         <h1 style={{ textAlign: "center", lineHeight: "1" }}>
           Learn More About the Project Partners
@@ -49,7 +53,7 @@ const About = (props) => (
               rel="noopener noreferrer"
               href="//streetroots.org/"
             >
-              <img src={srLogo} alt="street-roots" />
+              <img src={srLogo} alt="Street Roots logo" />
             </a>
           </div>
           <div className="mac-logo">
@@ -59,20 +63,8 @@ const About = (props) => (
               href="//www.mappingaction.org"
             >
               <img
-                src="https://mappingaction.files.wordpress.com/2018/09/cropped-maclogo_9_18_v5.png"
-                alt="mapping-action-collective"
-              />
-            </a>
-          </div>
-          <div className="node-logo">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="//opendata.imspdx.org/"
-            >
-              <img
-                src="https://opendata.imspdx.org/uploads/admin/2018-02-28-230321.180610WhiteNODEwlogo.png"
-                alt="northwest-open-data-exchange"
+                src="https://rose-city-resource.s3-us-west-2.amazonaws.com/cropped-maclogo_9_18_v5.png"
+                alt="Mapping Action Collective logo"
               />
             </a>
           </div>
