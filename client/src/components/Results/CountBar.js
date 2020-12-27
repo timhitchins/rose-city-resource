@@ -1,12 +1,17 @@
-import React from 'react';
-import MediaQuery from 'react-responsive';
+import React from "react";
+import MediaQuery from "react-responsive";
 // import PropTypes from 'prop-types';
 
 class CountBar extends React.Component {
-  undisclosedCounter = data => {
+  undisclosedCounter = (data) => {
+    console.log(data);
     let counter = 0;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].street === 'NA') {
+      if (
+        data[i].street === "NA" ||
+        data[i].street === null ||
+        data[i].street === ""
+      ) {
         counter += 1;
       }
     }
