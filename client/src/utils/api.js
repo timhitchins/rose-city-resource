@@ -258,13 +258,15 @@ export function cardWebAddressFixer(webAddress) {
 
 //function to build the map data object
 export function mapDataBuilder(records) {
+  const defaultCenter = [45.52345, -122.6762];
+
   if (
     records === null ||
     records === undefined ||
     !(records instanceof Array) ||
     records.length === 0
   ) {
-    return null;
+    return { mapData: null, center: defaultCenter };
   }
   const mapData = records.map((record) => {
     if (record.lat !== "" && record.lon !== "") {
@@ -288,7 +290,7 @@ export function mapDataBuilder(records) {
   const mapDataFilter = mapData.filter((el) => el !== null && el !== undefined);
   const latArr = mapDataFilter.map((item) => item.coords[0]);
   const lonArr = mapDataFilter.map((item) => item.coords[1]);
-  const center = getCenter(latArr, lonArr, [45.52345, -122.6762]);
+  const center = getCenter(latArr, lonArr, defaultCenter);
 
   return { mapData: mapDataFilter, center };
 }
