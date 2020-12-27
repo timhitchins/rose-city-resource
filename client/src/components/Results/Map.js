@@ -21,7 +21,7 @@ class Markers extends React.Component {
 
     return (
       <React.Fragment>
-        <MarkerClusterGroup>
+        <MarkerClusterGroup showCoverageOnHover={false}>
           {mapData.map((item, index) => {
             return (
               <Marker
