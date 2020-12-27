@@ -4,7 +4,6 @@ import MediaQuery from "react-responsive";
 
 class CountBar extends React.Component {
   undisclosedCounter = (data) => {
-    console.log(data);
     let counter = 0;
     for (let i = 0; i < data.length; i++) {
       if (
