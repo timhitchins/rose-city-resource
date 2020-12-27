@@ -1,13 +1,3 @@
-/* 
---Copywriting-Produkt-01--
-gray: #393E46 
-gray2: #85898e
-blue: #00ADB5
-white/beige: #FFF4E0
-yellow: #F8B500
-red/orange:  #F8B500
-*/
-
 .nav {
   background: #393e46;
   position: sticky;
@@ -18,6 +8,8 @@ red/orange:  #F8B500
 }
 
 .nav-container {
+  margin: 0 auto;
+  max-width: 1200px;
   height: 56px;
   width: 100%;
   display: flex;

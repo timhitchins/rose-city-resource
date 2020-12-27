@@ -1,5 +1,3 @@
-/* This may need to move to main 
-in the index root */
 .leaflet-container {
   height: 100%;
   margin: 0.25rem;
@@ -64,7 +62,6 @@ in the index root */
   font-size: 1rem;
   font-weight: 600;
   border-radius: 5px;
-
 }
 
 .counts:nth-child(1n) {
@@ -79,12 +76,9 @@ in the index root */
   color: #1c794b;
 }
 
-
 .print-button-container {
   visibility: hidden;
 }
-
-
 
 .cards-container {
   margin-top: 5px;
@@ -292,7 +286,6 @@ on .card-phone-container*/
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 
 .undisclosed-count {
   position: fixed;
