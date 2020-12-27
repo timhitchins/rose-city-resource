@@ -13,17 +13,6 @@ in the index root */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-/* 
---Copywriting-Produkt-01--
-gray: #393E46 
-gray2: #85898e
-gray3: #2E3238  ?????
-gray4: #2E3238 
-blue: #00ADB5
-white/beige: #FFF4E0
-yellow: #F8B500
-red/orange: #FC3C3C
-*/
 .card-map-container {
   display: flex;
 }
@@ -288,6 +277,7 @@ on .card-phone-container*/
 }
 
 .popup-show-details {
+  cursor: pointer;
   text-align: center;
   justify-self: center;
   margin: 5px;
