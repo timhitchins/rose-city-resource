@@ -79,8 +79,13 @@ class App extends React.Component {
   };
 
   handleBrowserGeolocatorInput = async (records) => {
-    const distRecords = await addUserDistancesToRecords(records);
-    this.setState(() => ({ records: distRecords }));
+    const {
+      records: distanceRecords,
+      currentCoords,
+    } = await addUserDistancesToRecords(records);
+    if (currentCoords) {
+      this.setState(() => ({ records: distanceRecords }));
+    }
   };
 
   componentDidMount = async () => {

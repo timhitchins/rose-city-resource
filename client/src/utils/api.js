@@ -25,7 +25,8 @@ export async function getRecordsLastUpdatedTimestamp() {
   return last_update;
 }
 
-/* Add the distance that the listing's address is from the user as a property on the listing */
+/* Add the distance that the listing's address is from the user as 
+a property on the listing */
 export async function addUserDistancesToRecords(records) {
   // Attempt to get the user's geolocation from the browser
   try {
@@ -54,10 +55,10 @@ export async function addUserDistancesToRecords(records) {
       records[i].distance = distance;
     }
 
-    return records;
+    return { records, currentCoords };
   } catch (err) {
     console.error(`An error occurred calculating distance: ${err.message}.`);
-    return records;
+    return { records, currentCoords: null };
   }
 }
 
