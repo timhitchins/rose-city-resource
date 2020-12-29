@@ -370,7 +370,7 @@ Selectors.propTypes = {
 //All the state and methods live here and are passed down as props to all the specific components.
 class IconSelector extends React.Component {
   static propTypes = {
-    nodeData: PropTypes.array.isRequired,
+    records: PropTypes.array.isRequired,
     searchData: PropTypes.object.isRequired,
   };
 

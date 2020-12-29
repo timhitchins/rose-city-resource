@@ -1,103 +1,154 @@
 import { findDistance, inOutLocation } from "./distance";
-import fetch from "node-fetch";
+
+let _datatableVersion = "";
 
 // ASYNC DATA UTLS--------------------------------------------------------
-//async function to fetch revision history
-//based on rose-city-resource
-export async function getPackageData() {
-  ///new logic
-  const uri = "/api/package";
-  const packageData = await fetch(uri)
-    .catch(handleError)
-    .then((response) => response.json());
-  return packageData;
+
+/* Get the time stamp of the last update to the production_data table */
+export async function getRecordsLastUpdatedTimestamp() {
+  const uri = "/api/last-update";
+  const last_update = await fetch(uri)
+    .catch((e) => {
+      console.error(e);
+      handleError();
+    })
+    .then((r) => {
+      if (r.ok) {
+        return r.json().catch((e) => {
+          console.error(e);
+        });
+      } else {
+        console.error("Unable to connect to the server");
+        return "";
+      }
+    });
+  return last_update;
 }
 
-//async fucntion to get data from node and add in phone records
-export async function getNodeData() {
+/* Add the distance that the listing's address is from the user as 
+a property on the listing */
+export async function addUserDistancesToRecords(records) {
+  // Attempt to get the user's geolocation from the browser
   try {
-    const uri = "/api/listings-resource";
-    const listingsResponse = await fetch(uri);
-    const listingsJson = await listingsResponse.json();
-    const listingsData = await listingsJson.result.records;
-
-    //get the NODE phone table
-    const phoneData = await getPhoneData();
-
-    //add the distance info here
     let currentCoords;
-    const position = await inOutLocation().catch((e) =>
-      console.log("Error getting position: ", e)
-    );
-
-    if (position !== undefined) {
+    const position = await inOutLocation();
+    if (position !== undefined && position !== null) {
       currentCoords = [position.coords.latitude, position.coords.longitude];
     } else {
       currentCoords = null;
     }
 
-    //get the user's location
-    const listingsDataPhoneData = phonePositionJoiner(
-      listingsData,
-      phoneData,
-      currentCoords
-    );
+    // Calculate the distance between the user's location and the geolocation of each listing and add to the listing
+    for (let i = 0; i < records.length; i++) {
+      if (records[i].lat === "" || records[i].lon === "") {
+        records[i].distance = null;
+        continue;
+      }
+      const listCoords = [Number(records[i].lat), Number(records[i].lon)];
+      let distance;
+      if (Array.isArray(currentCoords)) {
+        distance = findDistance(currentCoords, listCoords);
+      } else {
+        distance = null;
+      }
 
-    return listingsDataPhoneData;
+      records[i].distance = distance;
+    }
+
+    return { records, currentCoords };
   } catch (err) {
-    console.log(err);
+    console.error(`An error occurred calculating distance: ${err.message}.`);
+    return { records, currentCoords: null };
   }
 }
 
-//async funtion to get phone data
-//which will then be joined to nodeData
-export async function getPhoneData() {
-  try {
-    const uri = "/api/phone-resource";
-    const phoneResponse = await fetch(uri);
-    const phoneJson = await phoneResponse.json();
-    const phoneData = await phoneJson.result.records;
+/* Download records by fetching JSON from the appropriate API route */
+export async function getRecords() {
+  const uri =
+    getQueryStringParameterValue("datatable") === "staging"
+      ? "/api/query-staging"
+      : "/api/query";
 
-    return phoneData;
+  try {
+    const queryResponse = await fetch(uri);
+    const records = await queryResponse.json();
+    if (!queryResponse.ok) {
+      console.error("Server error: " + queryResponse.statusText);
+    }
+    if (
+      records === null ||
+      records === undefined ||
+      !(records instanceof Array) ||
+      records.length === 0
+    ) {
+      return null;
+    }
+
+    const recorsWithNullDistance = addNullDistanceToRecords(records);
+
+    _datatableVersion = uri === "/api/query-staging" ? "staging" : "production";
+
+    return recorsWithNullDistance;
   } catch (err) {
-    console.log(err);
+    console.error("Error querying records", err.message);
   }
 }
 
 // SYNC DATA UTILS-----------------------------------------------------------------
 
-//funtion to create a data string based
+// function to add dummy null distance key to records before
+// user input from browser geolocator
+function addNullDistanceToRecords(records) {
+  const dummDistanceRecords = records.map((record) => {
+    record.distance = null;
+    return record;
+  });
+  return dummDistanceRecords;
+}
+
+//function to create a data string based
 //on UTC string returned from package data
 export function dateString(utcString) {
-  return utcString.split("T")[0];
+  if (utcString === null || typeof utcString !== "string" || utcString === "") {
+    return "";
+  }
+  return utcString.split("T")[0] || utcString;
 }
+
 //sync funtion that returns filtered node data using
 //values from any of the search options (listing, parent_org, main_category)
 //this function uses helper functions
-export function getNodeFilteredData(
+export function getFilteredRecords(
   searchVals,
   categoryVals,
   parentVals,
-  nodeData
+  records
 ) {
   //if the searchVal is undefined then
   //do this
   if (searchVals === undefined) {
-    const filteredNodeData = getFilteredCatParentData(
+    const filteredrecords = getFilteredCatParentData(
       categoryVals,
       parentVals,
-      nodeData
+      records
     );
-    return filteredNodeData;
+    return filteredrecords;
   } else {
-    const filteredNodeData = getFilteredSearchData(searchVals, nodeData);
-    return filteredNodeData;
+    const filteredrecords = getFilteredSearchData(searchVals, records);
+    return filteredrecords;
   }
 }
 
-//this also may not be used
-export function getFilteredSearchList(searchCats, nodeData) {
-  const filteredValsList = nodeData.map((record) => {
+export function getFilteredSearchList(searchCats, records) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
+    return null;
+  }
+  const filteredValsList = records.map((record) => {
     return searchCats.map((cat) => record[cat]);
   });
   const catList = [].concat(...filteredValsList);
@@ -105,8 +156,16 @@ export function getFilteredSearchList(searchCats, nodeData) {
 }
 
 //functions to set up category search data
-export function getCategorySearchData(nodeData, category) {
-  const genCats = nodeData.map((record) => {
+export function getCategorySearchData(records, category) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
+    return null;
+  }
+  const genCats = records.map((record) => {
     const generalRecord = record[category];
     return generalRecord;
   });
@@ -115,7 +174,15 @@ export function getCategorySearchData(nodeData, category) {
   return countDuplicates(filteredGenCats);
 }
 
-export function getMainSearchData(nodeData) {
+export function getMainSearchData(records) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
+    return null;
+  }
   // these will eventually need to be added in dynamically
   const genCats = [
     "Food",
@@ -132,7 +199,7 @@ export function getMainSearchData(nodeData) {
   ];
 
   const mainCats = genCats.map((cat, i) => {
-    const filterCats = nodeData.filter(
+    const filterCats = records.filter(
       (record) => record.general_category === cat
     );
     return filterCats;
@@ -153,22 +220,27 @@ export function getMainSearchData(nodeData) {
   return mainCategory;
 }
 
-//function to return phone records obejct in
-//a card taking into account NA
+/* Extract phone information from a record into the format needed to display in a card */
 export function cardPhoneTextFilter(record) {
-  if (record.phone.length > 0) {
-    const cleanPhone = record.phone.map((phoneRecord) => {
-      const phone1 = phoneRecord.phone;
-      const phone2 = naRemove(phoneRecord.phone2);
-      //return the new object
-      return {
-        type: phoneRecord.type,
-        phone: phone1 + phone2,
-      };
-    });
-    return cleanPhone;
-  } else {
+  const rawphone = record.phone;
+  if (rawphone === null || rawphone === "") {
     return null;
+  }
+  const split = rawphone.split(",");
+  if (split != null && split.length && split.length > 0) {
+    return split.map((number) => {
+      if (number.includes(":")) {
+        return {
+          type: number.split(":")[0],
+          phone: number.split(":")[1],
+        };
+      } else {
+        return {
+          type: "Contact",
+          phone: number,
+        };
+      }
+    });
   }
 }
 
@@ -186,9 +258,19 @@ export function cardWebAddressFixer(webAddress) {
 }
 
 //function to build the map data object
-export function mapDataBuilder(nodeData) {
-  const mapData = nodeData.map((record) => {
-    if (record.lat !== "NA") {
+export function mapDataBuilder(records) {
+  const defaultCenter = [45.52345, -122.6762];
+
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
+    return { mapData: null, center: defaultCenter };
+  }
+  const mapData = records.map((record) => {
+    if (record.lat !== "" && record.lon !== "") {
       const coords = [Number(record.lat), Number(record.lon)];
       const { listing, street, street2, hours, id } = record;
       return {
@@ -201,37 +283,46 @@ export function mapDataBuilder(nodeData) {
           id,
         },
       };
+    } else {
+      return null;
     }
   });
 
-  const mapDataFilter = mapData.filter((el) => el !== undefined);
-
+  const mapDataFilter = mapData.filter((el) => el !== null && el !== undefined);
   const latArr = mapDataFilter.map((item) => item.coords[0]);
   const lonArr = mapDataFilter.map((item) => item.coords[1]);
-  //now use the getCenter() helper function
-  const center = getCenter(latArr, lonArr, [45.52345, -122.6762]);
+  const center = getCenter(latArr, lonArr, defaultCenter);
 
   return { mapData: mapDataFilter, center };
 }
 
-export function cardDetailsFilter(nodeData, savedIds) {
-  function exists(rec) {
-    return savedIds.indexOf(rec.id) > -1;
+export function cardDetailsFilter(records, savedIds) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
+    return [];
   }
-
-  const filteredDetailsData = nodeData.filter(exists);
+  console.log(savedIds);
+  const filteredDetailsData = records.filter((r) =>
+    savedIds.includes(r.id.toString())
+  );
+  console.log(filteredDetailsData);
   return filteredDetailsData;
 }
 
 // NON-EXPORTED HELPER UTILS-------------------------------------------------------
+
 //helper function for buildings the direction string
 function stringBuilder(str) {
-  return str.split(" ").join("+");
+  return str != null ? str.split(" ").join("+") : "";
 }
 
 //helper function to build directions for google
 export function directionsUrlBuilder(street, city, postal_code) {
-  if (street !== "NA") {
+  if (street !== "") {
     return `/${stringBuilder(street)}+${stringBuilder(city)}+${stringBuilder(
       postal_code
     )}`;
@@ -252,15 +343,15 @@ function getCenter(latArr, lonArr, defaultArr) {
 }
 
 //check if parent or category vals in records
-//helper for getFilteredNodeData
-function getFilteredCatParentData(categoryVals, parentVals, nodeData) {
+//helper for getFilteredrecords
+function getFilteredCatParentData(categoryVals, parentVals, records) {
   const checkVals = [
     // ...handleArray(searchVals),
     ...handleArray(categoryVals),
     ...handleArray(parentVals),
   ].filter((el) => el !== null);
 
-  const filteredNodeData = nodeData.filter((record) => {
+  return records.filter((record) => {
     //create another array to see if checkVals are in
     //the nodeVals
     const nodeVals = [
@@ -282,14 +373,20 @@ function getFilteredCatParentData(categoryVals, parentVals, nodeData) {
       return null;
     }
   });
-  //filter out the nulls
-  return filteredNodeData.filter((el) => el !== null);
 }
 
 //check if a search value is in the NODE record
 //this function is gonna be used for individual searches
-//helper for getFilteredNodeData
-function getFilteredSearchData(searchValue, nodeData) {
+//helper for getFilteredrecords
+function getFilteredSearchData(searchValue, records) {
+  if (
+    records === null ||
+    records === undefined ||
+    !(records instanceof Array) ||
+    records.length === 0
+  ) {
+    return null;
+  }
   //Polyfill from SO to use toLowerCase()
   if (!String.toLowerCase) {
     String.toLowerCase = function (s) {
@@ -297,7 +394,7 @@ function getFilteredSearchData(searchValue, nodeData) {
     };
   }
 
-  const filterData = nodeData.map((record) => {
+  const filterData = records.map((record) => {
     const recordValsLower = Object.values(record).map(
       (val) => {
         return String(val).toLowerCase();
@@ -310,6 +407,8 @@ function getFilteredSearchData(searchValue, nodeData) {
         record.postal_code
       );
       return record;
+    } else {
+      return null;
     }
   });
   // remove the undefined els from the list
@@ -321,28 +420,6 @@ function getFilteredSearchData(searchValue, nodeData) {
 function naRemove(str) {
   if (str === "NA") return "";
   return " " + str;
-}
-
-//function to join the phone data to the nodeData based on id
-function phonePositionJoiner(nodeData, phoneData, currentCoords) {
-  const nodePhoneData = nodeData.map((listRecord) => {
-    //filter out the phone records that relate to the nodeRecord
-    const phoneKeep = phoneData.filter((phoneRecord) => {
-      return phoneRecord.id === listRecord.id;
-    });
-
-    //calculate the distance here
-    const listCoords = [Number(listRecord.lat), Number(listRecord.lon)];
-    let distance;
-    //handle whether an array was returned
-    if (Array.isArray(currentCoords)) {
-      distance = findDistance(currentCoords, listCoords);
-    } else {
-      distance = null;
-    }
-    return Object.assign(listRecord, { phone: phoneKeep, distance: distance });
-  });
-  return nodePhoneData;
 }
 
 //count the duplicates in an array and
@@ -372,6 +449,17 @@ function handleError(error) {
 }
 
 // EXPORTED HELPER UTILS ----------------------------------------------
+
+/* Get a query string parameter by name */
+export function getQueryStringParameterValue(paramName) {
+  const qs = window.location.search;
+  const params = new URLSearchParams(qs);
+  return params.get(paramName);
+}
+
+export function getDatatableVersion() {
+  return _datatableVersion;
+}
 
 //function to generate query
 //for detaisl page

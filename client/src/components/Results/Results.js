@@ -6,7 +6,7 @@ import IconSelector from '../Home/IconSelector';
 import SearchBar from '../Home/SearchBar';
 import Cards from './Cards';
 import SimpleMap from './Map';
-import { getNodeFilteredData, detailsQueryBuilder } from '../../utils/api';
+import { getFilteredRecords, detailsQueryBuilder } from '../../utils/api';
 import './../../css/Results.css';
 
 class Results extends React.Component {
@@ -35,12 +35,12 @@ class Results extends React.Component {
       parent: queryVals.parent
     };
 
-    const { nodeData } = this.props;
-    const data = getNodeFilteredData(
+    const { records } = this.props;
+    const data = getFilteredRecords(
       dataMap.search,
       dataMap.category,
       dataMap.parent,
-      nodeData
+      records
     );
 
     this.setState(() => ({
@@ -60,12 +60,12 @@ class Results extends React.Component {
         parent: queryVals.parent
       };
 
-      const { nodeData } = this.props;
-      const data = getNodeFilteredData(
+      const { records } = this.props;
+      const data = getFilteredRecords(
         dataMap.search,
         dataMap.category,
         dataMap.parent,
-        nodeData
+        records
       );
 
       this.setState(() => ({
@@ -95,7 +95,7 @@ class Results extends React.Component {
   render() {
     const { data, loading, selectedListing, clickType } = this.state;
     const {
-      nodeData,
+      records,
       searchData,
       handleCardSave,
       handleSaveDelete,
@@ -115,10 +115,10 @@ class Results extends React.Component {
     return (
       <div>
         <div className="basic-search-container">
-          <SearchBar nodeData={nodeData} searchData={searchData} />
+          <SearchBar records={records} searchData={searchData} />
         </div>
         <IconSelector
-          nodeData={nodeData}
+          records={records}
           searchData={searchData}
           path={'/results'}
           isVisible={false}
@@ -178,29 +178,3 @@ class Results extends React.Component {
   }
 }
 export default Results;
-
-// REMOVED FROM COMPONENT DID MOUNT------------------------------------------------------------------------
-//if the search parameter doesn't exist show the parent org and category
-//else set the state to the result of the single search
-// if (dataMap.search === undefined) {
-//   const data = await nodeQueryBuilder(dataMap.category, dataMap.parent);
-//   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
-// } else {
-//   const { nodeData } = this.props;
-//   const data = getFilteredData(dataMap.search, nodeData);
-//   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
-// }
-//-------------------------------------------------------------------
-
-// REMOVED FROM COMPONENT DID UPDATE-----------------------------------------------------------------------
-//if the search parameter doesn't exist show the parent org and category
-//else set the state to the result of the single search
-// if (dataMap.search === undefined) {
-//   const data = await nodeQueryBuilder(dataMap.category, dataMap.parent);
-//   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
-// } else {
-//   const { nodeData } = this.props;
-//   const data = getFilteredData(dataMap.search, nodeData);
-//   this.setState(() => ({ queryVals: dataMap, data, loading: false }));
-// }
-// -----------------------------------------------------------------------

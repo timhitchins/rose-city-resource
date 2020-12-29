@@ -1,0 +1,41 @@
+<%- include('./partials/head'); %>
+  <h1>Street Roots Admin Login</h1>
+
+  <% if(error && error.length > 0) { %>
+    <div>
+      <%= error %>
+    </div>
+  <% } %>
+  <% if(message && message.length > 0) { %>
+    <div>
+      <%= message %>
+    </div>
+  <% } %>
+
+  <form action="/admin/login" method="POST">
+    <div>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        required
+      />
+    </div>
+    <div>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+        required
+      />
+    </div>
+    <div>
+      <input type="submit" value="Login" />
+    </div>
+  </form>
+  <div>
+    This is an administrative page. <br /> 
+    <a href="https://rosecityresource.streetroots.org/">Click here for the Rose City Resource Guide</a>
+  </div>

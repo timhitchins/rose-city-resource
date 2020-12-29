@@ -22,16 +22,17 @@ function getCurrentLocation(options) {
     );
   });
 }
+
 export async function inOutLocation() {
-  try {
-    return await getCurrentLocation({
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    });
-  } catch (e) {
-    if (e.name === 'PositionError') {
-      console.log(e.message + '. code = ' + e.code);
-    }
-  }
+  return await getCurrentLocation({
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+  })
+    .catch(e => {
+      if (e.name === 'PositionError') {
+        console.error(e.message + '. code = ' + e.code);
+        return null;
+      }
+    })
 }

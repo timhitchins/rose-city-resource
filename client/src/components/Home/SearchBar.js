@@ -24,7 +24,6 @@ class AdvancedSearchModal extends React.Component {
 
   // this needs to be refratored a bit to be more DRY
   toggleCheckedValue = (val, selection) => {
-    console.log(this.state);
     if (selection === "Category") {
       const categoryVals = [...this.state.categoryVals];
       const index = categoryVals.indexOf(val); // get index to determine if the aray gets spliced.
@@ -61,7 +60,6 @@ class AdvancedSearchModal extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { categoryVals } = this.state;
-    console.log("Final Search Vals", categoryVals);
   };
 
   handleNoSelection = (event) => {
@@ -181,31 +179,31 @@ class AdvancedSearchModal extends React.Component {
               })}
             </form>
           ) : (
-            <form
-              className="modal-search-container"
-              onSubmit={this.handleSubmit}
-            >
-              {parentCats.map((parentCat) => {
-                return (
-                  <React.Fragment key={parentCat}>
-                    <label className="advanced-container" htmlFor={parentCat}>
-                      {parentCat}
-                      <input
-                        id={parentCat}
-                        type="checkbox"
-                        name={parentCat}
-                        value={parentCat}
-                        onChange={(val) =>
-                          this.toggleCheckedValue(val.target.value, selection)
-                        }
-                      />
-                      <span className="checkmark" />
-                    </label>
-                  </React.Fragment>
-                );
-              })}
-            </form>
-          )}
+              <form
+                className="modal-search-container"
+                onSubmit={this.handleSubmit}
+              >
+                {parentCats.map((parentCat) => {
+                  return (
+                    <React.Fragment key={parentCat}>
+                      <label className="advanced-container" htmlFor={parentCat}>
+                        {parentCat}
+                        <input
+                          id={parentCat}
+                          type="checkbox"
+                          name={parentCat}
+                          value={parentCat}
+                          onChange={(val) =>
+                            this.toggleCheckedValue(val.target.value, selection)
+                          }
+                        />
+                        <span className="checkmark" />
+                      </label>
+                    </React.Fragment>
+                  );
+                })}
+              </form>
+            )}
         </div>
       </div>,
       modalRoot
@@ -215,7 +213,7 @@ class AdvancedSearchModal extends React.Component {
 
 export default class SearchBar extends React.Component {
   static propTypes = {
-    nodeData: PropTypes.array.isRequired,
+    records: PropTypes.array.isRequired,
     searchData: PropTypes.object.isRequired,
   };
 
@@ -235,7 +233,6 @@ export default class SearchBar extends React.Component {
   handleSubmit = (event) => {
     //we use event.prevetDefault so that the submit doesn't go to a server
     event.preventDefault();
-    console.log(this.state.searchValue);
   };
 
   toggleAdvSearchModal = () => {
@@ -249,7 +246,7 @@ export default class SearchBar extends React.Component {
 
   render() {
     const { searchValue, showAdvSearchModal } = this.state;
-    const { nodeData, searchData, match } = this.props;
+    const { records, searchData, match } = this.props;
 
     const searchCats = [
       "general_category",
@@ -258,7 +255,7 @@ export default class SearchBar extends React.Component {
       "listing",
     ];
 
-    const searchList = getFilteredSearchList(searchCats, nodeData);
+    const searchList = getFilteredSearchList(searchCats, records);
 
     return (
       <div className="search-bar">

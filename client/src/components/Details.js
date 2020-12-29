@@ -15,12 +15,11 @@ class Details extends React.Component {
   state = { cardDetailsData: null };
 
   componentDidMount() {
-    const { nodeData } = this.props;
+    const { records } = this.props;
     const queryVals = queryString.parse(this.props.location.search);
-    const detailsData = cardDetailsFilter(nodeData, queryVals.saved);
-    // this logic should be in utils
-    // but I need to refactor the way I used
-    // the directionsUrlBuilder
+    const detailsData = cardDetailsFilter(records, new Array().concat(queryVals.saved));
+
+    // this logic could be in utils
     const cardDetailsData = detailsData.map(record => {
       const directionsUrl = directionsUrlBuilder(
         record.street,
@@ -35,6 +34,7 @@ class Details extends React.Component {
   render() {
     const { savedDataId, handleCardSave } = this.props;
     const { cardDetailsData } = this.state;
+
     if (cardDetailsData !== null) {
       return (
         <div className="details-outer-container">

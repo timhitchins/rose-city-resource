@@ -9,11 +9,13 @@ import Nav from "./Nav";
 import Footer from "./static_components/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
-  getNodeData,
-  getPackageData,
+  getRecords,
+  addUserDistancesToRecords,
+  getRecordsLastUpdatedTimestamp,
   getCategorySearchData,
   getMainSearchData,
   dateString,
+  getDatatableVersion,
 } from "../utils/api";
 import "../icons/iconsInit";
 
@@ -21,7 +23,7 @@ class App extends React.Component {
   //data lives in the top component.
   state = {
     navDrawerVisible: false,
-    nodeData: null,
+    records: null,
     searchData: null,
     savedDataId: [],
   };
@@ -31,7 +33,6 @@ class App extends React.Component {
   //this may need to be moved down to results
   handleCardSave = (id) => {
     const { savedDataId } = this.state;
-    // console.log('current saved state: ', savedDataId);
     if (savedDataId.indexOf(id) === -1) {
       //build up the state array without directly mutating state
       this.setState((prevState) => ({
@@ -47,16 +48,16 @@ class App extends React.Component {
     this.setState(() => ({ savedDataId: [] }));
   };
   // build the searching data
-  filterData = (nodeData) => {
+  filterData = (records) => {
     const generalCategories = getCategorySearchData(
-      nodeData,
+      records,
       "general_category"
     );
     const parentCategories = getCategorySearchData(
-      nodeData,
+      records,
       "parent_organization"
     );
-    const mainCategories = getMainSearchData(nodeData);
+    const mainCategories = getMainSearchData(records);
     // return a new object with the search data
     return {
       general: generalCategories,
@@ -70,31 +71,52 @@ class App extends React.Component {
       navDrawerVisible: !prev.navDrawerVisible,
     }));
 
-  componentDidMount = async () => {
-    // window.addEventListener('resize', this.resize);
-    //package/revision data
-    const packageData = await getPackageData();
-    this.revisionDate = dateString(
-      // packageData.result.results[0].metadata_modified
-      packageData.result.metadata_modified
-    );
+  handleGetData = async () => {
+    const records = await getRecords();
+    const searchData = this.filterData(records);
+    this.setState(() => ({ records, searchData }));
+    return records;
+  };
 
-    //nodeData
-    const nodeData = await getNodeData();
-    const searchData = this.filterData(nodeData);
-    this.setState(() => ({ nodeData, searchData }));
+  handleBrowserGeolocatorInput = async (records) => {
+    const {
+      records: distanceRecords,
+      currentCoords,
+    } = await addUserDistancesToRecords(records);
+    if (currentCoords) {
+      this.setState(() => ({ records: distanceRecords }));
+    }
+  };
+
+  componentDidMount = async () => {
+    //package/revision data
+    const lastUpdated = await getRecordsLastUpdatedTimestamp();
+    this.revisionDate = dateString(lastUpdated);
+
+    const records = await this.handleGetData();
+    this.handleBrowserGeolocatorInput(records);
   };
 
   render() {
-    const { nodeData, searchData, savedDataId } = this.state;
+    const { records, searchData, savedDataId } = this.state;
     return (
       <React.Fragment>
-        {!nodeData ? (
+        {!records ? (
           <Loading />
         ) : (
           <Router>
             <div>
               <div className="main-content">
+                {getDatatableVersion() === "staging" ? (
+                  <div>
+                    <center>
+                      This site is using preview data. To view production data,
+                      please close the tab and reload the site
+                    </center>
+                  </div>
+                ) : (
+                  <React.Fragment />
+                )}
                 <Nav />
                 <Switch>
                   <Route
@@ -103,7 +125,7 @@ class App extends React.Component {
                     component={(props) => (
                       <Home
                         {...props}
-                        nodeData={nodeData}
+                        records={records}
                         searchData={searchData}
                       />
                     )}
@@ -115,7 +137,7 @@ class App extends React.Component {
                     component={(props) => (
                       <Results
                         {...props}
-                        nodeData={nodeData}
+                        records={records}
                         searchData={searchData}
                         handleCardSave={this.handleCardSave}
                         handleSaveDelete={this.handleSaveDelete}
@@ -129,13 +151,24 @@ class App extends React.Component {
                     component={(props) => (
                       <Details
                         {...props}
-                        nodeData={nodeData}
+                        records={records}
                         handleCardSave={this.handleCardSave}
                         savedDataId={savedDataId}
                       />
                     )}
                   />
-
+                  <Route
+                    exact
+                    path="/admin"
+                    render={(props) => {
+                      window.location.href = [
+                        window.location.protocol,
+                        "//",
+                        window.location.host.replace(/\d+/, "5000"),
+                        "/admin/dashboard",
+                      ].join("");
+                    }}
+                  />
                   {/* for all other routes */}
                   <Route render={() => <p>Not Found</p>} />
                 </Switch>
