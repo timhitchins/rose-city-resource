@@ -39,6 +39,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-roles": "^1.0.1",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "private": "^0.1.8"
   }
 }
