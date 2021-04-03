@@ -7,6 +7,10 @@ const path = require("path");
 const { Pool } = require('pg');
 const app = express();
 
+/* Determine whether the Node.js environment is development or production */
+const isProdEnvironment = process.env.NODE_ENV === "production";
+const isDevEnvironment = process.env.NODE_ENV === undefined || process.env.NODE_ENV !== "production";
+
 /* Heroku free postgres allows up to 20 concurrent connections */
 const pool = new Pool({
   connectionString: keys.DATABASE_URL,
@@ -15,17 +19,33 @@ const pool = new Pool({
 });
 
 pool.on('error', async (error, client) => {
-  if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== "production") {
+  if (isDevEnvironment) {
     console.error(`Database pool error: ${error}; Connection string: ${keys.DATABASE_URL}`);
   }
 });
 
 /* Middleware */
+app.use(compression({ filter: shouldCompress }))
+function shouldCompress (req, res) {
+  if (req.headers['x-no-compression']) {
+    // don't compress responses with this request header
+    return false
+  }
+  // fallback to standard filter function
+  return compression.filter(req, res)
+}
 app.use(cors());
-app.use(helmet())
 app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
-app.use(compression());
 app.use(express.urlencoded({ extended: false }));
+app.use(function(req, res, next) {
+  /* Add Cache-Control headers to all requests */
+  const expireAfterMinutes = 60;
+  const cacheControlHeaderValue = isProdEnvironment
+    ? `public, max-age=${expireAfterMinutes/2 * 60}, stale-while-revalidate=${expireAfterMinutes/2 * 60}`
+    : `no-cache`
+  res.header('Cache-Control', cacheControlHeaderValue);
+  next();
+});
 
 /* Configure view templates, which form the HTML part of the admin and login pages */
 app.set("view engine", "ejs");
