@@ -17,7 +17,7 @@
     "leaflet.locatecontrol": "^0.71.1",
     "leaflet.markercluster": "^1.4.1",
     "prop-types": "^15.7.2",
-    "query-string": "^6.12.1",
+    "query-string": "^7.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-dragscroll": "^2.0.1",
