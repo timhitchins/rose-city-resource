@@ -37,15 +37,7 @@ function shouldCompress (req, res) {
 app.use(cors());
 app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
 app.use(express.urlencoded({ extended: false }));
-app.use(function(req, res, next) {
-  /* Add Cache-Control headers to all requests */
-  const expireAfterMinutes = 60;
-  const cacheControlHeaderValue = isProdEnvironment
-    ? `public, max-age=${expireAfterMinutes/2 * 60}, stale-while-revalidate=${expireAfterMinutes/2 * 60}`
-    : `no-cache`
-  res.header('Cache-Control', cacheControlHeaderValue);
-  next();
-});
+
 
 /* Configure view templates, which form the HTML part of the admin and login pages */
 app.set("view engine", "ejs");
