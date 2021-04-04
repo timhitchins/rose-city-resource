@@ -4,20 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cards from './Results/Cards';
 import { cardDetailsFilter, directionsUrlBuilder } from './../utils/api';
 
-const styles = {
-  faIcon: {
-    color: '#393f48',
-    marginRight: '5px'
-  }
-};
-
-class Details extends React.Component {
+class Details extends React.PureComponent {
   state = { cardDetailsData: null };
 
   componentDidMount() {
     const { records } = this.props;
     const queryVals = queryString.parse(this.props.location.search);
-    const detailsData = cardDetailsFilter(records, new Array().concat(queryVals.saved));
+    const detailsData = cardDetailsFilter(records, [...queryVals.saved]);
 
     // this logic could be in utils
     const cardDetailsData = detailsData.map(record => {
@@ -31,7 +24,9 @@ class Details extends React.Component {
 
     this.setState(() => ({ cardDetailsData }));
   }
+  
   render() {
+
     const { savedDataId, handleCardSave } = this.props;
     const { cardDetailsData } = this.state;
 
@@ -45,7 +40,7 @@ class Details extends React.Component {
                 window.print();
               }}
             >
-              <FontAwesomeIcon style={styles.faIcon} icon="print" size="sm" />
+              <FontAwesomeIcon icon={["fa", "print"]} style={{marginRight: '5px', marginLeft: '5px'}}/>
               Print Results
             </div>
             <Cards

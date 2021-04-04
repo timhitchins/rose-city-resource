@@ -13,7 +13,7 @@ const styles = {
 
 //this component was updated to include
 //the babel transform class properties
-class Loading extends React.Component {
+class Loading extends React.PureComponent {
   static propTypes = {
     text: PropTypes.string.isRequired,
     speed: PropTypes.number.isRequired
