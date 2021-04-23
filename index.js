@@ -15,7 +15,7 @@ const isDevEnvironment = process.env.NODE_ENV === undefined || process.env.NODE_
 
 /* Heroku free postgres allows up to 20 concurrent connections */
 const pool = new Pool({
-  connectionString: keys.DATABASE_URL || process.env.DATABASE_URL,
+  connectionString: keys.DATABASE_URL,
   max: 20,
   ssl: { rejectUnauthorized: false }
 });
@@ -30,10 +30,8 @@ pool.on('error', async (error, client) => {
 app.use(compression({ filter: shouldCompress }))
 function shouldCompress (req, res) {
   if (req.headers['x-no-compression']) {
-    // don't compress responses with this request header
     return false
   }
-  // fallback to standard filter function
   return compression.filter(req, res)
 }
 app.use(cors());
