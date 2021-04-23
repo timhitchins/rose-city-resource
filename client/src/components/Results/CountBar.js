@@ -2,7 +2,7 @@ import React from "react";
 import MediaQuery from "react-responsive";
 // import PropTypes from 'prop-types';
 
-class CountBar extends React.Component {
+class CountBar extends React.PureComponent {
   undisclosedCounter = (data) => {
     let counter = 0;
     for (let i = 0; i < data.length; i++) {

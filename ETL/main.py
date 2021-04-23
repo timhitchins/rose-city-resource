@@ -7,6 +7,12 @@ import pandas
 from geopy.geocoders import GoogleV3
 import re
 
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+
+if GOOGLE_API_KEY == None or GOOGLE_API_KEY == '':
+    print('The Google API key is missing')
+    sys.exit(10)
+
 geolocator = GoogleV3(api_key=os.environ.get('GOOGLE_API_KEY'))
 
 AIRTABLE_API_KEY = os.environ.get('AIRTABLE_API_KEY')
@@ -14,11 +20,11 @@ AIRTABLE_BASE_ID = os.environ.get('AIRTABLE_BASE_ID')
 
 if AIRTABLE_API_KEY == None or AIRTABLE_API_KEY == '':
     print('The Airtable API key is missing')
-    sys.exit(10)
+    sys.exit(11)
 
 if AIRTABLE_BASE_ID == None or AIRTABLE_BASE_ID == '':
     print('The Airtable Base ID is missing')
-    sys.exit(11)
+    sys.exit(12)
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -32,7 +38,7 @@ if DATABASE_URL == None or DATABASE_URL == '':
     print('The DATABASE_URL string can be found by logging into Heroku and navigating to the postgres add-on details')
     print('The DATABASE_URL from Heroku should be copied verbatim to the same local development environment variable')
     print('Use the env command to verify that the current terminal instance contains the DATABASE_URL environment variable')
-    sys.exit(12)
+    sys.exit(13)
 
 # Connect to the database
 db = psycopg2.connect(DATABASE_URL)
@@ -164,7 +170,10 @@ for row in rows:
     _street = str(row[i_street_address]) # Skip empty street addresses which should NOT have lat or lon
     if _street == None or _street == '' or len(_street) <= 0 or _street == 'None':
         continue
-
+    _id = str(row[i_id])
+    if _id == None or _id == '':
+        continue
+    
     address = _address
 
     location = geolocator.geocode(address)
@@ -180,7 +189,7 @@ for row in rows:
     except:
         lon = ''
 
-    sql = f"UPDATE etl_staging_1 SET lat='{lat}', lon='{lon}' WHERE id={row[i_id]};"
+    sql = f"UPDATE etl_staging_1 SET lat='{lat}', lon='{lon}' WHERE id={_id};"
     cursor.execute(sql)
     db.commit()
 

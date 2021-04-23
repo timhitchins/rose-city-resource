@@ -2,8 +2,8 @@ import React from "react";
 import MediaQuery from "react-responsive";
 import { NavLink } from "react-router-dom";
 import "./../css/Nav.css";
-import * as srLogo from "./../images/sr-logo-sm.png";
-import * as rcrLogo from "./../images/rcr-logo.png";
+import srLogo from "./../images/sr-logo-sm.png";
+import rcrLogo from "./../images/rcr-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSSTransition } from "react-transition-group";
 
@@ -42,7 +42,7 @@ const NavDrawer = ({ navVisible, onClick }) => (
   </CSSTransition>
 );
 
-class Nav extends React.Component {
+class Nav extends React.PureComponent {
   state = {
     navDrawerVisible: false,
   };
@@ -100,13 +100,9 @@ class Nav extends React.Component {
               </NavLink>
             </MediaQuery>
             <MediaQuery query="(max-width: 599px)">
-              <div className="hamburger-button">
-                <FontAwesomeIcon
-                  icon="bars"
-                  size="2x"
-                  onClick={this.toggleDrawer}
-                />
-              </div>
+              {/* <div className="hamburger-button"> */}
+                <FontAwesomeIcon icon={["fa", "bars"]} className='hamburger-icon' onClick={this.toggleDrawer} />
+              {/* </div> */}
             </MediaQuery>
           </nav>
           <MediaQuery query="(max-width: 599.999999px)">

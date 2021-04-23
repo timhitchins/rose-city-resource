@@ -19,7 +19,7 @@ import {
 } from "../utils/api";
 import "../icons/iconsInit";
 
-class App extends React.Component {
+class App extends React.PureComponent {
   //data lives in the top component.
   state = {
     navDrawerVisible: false,
