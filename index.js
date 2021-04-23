@@ -1,3 +1,4 @@
+require('dotenv').config();
 const keys = require("./config/nodeKeys");
 const express = require("express");
 const cors = require("cors");
@@ -14,7 +15,7 @@ const isDevEnvironment = process.env.NODE_ENV === undefined || process.env.NODE_
 
 /* Heroku free postgres allows up to 20 concurrent connections */
 const pool = new Pool({
-  connectionString: keys.DATABASE_URL,
+  connectionString: keys.DATABASE_URL || process.env.DATABASE_URL,
   max: 20,
   ssl: { rejectUnauthorized: false }
 });
