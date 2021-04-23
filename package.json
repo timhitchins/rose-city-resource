@@ -4,8 +4,8 @@
   "description": "A digital version of the Street Roots Rose City Resource",
   "main": "index.js",
   "engines": {
-    "node": "12.6.x",
-    "npm": "6.x"
+    "node": "14.16.x",
+    "npm": "7.9.x"
   },
   "scripts": {
     "start": "node index.js",
@@ -24,23 +24,23 @@
     "url": "https://github.com/timhitchins/rose-city-resource/issues"
   },
   "homepage": "https://github.com/timhitchins/rose-city-resource#readme",
-  "devDependencies": {
-    "concurrently": "^5.1.0",
-    "nodemon": "^2.0.3"
-  },
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
+    "concurrently": "^6.0.0",
     "cors": "^2.8.5",
-    "ejs": "^3.1.5",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-session": "^1.17.1",
-    "helmet": "^3.22.0",
+    "helmet": "^4.4.1",
     "node-postgres": "^0.6.2",
+    "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-roles": "^1.0.1",
-    "pg": "^8.3.3"
+    "pg": "^8.5.1",
+    "private": "^0.1.8"
   }
 }

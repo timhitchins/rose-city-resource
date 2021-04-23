@@ -6,7 +6,7 @@ import MediaQuery from "react-responsive";
 import { mapDataBuilder } from "../../utils/api";
 import { greenLMarker, blueLMarker } from "./../../icons/mapIcons.js";
 
-class Markers extends React.Component {
+class Markers extends React.PureComponent {
   markers = [];
 
   bindMarker = (ref) => {
@@ -63,7 +63,7 @@ class Markers extends React.Component {
   }
 }
 
-class SimpleMap extends React.Component {
+class SimpleMap extends React.PureComponent {
   state = {
     mapData: null,
     zoom: 10,

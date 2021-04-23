@@ -41,7 +41,7 @@ const style = {
   boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5)",
 };
 
-class Card extends React.Component {
+class Card extends React.PureComponent {
   state = {
     selector: "location",
   };
@@ -261,7 +261,7 @@ class Card extends React.Component {
   }
 }
 
-class Cards extends React.Component {
+class Cards extends React.PureComponent {
   state = { currentCardRef: null, cardRefs: [] };
 
   cardScrollToCard = (cardRef) => {

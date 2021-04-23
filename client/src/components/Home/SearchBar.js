@@ -10,7 +10,7 @@ import { getFilteredSearchList, queryBuilder } from "../../utils/api";
 //need this to use the react portal
 const modalRoot = document.getElementById("modal-root");
 
-class AdvancedSearchModal extends React.Component {
+class AdvancedSearchModal extends React.PureComponent {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     searchData: PropTypes.object.isRequired,
@@ -59,7 +59,6 @@ class AdvancedSearchModal extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { categoryVals } = this.state;
   };
 
   handleNoSelection = (event) => {
@@ -211,7 +210,7 @@ class AdvancedSearchModal extends React.Component {
   }
 }
 
-export default class SearchBar extends React.Component {
+export default class SearchBar extends React.PureComponent {
   static propTypes = {
     records: PropTypes.array.isRequired,
     searchData: PropTypes.object.isRequired,

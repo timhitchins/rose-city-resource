@@ -249,7 +249,7 @@ MainSmall.propTypes = {
   submitSearch: PropTypes.func.isRequired,
 };
 
-class Selectors extends React.Component {
+class Selectors extends React.PureComponent {
   state = {
     isBrowseVisible: this.props.isVisible,
   };
@@ -368,7 +368,7 @@ Selectors.propTypes = {
 };
 
 //All the state and methods live here and are passed down as props to all the specific components.
-class IconSelector extends React.Component {
+class IconSelector extends React.PureComponent {
   static propTypes = {
     records: PropTypes.array.isRequired,
     searchData: PropTypes.object.isRequired,

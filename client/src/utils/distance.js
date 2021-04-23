@@ -27,11 +27,10 @@ export async function inOutLocation() {
   return await getCurrentLocation({
     enableHighAccuracy: true,
     timeout: 5000,
-    maximumAge: 0
+    maximumAge: 60000
   })
     .catch(e => {
       if (e.name === 'PositionError') {
-        console.error(e.message + '. code = ' + e.code);
         return null;
       }
     })
