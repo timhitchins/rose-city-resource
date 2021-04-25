@@ -39,6 +39,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "postinstall": "npm run build",
     "dev": "npm run start"
   },
   "eslintConfig": {
