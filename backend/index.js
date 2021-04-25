@@ -79,8 +79,8 @@ if (process.env.NODE_ENV === "production") {
         res.header('Cache-Control', `max-age=31536000`); /* Aggressively cache other static content */
     }
   }
-  app.use(Express.static(frontEndPath, staticOptions))
-  app.use("*", Express.static(frontEndPath, staticOptions))
+  app.use(express.static(frontEndPath, staticOptions))
+  app.use("*", express.static(frontEndPath, staticOptions))
 }
 
 const PORT = process.env.PORT || 5000;
