@@ -1,5 +1,5 @@
 require('dotenv').config();
-const keys = require("./config/nodeKeys");
+const keys = require("../config/nodeKeys");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -47,9 +47,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-/* Configure view templates, which form the HTML part of the admin and login pages */
-app.set("view engine", "ejs");
-
 /* Routes */
 require("./routes/query")(app, pool);
 require("./routes/query-staging")(app, pool);
@@ -71,7 +68,8 @@ testDatabaseQuery();
 
 /* Default handler for requests not handled by one of the above routes */
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, '/client/build'), {
+  const frontEndPath = path.join(__dirname, "/../frontend/build");
+  const staticOptions = {
     etag: true,
     lastModified: true,
     setHeaders: (res, path) => {
@@ -79,21 +77,11 @@ if (process.env.NODE_ENV === "production") {
         res.setHeader('Cache-Control', 'no-cache'); /* ALWAYS re-validate HTML files! */
       else
         res.header('Cache-Control', `max-age=31536000`); /* Aggressively cache other static content */
-      }
-    })
-  );
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
+    }
+  }
+  app.use(Express.static(frontEndPath, staticOptions))
+  app.use("*", Express.static(frontEndPath, staticOptions))
 }
-
-/* Default handler for requests not handled by one of the above routes */
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("client/build"));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-//   });
-// }
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

@@ -1,10 +1,11 @@
-const keys = require("../config/nodeKeys");
+const keys = require("../../config/nodeKeys");
 const { spawn } = require('child_process');
 const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
 const path = require('path');
 const bcrypt = require('bcrypt');
+const { env } = require("process");
 
 module.exports = (app, pool) => {
 
@@ -27,6 +28,9 @@ module.exports = (app, pool) => {
     next();
   });
 
+  /* Configure view templates, which form the HTML part of the admin and login pages */
+  app.set("view engine", "ejs");
+
   /* Default handler for the admin page */
   app.get("/admin/dashboard", userIsAuthenticated, async (req, res, next) => {
     try {
@@ -41,7 +45,7 @@ module.exports = (app, pool) => {
         log('Job Start');
 
         /* Run the ETL script */
-        const file = path.resolve('ETL/main.py');
+        const file = path.resolve('../etl/main.py');
         const python = spawn('python3', [file, keys.DATABASE_URL]);
         python.on('spawn', (code) => {
           console.info('Python spawn: ' + code)
@@ -69,7 +73,7 @@ module.exports = (app, pool) => {
         return;
       }
       else {
-        res.render('dashboard.ejs', { userData: req.user });
+        res.render('../../admin/views/dashboard.ejs', { userData: req.user });
         return;
       }
 
@@ -183,12 +187,12 @@ module.exports = (app, pool) => {
 
   /* Login */
   app.get("/admin/login", userIsNotAuthenticated, (req, res) => {
-    res.render("login.ejs", { message: null });
+    res.render("../../admin/views/login.ejs", { message: null });
   });
 
   /* Register new user (NOTE: this is an admin privilege only, and is intentionally *not* outward facing) */
   app.get('/admin/register', userIsAdmin, (req, res) => {
-    res.render('registerUser.ejs');
+    res.render('../../admin/views/registerUser.ejs');
   });
 
   app.post('/admin/register', userIsAdmin, (req, res) => {
@@ -198,7 +202,7 @@ module.exports = (app, pool) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await pool.query('INSERT INTO production_user (name, role, email, password) VALUES ($1, $2, $3, $4)', [name, role, email, hashedPassword]
         );
-        res.render('dashboard');
+        res.render('../../admin/views/dashboard');
       } catch (err) {
         console.error(err);
         res.sendStatus(500);
@@ -209,7 +213,7 @@ module.exports = (app, pool) => {
 
   /* Change password */
    app.get('/admin/changePassword', userIsAuthenticated, (req, res) => {
-    res.render('changePassword.ejs');
+    res.render('../../admin/views/changePassword.ejs');
   });
 
   /* Handle input from the change password form */
@@ -239,7 +243,7 @@ module.exports = (app, pool) => {
   /* Logout */
   app.get("/admin/logout", (req, res) => {
     req.logout();
-    res.render("login.ejs", { message: "You have logged out successfully" });
+    res.render("../../admin/views/login.ejs", { message: "You have logged out successfully" });
   });
 
   /* Handle input from the login form */
@@ -286,7 +290,7 @@ module.exports = (app, pool) => {
 
   /* Log a message to the database */
   const log = async message => {
-    await pool.query(`SELECT etl_log('${message}');`, async (err, result) => {
+    await pool.query(`SELECT etl_log($1);`, [message], async (err, result) => {
       if (err) {
         console.error('Error executing query ', err.stack);
       }
