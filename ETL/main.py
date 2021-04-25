@@ -74,7 +74,7 @@ def create_import_table(table_name, json_data):
         new_columns.append(str(column).replace(
             "fields.", "").replace(" ", "_").replace("-", ""))
     data.columns = new_columns
-    print(new_columns)
+
     # Drop and Create the table
     sql = f"DROP TABLE IF EXISTS {table_name}; "
     sql += f"CREATE TABLE {table_name} ("
