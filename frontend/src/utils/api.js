@@ -32,6 +32,7 @@ export async function addUserDistancesToRecords(records) {
   try {
     let currentCoords;
     const position = await inOutLocation();
+    //console.log('POSITION',position)
     if (position !== undefined && position !== null) {
       currentCoords = [position.coords.latitude, position.coords.longitude];
     } else {

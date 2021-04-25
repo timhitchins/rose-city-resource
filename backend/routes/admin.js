@@ -5,7 +5,6 @@ const flash = require("express-flash");
 const session = require("express-session");
 const path = require('path');
 const bcrypt = require('bcrypt');
-const { env } = require("process");
 
 module.exports = (app, pool) => {
 
@@ -32,7 +31,7 @@ module.exports = (app, pool) => {
   app.set("view engine", "ejs");
 
   /* Default handler for the admin page */
-  app.get("/admin/dashboard", userIsAuthenticated, async (req, res, next) => {
+  app.get(["/admin", "/admin/dashboard"], userIsAuthenticated, async (req, res, next) => {
     try {
 
       const { action } = req.query;
@@ -62,6 +61,7 @@ module.exports = (app, pool) => {
         python.stdout.on('data', (data) => {
           log('Python stdout: ' + data.toString());
         })
+        res.setHeader('Cache-Control', 'no-cache');
         res.send('true');
         return;
       }
@@ -69,6 +69,7 @@ module.exports = (app, pool) => {
 
         /* The 'Import to Production' button was clicked */
         await importToProduction();
+        res.setHeader('Cache-Control', 'no-cache');
         res.send('true');
         return;
       }
@@ -95,6 +96,7 @@ module.exports = (app, pool) => {
           return;
         }
         log = result.rows;
+        res.setHeader('Cache-Control', 'no-cache');
         res.json(log);
       });
 
@@ -116,6 +118,7 @@ module.exports = (app, pool) => {
           return;
         }
         log = result.rows;
+        res.setHeader('Cache-Control', 'no-cache');
         res.json(log);
       });
 
@@ -135,6 +138,7 @@ module.exports = (app, pool) => {
           return;
         }
         data = result.rows;
+        res.setHeader('Cache-Control', 'no-cache');
         res.json(data);
       });
 
@@ -156,6 +160,7 @@ module.exports = (app, pool) => {
           return;
         }
         log = result.rows;
+        res.setHeader('Cache-Control', 'no-cache');
         res.json(log);
       });
 
@@ -177,6 +182,7 @@ module.exports = (app, pool) => {
           return;
         }
         log = result.rows;
+        res.setHeader('Cache-Control', 'no-cache');
         res.json(log);
       });
 
