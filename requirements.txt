@@ -1,4 +1,6 @@
 # Heroku should automatically install the following Python modules
+python-dotenv-0.17.0
+pathlib-1.0.1
 psycopg2-binary==2.8.6
 airtable-python-wrapper==0.15.2
 pandas==1.1.5

@@ -1,0 +1,59 @@
+{
+  "name": "rcr-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "proxy": "http://localhost:5000",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@react-leaflet/core": "^1.0.2",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^13.1.5",
+    "@turf/distance": "^6.0.1",
+    "favicon": "0.0.2",
+    "leaflet": "^1.7.1",
+    "leaflet-control-geocoder": "^2.2.0",
+    "leaflet.locatecontrol": "^0.73.0",
+    "leaflet.markercluster": "^1.4.1",
+    "node": "^15.14.0",
+    "npm": "^7.10.0",
+    "prop-types": "^15.7.2",
+    "query-string": "^7.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-dragscroll": "^2.0.1",
+    "react-leaflet": "^2.8.0",
+    "react-leaflet-markercluster": "^2.0.0",
+    "react-responsive": "^8.0.3",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "react-scroll-up-button": "^1.6.4",
+    "react-tooltip": "^4.2.3",
+    "react-transition-group": "^4.4.1",
+    "turf-point": "^2.0.1",
+    "webfontloader": "^1.6.28"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "dev": "npm run start"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
