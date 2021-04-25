@@ -7,7 +7,7 @@ import Results from "./Results/Results";
 import Details from "./Details";
 import Nav from "./Nav";
 import Footer from "./static_components/Footer";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import {
   getRecords,
   addUserDistancesToRecords,
@@ -158,9 +158,8 @@ class App extends React.PureComponent {
                     )}
                   />
                   <Route
-                    exact
                     path="/admin"
-                    render={(props) => {
+                    render={props => {
                       window.location.href = [
                         window.location.protocol,
                         "//",
