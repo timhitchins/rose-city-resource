@@ -64,33 +64,57 @@ class Card extends React.PureComponent {
       showMapDetail,
     } = this.props;
 
-    const textMap = {
-      parsedCategory: record.main_category,
-      parsedListing: record.listing,
-      parsedPhone: cardPhoneTextFilter(record),
-      parsedWeb: cardWebAddressFixer(record.website),
-      parsedStreet: record.street !== null && record.street !== '' ? `${cardTextFilter(record.street)} ${cardTextFilter(
+    const formatStreetAddress = record => {
+      return (record.street !== null && record.street !== '' ? `${cardTextFilter(record.street)} ${cardTextFilter(
         record.street2
-      )}`.trim() : '',
-      parsedCity: `${record.city}, OR ${record.postal_code}`,
-      parsedDescription: cardTextFilter(record.service_description),
-      parsedHours: cardTextFilter(record.hours),
-      parsedCOVID: cardTextFilter(record.covid_message),
-    };
+      )}`.trim() : '')
+    }
+
+    // const card = {
+    //   parsedCategory: record.main_category,
+    //   listing: record.listing,
+    //   phone: cardPhoneTextFilter(record),
+    //   parsedWeb: cardWebAddressFixer(record.website),
+    //   street: formatStreetAddress(record),
+    //   city: `${record.city}, OR ${record.postal_code}`,
+    //   description: cardTextFilter(record.service_description),
+    //   parsedHours: cardTextFilter(record.hours),
+    //   covidMessage: cardTextFilter(record.covid_message),
+    // };
+
+    const card = {
+      category: record.main_category,
+      listing: record.listing, 
+      phone: cardPhoneTextFilter(record),
+      website: cardWebAddressFixer(record.website),
+      street: formatStreetAddress(record),
+      city: `${record.city}, OR ${record.postal_code}`,
+      description: cardTextFilter(record.service_description),
+      hours: cardTextFilter(record.hours),
+      covidMessage: cardTextFilter(record.covid_message)
+    }
+
+    // const { category, listing, phone, website, street, city, description, hours, covidMessage } = cardData;
 
     return (
       <div className="card-map-container">
+
         <div
           ref={this.cardRef}
           className="card-container"
           style={record.id === selectedListing ? style : null}
         >
+
           <div className="card-header">
-            <div className="card-category">{textMap.parsedCategory}</div>
-            {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
-              <div className="covid-item">{textMap.parsedCOVID}</div>
+            <div className="card-category">
+              {card.category}
+            </div>
+
+            {card.covidMessage === "CLOSED DUE TO COVID" ? (
+              <div className="covid-item">{card.covidMessage}</div>
             ) : null}
           </div>
+
           <div className="card-header">
             <div
               className="card-listing"
@@ -103,7 +127,7 @@ class Card extends React.PureComponent {
                   : null
               }
             >
-              {textMap.parsedListing}
+              {card.listing}
             </div>
             <div className="spacer" />
             {record.lat !== "" || record.lon !== "" ? (
@@ -161,10 +185,10 @@ class Card extends React.PureComponent {
             ) : null}
           </div>
           <div className="card-street">
-            {textMap.parsedStreet != null && textMap.parsedStreet !== '' ? (
+            {card.street != null && card.street !== '' ? (
               <div>
-                {textMap.parsedStreet} <br />
-                {textMap.parsedCity} <br />
+                {card.street} <br />
+                {card.city} <br />
                 {/* if the distance is not null then return it in the card */}
                 {record.distance !== null ? (
                   <div className="card-distance">
@@ -190,15 +214,15 @@ class Card extends React.PureComponent {
               )}
           </div>
           <div className="covid-item covid-temp-listing">
-            {textMap.parsedCOVID === "TEMPORARY COVID RESPONSE SERVICE"
-              ? textMap.parsedCOVID
+            {card.covidMessage === "TEMPORARY COVID RESPONSE SERVICE"
+              ? card.covidMessage
               : null}
           </div>
           <div className="card-phone-container">
-            {textMap.parsedPhone ? (
+            {card.phone && (
               <div>
                 <FontAwesomeIcon icon={"phone"} className="phone-icon" />
-                {textMap.parsedPhone.map((phone, index) => {
+                {card.phone.map((phone, index) => {
                   return (
                     <div key={`${phone.phone}-${index}`} className="card-phone">
                       <span>{`${phone.type}: `}</span>
@@ -207,43 +231,43 @@ class Card extends React.PureComponent {
                   );
                 })}
               </div>
-            ) : null}
+            )}
           </div>
           <div className="card-web-container">
-            {textMap.parsedWeb ? (
+            {card.website && (
               <div>
                 <FontAwesomeIcon icon={"globe"} />
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={textMap.parsedWeb}
+                  href={card.website}
                 >
                   {" website"}
                 </a>
               </div>
-            ) : null}
+            )}
           </div>
-          {!(textMap.parsedDescription === "") ? (
+          {!(card.description === "") ? (
             <div className="card-item">
               <div className="card-title">Service Description:</div>
-              <div className="card-content">{textMap.parsedDescription}</div>
+              <div className="card-content">{card.description}</div>
             </div>
           ) : null}
-          {!(textMap.parsedHours === "") ? (
+          {!(card.hours === "") ? (
             <div className="card-item">
               <div className="card-title-flex">
                 <div>Hours:</div>
                 <div className="covid-item">
-                  {textMap.parsedCOVID === "HOURS CHANGED DUE TO COVID"
-                    ? textMap.parsedCOVID
+                  {card.covidMessage === "HOURS CHANGED DUE TO COVID"
+                    ? card.covidMessage
                     : null}
                 </div>
               </div>
               <div className="card-content">
-                {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
+                {card.covidMessage === "CLOSED DUE TO COVID" ? (
                   <div className="covid-item">CLOSED</div>
                 ) : (
-                    textMap.parsedHours
+                    card.hours
                   )}
               </div>
             </div>

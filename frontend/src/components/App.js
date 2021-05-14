@@ -18,6 +18,7 @@ import {
   getDatatableVersion,
 } from "../utils/api";
 import "../icons/iconsInit";
+import SemanticCard from './Results/SemanticCard'
 
 class App extends React.PureComponent {
   //data lives in the top component.
@@ -132,6 +133,7 @@ class App extends React.PureComponent {
                   />
                   <Route exact path="/about" component={About} />
                   <Route exact path="/suggest-edit" component={SuggestEdit} />
+                  <Route exact path="/card" component={SemanticCard} />
                   <Route
                     path="/results"
                     component={(props) => (

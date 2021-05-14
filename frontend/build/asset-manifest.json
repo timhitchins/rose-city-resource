@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.49ce4bdc.chunk.css",
+    "main.js": "/static/js/main.e886c905.chunk.js",
+    "main.js.map": "/static/js/main.e886c905.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.f8c2ab75.js",
+    "runtime-main.js.map": "/static/js/runtime-main.f8c2ab75.js.map",
+    "static/css/2.82307faa.chunk.css": "/static/css/2.82307faa.chunk.css",
+    "static/js/2.e695e009.chunk.js": "/static/js/2.e695e009.chunk.js",
+    "static/js/2.e695e009.chunk.js.map": "/static/js/2.e695e009.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.82307faa.chunk.css.map": "/static/css/2.82307faa.chunk.css.map",
+    "static/css/main.49ce4bdc.chunk.css.map": "/static/css/main.49ce4bdc.chunk.css.map",
+    "static/js/2.e695e009.chunk.js.LICENSE.txt": "/static/js/2.e695e009.chunk.js.LICENSE.txt",
+    "static/media/sr-logo-transparent-background.cecb978f.png": "/static/media/sr-logo-transparent-background.cecb978f.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f8c2ab75.js",
+    "static/css/2.82307faa.chunk.css",
+    "static/js/2.e695e009.chunk.js",
+    "static/css/main.49ce4bdc.chunk.css",
+    "static/js/main.e886c905.chunk.js"
+  ]
+}
