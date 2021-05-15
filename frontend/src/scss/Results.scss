@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .leaflet-container {
   height: 100%;
   margin: 0.25rem;
@@ -44,7 +46,7 @@
   flex-wrap: wrap;
   margin: 5px 5px 5px 5px;
   width: auto;
-  background-color: #393e46;
+  background-color: $primary-medium;
   border-radius: 2px;
   border: 1px solid gray;
   background-color: #ecedee;
@@ -120,7 +122,7 @@
   font-size: 0.8rem;
   padding: 3px 8px 3px 8px;
   color: white;
-  background: #85898e;
+  background: $app-background;
   margin-bottom: 5px;
   margin-left: -5px;
 }
@@ -348,7 +350,7 @@ on .card-phone-container*/
 }
 
 .card-save-button:hover:enabled {
-  background: linear-gradient(#2e3238 #393e46);
+  background: linear-gradient(#2e3238 $primary-medium);
   text-decoration: none;
 }
 
@@ -419,7 +421,7 @@ on .card-phone-container*/
   .print-button:enabled,
   .print-details-button:enabled,
   .popup-show-details:enabled {
-    background: linear-gradient(#2e3238 #393e46);
+    background: linear-gradient(#2e3238 $primary-medium);
     text-decoration: none;
   }
 

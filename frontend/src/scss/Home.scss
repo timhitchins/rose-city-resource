@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Ultra');
+@import 'variables.scss';
 
 /* 
 --Copywriting-Produkt-01--
-gray: #393E46 
-gray2: #85898e
+gray: $primary-medium 
+gray2: $app-background
 gray3: #2E3238  ?????
 gray4: #d1d2d4
 blue: #00ADB5
@@ -32,7 +33,7 @@ red/orange: #FC3C3C
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background: #2e3238;
+  background: $primary-dark;
 }
 
 /* ---------------------------------- */
@@ -68,7 +69,7 @@ red/orange: #FC3C3C
 .search-input {
   padding: 10px;
   font-size: 17px;
-  border: 1px solid #393e46;
+  border: 1px solid $primary-medium;
   border-radius: 5px 0 0 5px;
   float: left;
   width: 80%;
@@ -82,7 +83,7 @@ red/orange: #FC3C3C
   background: #00adb5;
   color: white;
   font-size: 17px;
-  border: 1px solid #393e46;
+  border: 1px solid $primary-medium;
   border-left: none;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
@@ -123,7 +124,7 @@ red/orange: #FC3C3C
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background: #393e46;
+  background: $primary-medium;
   color: white;
   cursor: pointer;
   min-height: 40px;
@@ -135,7 +136,7 @@ red/orange: #FC3C3C
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background: #393e46;
+  background: $primary-medium;
   color: white;
   min-height: 40px;
   border-top: 1px solid #fff4e0;
@@ -164,7 +165,7 @@ red/orange: #FC3C3C
 .icon-container {
   display: flex;
   flex-direction: row;
-  background: #2e3238;
+  background: $primary-dark;
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
   border-top: 1px solid #fff4e0;
   cursor: pointer;
@@ -172,7 +173,7 @@ red/orange: #FC3C3C
 }
 
 .icon-container:hover {
-  background: #85898e;
+  background: $app-background;
 }
 
 .selected-item {
@@ -182,7 +183,7 @@ red/orange: #FC3C3C
   padding: 0.5rem;
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
   border-top: 1px solid #fff4e0;
-  background: #393e46;
+  background: $primary-medium;
   color: white;
   cursor: pointer;
 }
@@ -286,13 +287,13 @@ red/orange: #FC3C3C
 }
 
 .search-nav-container-1 {
-  color: #393e46;
+  color: $primary-medium;
   align-items: center;
   justify-content: center;
 }
 
 .modal-heading-title {
-  color: #393e46;
+  color: $primary-medium;
   font-size: 1.75rem;
   font-weight: 500;
 }
@@ -339,7 +340,7 @@ red/orange: #FC3C3C
 .modal-search-item-title {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #393e46;
+  color: $primary-medium;
   margin-bottom: 10px;
 }
 
@@ -372,7 +373,7 @@ red/orange: #FC3C3C
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: #393e46;
+  color: $primary-medium;
 }
 
 /* Hide the browser's default checkbox */
@@ -559,12 +560,12 @@ input[type='checkbox'] {
     text-align: left;
     border-top: 1px solid white;
     padding: 0.5rem;
-    background: #393e46;
+    background: $primary-medium;
     cursor: pointer;
   }
 
   .icon-dropdown-container:hover {
-    background: #85898e;
+    background: $app-background;
   }
 
   .icon-dropdown-name {

@@ -1,5 +1,7 @@
+@import 'variables.scss';
+
 .nav {
-  background: #393e46;
+  background: $primary-medium;
   position: sticky;
   top: 0;
   left: 0;
@@ -42,7 +44,7 @@
 }
 
 .nav-item-active {
-  background: #85898e;
+  background: $app-background;
   color: #f8b500;
   border-top: 2px solid #f8b500;
 }
@@ -66,7 +68,7 @@
 }
 
 .nav-drawer-item-active {
-  background: #85898e;
+  background: $app-background;
   color: #f8b500;
   border-top: 2px solid #f8b500;
 }

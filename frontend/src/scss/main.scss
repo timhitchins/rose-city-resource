@@ -1,7 +1,8 @@
+@import 'variables.scss';
 /* 
 --Copywriting-Produkt-01--
-gray: #393E46 
-gray2: #85898e
+gray: $primary-medium 
+gray2: $app-background
 gray3: #2E3238  ?????
 gray4: #2E3238 
 blue: #00ADB5
@@ -18,7 +19,7 @@ body {
   font-family: Segoe UI, "Roboto", Oxygen-Sans, "Ubuntu", Cantarell,
     Helvetica Neue, sans-serif;
   box-sizing: border-box;
-  background-color: #85898e;
+  background-color: $app-background;
 }
 
 /* This is to make sure that 
@@ -49,7 +50,7 @@ a {
   text-decoration: none;
 }
 .main-content {
-  background-color: #85898e;
+  background-color: $app-background;
 }
 
 .loading-container {
