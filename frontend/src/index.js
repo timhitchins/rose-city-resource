@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import WebFont from 'webfontloader';
 import App from './components/App';
 import 'semantic-ui-css/semantic.min.css'
-import './css/main.css';
+import './scss/main.scss';
 import 'leaflet/dist/leaflet.css'; //regular leaflet
 import 'react-leaflet-markercluster/dist/styles.min.css'; //markerCluster
 import 'leaflet-control-geocoder/dist/Control.Geocoder.css'; //geocoder

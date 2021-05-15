@@ -1,7 +1,7 @@
 import React from "react";
 import MediaQuery from "react-responsive";
 import { NavLink } from "react-router-dom";
-import "./../css/Nav.css";
+import "../scss/Nav.scss";
 import srLogo from "./../images/sr-logo-sm.png";
 import rcrLogo from "./../images/rcr-logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

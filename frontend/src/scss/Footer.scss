@@ -1,5 +1,7 @@
+@import 'variables.scss';
+
 .footer {
-  background: #393e46;
+  background: $footer-background;
   bottom: 0;
   left: 0;
   right: 0;

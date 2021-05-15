@@ -1,7 +1,9 @@
+@import 'variables.scss';
+
 .nav {
   /* background: #393e46; */
   /* background-color: #2D1157; */
-  background-color: #1C0039;
+  background-color: $nav-background;
   position: sticky;
   top: 0;
   left: 0;

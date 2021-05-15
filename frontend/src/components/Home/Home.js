@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import IconSelector from './IconSelector';
 import SearchBar from './SearchBar';
-import './../../css/Home.scss';
+import '../../scss/Home.scss';
 
 const BasicInstructions = props => {
   return (

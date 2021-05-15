@@ -1,6 +1,6 @@
 import React from "react";
 import macLogo from "../../images/mac-logo-horizontal-sm.png";
-import './../../css/Footer.css';
+import '../../scss/Footer.scss';
 
 const Footer = (props) => {
   return (
