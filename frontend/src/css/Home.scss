@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Ultra');
+@import 'variables.scss';
+
 
 /* 
 --Copywriting-Produkt-01--
@@ -33,7 +35,7 @@ red/orange: #FC3C3C
   align-items: center;
   width: 100%;
   /* background: #2e3238; */
-  background: #200042;
+  background: $deepPurple;
   color: rgb(241, 241, 241);
 }
 
