@@ -2,3 +2,55 @@
   width: 85%; 
   font-size: 1em;
 }
+
+.sc-extra {
+  display: flex; justify-content: space-evenly; color: #422B75;
+}
+
+.sc-extra span {
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+.bordered-content {
+  padding: 7px; 
+  border-radius: 5px; 
+  margin-top: 0px; 
+  padding-top: 0px;
+}
+
+.bordered-content-light {
+  border: 1px solid lightgrey; padding: 7px; border-radius: 5px; margin-bottom: 7px;
+}
+
+.text-grey {
+  color: #565658;
+}
+
+.text-teal {
+  color: #0096B7;
+}
+
+.text-purple {
+  color: #422B75;
+}
+
+.text-red {
+  color: '#B03060';
+}
+
+.filled-content {
+  background-color: RGBA(0, 0, 0, 0.08); border-radius: 5px; padding: 7px;
+}
+
+.card-description {
+  margin-left: 7px; padding-top: 15px; margin-bottom: 0px; padding-bottom: 0px;
+}
+
+.card-hours {
+  background-color: RGBA(0, 0, 0, 0.08); border-radius: 5px; padding: 7px;
+}
+
+.emergency-message {
+  margin-left: 7px; padding-top: 15px; margin-bottom: 0px; padding-bottom: 0px;
+}

@@ -12,6 +12,7 @@ import {
   cardWebAddressFixer,
 } from "../../utils/api";
 import { greenLMarker } from "./../../icons/mapIcons";
+import SemanticCard from './SemanticCard'
 
 const DetailMap = (props) => {
   return (
@@ -41,7 +42,7 @@ const style = {
   boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5)",
 };
 
-class Card extends React.PureComponent {
+class RCRCard extends React.PureComponent {
   state = {
     selector: "location",
   };
@@ -93,6 +94,11 @@ class Card extends React.PureComponent {
       hours: cardTextFilter(record.hours),
       covidMessage: cardTextFilter(record.covid_message)
     }
+
+    // console.log(record.id, record.listing, record.main_category, record.general_category, record.phone, record.street, record.postal_code, record.service_description, record.hours, record.covid_message)
+    console.log({record})
+
+    // record.id, record.listing, record.main_category, record.general_category, record.phone, record.street, record.postal_code, record.service_description, record.hours, record.covid_message 
 
     // const { category, listing, phone, website, street, city, description, hours, covidMessage } = cardData;
 
@@ -358,17 +364,29 @@ class Cards extends React.PureComponent {
         <CountBar savedDataId={savedDataId} data={data} />
 
         {cardSortByDistance(data).map((record, index) => (
-          <Card
-            key={`${record.id}-${index}`}
-            record={record}
-            selectedListing={selectedListing}
-            updateListing={updateListing}
-            handleCardSave={handleCardSave}
-            handleCardClick={this.handleCardClick}
-            handleCardRef={this.handleCardRef}
-            savedDataId={savedDataId}
-            showMapDetail={showMapDetail}
-          />
+          // <RCRCard
+          //   key={`${record.id}-${index}`}
+          //   record={record}
+          //   selectedListing={selectedListing}
+          //   updateListing={updateListing}
+          //   handleCardSave={handleCardSave}
+          //   handleCardClick={this.handleCardClick}
+          //   handleCardRef={this.handleCardRef}
+          //   savedDataId={savedDataId}
+          //   showMapDetail={showMapDetail}
+          // />
+          <SemanticCard 
+            // key={`${record.id}-${index}`}
+            record={record} 
+            // selectedListing={selectedListing}
+            // updateListing={updateListing}
+            // handleCardSave={handleCardSave}
+            // handleCardClick={this.handleCardClick}
+            // handleCardRef={this.handleCardRef}
+            // savedDataId={savedDataId}
+            // showMapDetail={showMapDetail}  
+            />
+
         ))}
         <MediaQuery query="(max-width: 992px)">
           <ScrollUpButton
@@ -376,8 +394,6 @@ class Cards extends React.PureComponent {
             ShowAtPosition={150}
             EasingType="easeOutCubic"
             AnimationDuration={500}
-            // ContainerClassName="ScrollUpButton__Container"
-            // TransitionClassName="ScrollUpButton__Toggled"
             style={{ left: "50%", bottom: "35px", right: "50%" }}
             ToggledStyle={{}}
           />
@@ -388,8 +404,6 @@ class Cards extends React.PureComponent {
             ShowAtPosition={150}
             EasingType="easeOutCubic"
             AnimationDuration={500}
-            // ContainerClassName="ScrollUpButton__Container"
-            // TransitionClassName="ScrollUpButton__Toggled"
             style={{ left: "240px", bottom: "35px" }}
             ToggledStyle={{}}
           />

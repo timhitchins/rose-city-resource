@@ -32,14 +32,16 @@ red/orange: #FC3C3C
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background: #2e3238;
+  /* background: #2e3238; */
+  background: #200042;
+  color: rgb(241, 241, 241);
 }
 
 /* ---------------------------------- */
 /* Basic Instructions */
 
 .basic-instructions {
-  color: #f8b500;
+  color: rgb(241, 241, 241);
   font-size: 1.75rem;
   padding-top: 1rem;
   max-width: 675px;
@@ -123,8 +125,8 @@ red/orange: #FC3C3C
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background: #393e46;
-  color: white;
+  background: rgb(241, 241, 241);
+  color: #200042;
   cursor: pointer;
   min-height: 40px;
   width: 100%;
@@ -135,8 +137,8 @@ red/orange: #FC3C3C
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background: #393e46;
-  color: white;
+  background: rgb(241, 241, 241);
+  color: #200042;
   min-height: 40px;
   border-top: 1px solid #fff4e0;
 }
@@ -164,9 +166,12 @@ red/orange: #FC3C3C
 .icon-container {
   display: flex;
   flex-direction: row;
-  background: #2e3238;
+  /* background: #2e3238; */
+  background: rgb(241, 241, 241);
+  color: #200042;
+
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
-  border-top: 1px solid #fff4e0;
+  border-top: 1px solid grey;
   cursor: pointer;
   min-height: 35px;
 }
@@ -182,8 +187,11 @@ red/orange: #FC3C3C
   padding: 0.5rem;
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
   border-top: 1px solid #fff4e0;
-  background: #393e46;
-  color: white;
+  /* background: #393e46; */
+  /* background: #200042;
+  color: white; */
+  background: rgb(241, 241, 241);
+  color: #200042;
   cursor: pointer;
 }
 
@@ -515,7 +523,8 @@ input[type='checkbox'] {
   .categories-container {
     width: 100%;
     min-width: 845px;
-    background: #2e3238;
+    /* background: #2e3238; */
+    background: #1C0039;
   }
 
   .icons-container {
@@ -528,7 +537,9 @@ input[type='checkbox'] {
   .icon-container {
     display: flex;
     flex-direction: column;
-    background: #2e3238;
+    /* background: #2e3238; */
+    background: #1C0039;
+
     padding: 0.5rem;
     text-align: center;
     align-content: space-evenly;
@@ -559,7 +570,10 @@ input[type='checkbox'] {
     text-align: left;
     border-top: 1px solid white;
     padding: 0.5rem;
-    background: #393e46;
+    /* background: #393e46; */
+    background: #1C0039;
+    background: rgb(241, 241, 241);
+    color: #200042;
     cursor: pointer;
   }
 
@@ -569,7 +583,9 @@ input[type='checkbox'] {
 
   .icon-dropdown-name {
     padding-left: 30px;
-    color: white;
+    /* color: white; */
+    color: #200042;
+
   }
 
   /* ----------------------------- */

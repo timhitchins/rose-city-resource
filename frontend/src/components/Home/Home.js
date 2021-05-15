@@ -6,7 +6,7 @@ import './../../css/Home.css';
 
 const BasicInstructions = props => {
   return (
-    <div className="basic-instructions">
+    <div className="basic-instructions" style={{lineHeight: '1.5em'}}>
       Find reduced cost or free services in Multnomah, Washington and Clackamas
       counties.
     </div>

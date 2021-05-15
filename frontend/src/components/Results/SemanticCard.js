@@ -1,95 +1,154 @@
 import React from 'react'
 import './SemanticCard.css'
+import { Card, Icon } from 'semantic-ui-react'
 
-export default function SemanticCard() {
+// category, listing, phone, website, street, city, description, hours, covidMessage
+
+const cardStyles = {
+  marginLeft: '25px',
+  marginRight: '40px',
+  width: '500px',
+  maxWidth: '90%'
+}
+
+const  SemanticCard = ({ record, key }) => {
+
+  const category = record.main_category;
+  const description = record.service_description
+  const header = record.listing
+  const covidMessage = record.covid_message
+  const phone = record.phone
+
+  // const { category, listing, phone, website, street, city, service_description, hours, covidMessage } = record;
+  console.log(description)
   return (
     <>
-    <div className="ui teal card">
-      {/* this will need state to know if it's been saved  */}
-      <a className="ui right corner label"><i className="bookmark outline icon" /></a>
-      <div className="content">
-        <a className="ui teal ribbon label sc-label" style="width: 85%; font-size: 1em">
-          Parent Agency Name
-          </a> 
-        <p></p>
-        <div className="header">Service Listing Name</div>
-        <div className="meta">
-          <a>Category</a>
-     <span>| Updated (date)</span>
-      </div>
-    <p></p>
-    
-    <div className="description">
-    <div style="padding: 7px; border-radius: 5px; margin-top: 0px; padding-top: 0px">
-                    <div style="border: 1px solid lightgrey; padding: 7px; border-radius: 5px; margin-bottom: 7px"> 
-        COVID MESSAGE HERE
-              </div>
-                     <div style="background-color: RGBA(0, 0, 0, 0.08); border-radius: 5px; padding: 7px">
-        <span style="color: #565658">
-          
-          <p><i className="ui icon map marker alternate"></i><strong>314 SW 9th Ave, Portland, Or</strong></p>
-          <p> <i className="ui icon link external alternate"></i>  <span style="color: #0096B7">Get Directions</span></p>
-          <i className="ui icon phone"></i>
-          Main Line: (503) 492-3046
+    <HTMLCard key={key} record={record} />
 
-
-          <p></p>
-          <i className="ui icon link external alternate"></i>  <span style="color: #0096B7">Website</span>
-          
-         </span>
-      </div>
-    </div>
-
-    {/* description  */}
-    <div style="margin-left: 7px; padding-top: 15px; margin-bottom: 0px; padding-bottom: 0px"><strong>Description:</strong> </div>
-       
-      
-       <div style="padding: 7px; padding-top: 0px">
-         <p style=" padding-bottom: 5px">
-       Central point for households experiencing homelessness or a housing crisis to seek assistance. Call and leave message to begin process of getting assistance. <i className="ui icon angle down"></i>
-           </p>
-       </div>
-
-       <span style="margin-left: 5px"><strong>Hours:</strong> </span>
-        
-        <div style="background-color: RGBA(0, 0, 0, 0.08); border-radius: 5px; padding: 7px">
-          
-           <p style="margin-bottom: 0px">
-           </p>
-            <p>
-             10:00 a.m.-7:00 p.m.
-           </p>
-        </div>
-        
-                       <div style="margin-left: 7px; padding-top: 15px; margin-bottom: 0px; padding-bottom: 0px">
-        <strong>EMERGENCY MESSAGE:</strong> </div>
-               
-              
-              <div style="padding: 7px; padding-top: 0px">
-                <p>
-              Closed due to COVID; phone appointments only
-                  </p>
-              </div>
-        
-              </div></div>
-          </div>
-          
-            <div className="extra content" style="display: flex; justify-content: space-between; color: #422B75">
-            <span>
-              <i className="bookmark outline icon"></i>
-              Save
-            </span>
-            <span className="centered">
-              <i className="map marker alternate icon"></i>
-              Show
-            </span>
-            <span>
-              <i className="share alternate icon"></i>
-              Share
-            </span>
-          </div>
-
+    {/* <Card key={key} style={cardStyles}>
+      <Card.Content header={header} />
+      <Card.Content description={description} />
+      <Card.Content extra style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div><Icon name='bookmark outline' /> Save </div>
+        <div><Icon name='map marker alternate' /> Show </div>
+        <div><Icon name='share alternate' /> Share </div>
+      </Card.Content>
+    </Card> */}
 
     </>
   )
 }
+
+export default SemanticCard;
+
+const HTMLCard = ({ record, key }) => {
+  const category = record.main_category;
+  const description = record.service_description
+  const header = record.listing
+  const hours = record.hours
+  const covidMessage = record.covid_message
+  const street = record.street
+  const phone = record.phone
+  const city = record.city
+  const parentOrg = record.parent_organization
+
+  console.log({record})
+  return (
+  <>
+  <div className="ui teal card" style={cardStyles}>
+
+    {/* this will need state to know if it's been saved  */}
+    <a className="ui right corner label large">
+    <i className="bookmark outline large icon" style={{color: '#422B75'}}/></a>
+
+    <div className="content">
+      <a className="ui teal ribbon label sc-label">
+      {category?.toUpperCase()}</a> 
+      <p></p>
+
+      <div className="header" style={{color: 'dark grey'}}>{header}</div>
+
+      {/* META  */}
+      {parentOrg &&
+      <div className="meta">
+        <a>{parentOrg}</a>
+        {city && <span>| {city}</span>}
+      </div>}
+      <p></p>
+  
+    <div className="description">
+      <div className='filled-content'>
+      <span className='text-grey'>
+        {street && 
+        <>
+        <p><i className="ui icon map marker alternate"></i><strong>{street}</strong></p>
+        <p> <i className="ui icon link external alternate"></i>  <span className='text-purple'>Get Directions</span></p></>}
+        {phone &&
+        <><i className="ui icon phone"></i>
+          {phone}
+        <p></p></>}
+        <i className="ui icon link external alternate"></i>  <span className='text-purple'>Website</span>
+          
+        </span>
+      </div>
+    </div>
+
+
+    {description && 
+    <><div className='card-description'>
+      <strong>Description:</strong> </div>
+      <div style={{padding: '7px', paddingTop: '0px'}}>
+        <p style={{paddingBottom: '5px'}}>
+          {description}
+        </p>
+     </div></>}
+
+    {/* HOURS  */}
+    {hours && 
+    <><span style={{marginLeft: "5px"}}>
+      <strong>Hours:</strong></span>
+    <div className='card-hours'>
+      <p style={{marginBottom: '0px'}}></p>
+      <p>{hours}</p>
+    </div></>}
+      
+    {/* COVID MESSAGE  */}
+    {covidMessage && <>
+    <div className='emergency-message' style={{color: 'dark grey'}}>
+      <strong>Emergency Message:</strong> 
+    </div>
+
+    <div style={{padding: '7px', paddingTop: '0px', color: '#B03060'}}>
+      <p>{covidMessage}</p>
+    </div></>}
+
+    {/* END OF MAIN CARD CONTENT  */}
+  </div>
+        
+    <div className="extra content sc-extra" 
+      style={{color: '#422B75'}}>
+      <span>
+        <i className="bookmark outline icon"></i>
+        Save
+      </span>
+      <span className="centered">
+        <i className="map marker alternate icon"></i>
+        Show
+      </span>
+      <span>
+        <i className="share alternate icon"></i>
+        Share
+      </span>
+    </div>
+  </div>
+  </>
+  )
+}
+
+//sample / ref
+            // <Card
+            //   href='#card-example-link-card'
+            //   header='Elliot Baker'
+            //   meta='Friend'
+            //   description='Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat.'
+            // />
