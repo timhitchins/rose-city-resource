@@ -6,7 +6,6 @@
     "postinstall": "npm install --prefix frontend && npm install --prefix backend",
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\""
   },
-
   "dependencies": {
     "concurrently": "^6.0.2"
   }
