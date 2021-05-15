@@ -32,6 +32,7 @@
     "react-scroll-up-button": "^1.6.4",
     "react-tooltip": "^4.2.3",
     "react-transition-group": "^4.4.1",
+    "sass": "^1.32.13",
     "turf-point": "^2.0.1",
     "webfontloader": "^1.6.28"
   },

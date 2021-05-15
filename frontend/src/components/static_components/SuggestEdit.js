@@ -1,5 +1,5 @@
 import React from "react";
-import "./../../css/About.css";
+import "./../../scss/About.scss";
 
 const SuggestEdit = () => (
   <main className="main-container">

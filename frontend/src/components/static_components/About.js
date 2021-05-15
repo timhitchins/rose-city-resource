@@ -1,6 +1,6 @@
 import React from "react";
 import * as srLogo from "./../../images/sr-logo-transparent-background.png";
-import "./../../css/About.css";
+import "./../../scss/About.scss";
 
 const About = (props) => (
   <main className="main-container">
