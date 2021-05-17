@@ -35,7 +35,7 @@ red/orange: #FC3C3C
   align-items: center;
   width: 100%;
   /* background: #2e3238; */
-  background: $deepPurple;
+  background: $categories-background;
   color: rgb(241, 241, 241);
 }
 
@@ -525,8 +525,9 @@ input[type='checkbox'] {
   .categories-container {
     width: 100%;
     min-width: 845px;
-    /* background: #2e3238; */
+    background: #2e3238;
     background: #1C0039;
+    // background: $categories-background;
   }
 
   .icons-container {
@@ -539,9 +540,7 @@ input[type='checkbox'] {
   .icon-container {
     display: flex;
     flex-direction: column;
-    /* background: #2e3238; */
-    background: #1C0039;
-
+    background: $categories-background;
     padding: 0.5rem;
     text-align: center;
     align-content: space-evenly;
@@ -575,6 +574,7 @@ input[type='checkbox'] {
     /* background: #393e46; */
     background: #1C0039;
     background: rgb(241, 241, 241);
+    // turn this into "dropdown background"
     color: #200042;
     cursor: pointer;
   }

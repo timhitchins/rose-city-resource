@@ -1,7 +1,25 @@
-/* theme colors */
-$deepPurple: #200042;
+/* old/original site colors */
+$classic-grey-dark: #2e3238;
+
+/* new theme colors */
+$dark-purple: #200042;
 $darkest-purple: #1C0039;
 
+/* this one */
+$dark-matte-blue: #191f42;
+$dark-bright-blue: #0F084B;
+// also this one
+$dark-blue: #000044;
+
+// good background color or large light header text
+$cream: #E3E3D9;
+$warm-grey: #C0C0C0;
+$sand-dark: #9F9B89;
+
 /* component usage */
-$footer-background: #1C0039;
-$nav-background: $darkest-purple;
+$footer-background: $dark-purple;
+$nav-background: $dark-purple;
+$footer-background: $warm-grey;
+$nav-background: $warm-grey;
+
+$categories-background: $classic-grey-dark;
