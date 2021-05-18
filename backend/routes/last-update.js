@@ -17,7 +17,7 @@ module.exports = (app, pool) => {
         }
 
         /* Return JSON to the client */
-        await res.json(sqlres.rows[0]['last_update']);
+        await res.json(sqlres.rows[0]);
 
       });
     } catch (e) {
