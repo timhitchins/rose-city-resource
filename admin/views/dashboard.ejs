@@ -1,6 +1,5 @@
+<%- include('./partials/head'); %>
 <head>
-  <title>Rose City Resource Admin Page</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
   <script>
 
     async function fetchPgRows() {
@@ -195,12 +194,18 @@
         font-size: 17px;
         ">
         Create User</a> |
+      <a href="/admin/banner"
+        style="
+        text-align: center;
+        padding: 10px 16px;
+        font-size: 17px;">
+        Edit banner</a> |
       <a href="/admin/logout"
         style="
         text-align: center;
         padding: 10px 16px;
         font-size: 17px;">
-        Logout</a>
+        Logout</a> 
     </div>
     </nav>
   <h1>RCR Admin Dashboard</h1>

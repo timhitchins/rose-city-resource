@@ -261,6 +261,17 @@ module.exports = (app, pool) => {
     })
   );
 
+  /* Display banner form */
+  app.get("/admin/banner", (req, res) => {
+    res.render("../../admin/views/banner.ejs");
+  });
+
+  /* Receive banner form input */
+  app.post("/admin/banner", (req, res) => {
+    // handle submitted info here
+    // possibly include a link to preview the site with the banner added?
+  });
+
   /* Passport middleware function to protect routes */
   function userIsNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
