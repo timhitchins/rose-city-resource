@@ -1,0 +1,76 @@
+<%- include('./partials/head'); %>
+<script>
+  function showPreview() {
+    let textBoxValue = document.getElementById('banner-html').value;
+    let outputDiv = document.getElementById('output');
+
+    if (textBoxValue === "") { outputDiv.innerHTML = "<em>Enter text to see banner preview</em>" }
+    outputDiv.innerHTML = textBoxValue;
+  }
+
+</script>
+<div class="preview" style="width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; background: #E3E3D9; min-height: 3em">
+  <div id="output">
+    <em>Enter text to see banner preview</em>
+  </div>
+</div>
+
+
+<div class="page" style="display: flex; flex-direction: column; align-items: center; margin-top: 10%; line-height: 1.5em">
+  <h1 class="ui header violet">
+    <div class="content">
+      <i class="edit icon"></i>
+      Enter or edit banner information
+    </div>
+    <div class="sub header">
+      <p>You can view the current site banner by visiting the live site at <a href="https://rosecityresource.streetroots.org/" target="_blank">rosecityresource.streetroots.org</a></p>
+    </div>
+
+  </h1>
+
+    <div class="ui segment form-container" style="width: 750px; height: 50%; display: flex; flex-direction: column">
+
+      <div class="banner-info" style="margin-top: 1.5em; font-size: 1.15em; color: #696969">
+        <strong>Instructions:</strong>
+        Enter the information you want displayed in the site banner, formatted using HTML.
+      </div>
+      <p></p>
+  
+      <form action="/admin/set-site-banner" method="POST" class="ui form">
+
+        <div class="field" style="margin: .5em">
+          <label>Banner content</label>
+          <textarea 
+            name="content"
+            id="banner-html"
+            rows="4" 
+            aria-label="HTML input for site banner" 
+            placeholder="Banner text for the site...">
+
+          </textarea>
+        </div>
+
+        <div class="ui toggle checkbox" style="margin: 1em">
+          <input type="checkbox" tabindex="0" class="hidden" name="isEnabled" id="isEnabled" /> 
+          <label>Enable site banner</label>
+        </div><br />
+
+        <button class="ui button violet basic" type="submit">
+          Update live site</button>
+      </div> 
+
+        <!-- <div class="ui buttons">
+          <button class="ui button violet" type="button" onClick="showPreview()">Update preview</button>
+          <div class="or" data-text="or"></div>
+          <button class="ui button violet basic" type="submit">
+            Update live site</button>
+        </div>  -->
+      </form>
+    </div>
+
+<script>
+  $('.ui.checkbox')
+  .checkbox()
+;
+</script>
+</div>
