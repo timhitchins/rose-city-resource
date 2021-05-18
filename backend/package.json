@@ -37,6 +37,7 @@
     "passport-local": "^1.0.0",
     "passport-local-roles": "^1.0.1",
     "pg": "^8.5.1",
-    "private": "^0.1.8"
+    "private": "^0.1.8",
+    "sanitize-html": "^2.3.3"
   }
 }

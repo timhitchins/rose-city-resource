@@ -5,6 +5,7 @@ const flash = require("express-flash");
 const session = require("express-session");
 const path = require('path');
 const bcrypt = require('bcrypt');
+var sanitizeHtml = require('sanitize-html');
 
 module.exports = (app, pool) => {
 
@@ -196,7 +197,14 @@ module.exports = (app, pool) => {
     const setSiteBanner = async () => {
       try {
         const { content, isEnabled } = req.body;
-        await pool.query('SELECT set_site_banner($1, $2);', [content, isEnabled]);
+        const cleanContent = sanitizeHtml(content, {
+          allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'p' ],
+          allowedAttributes: {
+            'a': [ 'href' ]
+          }
+        });
+        await pool.query('SELECT set_site_banner($1, $2);',
+          [cleanContent, isEnabled === true]);
         res.sendStatus(201);
       } catch (err) {
         console.error(err);

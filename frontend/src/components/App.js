@@ -18,6 +18,7 @@ import {
   getDatatableVersion,
 } from "../utils/api";
 import "../icons/iconsInit";
+import sanitizeHtml from 'sanitize-html'
 
 class App extends React.PureComponent {
   //data lives in the top component.
@@ -26,6 +27,7 @@ class App extends React.PureComponent {
     records: null,
     searchData: null,
     savedDataId: [],
+    metaInformation: {}
   };
 
   //state lisfted from
@@ -91,8 +93,19 @@ class App extends React.PureComponent {
   componentDidMount = async () => {
     //package/revision data
     const meta = await getMetaInformation();
-    this.revisionDate = dateString(meta?.last_update);
-console.log('META INFORMATION', meta)
+    console.log('META INFORMATION', meta)
+    if (meta) {
+      const cleanHtml = sanitizeHtml(meta.site_banner_content, {
+        allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'p' ],
+        allowedAttributes: {
+          'a': [ 'href' ]
+        }
+      });
+      this.bannerContent = cleanHtml;
+      this.bannerEnabled = meta.site_banner_enabled
+      this.revisionDate = dateString(meta.last_update);
+    }
+
     const records = await this.handleGetData();
     this.handleBrowserGeolocatorInput(records);
   };
@@ -117,6 +130,16 @@ console.log('META INFORMATION', meta)
                 ) : (
                   <React.Fragment />
                 )}
+                {this.bannerEnabled === true
+                  && typeof this.bannerContent === 'string'
+                  && this.bannerContent.length > 0
+                  ? <div style={{background: '#393e46'}}
+                      dangerouslySetInnerHTML={
+                      {__html: this.bannerContent}
+                    }>
+                  </div>
+                  : <React.Fragment />
+                }
                 <Nav />
                 <Switch>
                   <Route
