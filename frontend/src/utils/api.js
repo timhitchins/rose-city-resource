@@ -5,8 +5,8 @@ let _datatableVersion = "";
 // ASYNC DATA UTLS--------------------------------------------------------
 
 /* Get the time stamp of the last update to the production_data table */
-export async function getRecordsLastUpdatedTimestamp() {
-  const uri = "/api/last-update";
+export async function getMetaInformation() {
+  const uri = "/api/meta-information";
   const last_update = await fetch(uri)
     .catch((e) => {
       console.error(e);

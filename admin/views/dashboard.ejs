@@ -15,7 +15,7 @@
     }
 
     async function fetchLastUpdate() {
-      let data = await fetch('/api/last-update')
+      let data = await fetch('/api/meta-information')
         .catch(e => console.error(e))
       return await data === undefined ? '' : data.json().catch(e => console.error(e));
     }
@@ -160,7 +160,7 @@
         /* Check if the production table has been updated */
         let timestamp = await fetchLastUpdate();
         let friendlyTimestamp = new Date(timestamp).toLocaleString();
-        document.getElementById('last-update-time').innerText = friendlyTimestamp;
+        document.getElementById('-time').innerText = friendlyTimestamp;
 
         /* Compare to see if this time is within 2 minutes of the current time */
         const currentTime = new Date(new Date().toISOString());

@@ -191,6 +191,21 @@ module.exports = (app, pool) => {
     }
   });
 
+  /* Set the Site Banner */
+  app.post('/admin/set-site-banner', userIsAdmin, (req, res) => {
+    const setSiteBanner = async () => {
+      try {
+        const { content, isEnabled } = req.body;
+        await pool.query('SELECT set_site_banner($1, $2);', [content, isEnabled]);
+        res.sendStatus(201);
+      } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+      }
+    }
+    setSiteBanner()
+  });
+
   /* Login */
   app.get("/admin/login", userIsNotAuthenticated, (req, res) => {
     res.render("../../admin/views/login.ejs", { message: null });

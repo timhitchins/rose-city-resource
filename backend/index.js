@@ -50,7 +50,7 @@ app.use(function(req, res, next) {
 /* Routes */
 require("./routes/query")(app, pool);
 require("./routes/query-staging")(app, pool);
-require("./routes/last-update")(app, pool);
+require("./routes/meta-information")(app, pool);
 require("./routes/admin")(app, pool);
 
 /* Check for database connectivity and provide a human-friendly message on failure */
