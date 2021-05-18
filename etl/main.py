@@ -43,7 +43,7 @@ if DATABASE_URL == None or DATABASE_URL == '':
     print('The DATABASE_URL string can be found by logging into Heroku and navigating to the postgres add-on details')
     print('The DATABASE_URL from Heroku should be copied verbatim to the same local development environment variable')
     print('Use the env command to verify that the current terminal instance contains the DATABASE_URL environment variable')
-    sys.exit(13) 
+    sys.exit(13)
 
 # Connect to the database
 db = psycopg2.connect(DATABASE_URL)
