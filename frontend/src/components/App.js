@@ -11,7 +11,7 @@ import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom"
 import {
   getRecords,
   addUserDistancesToRecords,
-  getRecordsLastUpdatedTimestamp,
+  getMetaInformation,
   getCategorySearchData,
   getMainSearchData,
   dateString,
@@ -90,9 +90,9 @@ class App extends React.PureComponent {
 
   componentDidMount = async () => {
     //package/revision data
-    const lastUpdated = await getRecordsLastUpdatedTimestamp();
-    this.revisionDate = dateString(lastUpdated);
-
+    const meta = await getMetaInformation();
+    this.revisionDate = dateString(meta?.last_update);
+console.log('META INFORMATION', meta)
     const records = await this.handleGetData();
     this.handleBrowserGeolocatorInput(records);
   };
