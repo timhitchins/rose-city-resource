@@ -133,7 +133,7 @@ class App extends React.PureComponent {
                 {this.bannerEnabled === true
                   && typeof this.bannerContent === 'string'
                   && this.bannerContent.length > 0
-                  ? <div style={{background: '#393e46'}}
+                  ? <div style={{background: '#393e46', display: 'flex'}}
                       dangerouslySetInnerHTML={
                       {__html: this.bannerContent}
                     }>
