@@ -1,4 +1,6 @@
 <%- include('./partials/head'); %>
+<%- include('./partials/styles'); %>
+
 <script>
   function showPreview() {
     let textBoxValue = document.getElementById('banner-html').value;
@@ -10,67 +12,72 @@
 
   function handleSubmit() {
     e.preventDefault();
-    console.log(e)
-    // let 
+    console.log('HANDLESUBMIT E',e)
+    const data = { content: e.content, isEnabed: e.isEnabled };
 
     fetch('/admin/set-site-banner', {
-      method: "POST",
-      body: {
-        content: e.content,
-        isEnabled: e.isEnabled
-      }
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
     }).error(err => console.warn(err))
   }
 
 </script>
-<div class="preview" style="width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; background: #E3E3D9; min-height: 3em">
+<div class="banner-preview">
   <div id="output">
     <em>Enter text to see banner preview</em>
   </div>
 </div>
 
 
-<div class="page" style="display: flex; flex-direction: column; align-items: center; margin-top: 10%; line-height: 1.5em">
+<div class="page">
+  <!-- semantic ui header  -->
   <h1 class="ui header violet">
-    <div class="content">
-      <i class="edit icon"></i>
-      Enter or edit banner information
-    </div>
-    <div class="sub header">
-      <p>You can view the current site banner by visiting the live site at <a href="https://rosecityresource.streetroots.org/" target="_blank">rosecityresource.streetroots.org</a></p>
-    </div>
-
+  <div class="content">
+    <i class="edit icon"></i>
+    Edit Banner
+  </div>
+  <div class="sub header">
+    <em>You can view the current site banner by visiting the live site at <a href="https://rosecityresource.streetroots.org/" target="_blank">rosecityresource.streetroots.org</a></em>
+  </div>
   </h1>
 
-    <div class="ui segment form-container" style="width: 750px; height: 50%; display: flex; flex-direction: column">
+    <div class="ui segment form-container">
 
-      <div class="banner-info" style="margin-top: 1.5em; font-size: 1.15em; color: #696969">
+      <div class="banner-info">
         <strong>Instructions:</strong>
         Enter the information you want displayed in the site banner, formatted using HTML.
       </div>
       <p></p>
   
+      <!-- FORM  -->
       <form class="ui form" id="form">
-
+        <!-- textarea  -->
         <div class="field" style="margin: .5em">
           <label>Banner content</label>
           <textarea 
             name="content"
             id="banner-html"
-            rows="4" 
-            aria-label="HTML input for site banner" 
-            placeholder="Banner text for the site...">
-
+            aria-label="Input to enter HTML and text for the site banner" 
+            placeholder="Banner text...">
           </textarea>
         </div>
+        
+        <!-- checkbox  -->
+        <div class="toggle-and-submit" style="display: flex; flex-direction: column; justify-content: center">
+          <div class="ui toggle checkbox" style="margin: 1em">
+            <input type="checkbox" tabindex="0" class="hidden" 
+              name="isEnabled" id="isEnabled" /> 
+            <label>Enable site banner</label>
+          </div><br />
 
-        <div class="ui toggle checkbox" style="margin: 1em">
-          <input type="checkbox" tabindex="0" class="hidden" name="isEnabled" id="isEnabled" /> 
-          <label>Enable site banner</label>
-        </div><br />
-
-        <button class="ui button violet basic" type="submit">
-          Update live site</button>
+          <button class="ui button violet basic" type="submit">
+            Update live site
+          </button>
+        </div>
       </div> 
 
         <!-- <div class="ui buttons">
@@ -89,36 +96,33 @@
 
   let form  = document.getElementById('form');
 
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      
-      const content = form.elements['content'].value.trim();
-      const isEnabled = form.elements['isEnabled'].checked;
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-      const data = {
-        "content": content,
-        "isEnabled": isEnabled
-      }
+    const content = form.elements['content'].value.trim();
+    const isEnabled = form.elements['isEnabled'].checked;
 
-      console.log(content, typeof content)
-      console.log(isEnabled, typeof isEnabled)
-
-      fetch('/admin/set-site-banner', {
-        method: "post",
-        headers: { 
-          'Content-Type': 'application/json' 
+    (async () => {
+      const rawResponse = await fetch('/admin/set-site-banner', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({content: "abc", isEnabled: isEnabled})
-      }).then(res => { console.log(res)
+        body: JSON.stringify({content: content, isEnabled: isEnabled})
+      });
+      const result = await rawResponse.text(); 
+
+      console.log(result);
         // create options for: successfully updated, successfully removed, error message
-        // if (res.statusText === "created") { 
+        // if (res.statusText === "Created") { 
         //   alert('You have successfully updated the site banner. Visit rosecityresource.streetroots.org to see it in action.')
         // } else {
         //   alert('')
         // }
-      })
+    })();
 
-    });
+
+  });
 
 </script>
 </div>
