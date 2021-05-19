@@ -1,37 +1,12 @@
 <%- include('./partials/head'); %>
 <%- include('./partials/styles'); %>
 
-<script>
-  function showPreview() {
-    let textBoxValue = document.getElementById('banner-html').value;
-    let outputDiv = document.getElementById('output');
-
-    if (textBoxValue === "") { outputDiv.innerHTML = "<em>Enter text to see banner preview</em>" }
-    outputDiv.innerHTML = textBoxValue;
-  }
-
-  function handleSubmit() {
-    e.preventDefault();
-    console.log('HANDLESUBMIT E',e)
-    const data = { content: e.content, isEnabed: e.isEnabled };
-
-    fetch('/admin/set-site-banner', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }).error(err => console.warn(err))
-  }
-
-</script>
+<!-- preview div  -->
 <div class="banner-preview">
   <div id="output">
     <em>Enter text to see banner preview</em>
   </div>
 </div>
-
 
 <div class="page">
   <!-- semantic ui header  -->
@@ -45,8 +20,8 @@
   </div>
   </h1>
 
-    <div class="ui segment form-container">
-
+    <div class="ui raised segment form-container">
+      <div class="container-content">
       <div class="banner-info">
         <strong>Instructions:</strong>
         Enter the information you want displayed in the site banner, formatted using HTML.
@@ -56,7 +31,7 @@
       <!-- FORM  -->
       <form class="ui form" id="form">
         <!-- textarea  -->
-        <div class="field" style="margin: .5em">
+        <div class="field textarea-div">
           <label>Banner content</label>
           <textarea 
             name="content"
@@ -65,9 +40,12 @@
             placeholder="Banner text...">
           </textarea>
         </div>
+
+        <button class="ui button violet fluid" type="button" onClick="showPreview()">Update preview</button>
         
-        <!-- checkbox  -->
-        <div class="toggle-and-submit" style="display: flex; flex-direction: column; justify-content: center">
+        <div class="ui divider"></div>
+        <!-- checkbox & submit button -->
+        <div class="toggle-and-submit">
           <div class="ui toggle checkbox" style="margin: 1em">
             <input type="checkbox" tabindex="0" class="hidden" 
               name="isEnabled" id="isEnabled" /> 
@@ -78,22 +56,30 @@
             Update live site
           </button>
         </div>
-      </div> 
-
-        <!-- <div class="ui buttons">
-          <button class="ui button violet" type="button" onClick="showPreview()">Update preview</button>
-          <div class="or" data-text="or"></div>
-          <button class="ui button violet basic" type="submit">
-            Update live site</button>
-        </div>  -->
-      </form>
+        </div> 
+      </form> 
     </div>
+  </div>
 
 <script>
   $('.ui.checkbox')
   .checkbox();
 
+  /* ---------- preview logic -------------- */
+  function showPreview() {
+    let textBoxValue = document.getElementById('banner-html').value;
+    let outputDiv = document.getElementById('output');
 
+    if (textBoxValue === "") { outputDiv.innerHTML = "<em>Enter text to see banner preview</em>" }
+    outputDiv.innerHTML = textBoxValue;
+  }
+
+  /* form submit helper fn */
+  function confirmSubmit() {
+    return confirm('This will update the banner on rosecityresource.streetroots.org. Are you sure you want to proceed?');
+  }
+
+  /* ---------- form submit -------------- */
   let form  = document.getElementById('form');
 
   form.addEventListener('submit', (event) => {
@@ -102,26 +88,33 @@
     const content = form.elements['content'].value.trim();
     const isEnabled = form.elements['isEnabled'].checked;
 
-    (async () => {
-      const rawResponse = await fetch('/admin/set-site-banner', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({content: content, isEnabled: isEnabled})
-      });
-      const result = await rawResponse.text(); 
+    // check for data
+    if (content && isEnabled) { 
+      // ask the user if they're sure
+      if (confirmSubmit()) { 
 
-      console.log(result);
-        // create options for: successfully updated, successfully removed, error message
-        // if (res.statusText === "Created") { 
-        //   alert('You have successfully updated the site banner. Visit rosecityresource.streetroots.org to see it in action.')
-        // } else {
-        //   alert('')
-        // }
-    })();
+        (async () => {
+          const rawResponse = await fetch('/admin/set-site-banner', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({content: content, isEnabled: isEnabled})
+          });
+          const result = await rawResponse.text(); 
+          // TODO: Kent - is there a better way to confirm success? or is this the best way to do it?
+          if (result === "Created") {
+            alert('Banner successfully updated!')
+          }  else {
+            alert('Something went wrong. Please try again')
+          }
 
-
+        })();
+      } 
+    } else {
+      // if values are missing
+      alert("You must enter text content and click 'Enable site banner' to update the site. Please check your input and try again") 
+    }
   });
 
 </script>
