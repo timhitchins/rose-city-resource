@@ -10,15 +10,16 @@
 
   function handleSubmit() {
     e.preventDefault();
-    console.log(e)
-    // let 
+    console.log('HANDLESUBMIT E',e)
+    const data = { content: e.content, isEnabed: e.isEnabled };
 
     fetch('/admin/set-site-banner', {
-      method: "POST",
-      body: {
-        content: e.content,
-        isEnabled: e.isEnabled
-      }
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
     }).error(err => console.warn(err))
   }
 
@@ -89,34 +90,36 @@
 
   let form  = document.getElementById('form');
 
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      
-      let content = form.elements['content'].value;
-      let isEnabled = form.elements['isEnabled'].checked;
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-      console.log(content, typeof content)
-      console.log(isEnabled, typeof isEnabled)
+    const content = form.elements['content'].value;
+    const isEnabled = form.elements['isEnabled'].checked;
 
-      fetch('/admin/set-site-banner', {
-        method: "post",
-        headers: { 'Content-Type': 'application/json' },
+    console.log(content, typeof content);
+    console.log(isEnabled, typeof isEnabled);
 
-        // body: JSON.stringify(data)
-        body: JSON.stringify({
-          content: content,
-          isEnabled: isEnabled
-        })
-      }).then(res => { console.log(res)
+    (async () => {
+      const rawResponse = await fetch('/admin/set-site-banner', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({content: content, isEnabled: isEnabled})
+      });
+      const result = await rawResponse.text(); 
+
+      console.log(result);
         // create options for: successfully updated, successfully removed, error message
-        // if (res.statusText === "created") { 
+        // if (res.statusText === "Created") { 
         //   alert('You have successfully updated the site banner. Visit rosecityresource.streetroots.org to see it in action.')
         // } else {
         //   alert('')
         // }
-      })
+    })();
 
-    });
+
+  });
 
 </script>
 </div>

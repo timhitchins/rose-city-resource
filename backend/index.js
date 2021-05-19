@@ -37,6 +37,7 @@ function shouldCompress (req, res) {
 app.use(cors());
 app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(function(req, res, next) {
   /* Add Cache-Control headers to all requests */
   const expireAfterMinutes = 60;

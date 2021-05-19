@@ -197,9 +197,6 @@ module.exports = (app, pool) => {
     const setSiteBanner = async () => {
       try {
         const { content, isEnabled } = req.body;
-        
-        console.log(req.body)
-
         const cleanContent = sanitizeHtml(content, {
           allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'p' ],
           allowedAttributes: {
