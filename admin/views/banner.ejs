@@ -8,6 +8,20 @@
     outputDiv.innerHTML = textBoxValue;
   }
 
+  function handleSubmit() {
+    e.preventDefault();
+    console.log(e)
+    // let 
+
+    fetch('/admin/set-site-banner', {
+      method: "POST",
+      body: {
+        content: e.content,
+        isEnabled: e.isEnabled
+      }
+    }).error(err => console.warn(err))
+  }
+
 </script>
 <div class="preview" style="width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; background: #E3E3D9; min-height: 3em">
   <div id="output">
@@ -36,7 +50,7 @@
       </div>
       <p></p>
   
-      <form action="/admin/set-site-banner" method="POST" class="ui form">
+      <form class="ui form" id="form" action="/admin/set-site-banner">
 
         <div class="field" style="margin: .5em">
           <label>Banner content</label>
@@ -70,7 +84,39 @@
 
 <script>
   $('.ui.checkbox')
-  .checkbox()
-;
+  .checkbox();
+
+
+  let form  = document.getElementById('form');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      let content = form.elements['content'].value;
+      let isEnabled = form.elements['isEnabled'].checked;
+
+      console.log(content, typeof content)
+      console.log(isEnabled, typeof isEnabled)
+
+      fetch('/admin/set-site-banner', {
+        method: "post",
+        headers: { 'Content-Type': 'application/json' },
+
+        // body: JSON.stringify(data)
+        body: JSON.stringify({
+          content: content,
+          isEnabled: isEnabled
+        })
+      }).then(res => { console.log(res)
+        // create options for: successfully updated, successfully removed, error message
+        // if (res.statusText === "created") { 
+        //   alert('You have successfully updated the site banner. Visit rosecityresource.streetroots.org to see it in action.')
+        // } else {
+        //   alert('')
+        // }
+      })
+
+    });
+
 </script>
 </div>
