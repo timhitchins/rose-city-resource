@@ -50,7 +50,7 @@
       </div>
       <p></p>
   
-      <form class="ui form" id="form" action="/admin/set-site-banner">
+      <form class="ui form" id="form">
 
         <div class="field" style="margin: .5em">
           <label>Banner content</label>
@@ -92,21 +92,23 @@
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       
-      let content = form.elements['content'].value;
-      let isEnabled = form.elements['isEnabled'].checked;
+      const content = form.elements['content'].value.trim();
+      const isEnabled = form.elements['isEnabled'].checked;
+
+      const data = {
+        "content": content,
+        "isEnabled": isEnabled
+      }
 
       console.log(content, typeof content)
       console.log(isEnabled, typeof isEnabled)
 
       fetch('/admin/set-site-banner', {
         method: "post",
-        headers: { 'Content-Type': 'application/json' },
-
-        // body: JSON.stringify(data)
-        body: JSON.stringify({
-          content: content,
-          isEnabled: isEnabled
-        })
+        headers: { 
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({content: "abc", isEnabled: isEnabled})
       }).then(res => { console.log(res)
         // create options for: successfully updated, successfully removed, error message
         // if (res.statusText === "created") { 
