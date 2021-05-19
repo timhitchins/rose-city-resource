@@ -1,0 +1,80 @@
+<%- include('./styles'); %>
+
+<nav>
+  <div class="ui pointing menu">
+    <a class="header active item">
+      <i class="ui icon home large teal"></i>
+      <strong>Street Roots RCR Dashboard</strong>
+    </a>
+    <a class="item" style="width: 25%; display: flex; justify-content: center">
+      Update Data
+    </a>
+    <a class="item" style="width: 25%; display: flex; justify-content: center">
+      Update Banner
+    </a>
+    <!-- dropdown  -->
+    <div class="ui dropdown item" style="width: 25%; right: 0; display: flex; justify-content: flex-start">
+      More
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item"><i class="ui icon users"></i>          
+          Manage users</div>
+
+        <div class="item"><i class="ui icon book"></i>
+          User guide
+        </div>
+
+        <div class="item">
+          <i class="ui icon cog"></i> Settings
+        </div>
+        <div class="item">
+          <i class="ui icon power off"></i> Logout
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<script>
+  $('.ui.dropdown').dropdown('show');
+</script>
+
+<!-- KEEP for temporary reference -->
+<!-- from dashboard: -->
+<!-- <nav>
+  <div style="padding-bottom: 10px; padding-top: 15px;">
+    <a href="/admin/changePassword" 
+      style="
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 17px;
+      ">
+      Change Password</a> |
+    <a href="/admin/register"
+      style="
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 17px;
+      ">
+      Create User</a> |
+    <a href="/admin/banner"
+      style="
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 17px;">
+      Edit banner</a> |
+    <a href="/admin/logout"
+      style="
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 17px;">
+      Logout</a> 
+  </div>
+  </nav> -->
+
+
+<!-- <div><br />
+<a href="/admin/settings">Change Password</a> |
+<a href="/admin/register">Settings</a> |
+<a href="/admin/logout">Logout</a>
+<a href="admin/banner">Edit banner</a>
+</div> -->

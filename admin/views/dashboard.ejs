@@ -1,5 +1,7 @@
 <%- include('./partials/head'); %>
+<%- include ('./partials/navbar'); %>
 <%- include('./partials/styles'); %>
+<!-- TODO: create an ejs "layout" to replace the repetitive code above -->
 
 <head>
   <script>
@@ -179,37 +181,7 @@
 </head>
 
 <body class='container' style='text-align: center; width: 100%;'>
-  <!-- Top Nav  -->
-  <nav>
-    <div style="padding-bottom: 10px; padding-top: 15px;">
-      <a href="/admin/changePassword" 
-        style="
-        text-align: center;
-        padding: 10px 16px;
-        font-size: 17px;
-        ">
-        Change Password</a> |
-      <a href="/admin/register"
-        style="
-        text-align: center;
-        padding: 10px 16px;
-        font-size: 17px;
-        ">
-        Create User</a> |
-      <a href="/admin/banner"
-        style="
-        text-align: center;
-        padding: 10px 16px;
-        font-size: 17px;">
-        Edit banner</a> |
-      <a href="/admin/logout"
-        style="
-        text-align: center;
-        padding: 10px 16px;
-        font-size: 17px;">
-        Logout</a> 
-    </div>
-    </nav>
+ 
   <h1>RCR Admin Dashboard</h1>
   <div style='border: 1px solid grey; border-radius: 5px; margin: auto; width: 50%; padding: 10px 20px;'>
     <div><em>Live Site Last Update: <span id='last-update-time'>&nbsp;</span></em></div>
