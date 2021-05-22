@@ -1,5 +1,5 @@
 import React from 'react'
-import './Banner.css'
+import './Banner.scss'
 
 // props will be html, entered by a Street Roots admin user in the SR admin panel
 const Banner = (props) => {
@@ -10,18 +10,16 @@ const Banner = (props) => {
     return (str && str.length > 0 && typeof str === 'string')
   }
 
+  const markup = ({__html: bannerContent})
+
   if (bannerEnabled && inputIsValid(bannerContent)) {
-    return (
-      <div className='banner-preview default'> 
-        {/* <div style={{background: '#393e46', display: 'flex'}}
-        dangerouslySetInnerHTML={
-        {__html: bannerContent
-          }> */}
-          asdfasdf
-        </div> 
-    )
+  return (
+    <div className='banner-preview teal'
+      dangerouslySetInnerHTML={markup}>
+    </div> 
+  )
   } else {
-    return null;
+  return null;
   }
 }
 

@@ -33,6 +33,7 @@
     "react-tooltip": "^4.2.3",
     "react-transition-group": "^4.4.1",
     "sanitize-html": "^2.3.3",
+    "sass": "^1.33.0",
     "turf-point": "^2.0.1",
     "webfontloader": "^1.6.28"
   },
