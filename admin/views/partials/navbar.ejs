@@ -1,19 +1,21 @@
 <%- include('./styles'); %>
 
+
 <nav>
   <div class="ui pointing menu">
     <a class="header active item">
       <i class="ui icon home large teal"></i>
       <strong>Street Roots RCR Dashboard</strong>
     </a>
-    <a class="item" style="width: 25%; display: flex; justify-content: center">
-      Update Data
+    <div class="right menu">
+    <a class="item right" style="display: flex; justify-content: center">
+      <i class="ui icon database"></i>Update Data
     </a>
-    <a class="item" style="width: 25%; display: flex; justify-content: center">
-      Update Banner
+    <a class="item" style="display: flex; justify-content: center">
+      <i class="ui icon pencil alternate"></i>Update Banner
     </a>
     <!-- dropdown  -->
-    <div class="ui dropdown item" style="width: 25%; right: 0; display: flex; justify-content: flex-start">
+    <div class="ui dropdown item" style="right: 0; display: flex; justify-content: flex-start">
       More
       <i class="dropdown icon"></i>
       <div class="menu">
@@ -32,6 +34,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </nav>
 <script>
