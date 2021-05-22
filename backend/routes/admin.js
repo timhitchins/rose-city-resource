@@ -250,7 +250,7 @@ module.exports = (app, pool) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await pool.query('INSERT INTO production_user (name, role, email, password) VALUES ($1, $2, $3, $4)', [name, role, email, hashedPassword]
         );
-        res.render('../../admin/views/dashboard');
+        res.render('../../admin/views/users', { activeTab: 'users' });
       } catch (err) {
         console.error(err);
         res.sendStatus(500);

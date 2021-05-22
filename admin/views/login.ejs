@@ -1,8 +1,34 @@
 <%- include('./partials/head'); %>
 <%- include('./partials/styles'); %>
 
-  <h1>Street Roots Admin Login</h1>
+<style type="text/css">
+  body{
+  background-color: #ecf0f1;
+  }
+  section{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  }
+  form{
+  width: 40%;
+  padding: 25px;
+  }
+  @media(max-width: 692px){
+  form{
+  width: 70%;
+  }
+  }
+  @media(max-width: 450px){
+  form{
+  width: 80%;
+  }
+  }
+</style>
 
+<section>
   <% if(error && error.length > 0) { %>
     <div>
       <%= error %>
@@ -14,8 +40,19 @@
     </div>
   <% } %>
 
-  <form action="/admin/login" method="POST">
-    <div>
+  <h1 class="ui header violet">
+    <div class="content">
+      Street Roots Login
+    </div>
+    <div class="sub header">
+      Admin Portal for the <a href="https://rosecityresource.streetroots.org/">Rose City Resource Guide</a>
+    </div>
+  </h1>
+
+  <form class="ui form segment" action="/admin/login" method="POST">
+
+    <div class="field">
+      <label>Email</label>
       <input
         type="email"
         id="email"
@@ -24,20 +61,23 @@
         required
       />
     </div>
-    <div>
+    <div class="field">
+      <label>Password</label>
       <input
         type="password"
         id="password"
         name="password"
         placeholder="Password"
         required
-      />
+      />      
     </div>
-    <div>
-      <input type="submit" value="Login" />
+    <button class="ui violet fluid button" type="submit">Login</button>
+    </form>
+    <div style="text-align: center">
+      <strong>This is an administrative page. </strong><br /> 
+      <a href="https://rosecityresource.streetroots.org/">
+        Click here for the Rose City Resource Guide
+      </a>
     </div>
-  </form>
-  <div>
-    This is an administrative page. <br /> 
-    <a href="https://rosecityresource.streetroots.org/">Click here for the Rose City Resource Guide</a>
-  </div>
+
+</section>
