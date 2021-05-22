@@ -1,44 +1,55 @@
 <%- include('./styles'); %>
 
-
 <nav>
   <div class="ui pointing menu">
-    <a class="header active item">
+    <!-- home  -->
+    <a href="/admin/home" class="header item <%= activeTab==="home" ? 'active' : '' %> ">
       <i class="ui icon home large teal"></i>
       <strong>Street Roots RCR Dashboard</strong>
     </a>
+    <!-- right menu  -->
     <div class="right menu">
-    <a class="item right" style="display: flex; justify-content: center">
-      <i class="ui icon database"></i>Update Data
-    </a>
-    <a class="item" style="display: flex; justify-content: center">
-      <i class="ui icon pencil alternate"></i>Update Banner
-    </a>
-    <!-- dropdown  -->
-    <div class="ui dropdown item" style="right: 0; display: flex; justify-content: flex-start">
-      More
-      <i class="dropdown icon"></i>
-      <div class="menu">
-        <div class="item"><i class="ui icon users"></i>          
-          Manage users</div>
+      <a href="/admin/dashboard"
+        class="item right custom-right <%= activeTab==="data" ? 'active' : '' %> "
+        >
+        <i class="ui icon database"></i>Update Data
+      </a>
+      
+      <a href="/admin/banner"
+        class="item custom-right <%= activeTab==="banner" ? 'active' : '' %>">
+        <i class="ui icon pencil alternate"></i>Update Banner
+      </a>
+      <!-- dropdown  -->
+      <div class="ui pointing dropdown link item" style="right: 0; display: flex; justify-content: flex-start">
+        More <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item" href="/admin/users">
+            <i class="ui icon users"></i> Manage users
+          </a>
 
-        <div class="item"><i class="ui icon book"></i>
-          User guide
-        </div>
+          <!-- <a class="item" href="/admin/guide"><i class="ui icon book"></i>
+            User guide
+          </a> -->
 
-        <div class="item">
-          <i class="ui icon cog"></i> Settings
-        </div>
-        <div class="item">
-          <i class="ui icon power off"></i> Logout
+          <a class="item"  href="/admin/settings">
+            <i class="ui icon cog"></i> Settings
+          </a>
+          <a class="item" href="/admin/logout">
+            <i class="ui icon power off"></i> Logout
+          </a>
         </div>
       </div>
     </div>
   </div>
-  </div>
 </nav>
 <script>
-  $('.ui.dropdown').dropdown('show');
+  $('.ui.dropdown').dropdown('hide');
+
+  function isActive(str) {
+    if (str === activeTab) { return 'active' } 
+    else { return '' }
+  }
+  
 </script>
 
 <!-- KEEP for temporary reference -->

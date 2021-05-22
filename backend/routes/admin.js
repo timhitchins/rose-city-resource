@@ -75,7 +75,7 @@ module.exports = (app, pool) => {
         return;
       }
       else {
-        res.render('../../admin/views/dashboard.ejs', { userData: req.user });
+        res.render('../../admin/views/dashboard.ejs', { userData: req.user, activeTab: "data" });
         return;
       }
 
@@ -214,6 +214,26 @@ module.exports = (app, pool) => {
     setSiteBanner()
   });
 
+  /* Banner */
+  app.get("/admin/banner", userIsAdmin, (req, res) => {
+    res.render("../../admin/views/banner.ejs", { activeTab: "banner" });
+  });  
+
+  /* Home */
+  app.get("/admin/home", userIsAdmin, (req, res) => {
+    res.render("../../admin/views/home.ejs", { activeTab: "home" });
+  });  
+
+  /* Manage users/settings */
+  app.get("/admin/users", userIsAdmin, (req, res) => {
+    res.render("../../admin/views/users.ejs", { activeTab: "users" });
+  });  
+
+  /* User guide */
+  app.get("/admin/guide", userIsAdmin, (req, res) => {
+    res.render("../../admin/views/guide.ejs", { activeTab: "guide" });
+  });  
+
   /* Login */
   app.get("/admin/login", userIsNotAuthenticated, (req, res) => {
     res.render("../../admin/views/login.ejs", { message: null });
@@ -221,7 +241,7 @@ module.exports = (app, pool) => {
 
   /* Register new user (NOTE: this is an admin privilege only, and is intentionally *not* outward facing) */
   app.get('/admin/register', userIsAdmin, (req, res) => {
-    res.render('../../admin/views/registerUser.ejs');
+    res.render('../../admin/views/registerUser.ejs', { activeTab: "register"});
   });
 
   app.post('/admin/register', userIsAdmin, (req, res) => {
@@ -241,8 +261,8 @@ module.exports = (app, pool) => {
   });
 
   /* Change password */
-   app.get('/admin/changePassword', userIsAuthenticated, (req, res) => {
-    res.render('../../admin/views/changePassword.ejs');
+   app.get('/admin/settings', userIsAuthenticated, (req, res) => {
+    res.render('../../admin/views/settings.ejs', { activeTab: "settings"});
   });
 
   /* Handle input from the change password form */
@@ -283,17 +303,6 @@ module.exports = (app, pool) => {
       failureFlash: true
     })
   );
-
-  /* Display banner form */
-  app.get("/admin/banner", userIsAdmin, (req, res) => {
-    res.render("../../admin/views/banner.ejs");
-  });
-
-  /* Receive banner form input */
-  app.post("/admin/banner", (req, res) => {
-    // handle submitted info here
-    // possibly include a link to preview the site with the banner added?
-  });
 
   /* Passport middleware function to protect routes */
   function userIsNotAuthenticated(req, res, next) {
