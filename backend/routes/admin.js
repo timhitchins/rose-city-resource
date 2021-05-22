@@ -240,7 +240,7 @@ module.exports = (app, pool) => {
   });
 
   app.get('/admin/users', userIsAdmin, (req, res) => {
-    res.render('../../admin/views/registerUser.ejs', { activeTab: "users"});
+    res.render('../../admin/views/users.ejs', { activeTab: "users"});
   });
 
   app.post('/admin/register', userIsAdmin, (req, res) => {

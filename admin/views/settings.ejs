@@ -2,47 +2,67 @@
 <%- include ('./partials/navbar'); %>
 <%- include('./partials/styles'); %>
 
-<h1>Change Your Password</h1>
+<style type="text/css">
+  form{
+  width: 40%;
+  padding: 25px;
+  }
+  @media(max-width: 692px){
+  form{
+  width: 70%;
+  }
+  }
+  @media(max-width: 450px){
+  form{
+  width: 80%;
+  }
+  }
+</style>
 
-<ul>
-  <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
-  <li><%= error.message %></li>
-  <% }) %> <% } %>
-</ul>
-<!-- <p><em>Developer note: this page is not connected to the database and will <strong>not</strong> work.</em></p> -->
-<form action="/admin/changePassword" method="POST">
-  <!-- <div>
-    <label for="password">Current Password:</label>
-    <input
-      type="password"
-      id="password"
-      name="password"
-      placeholder="Current Password"
-      required
-    />
-  </div> -->
-  <div>
-    <label for="newPass1">New Password:</label>
-    <input
-      type="password"
-      id="newPass1"
-      name="newPass1"
-      placeholder="New Password"
-      required
-    />
+<h1 class="ui header violet" style="margin: 1.5em">
+  <div class="content">
+    Personal Settings
   </div>
-  <div>
-    <label for="newPass2">Confirm New Password:</label>
-    <input
-      type="password"
-      id="newPass2"
-      name="newPass2"
-      placeholder="Confirm Password"
-      required
-    />
+  <div class="sub header">
+    Want to create a new user? Check out <a href="/admin/users"> user settings</a>
   </div>
-  <div>
-    <input type="submit" value="Submit" />
-    <a href="/admin/dashboard">Cancel</a>
+  </h1>
+
+  <div class="ui divider"></div>
+  <ul>
+    <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+    <li><%= error.message %></li>
+    <% }) %> <% } %>
+  </ul>
+  <div class="password-div" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 2em">
+    <h2>Change Your Password</h2>
+
+    <form class="ui form" 
+      action="/admin/changePassword" method="POST">
+
+      <div class="field">
+        <label for="newPass1">New Password:</label>
+        <input
+          type="password"
+          id="newPass1"
+          name="newPass1"
+          placeholder="New Password"
+          required
+        />
+      </div>
+      <div class="field">
+        <label for="newPass2">Confirm New Password:</label>
+        <input
+          type="password"
+          id="newPass2"
+          name="newPass2"
+          placeholder="Confirm Password"
+          required
+        />
+      </div>
+        <button type="submit" class="ui button violet basic">Submit</button>
+        <a href="/admin/dashboard" style="text-decoration: underline">Cancel</a>
+    </form>
   </div>
-</form>
+  <div class="ui divider"></div>
+<!-- more settings will go here  -->
