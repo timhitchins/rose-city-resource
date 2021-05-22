@@ -182,7 +182,16 @@
 
 <body class='container' style='text-align: center; width: 100%;'>
  
-  <h1>RCR Admin Dashboard</h1>
+  <h1 class="ui header violet">
+    <div class="content">
+      <i class="database icon"></i>
+      Update Data
+    </div>
+    <div class="sub header">
+      Need help? Check out the <a href="/admin/guide"> user guide!</a>
+    </div>
+    </h1>
+  <!-- <h1>RCR Admin Dashboard</h1> -->
   <div style='border: 1px solid grey; border-radius: 5px; margin: auto; width: 50%; padding: 10px 20px;'>
     <div><em>Live Site Last Update: <span id='last-update-time'>&nbsp;</span></em></div>
     <div><span>Database Rows in Use: </span><span id='database-rows'>&nbsp;</span><span> / 10,000</span></div>
@@ -213,7 +222,7 @@
   <br />
   <div id='etl-status' style='color:gray; border: 1px dashed lightgray'>&nbsp;</div>
   <br />
-  <details open>
+  <details>
     <summary>Data Validation Errors</summary>
     <table cellpadding='0' cellspacing='0'
       style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
@@ -221,7 +230,7 @@
     </table>
   </details>
   <br>
-  <details open>
+  <details>
     <summary>Logs</summary>
     <table cellpadding='0' cellspacing='0'
       style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>

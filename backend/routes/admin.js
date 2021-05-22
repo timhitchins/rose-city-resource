@@ -221,13 +221,8 @@ module.exports = (app, pool) => {
 
   /* Home */
   app.get("/admin/home", userIsAdmin, (req, res) => {
-    res.render("../../admin/views/home.ejs", { activeTab: "home" });
-  });  
-
-  /* Manage users/settings */
-  app.get("/admin/users", userIsAdmin, (req, res) => {
-    res.render("../../admin/views/users.ejs", { activeTab: "users" });
-  });  
+    res.render("../../admin/views/dashboard.ejs", { activeTab: "home" });
+  });   
 
   /* User guide */
   app.get("/admin/guide", userIsAdmin, (req, res) => {
@@ -242,6 +237,10 @@ module.exports = (app, pool) => {
   /* Register new user (NOTE: this is an admin privilege only, and is intentionally *not* outward facing) */
   app.get('/admin/register', userIsAdmin, (req, res) => {
     res.render('../../admin/views/registerUser.ejs', { activeTab: "register"});
+  });
+
+  app.get('/admin/users', userIsAdmin, (req, res) => {
+    res.render('../../admin/views/registerUser.ejs', { activeTab: "users"});
   });
 
   app.post('/admin/register', userIsAdmin, (req, res) => {
