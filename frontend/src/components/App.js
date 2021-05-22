@@ -7,6 +7,7 @@ import Results from "./Results/Results";
 import Details from "./Details";
 import Nav from "./Nav";
 import Footer from "./static_components/Footer";
+import Banner from './Banner'
 import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import {
   getRecords,
@@ -133,11 +134,10 @@ class App extends React.PureComponent {
                 {this.bannerEnabled === true
                   && typeof this.bannerContent === 'string'
                   && this.bannerContent.length > 0
-                  ? <div style={{background: '#393e46', display: 'flex'}}
-                      dangerouslySetInnerHTML={
-                      {__html: this.bannerContent}
-                    }>
-                  </div>
+                  ? <Banner 
+                      bannerEnabled={this.bannerEnabled}
+                      bannerContent={this.bannerContent}
+                      />
                   : <React.Fragment />
                 }
                 <Nav />
