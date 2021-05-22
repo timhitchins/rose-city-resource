@@ -14,7 +14,7 @@ const Banner = (props) => {
 
   if (bannerEnabled && inputIsValid(bannerContent)) {
   return (
-    <div className='banner-preview default'
+    <div className='banner-preview teal'
       dangerouslySetInnerHTML={markup}>
     </div> 
   )
