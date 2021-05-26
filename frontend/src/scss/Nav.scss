@@ -35,7 +35,7 @@
 }
 
 .nav-item {
-  color: #fff4e0
+  color: $top-nav-text;
 ;
   height: 100%;
   padding: 20px 15px 0 15px;
@@ -48,7 +48,7 @@
 
 .nav-item-active {
   background: #85898e;
-  color: #f8b500;
+  color: green;
   border-top: 2px solid #f8b500;
 }
 
@@ -62,19 +62,18 @@
 }
 
 .nav-drawer-item {
-  color: #fff4e0
-;
+  color: $top-nav-text;
   padding: 10px 15px 10px 5px;
   transition: color 200ms ease-in;
 }
 
 .nav-drawer-item:hover {
-  color: #f8b500;
+  color: green;
 }
 
 .nav-drawer-item-active {
-  background: #85898e;
-  color: #f8b500;
+  background: $nav-item-active;
+  color: green;
   border-top: 2px solid #f8b500;
 }
 
@@ -133,5 +132,3 @@
 .dark-dark-background {
   background: #1C0039;
 }
-
-/* border-bottom-color rgb(0, 130, 124) */

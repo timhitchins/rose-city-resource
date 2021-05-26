@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .main-container {
   height: calc(100vh - 86px);
 }
@@ -8,7 +10,7 @@
   margin: auto;
   width: 80%;
   max-width: 1000px;
-  background: #ecedee;
+  background: $about-background;
   width: 80%;
   margin-bottom: 30px;
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),

@@ -34,7 +34,7 @@ const GeneralLarge = ({
                 className="icon-container"
                 onMouseEnter={() => onMouseEnter(iconMap[icon], searchData)}
               >
-                <div>
+                <div className="icon-primary">
                   <FontAwesomeIcon
                     icon={icon}
                     style={styles.content}

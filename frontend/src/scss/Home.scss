@@ -34,7 +34,6 @@ red/orange: #FC3C3C
   flex-direction: column;
   align-items: center;
   width: 100%;
-  /* background: #2e3238; */
   background: $categories-background;
   color: rgb(241, 241, 241);
 }
@@ -43,10 +42,11 @@ red/orange: #FC3C3C
 /* Basic Instructions */
 
 .basic-instructions {
-  color: rgb(241, 241, 241);
+  color: $main-text;
   font-size: 1.75rem;
   padding-top: 1rem;
   max-width: 675px;
+  font-weight: 700;
 }
 
 .instructions-span {
@@ -72,23 +72,23 @@ red/orange: #FC3C3C
 .search-input {
   padding: 10px;
   font-size: 17px;
-  border: 1px solid #393e46;
-  border-radius: 5px 0 0 5px;
+  border: 1px solid $search-input-border;
+  border-radius: 7px 0 0 7px;
   float: left;
   width: 80%;
-  background: #f1f1f1;
+  background: $search-bar-background;
 }
 
 .search-button {
   float: left;
   width: 20%;
   padding: 10px;
-  background: #00adb5;
+  background: $search-button-main;
   color: white;
   font-size: 17px;
   border: 1px solid #393e46;
   border-left: none;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 7px 7px 0;
   cursor: pointer;
 }
 
@@ -127,8 +127,8 @@ red/orange: #FC3C3C
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background: rgb(241, 241, 241);
-  color: #200042;
+  background: $category-browse-background;
+  color: $category-browse-text;
   cursor: pointer;
   min-height: 40px;
   width: 100%;
@@ -139,8 +139,8 @@ red/orange: #FC3C3C
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background: rgb(241, 241, 241);
-  color: #200042;
+  background: $light-background;
+  color: $text-primary;
   min-height: 40px;
   border-top: 1px solid #fff4e0;
 }
@@ -189,11 +189,8 @@ red/orange: #FC3C3C
   padding: 0.5rem;
   padding: 0.5rem 0.75rem 0.5rem 0.75rem;
   border-top: 1px solid #fff4e0;
-  /* background: #393e46; */
-  /* background: #200042;
-  color: white; */
-  background: rgb(241, 241, 241);
-  color: #200042;
+  background: $light-background;
+  color: $text-primary;
   cursor: pointer;
 }
 
@@ -206,7 +203,7 @@ red/orange: #FC3C3C
 }
 
 .icon-name {
-  color: white;
+  color: $text-primary;
 }
 
 .category-plus {
@@ -525,9 +522,7 @@ input[type='checkbox'] {
   .categories-container {
     width: 100%;
     min-width: 845px;
-    background: #2e3238;
-    background: #1C0039;
-    // background: $categories-background;
+    background: $medium-background;
   }
 
   .icons-container {
@@ -549,7 +544,7 @@ input[type='checkbox'] {
 
   .icon-name {
     padding-top: 5px;
-    color: white;
+    color: $text-primary;
   }
 
   .icons-dropdown-container {
@@ -585,7 +580,6 @@ input[type='checkbox'] {
 
   .icon-dropdown-name {
     padding-left: 30px;
-    /* color: white; */
     color: #200042;
 
   }
@@ -671,23 +665,8 @@ input[type='checkbox'] {
   font-size: 1.5rem;
 }
 
-/* --- emergency resources button styles TEMP --- */
-.emergency-button {
-  width: 95%;
-  max-width: 1000px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-bottom: .5em;
-  margin-top: 1em;
-  cursor: pointer;
-}
-
-@media (min-width: 992px) {
-  .emergency-button {
-    grid-column: 1 / span 3;
-    grid-row: 2;
-    width: 80%;
-    margin-top: 0px;
-  }
+// primary icons on home page
+// NOTE: this is getting overwritten by the styles in IconSelector.js and that needs to be centralized
+.icon-main {
+  color: $text-primary;
 }

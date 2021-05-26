@@ -1,9 +1,16 @@
 /* old/original site colors */
 $classic-grey-dark: #2e3238;
 
+/* colors from Semantic UI */
+$semantic-teal: rgb(0, 181, 173);
+// idr what this one is honestly, but it's being used, so
+$darkest-background: #1C0039;
+
+
 /* new theme colors */
 $dark-purple: #200042;
 $darkest-purple: #1C0039;
+$text-primary: #200042;
 
 /* this one */
 $dark-matte-blue: #191f42;
@@ -13,13 +20,36 @@ $dark-blue: #000044;
 
 // good background color or large light header text
 $cream: #E3E3D9;
+$light-background: rgb(241, 241, 241);
+$medium-background: #C0C0C0;
+$light-grey-background: #ecedee;
 $warm-grey: #C0C0C0;
 $sand-dark: #9F9B89;
 
 /* component usage */
-$footer-background: $dark-purple;
-$nav-background: $dark-purple;
-$footer-background: $warm-grey;
-$nav-background: $warm-grey;
+$footer-background: $darkest-purple;
+$nav-background: $darkest-purple;
 
-$categories-background: $classic-grey-dark;
+
+
+// nav and categories
+$nav-item-active: #85898e;
+
+// $categories-background: $classic-grey-dark;
+$categories-background: $warm-grey;
+$category-browse-background: $light-background;
+$category-browse-text: #200042;
+
+// top nav
+$top-nav-text: white;
+
+// about
+$about-background: $light-grey-background;
+
+// MAIN TEXT 
+$main-text: $dark-purple;
+
+// search
+$search-bar-background: #f1f1f1;
+$search-button-main: $semantic-teal;
+$search-input-border: $dark-purple;
