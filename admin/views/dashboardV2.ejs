@@ -191,7 +191,7 @@
     
   let activeStep = "step-1";
   let completedSteps = [];
-  let disabledSteps = ["step-2", "step-3"];
+  let disabledSteps = [];
 
   %>
  
@@ -201,7 +201,7 @@
       Update Data
     </div>
     <div class="sub header">
-      Need more help? Check out the <a href="/admin/guide"> user guide!</a>
+      Need help? Check out the <a href="/admin/guide"> user guide!</a>
     </div>
   </h1>
 
@@ -209,17 +209,17 @@
 
   <div class="ui attached steps">
     <!-- info  -->
-    <div id="info" onclick="onStepClick(this.id)"
+    <!-- <div id="info" onclick="onStepClick(this.id)"
       class="step <%= activeStep === 'info' ? 'active' : '' %>">
       <i class="info icon"></i>
       <div class="content">
         <div class="title violet">Instructions</div>
       </div>
-    </div>
+    </div> -->
     <!-- upload  -->
     <div id="step-1" onclick="onStepClick(this.id)"
       class="step <%= activeStep === 'step-1' ? 'active' : '' %>">
-      <i class="upload icon"></i>
+      <i class="cloud upload icon"></i>
       <div class="content">
         <div class="title">Import Data</div>
         <div class="description"></div>
@@ -256,38 +256,41 @@
   </section>
 
   <section id="step-1-content" class="hidden">
-    <div class="ui raised segment">
+    <div class="ui raised segment attached">
 
       <h3>
         Import data instructions
       </h3>
       <br />
       
-      <button class="ui button violet">Step Completed</button>
+      <button class="ui button basic violet" onclick="handleStepComplete('step-1', 'step-2')">Step Completed</button>
     </div>
   </section>
   
   <section id="step-2-content" class="hidden">
-    <div class="ui raised segment">
+    <div class="ui raised segment attached">
 
       <h3>
         Preview instructions
       </h3>
       <br />
 
-      <button class="ui button teal">Step Completed</button>
+      <button class="ui button basic teal"
+        onclick="handleStepComplete('step-2', 'step-3')">
+        Step Completed</button>
     </div>
   </section>
   
   <section id="step-3-content" class="hidden">
-    <div class="ui raised segment">
+    <div class="ui raised segment attached">
 
       <h3>
         Live site update instructions
       </h3>
       <br />
 
-      <button class="ui button blue">Update Live Site</button>
+      <button class="ui button basic blue"
+        onclick="alert('Congrats! You updated the site!')">Update Live Site</button>
     </div>
   </section>
 
@@ -297,18 +300,23 @@
 <script>
 
   $(document).ready(function() {
-    const allSteps = [...document.getElementsByClassName('step')]
+    
+    // grabs all the "step" nodes
+    const allSteps = [...document.getElementsByClassName('step')];
 
+    // grab each individual step node
+    const info = document.querySelector('#info')
+    const step1 = document.querySelector('#step-1')
+    const step2 = document.querySelector('#step-2')
+    const step3 = document.querySelector('#step-3')
+
+    // shows the content for the active "step"
+    // this will be either hardcoded, or passed in from the route
     allSteps.forEach((el) => { 
-      console.log([...el.classList].includes('step'))
       if ([...el.classList].includes('active')) {
         $(`#${el.id}-content`).show();
       } 
-    })
-
-
-
-
+    });
 
   });
 
@@ -319,21 +327,32 @@
     const step3 = document.querySelector('#step-3')
     const allSteps = [...document.getElementsByClassName('step')]
 
-    /* Info click */
-    if (id ==="info") { 
-      allSteps.forEach((el) => { el.classList.remove('active') })
-      info.classList.add('active');
-      $('#info-content').show();
-    }
-
-    /* Step 1 click */
-    if (id ==="step-1") { 
-      allSteps.forEach((el) => { el.classList.remove('active') })
-      step1.classList.add('active');
-      
-    }
-
+    // remove all active classes and hide all content 
+    allSteps.forEach((el) => { 
+        el.classList.remove('active'); 
+        $(`#${el.id}-content`).hide();
+      });
+    
+    // add "active" class and show corresponding content
+    const selectedEl = document.getElementById(id);
+    selectedEl.classList.add('active');
+    $(`#${selectedEl.id}-content`).show();
   }
+
+  function handleStepComplete(step, next) {
+    $(`#${step}`).addClass('completed').removeClass('active');
+    $(`#${step}-content`).hide();
+    $(`#${next}`).addClass('active');
+    $(`#${next}-content`).show();
+  }
+
+  // function handleDataComplete() {
+  //   $('#step-1').addClass('completed').removeClass('active');
+  //   $('#step-2').addClass('active')
+    
+  //   selectedEl.classList.add('active');
+  //   $(`#${selectedEl.id}-content`).show();
+  // }
 
 
 </script>
