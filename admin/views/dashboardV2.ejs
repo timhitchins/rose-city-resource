@@ -182,33 +182,20 @@
 
   </script>
   <style>
-    main {
-      display: flex; 
-      flex-direction: column; 
-      justify-content: flex-start;
-      padding: 7em;
-    }
-    .steps {
-      width: 300px;
-    }
+
   </style>
 </head>
 
-<body class='container'>
+<body class='container' id="dashboard">
   <% 
     
-  let activeStep = "info";
+  let activeStep = "step-1";
   let completedSteps = [];
   let disabledSteps = ["step-2", "step-3"];
 
-  const setActive = (id) => { console.log(id) }
-  const setDisabled = (id) => { }
-  const setCompleted = (id) => { }
-  
-  const checkCurrent = (id) =>  { return true; }
   %>
  
-  <h1 class="ui header violet" style='text-align: center; width: 100%; padding-bottom: 1em'>
+  <h1 class="ui header violet" style='text-align: center; width: 100%'>
     <div class="content">
       <i class="database icon"></i>
       Update Data
@@ -220,9 +207,9 @@
 
   <main>
 
-  <div class="ui vertical steps">
+  <div class="ui attached steps">
     <!-- info  -->
-    <div id="info" onClick="checkCurrent(this.id)"
+    <div id="info" onclick="onStepClick(this.id)"
       class="step <%= activeStep === 'info' ? 'active' : '' %>">
       <i class="info icon"></i>
       <div class="content">
@@ -230,24 +217,26 @@
       </div>
     </div>
     <!-- upload  -->
-    <div id="step-1" class="step <%= activeStep === 'step-1' ? 'active' : '' %>">
+    <div id="step-1" onclick="onStepClick(this.id)"
+      class="step <%= activeStep === 'step-1' ? 'active' : '' %>">
       <i class="upload icon"></i>
       <div class="content">
         <div class="title">Import Data</div>
         <div class="description"></div>
       </div>
     </div>
-    <div id="step-2" class="step 
+    <div id="step-2" onclick="onStepClick(this.id)"
+      class="step 
       <%= activeStep === 'step-2' ? 'active' : '' %> 
       <%= disabledSteps.includes('step-2') ? 'disabled' : ''%> 
       <%= completedSteps.includes('step-2') ? 'completed' : ''%>">
       <i class="eye icon"></i>
       <div class="content">
         <div class="title">Preview Site</div>
-        <div class="description">Enter billing information</div>
       </div>
     </div>
-    <div id="step-3" class="step 
+    <div id="step-3" onclick="onStepClick(this.id)"
+      class="step 
       <%= activeStep === 'step-3' ? 'active' : '' %> 
       <%= disabledSteps.includes('step-3') ? 'disabled' : ''%> 
       <%= completedSteps.includes('step-3') ? 'completed' : ''%>">
@@ -257,11 +246,77 @@
       </div>
     </div>
   </div>
+
+  <section id="info-content" class="hidden">
+    <div class="ui raised segment attached">
+      <h3>
+        Instructions & Info go here 
+      </h3>
+    </div>
+  </section>
+
+  <section id="step-1-content" class="hidden">
+    <div class="ui raised segment">
+
+      <h3>
+        Info on how to update data, along with the steps and whatnot
+      </h3>
+
+      <button class="ui button violet">Step Completed</button>
+    </div>
+  </section>
+  
+  <section id="step-2-content" class="hidden">
+    <div class="ui raised segment">
+
+      <h3>
+        Info on how to preview the site
+      </h3>
+
+      <button class="ui button teal">Step Completed</button>
+    </div>
+  </section>
+  
+  <section id="step-3-content" class="hidden">
+    <div class="ui raised segment">
+
+      <h3>
+        Info on how to update the live site
+      </h3>
+
+      <button class="ui button blue">Update Live Site</button>
+    </div>
+  </section>
+
+
 </main>
 
+<script>
+
+  function onStepClick(id) {
+    const info = document.querySelector('#info')
+    const step1 = document.querySelector('#step-1')
+    const step2 = document.querySelector('#step-2')
+    const step3 = document.querySelector('#step-3')
+    const allSteps = [...document.getElementsByClassName('step')]
+
+    /* Info click */
+    if (id ==="info") { 
+      allSteps.forEach((el) => { el.classList.remove('active') })
+      info.classList.add('active');
+      $('#info-content').show();
+    }
+
+    /* Step 1 click */
+    if (id ==="step-1") { 
+      allSteps.forEach((el) => { el.classList.remove('active') })
+      step1.classList.add('active');
+      
+    }
+
+  }
 
 
-
-
+</script>
 
 </body>
