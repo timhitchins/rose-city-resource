@@ -182,7 +182,9 @@
 
   </script>
   <style>
-
+  .strong {
+    font-weight: bold;
+  }
   </style>
 </head>
 
@@ -204,18 +206,6 @@
       Need more  help? Check out the <a href="/admin/guide"> user guide!</a>
     </div>
   </h1>
-  <details closed>
-    <summary><strong>Instructions</strong></summary>
-    <div style="font-family: 'Courier New', Courier, monospace; font-size: 14px;">
-      Instructions: this admin page supports a two-step data import process from Airtables to Rose City Resource.<br>
-      The flow is: <strong>Airtables --> Preview Site --> Live Site</strong><br>
-      NOTE: the data must <em>first be imported to the Preview Site</em> before it can be imported to the Live Site.<br>
-      Step 1) Import data from Airtable into Rose City Resource by choosing <em>Import Data to Preview Site</em><br>
-      Step 2) Validate the preview data by testing the preview site. A link to preview the imported data will be
-      provided.<br>
-      Step 3) Import data from the preview site to the live site by choosing <em>Import Data to Live Site</em>
-    </div>
-  </details>
 
   <main>
 
@@ -252,94 +242,63 @@
     </div>
   </div>
 
-  <section id="step-1-content" class="hidden" style="display: flex; justify-content: flex-start;">
-    <div class="ui raised segment attached">
+  <section id="step-1-content" class="hidden">
+    <div class="ui attached message">
 
-      <div class="instructions" style="max-width: 40%">
-
-      <h3>
-        Instructions
-      </h3>
-      <p>
-        Updating the Rose City Resource live site is a three step process. 
-      </p>
-      <p>
-        Note: this guide assumes that the data in Airtable has been reviewed and formatted appropriately. Please double check for misspellings or missing fields before beginning the import process.
-      </p>
-      <p>
+      <div class="header">
         Step 1: Import Data from Airtable
-      </p>
-      <p>
-        This step is straightforward. Just triple check that the information on Airtable is accurate, correct, and ready to be deployed on the live site. Then, click "Update Preview Site."
-      </p>
-      <p>
-        This process takes about 5 minutes total, since the data needs to go through some formatting to get it ready to be displayed on the site. 
-      </p>
-      <p>
-        If there are any errors, they'll show up in the "Errors" box. 
-      </p>
-      <p>
-        [Give them instructions for what they should do upon seeing errors.]
-      </p>
-      <p>
-        Once the data has successfully been imported, you'll see a message that allows you to go onto the next step: previewing the data on the preview site. 
-      </p>
+      </div>
 
-      <p>
-        Step 2: Preview new data on the preview site
-      </p>
-      <p>
-        Click this link to go to a "preview" version of the Rose City Resource Guide. It will have your new data loaded up into it, but it isn't live yet. You still have time to make changes if you spot errors in the data. 
-      </p>
-      <p>
-        Go to different pages on the preview site and search for a few different keywords and categories, just to make sure the new data looks correct. 
-      </p>
-      <p>
-        [If you run into errors...] (TODO)
-      </p>
-      <p>
-        If the preview is correct, press "Update Live Site," and your data will be pushed to the live site 
-      </p>
-
-      <p>
-
-      </p>
-
-
-
-      <br />
+      <ol class="ui list">
+        <li>Click "Import Data to Preview Site"</li>
+        <li>
+          <details closed>
+            <summary>
+              Wait for the import process to complete (about 5 minutes)
+            </summary>
+            <div>
+              <ol>
+                <li value="-">
+                  You can view the progress by clicking "Data Logs"
+                </li>
+                <li value="-">
+                  A message will appear when the process is complete
+                </li>
+                <li value="-" class="strong">
+                  If you get an error, copy the error message and email it to your support contact
+                </li>
+              </ol> 
+            </div>
+          </details>
+        </li>
+      </li>
+      </ol>
     </div>
+  </div>
+  <!-- end message  -->
 
-      
-      <button class="ui button basic violet" onclick="handleStepComplete('step-1', 'step-2')">Step Completed</button>
-    </div>
-    
+    <div class="ui raised segment attached">
+      <div class="primary-content" style="display: flex; justify-content: space-evenly; align-items: center">
+
+      <%- include('./partials/import-data-instructions'); %>
+
+      </div>
+    </div> 
   </section>
   
   <section id="step-2-content" class="hidden">
     <div class="ui raised segment attached">
 
-      <h3>
-        Preview instructions
-      </h3>
-      <br />
+      <%- include('./partials/preview-data-instructions'); %>
 
-      <button class="ui button basic teal"
-        onclick="handleStepComplete('step-2', 'step-3')">
-        Step Completed</button>
     </div>
   </section>
   
   <section id="step-3-content" class="hidden">
     <div class="ui raised segment attached">
 
-      <h3>
-        Live site update instructions
-      </h3>
-      <br />
+    <%- include('./partials/live-site-instructions'); %>
 
-      <button class="ui button basic blue"
-        onclick="alert('Congrats! You updated the site!')">Update Live Site</button>
     </div>
   </section>
 

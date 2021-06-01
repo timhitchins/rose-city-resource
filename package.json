@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "concurrently": "^6.0.2",
-    "sanitize-html": "^2.3.3",
-    "scss": "^0.2.4"
+    "sanitize-html": "^2.3.3"
   }
 }
