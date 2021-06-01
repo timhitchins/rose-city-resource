@@ -2,6 +2,9 @@
 <%- include ('./partials/navbar'); %>
 <%- include('./partials/styles'); %>
 
+<!-- icon options: question circle outline, info circle
+  -->
+
 <head>
   <script>
 
@@ -176,105 +179,73 @@
       }, 2000)
 
     }
+  
+  let activeSteps = [];
+  let completedSteps = [];
+  let disabledSteps = []
+
   </script>
+  <style>
+    main {
+      display: flex; 
+      flex-direction: column; 
+      justify-content: flex-start;
+      padding: 7em;
+    }
+    .steps {
+      width: 300px;
+    }
+  </style>
 </head>
 
-<body class='container' style='text-align: center; width: 100%;'>
+<body class='container'>
  
-  <h1 class="ui header violet">
+  <h1 class="ui header violet" style='text-align: center; width: 100%; padding-bottom: 1em'>
     <div class="content">
       <i class="database icon"></i>
       Update Data
     </div>
     <div class="sub header">
-      Need help? Check out the <a href="/admin/guide"> user guide!</a>
+      Need more help? Check out the <a href="/admin/guide"> user guide!</a>
     </div>
-    </h1>
-  <!-- <h1>RCR Admin Dashboard</h1> -->
-  <div style='border: 1px solid grey; border-radius: 5px; margin: auto; width: 50%; padding: 10px 20px;'>
-    <div><em>Live Site Last Update: <span id='last-update-time'>&nbsp;</span></em></div>
-    <div><span>Database Rows in Use: </span><span id='database-rows'>&nbsp;</span><span> / 10,000</span></div>
-    <div><span>Database Space in Use: </span><span id='database-space'>&nbsp;</span><span> / 1 GB</span></div>
-  </div>
-  <br />
-  <details closed>
-    <summary><strong>Instructions</strong></summary>
-    <div style="font-family: 'Courier New', Courier, monospace; font-size: 14px;">
-      Instructions: this admin page supports a two-step data import process from Airtables to Rose City Resource.<br>
-      The flow is: <strong>Airtables --> Preview Site --> Live Site</strong><br>
-      NOTE: the data must <em>first be imported to the Preview Site</em> before it can be imported to the Live Site.<br>
-      Step 1) Import data from Airtable into Rose City Resource by choosing <em>Import Data to Preview Site</em><br>
-      Step 2) Validate the preview data by testing the preview site. A link to preview the imported data will be
-      provided.<br>
-      Step 3) Import data from the preview site to the live site by choosing <em>Import Data to Live Site</em>
+  </h1>
+
+  <main>
+
+  <div class="ui vertical steps">
+    <div class="step active">
+      <i class="info icon"></i>
+      <div class="content">
+        <div class="title violet">Instructions</div>
+        <!-- <div class="description">Choose your shipping options</div> -->
+      </div>
     </div>
-  </details>
-  <br />
-  <button onclick='staging()'>Import Data to Preview Site</button>
-  <br />
-  <div class="preview-div">
-    <span class="preview-span" id='status'></span>
+    <div class="step">
+      <i class="upload icon"></i>
+      <div class="content">
+        <div class="title">Import Data</div>
+        <div class="description"></div>
+      </div>
+    </div>
+    <div class="step">
+      <i class="eye icon"></i>
+      <div class="content">
+        <div class="title">Preview Site</div>
+        <div class="description">Enter billing information</div>
+      </div>
+    </div>
+    <div class="disabled step">
+      <i class="sync icon"></i>
+      <div class="content">
+        <div class="title">Update Site</div>
+      </div>
+    </div>
   </div>
-  <br />
-  <button disabled id='import-live' onclick='production()'>Import Data to Live Site</button>
-  <br />
-  <br />
-  <div id='etl-status' style='color:gray; border: 1px dashed lightgray'>&nbsp;</div>
-  <br />
-  <details>
-    <summary>Data Validation Errors</summary>
-    <table cellpadding='0' cellspacing='0'
-      style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
-      <tbody id='etl-validation'></tbody>
-    </table>
-  </details>
-  <br>
-  <details>
-    <summary>Logs</summary>
-    <table cellpadding='0' cellspacing='0'
-      style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
-      <tbody id='etl-log'></tbody>
-    </table>
-  </details>
-  <script>
-    (async () => {
-      /* One-time Updates on page load */
+</main>
 
-      /* Fetch and display ETL logs */
-      renderEtlLogs(await fetchEtlLogs());
 
-      const rowsRes = await fetchPgRows();
-      const rows = rowsRes[0].get_database_numrows;
-      const spaceRes = await fetchPgSpace();
-      const space = spaceRes[0].get_database_size;
-      const timeRes = await fetchLastUpdate();
-      const time = new Date(timeRes).toLocaleString();
-      document.getElementById('database-rows').innerText = rows;
-      document.getElementById('database-space').innerText = space;
-      document.getElementById('last-update-time').innerText = time;
 
-      /* Continuous update on timer */
-      window.setInterval(async function () {
 
-        /* Fetch and display ETL status */
-        const statusArr = await fetchEtlStatus();
-        const status = statusArr[0];
-        renderEtlStatus(status);
 
-        /* Enable import to live site button if that should be an option */
-        const started = status.etl_started.toLowerCase();
-        const completed = status.etl_ran_to_completion.toLowerCase();
-        const minutes = parseInt(status.minutes_since_last_log);
-        const numrows = parseInt(status.etl_staging_1_num_rows);
-        if (started === 'true' && completed === 'true' && minutes < 60 * 48 && numrows > 1) {
-          const button = document.getElementById('import-live').disabled = false;
-        }
-        else {
-          const button = document.getElementById('import-live').disabled = true;
-        }
-
-      }, 5000)
-    })();
-  </script>
 
 </body>

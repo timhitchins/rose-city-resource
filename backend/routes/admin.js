@@ -243,6 +243,11 @@ module.exports = (app, pool) => {
     res.render('../../admin/views/users.ejs', { activeTab: "users"});
   });
 
+
+  app.get("/admin/dashboard-2", userIsAdmin, (req, res) => {
+    res.render("../../admin/views/dashboardV2.ejs", { activeTab: "guide" });
+  }); 
+
   app.post('/admin/register', userIsAdmin, (req, res) => {
     const registerUser = async () => {
       try {
