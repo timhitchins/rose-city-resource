@@ -250,7 +250,7 @@
   <section id="info-content" class="hidden">
     <div class="ui raised segment attached">
       <h3>
-        Instructions & Info go here 
+        Instructions
       </h3>
     </div>
   </section>
@@ -259,9 +259,10 @@
     <div class="ui raised segment">
 
       <h3>
-        Info on how to update data, along with the steps and whatnot
+        Import data instructions
       </h3>
-
+      <br />
+      
       <button class="ui button violet">Step Completed</button>
     </div>
   </section>
@@ -270,8 +271,9 @@
     <div class="ui raised segment">
 
       <h3>
-        Info on how to preview the site
+        Preview instructions
       </h3>
+      <br />
 
       <button class="ui button teal">Step Completed</button>
     </div>
@@ -281,8 +283,9 @@
     <div class="ui raised segment">
 
       <h3>
-        Info on how to update the live site
+        Live site update instructions
       </h3>
+      <br />
 
       <button class="ui button blue">Update Live Site</button>
     </div>
@@ -292,6 +295,22 @@
 </main>
 
 <script>
+
+  $(document).ready(function() {
+    const allSteps = [...document.getElementsByClassName('step')]
+
+    allSteps.forEach((el) => { 
+      console.log([...el.classList].includes('step'))
+      if ([...el.classList].includes('active')) {
+        $(`#${el.id}-content`).show();
+      } 
+    })
+
+
+
+
+
+  });
 
   function onStepClick(id) {
     const info = document.querySelector('#info')
