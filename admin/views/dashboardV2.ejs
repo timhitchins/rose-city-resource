@@ -179,10 +179,6 @@
       }, 2000)
 
     }
-  
-  let activeSteps = [];
-  let completedSteps = [];
-  let disabledSteps = []
 
   </script>
   <style>
@@ -199,6 +195,18 @@
 </head>
 
 <body class='container'>
+  <% 
+    
+  let activeStep = "info";
+  let completedSteps = [];
+  let disabledSteps = ["step-2", "step-3"];
+
+  const setActive = (id) => { console.log(id) }
+  const setDisabled = (id) => { }
+  const setCompleted = (id) => { }
+  
+  const checkCurrent = (id) =>  { return true; }
+  %>
  
   <h1 class="ui header violet" style='text-align: center; width: 100%; padding-bottom: 1em'>
     <div class="content">
@@ -213,28 +221,36 @@
   <main>
 
   <div class="ui vertical steps">
-    <div class="step active">
+    <!-- info  -->
+    <div id="info" onClick="checkCurrent(this.id)"
+      class="step <%= activeStep === 'info' ? 'active' : '' %>">
       <i class="info icon"></i>
       <div class="content">
         <div class="title violet">Instructions</div>
-        <!-- <div class="description">Choose your shipping options</div> -->
       </div>
     </div>
-    <div class="step">
+    <!-- upload  -->
+    <div id="step-1" class="step <%= activeStep === 'step-1' ? 'active' : '' %>">
       <i class="upload icon"></i>
       <div class="content">
         <div class="title">Import Data</div>
         <div class="description"></div>
       </div>
     </div>
-    <div class="step">
+    <div id="step-2" class="step 
+      <%= activeStep === 'step-2' ? 'active' : '' %> 
+      <%= disabledSteps.includes('step-2') ? 'disabled' : ''%> 
+      <%= completedSteps.includes('step-2') ? 'completed' : ''%>">
       <i class="eye icon"></i>
       <div class="content">
         <div class="title">Preview Site</div>
         <div class="description">Enter billing information</div>
       </div>
     </div>
-    <div class="disabled step">
+    <div id="step-3" class="step 
+      <%= activeStep === 'step-3' ? 'active' : '' %> 
+      <%= disabledSteps.includes('step-3') ? 'disabled' : ''%> 
+      <%= completedSteps.includes('step-3') ? 'completed' : ''%>">
       <i class="sync icon"></i>
       <div class="content">
         <div class="title">Update Site</div>
