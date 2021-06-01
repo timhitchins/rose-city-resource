@@ -185,13 +185,18 @@
   .strong {
     font-weight: bold;
   }
+  
+  .spaced li {
+    margin-bottom: .25em;
+  }
+
   </style>
 </head>
 
 <body class='container' id="dashboard">
   <% 
     
-  let activeStep = "step-1";
+  let activeStep = "step-2";
   let completedSteps = [];
   let disabledSteps = [];
 
@@ -242,7 +247,9 @@
     </div>
   </div>
 
+  <!-- step 1 content  -->
   <section id="step-1-content" class="hidden">
+    <!-- step 1 instructions  -->
     <div class="ui attached message">
 
       <div class="header">
@@ -250,6 +257,137 @@
       </div>
 
       <ol class="ui list">
+        <li>Click "Import Data to Preview Site"</li>
+        <li>
+          <details closed>
+            <summary>
+              Wait for the import process to complete (about 5 minutes)
+            </summary>
+            <div>
+              <ol class="spaced">
+                <li value="-">
+                  You can view the progress by clicking "Data Logs"
+                </li>
+                <li value="-">
+                  A message will appear when the process is complete
+                </li>
+                <li value="-" class="strong">
+                  If you get an error, copy the error message and email it to your support contact
+                </li>
+              </ol> 
+            </div>
+          </details>
+        </li>
+      </li>
+      </ol>
+    </div>
+  </div>
+  <!-- end step 1 instructions  -->
+
+    <div class="ui raised segment attached">
+      <div class="primary-content">
+
+      <%- include('./partials/import-data-instructions'); %>
+
+      </div>
+    </div> 
+  </section>
+  <!-- end step 1 content  -->
+  
+  <!-- step 2 content  -->
+  <section id="step-2-content" class="hidden">
+    <!-- step 2 instructions  -->
+    <div class="ui attached message">
+      <div class="header">
+        Step 2: Preview the site
+      </div>
+      <em>
+        Note: You must successfully complete Step One first
+      </em>
+      <ol class="ui list">
+          <!-- step 1 check errors  -->
+          <li>
+            <details closed>
+              <summary>
+                Review "Content Errors"
+              </summary>
+              <div>
+                <ol class="spaced">
+                  <li value="-">
+                    If the automatic import process detected missing data fields, they will show up here
+                  </li>
+                  <li value="-" class="strong">
+                    Fixing these errors is optional. You can still update the site.
+                  </li>
+                  <li value="-">
+                    To fix content errors:
+                    <ol>
+                      <li value="-">
+                        Go to Airtable and correct the data where indicated
+                      </li>
+                      <li value="-">
+                        Go back to the "Import Data" step on this dashboard
+                      </li>
+                      <li value="-">
+                        Follow the instructions to re-import the newly changed data 
+                      </li>
+                    </ol>
+                  </li>
+              </ol> 
+            </div>
+          </details>
+          </li>
+
+          <!-- step 2  -->
+          <li>
+          <details closed>
+            <summary>
+              Click "Preview Site"
+            </summary>
+            <div>
+              <ol class="spaced">
+                <li value="-">
+                  You will be taken to a temporary version of RCR that displays the data you just imported from Airtable.
+                </li>
+                <li value="-">
+                  The preview site shows <em>exactly</em> how the the final site will look, if you continue with this update process
+                </li>
+                <li value="-" class="strong">
+                  If anything looks incorrect, correct the data on Airtable and start the import process again
+                </li>
+              </ol> 
+            </div>
+          </details>
+          </li>
+
+          <!-- <li>
+            Review the preview site
+          </li> -->
+          <li>
+            If you are satisfied with the preview site, click "Next Step"
+          </li>
+      </ol>
+    </div>
+  </div>
+  <!-- end step 2 instructions  -->
+    <div class="ui raised segment attached">
+      <div class="primary-content">
+
+        <%- include('./partials/preview-data-instructions'); %>
+
+      </div>
+    </div>
+  </section>
+  <!-- end step 2 content  -->
+  
+  <!-- step 3 content  -->
+  <section id="step-3-content" class="hidden">
+    <!-- step 3 instructions  -->
+    <div class="ui attached message">
+      <div class="header">
+        Step 3: Update Live Site
+      </div>
+      <!-- <ol class="ui list">
         <li>Click "Import Data to Preview Site"</li>
         <li>
           <details closed>
@@ -273,35 +411,18 @@
         </li>
       </li>
       </ol>
-    </div>
+    </div> -->
   </div>
-  <!-- end message  -->
-
+  <!-- end step 3 instructions  -->
     <div class="ui raised segment attached">
-      <div class="primary-content" style="display: flex; justify-content: space-evenly; align-items: center">
-
-      <%- include('./partials/import-data-instructions'); %>
+      <div class="primary-content">
+        
+        <%- include('./partials/live-site-instructions'); %>
 
       </div>
-    </div> 
-  </section>
-  
-  <section id="step-2-content" class="hidden">
-    <div class="ui raised segment attached">
-
-      <%- include('./partials/preview-data-instructions'); %>
-
     </div>
   </section>
-  
-  <section id="step-3-content" class="hidden">
-    <div class="ui raised segment attached">
-
-    <%- include('./partials/live-site-instructions'); %>
-
-    </div>
-  </section>
-
+  <!-- end step 3 content  -->
 
 </main>
 
