@@ -28,7 +28,7 @@
   </div>
   </h1>
 
-  <div class="ui divider"></div>
+  <!-- <div class="ui divider"></div> -->
   <ul>
     <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
     <li><%= error.message %></li>
@@ -37,7 +37,7 @@
   <div class="password-div" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 2em">
     <h2>Change Your Password</h2>
 
-    <form class="ui form" 
+    <form class="ui form"
       action="/admin/changePassword" method="POST">
 
       <div class="field">
@@ -64,5 +64,5 @@
         <a href="/admin/dashboard" style="text-decoration: underline">Cancel</a>
     </form>
   </div>
-  <div class="ui divider"></div>
+  <!-- <div class="ui divider"></div> -->
 <!-- more settings will go here  -->
