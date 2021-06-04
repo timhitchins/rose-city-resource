@@ -6,14 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSSTransition } from "react-transition-group";
 import { objectKeyByValue, queryBuilder } from "../../utils/api.js";
 
-//style for the icon svg itself
-const styles = {
-  content: {
-    color: "white",
-  },
-};
+// font awesome icons color
+const iconColor = 'white';
 
-const GeneralLarge = ({
+/* Desktop display of main "Food," "Goods," etc icons */
+const PrimaryIconsLarge = ({
   onMouseEnter,
   onMouseExit,
   showDropdown,
@@ -37,7 +34,7 @@ const GeneralLarge = ({
                 <div>
                   <FontAwesomeIcon
                     icon={icon}
-                    style={styles.content}
+                    color={iconColor}
                     size="2x"
                   />
                 </div>
@@ -73,7 +70,7 @@ const GeneralLarge = ({
   );
 };
 
-GeneralLarge.propTypes = {
+PrimaryIconsLarge.propTypes = {
   onMouseEnter: PropTypes.func.isRequired,
   onMouseExit: PropTypes.func.isRequired,
   showDropdown: PropTypes.bool.isRequired,
@@ -83,7 +80,8 @@ GeneralLarge.propTypes = {
   submitSearch: PropTypes.func.isRequired,
 };
 
-const GeneralSmall = ({
+/* Mobile display of main "Food," "Goods," etc icons */
+const PrimaryIconsSmall = ({
   onSelectFwd,
   iconMap,
   searchData,
@@ -102,7 +100,7 @@ const GeneralSmall = ({
             <FontAwesomeIcon
               //use the plus icon for onClick events
               icon={"angle-down"}
-              style={styles.content}
+              color={iconColor}
               size="lg"
             />
           </div>
@@ -126,7 +124,7 @@ const GeneralSmall = ({
                       <div className="small-icon">
                         <FontAwesomeIcon
                           icon={icon}
-                          style={styles.content}
+                          color={iconColor}
                           size="lg"
                         />
                       </div>
@@ -136,7 +134,7 @@ const GeneralSmall = ({
                         <FontAwesomeIcon
                           //use the plus icon for onClick events
                           icon={"angle-right"}
-                          style={styles.content}
+                          color={iconColor}
                           size="lg"
                         />
                       </div>
@@ -153,13 +151,13 @@ const GeneralSmall = ({
   );
 };
 
-GeneralSmall.propTypes = {
+PrimaryIconsSmall.propTypes = {
   onSelectFwd: PropTypes.func.isRequired,
   iconMap: PropTypes.object.isRequired,
   searchData: PropTypes.object.isRequired,
 };
 
-const MainSmall = ({
+const SecondaryIcons = ({
   onSelectBack,
   selectedItem,
   selectedData,
@@ -181,7 +179,7 @@ const MainSmall = ({
             <FontAwesomeIcon
               //use the plus icon for onClick events
               icon={"angle-down"}
-              style={styles.content}
+              color={iconColor}
               size="lg"
             />
           </div>
@@ -200,14 +198,14 @@ const MainSmall = ({
                 <div>
                   <FontAwesomeIcon
                     icon={"angle-left"}
-                    style={styles.content}
+                    color={iconColor}
                     size="lg"
                   />
                 </div>
                 <div>
                   <FontAwesomeIcon
                     icon={objectKeyByValue(iconMap, selectedItem)[0]}
-                    style={styles.content}
+                    color={iconColor}
                     size="sm"
                   />
                 </div>
@@ -240,7 +238,7 @@ const MainSmall = ({
   );
 };
 
-MainSmall.propTypes = {
+SecondaryIcons.propTypes = {
   onSelectBack: PropTypes.func.isRequired,
   selectedItem: PropTypes.string.isRequired,
   selectedData: PropTypes.object.isRequired,
@@ -297,7 +295,7 @@ class Selectors extends React.PureComponent {
         // case 'main_category':
         return (
           <div>
-            <GeneralLarge
+            <PrimaryIconsLarge
               onMouseEnter={onMouseEnter}
               onMouseExit={onMouseExit}
               showDropdown={showDropdown}
@@ -311,7 +309,7 @@ class Selectors extends React.PureComponent {
               isBrowseVisible={isBrowseVisible}
             />
 
-            <GeneralSmall
+            <PrimaryIconsSmall
               onSelectFwd={onSelectFwd}
               navCategory={navCategory}
               iconMap={iconMap}
@@ -324,7 +322,7 @@ class Selectors extends React.PureComponent {
       case "main_category":
         return (
           <div>
-            <GeneralLarge
+            <PrimaryIconsLarge
               onMouseEnter={onMouseEnter}
               onMouseExit={onMouseExit}
               showDropdown={showDropdown}
@@ -336,7 +334,7 @@ class Selectors extends React.PureComponent {
               isBrowseVisible={isBrowseVisible}
             />
 
-            <MainSmall
+            <SecondaryIcons
               onSelectBack={onSelectBack}
               selectedItem={selectedItem}
               selectedData={selectedData}
@@ -418,10 +416,6 @@ class IconSelector extends React.PureComponent {
       selectedData: null,
       selectedItem: null,
     });
-
-  // this will be removed in favor of a Link tag
-  submitSearch = (selection) => {
-  };
 
   render() {
     const {
