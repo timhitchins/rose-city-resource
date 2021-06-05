@@ -244,8 +244,8 @@ module.exports = (app, pool) => {
   });
 
 
-  app.get("/admin/dashboard-2", userIsAdmin, (req, res) => {
-    res.render("../../admin/views/dashboardV2.ejs", { activeTab: "guide" });
+  app.get("/admin/dashboard-old", userIsAdmin, (req, res) => {
+    res.render("../../admin/views/dashboard-old.ejs", { activeTab: "guide" });
   }); 
 
   app.post('/admin/register', userIsAdmin, (req, res) => {
