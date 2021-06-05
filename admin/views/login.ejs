@@ -2,45 +2,42 @@
 <%- include('./partials/styles'); %>
 
 <style type="text/css">
-  body{
-  background-color: #ecf0f1;
+  body {
+    background-color: #231935;
   }
-  section{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
-  form{
-  width: 40%;
-  padding: 25px;
+  form {
+    padding: 25px;
   }
-  @media(max-width: 692px){
-  form{
-  width: 70%;
-  }
-  }
-  @media(max-width: 450px){
-  form{
-  width: 80%;
-  }
+  #error-div {
+    color: white;
   }
 </style>
 
 <section>
-  <% if(error && error.length > 0) { %>
-    <div>
-      <%= error %>
-    </div>
-  <% } %>
-  <% if(message && message.length > 0) { %>
-    <div>
-      <%= message %>
-    </div>
-  <% } %>
+  <div id="error-div">
 
-  <h1 class="ui header violet" style="margin-bottom: 0">
+    <% if(error && error.length > 0) { %>
+      <div>
+        <%= error %>
+      </div>
+    <% } %>
+    <% if(message && message.length > 0) { %>
+      <div>
+        <%= message %>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="ui segment">
+
+  <h1 class="ui header secondary" style="margin-bottom: 0">
     <div class="content">
       Street Roots Login
     </div>
@@ -71,14 +68,14 @@
         required
       />      
     </div>
-    <button class="ui violet fluid button" type="submit">Login</button>
+    <button class="ui teal fluid button" type="submit">Login</button>
     </form>
     <div style="text-align: center; line-height: 1.5em">
       <strong>This is an administrative page. </strong><br /> 
-      If you are looking for resources, 
       <a href="https://rosecityresource.streetroots.org/">
-        click here for the main site
+        Click here to see the Rose City Resource Guide
       </a>
     </div>
+  </div>
 
 </section>
