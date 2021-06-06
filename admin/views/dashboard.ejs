@@ -276,13 +276,15 @@
       <div class="header">
         Step 1: Import Data from Airtable
       </div>
+      <em>
+        Note: The import process takes 5 minutes
+      </em>
 
       <ol class="ui list">
         <li>Click "Import Data to Preview Site"</li>
-        <li>The process takes about 5 minutes</li>
         <!-- <li>The Airtable data will be imported to a preview site, which you can review in the next step</li> -->
         <li class="strong">If you get an error message, copy the message and email it to your support contact</li>
-        <li>When the process is complete, a message will appear for you to continue</li>
+        <li>When the process is done, a message will appear with next steps</li>
         <!-- <li>
           <details closed>
             <summary>
@@ -315,7 +317,7 @@
         <!-- <button onclick='staging()'
           class="ui button violet">Import Data to Preview Site</button> -->
           <!-- temp/test import button  -->
-          <button onclick="handlePreviewComplete()" class="ui button violet">
+          <button onclick="handleImportComplete()" class="ui button violet">
             Import Data to Preview Site
           </button>
         <!-- import logs  -->
@@ -410,7 +412,9 @@
       <div class="primary-content" style="display: flex">
         <div class="ui buttons">
           <!-- TODO: add preview link logic here  -->
-          <button class="ui button violet">
+          <button class="ui button violet"
+            onclick="openPreviewSite()">
+            <!-- onclick="handlePreviewComplete()"> -->
             Preview site
           </button>
           <div class="or"></div>
@@ -521,12 +525,14 @@
     $(`#${next}-content`).show();
   }
 
-  function handlePreviewComplete() {
+  function handleImportComplete() {
     alert('Preview data import in progress');
 
     setTimeout(function() {
-      alert('Preview data import complete!')
-    }, 25000)
+      confirm(
+        `Preview data import complete! 
+        Press "okay" to continue to the next step`)
+    }, 1000)
 
     setTimeout(function() {
       // mark complete
@@ -535,8 +541,22 @@
       // make active
       $('#step-2').removeClass('disabled').addClass('active')
       $('#step-2-content').show();
-    }, 25000)
+    }, 1000)
+  }
 
+  // open preview site
+  function openPreviewSite() {
+    window.open("https://rosecityresource.streetroots.org", "_blank");
+  }
+
+  // go to final step 
+  function handlePreviewComplete() {
+    // mark complete
+    $('#step-2').addClass('completed').removeClass('active')
+    $('#step-2-content').hide();
+    // make active
+    $('#step-3').removeClass('disabled').addClass('active')
+    $('#step-3-content').show();
   }
 
   // function handleDataComplete() {
