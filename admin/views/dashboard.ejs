@@ -312,7 +312,7 @@
       <div class="primary-content">
         <!-- import button  -->
         <button onclick='staging()'
-          class="ui button basic violet">Import Data to Preview Site</button>
+          class="ui button violet">Import Data to Preview Site</button>
         <!-- import logs  -->
           <details open style="margin-top: .5em">
             <summary>Import Logs</summary>
@@ -339,7 +339,29 @@
         Note: You must successfully complete Step One for this to work
       </em>
       <ol class="ui list">
-          <!-- step 1 check errors  -->
+
+          <!-- step 1  -->
+          <li>
+            <details closed>
+              <summary>
+                Click "Preview Site"
+              </summary>
+              <div>
+                <ol class="spaced">
+                  <li value="-">
+                    You will be taken to a temporary version of RCR that displays the data you just imported from Airtable.
+                  </li>
+                  <li value="-">
+                    The preview site shows <em>exactly</em> how the the final site will look, if you continue with this update process
+                  </li>
+                  <li value="-" class="strong">
+                    If anything looks incorrect, correct the data on Airtable and start the import process again
+                  </li>
+                </ol> 
+              </div>
+            </details>
+            </li>
+          <!-- step 2 check errors  -->
           <li>
             <details closed>
               <summary>
@@ -372,31 +394,6 @@
           </details>
           </li>
 
-          <!-- step 2  -->
-          <li>
-          <details closed>
-            <summary>
-              Click "Preview Site"
-            </summary>
-            <div>
-              <ol class="spaced">
-                <li value="-">
-                  You will be taken to a temporary version of RCR that displays the data you just imported from Airtable.
-                </li>
-                <li value="-">
-                  The preview site shows <em>exactly</em> how the the final site will look, if you continue with this update process
-                </li>
-                <li value="-" class="strong">
-                  If anything looks incorrect, correct the data on Airtable and start the import process again
-                </li>
-              </ol> 
-            </div>
-          </details>
-          </li>
-
-          <!-- <li>
-            Review the preview site
-          </li> -->
           <li>
             If you are satisfied with the preview site, click "Next Step"
           </li>
@@ -405,9 +402,31 @@
   </div>
   <!-- end step 2 instructions  -->
     <div class="ui raised segment instructions attached">
-      <div class="primary-content">
+      <div class="primary-content" style="display: flex">
+        <div class="ui buttons">
+          <!-- TODO: add preview link logic here  -->
+          <button class="ui button violet">
+            Preview site
+          </button>
+          <div class="or"></div>
+          <button 
+            onclick="handleStepComplete('step-2', 'step-3')"
+            class="ui grey button">Next step</button>
+        </div>
 
-        <%- include('./partials/preview-data-instructions'); %>
+        <details open>
+          <summary>Content Errors</summary>
+          <table cellpadding='0' cellspacing='0'
+            style='margin-left:auto; margin-right:auto; font-size:16px; border-spacing: 10px 0;'>
+            <tbody id='etl-validation'></tbody>
+          </table>
+        </details>
+        <!-- <div class="update-buttons" style="display: flex; flex-direction: column"> -->
+
+          <!-- <button class="ui button teal basic" style="justify-self: flex-end">
+            
+          </button> -->
+        <!-- </div> -->
 
       </div>
     </div>
@@ -438,7 +457,9 @@
     <div class="ui raised segment instructions attached">
       <div class="primary-content">
         
-        <%- include('./partials/live-site-instructions'); %>
+        <button class="ui violet button big">
+          Update Live Site
+        </button>
 
       </div>
     </div>
