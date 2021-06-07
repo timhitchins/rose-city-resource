@@ -39,62 +39,51 @@
     </div>
    </header> -->
   <div class='container' style="margin: 1em">
-  <header>
+  <header style="display: flex; justify-content: center; align-items: center;">
     <!-- <h1 style="margin: .5em 0 1em 0"  -->
     <h1
-      class="ui header violet" style="margin-top: .75em; margin-bottom: 1em">
+      class="ui header violet" style="margin: .5em; margin-bottom: 1em">
       <div class="content">
         <i class="sync icon"></i>
         Update Website Data
       </div>
     </h1>
+
+    <div style='border-radius: 5px; margin: auto; width: 250px; padding: 10px 20px;' class="ui segment">
+      <div><em>Live Site Last Update: <span id='last-update-time'>&nbsp;</span></em></div>
+      <div><span>Database Rows in Use: </span><span id='database-rows'>&nbsp;</span><span> / 10,000</span></div>
+      <div><span>Database Space in Use: </span><span id='database-space'>&nbsp;</span><span> / 1 GB</span></div>
+    </div>
   </header>
-    
+  <p></p>
+  <p></p>
+  <p></p>
+  <p></p>
+  
   <main>
   <div id="content-all" style="display: flex; align-items: flex-start;">
-    <!-- navbar  -->
-    <div class="sidebar">
-      <nav class="ui vertical pointing menu" style="border-radius: 5px; width: 100%">
-        <a class="active item">
-          Instructions
-        </a>
-        <a class="item">
-          1. Import Data
-        </a>
-        <a class="item">
-          2. Preview
-        </a>
-        <a class="item">
-          3. Update Site
-        </a>
-      </nav>  
-    <!-- DB stats  -->
-    <div class="ui segment" style="line-height: 1.25em; padding: 10px; width: 215px">
-      <div>
-        <em>Live Site Last Update: <br />
-          <span id='last-update-time'>&nbsp;
-           <!-- update time populates here   -->
-          </span>
-        </em>
-      </div>
-      <div><em>Database Stats</em></div>
-      <div>
-        <span>Rows in Use: </span>
-        <span id='database-rows'>&nbsp;
-          <!-- number of rows populates here  -->
-        </span><span> / 10,000</span>
-      </div>
-      <div>
-        <span>Space in Use: </span>
-        <span id='database-space'>&nbsp;</span>
-        <span> / 1 GB</span></div>
-    </div>
+  <!-- navbar  -->
+  <div class="sidebar">
+    <nav class="ui vertical attached pointing menu" style="border-radius: 5px; width: 175px">
+      <a class="active item">
+        Instructions
+      </a>
+      <a class="item">
+        1. Import Data
+      </a>
+      <a class="item">
+        2. Preview
+      </a>
+      <a class="item">
+        3. Update Site
+      </a>
+    </nav> 
   <!-- end of sidebar  -->
   </div>
 
   <!-- begin main content  -->
-  <div class="ui container" 
-    style="margin: .5em; padding: .5em; padding-top: 0; margin-top: 0; width: 100%; min-height: 75vh">
+  <div class="ui attached segment" 
+    style="padding-top: 0; margin-top: 0; width: 100%; min-height: 75vh;">
     <p>Content</p>
     <p>Content</p>
 
