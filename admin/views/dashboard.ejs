@@ -525,23 +525,33 @@
     $(`#${next}-content`).show();
   }
 
-  function handleImportComplete() {
+  async function handleImportComplete() {
     alert('Preview data import in progress');
 
-    setTimeout(function() {
-      confirm(
-        `Preview data import complete! 
-        Press "okay" to continue to the next step`)
+    await setTimeout(function() {
+      var hasConfirmed = confirm(
+        'Preview data import complete! \n Press "okay" to continue to the next step')
     }, 1000)
 
-    setTimeout(function() {
-      // mark complete
+    if (hasConfirmed === true) {
       $('#step-1').addClass('completed').removeClass('active')
       $('#step-1-content').hide();
       // make active
       $('#step-2').removeClass('disabled').addClass('active')
       $('#step-2-content').show();
-    }, 1000)
+    } else {
+      return 
+    }
+
+    // setTimeout(function() {
+      // mark complete
+      // $('#step-1').addClass('completed').removeClass('active')
+      // $('#step-1-content').hide();
+      // // make active
+      // $('#step-2').removeClass('disabled').addClass('active')
+      // $('#step-2-content').show();
+    // }, 1000)
+
   }
 
   // open preview site

@@ -6,7 +6,11 @@
 // $text-dark (default text)
 
 .banner-preview {
-  width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; min-height: 2.25em;
+  width: 100%; 
+  text-align: center; 
+  display: flex; 
+  justify-content: center; align-items: center; 
+  min-height: 2.25em;
   box-shadow: "6px 20px rgba(0, 0, 0, 0.5)";
 }
 
@@ -16,6 +20,6 @@
 }
 
 .default {
-  background: $light-grey-background;
-  color: $darkest-grey;
+  background: $medium-grey;
+  color: white;
 }
