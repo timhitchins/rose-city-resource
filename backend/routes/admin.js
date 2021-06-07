@@ -219,9 +219,14 @@ module.exports = (app, pool) => {
     res.render("../../admin/views/banner.ejs", { activeTab: "banner" });
   });  
 
-  /* Home */
+  /* Dashboard (also currently home) */
+  app.get("/admin/dashboard", userIsAdmin, (req, res) => {
+    res.render("../../admin/views/dashboard.ejs", { activeTab: "home" });
+  });   
+
+  /* Home (also currently dashboard) */
   app.get("/admin/home", userIsAdmin, (req, res) => {
-    res.render("../../admin/views/dashboard-vertical.ejs", { activeTab: "home" });
+    res.render("../../admin/views/dashboard.ejs", { activeTab: "home" });
   });   
 
   /* User guide */

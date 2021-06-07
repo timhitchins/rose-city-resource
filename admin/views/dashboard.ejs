@@ -1,10 +1,6 @@
 <%- include('./partials/head'); %>
 <%- include ('./partials/navbar'); %>
 <%- include('./partials/styles'); %>
-
-<!-- icon options: question circle outline, info circle
-  -->
-
 <head>
   <script>
 
@@ -179,33 +175,59 @@
       }, 2000)
 
     }
-
   </script>
   <style>
-  .strong {
-    font-weight: bold;
-  }
-  
-  .spaced li {
-    margin-bottom: .25em;
-  }
+    #data-header {
+      display: flex; 
+      justify-content: space-between;
+      align-items: center;
+      margin: 5px 3em;
+    }
 
-  #data-header {
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    margin: 5px 3em;
-  }
+    #data-header h1 {
+      align-self: flex-end;
+      text-align: left;
+    }
 
-  #data-header h1 {
-    align-self: flex-end;
-    text-align: left;
-  }
+    #dashboard h2 {
+      font-size: 1.5em;
+      margin: .5em;
+    }
+
+    #dashboard header {
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      margin-bottom: 1em;
+    }
+
+    #dashboard #page {
+      display: flex; 
+      align-items: flex-start;
+    }
+
+    #dashboard nav {
+      border-radius: 5px; 
+      width: 175px;
+    }
+
+    #dashboard #update-div {
+      border-radius: 5px; 
+      margin: auto; 
+      width: 250px; 
+      padding: 10px 20px;
+    }
+
+    #dashboard #instructions-main {
+      padding-top: 0; 
+      margin-top: 0; 
+      width: 100%; 
+      min-height: 75vh;
+    }
 
   </style>
 </head>
-
-<body class='container' id="dashboard">
+<body>
   <% 
     
   let activeStep = "step-1";
@@ -213,371 +235,200 @@
   let disabledSteps = ["step-2", "step-3"];
 
   %>
-  <header>
-    <div id="data-header">
 
-    <h1 class="ui header violet">
-      <div class="content">
-        <i class="sync icon"></i>
-        Update Data
+  <div class='container' style="margin: 1em" id="dashboard">
+    <!-- header content -->
+    <header>
+      <h1
+        class="ui header violet" style="margin: .5em; margin-bottom: 1em">
+        <div class="content">
+          <i class="sync icon"></i>
+          Update Website Data
+        </div>
+      </h1>
+
+      <div id="update-div" class="ui segment">
+        <div><em>Live Site Last Update: <span id='last-update-time'>&nbsp;</span></em></div>
+        <div><span>Database Rows in Use: </span><span id='database-rows'>&nbsp;</span><span> / 10,000</span></div>
+        <div><span>Database Space in Use: </span><span id='database-space'>&nbsp;</span><span> / 1 GB</span></div>
       </div>
-      <div class="sub header">
-        Need more  help? Check out the <a href="/admin/guide"> user guide!</a>
-      </div>
-    </h1>
-    <div class="ui segment" style="padding: 10px">
-      <div><em>Live Site Last Update: <span id='last-update-time'>&nbsp;</span></em></div>
-      <div><span>Database Rows in Use: </span><span id='database-rows'>&nbsp;</span><span> / 10,000</span></div>
-      <div><span>Database Space in Use: </span><span id='database-space'>&nbsp;</span><span> / 1 GB</span></div>
-    </div>
-  </div>
- </header>
+    </header>
 
-  <main>
-
-  <div class="ui attached steps">
-
-    <!-- upload  -->
-    <div id="step-1" onclick="onStepClick(this.id)"
-      class="step <%= activeStep === 'step-1' ? 'active' : '' %>">
-      <i class="cloud upload icon"></i>
-      <div class="content">
-        <div class="title">Import Data</div>
-        <div class="description"></div>
-      </div>
-    </div>
-    <div id="step-2" onclick="onStepClick(this.id)"
-      class="step 
-      <%= activeStep === 'step-2' ? 'active' : '' %> 
-      <%= disabledSteps.includes('step-2') ? 'disabled' : ''%> 
-      <%= completedSteps.includes('step-2') ? 'completed' : ''%>">
-      <i class="eye icon"></i>
-      <div class="content">
-        <div class="title">Preview Site</div>
-      </div>
-    </div>
-    <div id="step-3" onclick="onStepClick(this.id)"
-      class="step 
-      <%= activeStep === 'step-3' ? 'active' : '' %> 
-      <%= disabledSteps.includes('step-3') ? 'disabled' : ''%> 
-      <%= completedSteps.includes('step-3') ? 'completed' : ''%>">
-      <i class="sync icon"></i>
-      <div class="content">
-        <div class="title">Update Site</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- step 1 content  -->
-  <section id="step-1-content" class="hidden">
-    <!-- step 1 instructions  -->
-    <div class="ui attached message">
-
-      <div class="header">
-        Step 1: Import Data from Airtable
-      </div>
-      <em>
-        Note: The import process takes 5 minutes
-      </em>
-
-      <ol class="ui list">
-        <li>Click "Import Data to Preview Site"</li>
-        <!-- <li>The Airtable data will be imported to a preview site, which you can review in the next step</li> -->
-        <li class="strong">If you get an error message, copy the message and email it to your support contact</li>
-        <li>When the process is done, a message will appear with next steps</li>
-        <!-- <li>
-          <details closed>
-            <summary>
-              Wait for the import process to complete (about 5 minutes)
-            </summary>
-            <div>
-              <ol class="spaced">
-                <li value="-">
-                  You can view the progress by clicking "Data Logs"
-                </li>
-                <li value="-">
-                  A message will appear when the process is complete
-                </li>
-                <li value="-" class="strong">
-                  If you get an error, copy the error message and email it to your support contact
-                </li>
-              </ol> 
-            </div>
-          </details>
-        </li> -->
-      </li>
-      </ol>
-    </div>
-  </div>
-  <!-- end step 1 instructions  -->
-
-    <div class="ui raised segment instructions attached">
-      <div class="primary-content">
-        <!-- REAL import button -->
-        <!-- <button onclick='staging()'
-          class="ui button violet">Import Data to Preview Site</button> -->
-          <!-- temp/test import button  -->
-          <button onclick="handleImportComplete()" class="ui button violet">
-            Import Data to Preview Site
-          </button>
-        <!-- import logs  -->
-          <details open style="margin-top: .5em">
-            <summary>Import Logs</summary>
-            <table cellpadding='0' cellspacing='0'>
-              <tbody id='etl-log'></tbody>
-            </table>
-          </details>
-        <!-- this will be a button you click when you're done with data import  -->
-        <!-- <button class="ui button basic violet big"
-        onclick="handleStepComplete('step-1', 'step-2')" style="margin-top: 15vh">Import Data to Preview Site</button> -->
-      </div>
+  <div id="page">
+    <!-- navbar  -->
+    <nav class="sidebar">
+    <div class="ui vertical attached pointing menu">
+      <a class="active item" href="#instructions">
+        Instructions
+      </a>
+      <a class="item">
+        1. Import Data
+      </a>
+      <a class="item">
+        2. Preview
+      </a>
+      <a class="item">
+        3. Update Site
+      </a>
     </div> 
-  </section>
-  <!-- end step 1 content  -->
-  
-  <!-- step 2 content  -->
-  <section id="step-2-content" class="hidden">
-    <!-- step 2 instructions  -->
-    <div class="ui attached message">
-      <div class="header">
-        Step 2: Preview the site
-      </div>
-      <em>
-        Note: You must successfully complete Step One for this to work
-      </em>
-      <ol class="ui list">
+    </nav>
 
-          <!-- step 1  -->
-          <li>
-            <details closed>
+    <!-- instruction div  -->
+    <div class="ui attached segment" id="instructions-main">
+    <!-- main content goes here  -->
+      <div class="instruction-div" id="instructions">
+        <h2>Overview</h2>
+        <em>Note: before beginning the update process, ensure that all data on Airtable is complete and correct.</em>
+        <div class="ui message">
+          Updating the RCR website data is a three part process.
+          This guide will walk you through each step. Here's an overview:
+          <ul class="ui list">
+            <li>First, you'll click a button that will get the RCR data from Airtable behind the scenes.</li>
+            <li>
+              Then, you'll look at a Preview Site that shows how the Rose City Resource guide would look, with the new data.
+            </li>
+            <li>
+              If you see errors at that step, you can correct them and start again.
+            </li>
+            <li>
+              Once you're satisfied with the Preview Site, you'll click another update the live site with the new data.
+            </li>
+            <li>
+              If you run into errors with the import process, contact your technical support contact.
+            </li>
+          </ul>
+
+          <p>
+
+          </p>
+        </div>
+
+        <br />
+        <button onclick='staging()'>Import Data to Preview Site</button>
+        <br />
+        <div class="preview-div">
+          <span class="preview-span" id='status'></span>
+        </div>
+        <br />
+        <button disabled id='import-live' onclick='production()'>Import Data to Live Site</button>
+        <br />
+        <br />
+        <div id='etl-status' style='color:gray; border: 1px dashed lightgray'>&nbsp;</div>
+        <br />
+        <details>
+          <summary>Data Validation Errors</summary>
+          <table cellpadding='0' cellspacing='0'
+            style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
+            <tbody id='etl-validation'></tbody>
+          </table>
+        </details>
+        <br>
+        <details>
+          <summary>Logs</summary>
+          <table cellpadding='0' cellspacing='0'
+            style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
+            <tbody id='etl-log'></tbody>
+          </table>
+        </details>
+
+      </div>
+
+      <div class="instruction-div">
+        <h2>Import Airtable Data</h2>
+
+        <div class="ui message">
+
+          <div class="header">
+            Step 1: Import Data from Airtable (5 minutes)
+          </div>
+    
+          <ol class="ui list">
+            <li>Click "Import Data to Preview Site"</li>
+            <li>Wait for the process to complete (about 5 minutes)</li>
+            <li class="strong">If you see an error message in "Data Logs", copy the message and email it to your support contact</li>
+            <li>When the process is done, a message will appear with next steps</li>
+          <!-- <li>
+            <details open>
               <summary>
-                Click "Preview Site"
+                Wait for the import process to complete (about 5 minutes)
               </summary>
               <div>
                 <ol class="spaced">
                   <li value="-">
-                    You will be taken to a temporary version of RCR that displays the data you just imported from Airtable.
+                    You can view the import progress under "Data Logs"
                   </li>
                   <li value="-">
-                    The preview site shows <em>exactly</em> how the the final site will look, if you continue with this update process
+                    A message will appear when the process is complete
                   </li>
                   <li value="-" class="strong">
-                    If anything looks incorrect, correct the data on Airtable and start the import process again
+                    If you get an error, copy the error message and email it to your support contact
                   </li>
                 </ol> 
               </div>
             </details>
-            </li>
-          <!-- step 2 check errors  -->
-          <li>
-            <details closed>
-              <summary>
-                Review "Content Errors"
-              </summary>
-              <div>
-                <ol class="spaced">
-                  <li value="-">
-                    If the automatic import process detected missing data fields, they will show up here
-                  </li>
-                  <li value="-" class="strong">
-                    Fixing these errors is optional. You can still update the site.
-                  </li>
-                  <li value="-">
-                    To fix content errors:
-                    <ol>
-                      <li value="-">
-                        Go to Airtable and correct the data where indicated
-                      </li>
-                      <li value="-">
-                        Go back to the "Import Data" step on this dashboard
-                      </li>
-                      <li value="-">
-                        Follow the instructions to re-import the newly changed data 
-                      </li>
-                    </ol>
-                  </li>
-              </ol> 
-            </div>
-          </details>
-          </li>
-
-          <li>
-            If you are satisfied with the preview site, click "Next Step"
-          </li>
-      </ol>
-    </div>
-  </div>
-  <!-- end step 2 instructions  -->
-    <div class="ui raised segment instructions attached">
-      <div class="primary-content" style="display: flex">
-        <div class="ui buttons">
-          <!-- TODO: add preview link logic here  -->
-          <button class="ui button violet"
-            onclick="openPreviewSite()">
-            <!-- onclick="handlePreviewComplete()"> -->
-            Preview site
-          </button>
-          <div class="or"></div>
-          <button 
-            onclick="handleStepComplete('step-2', 'step-3')"
-            class="ui grey button">Next step</button>
-        </div>
-
-        <details open>
-          <summary>Content Errors</summary>
-          <table cellpadding='0' cellspacing='0'
-            style='margin-left:auto; margin-right:auto; font-size:16px; border-spacing: 10px 0;'>
-            <tbody id='etl-validation'></tbody>
-          </table>
-        </details>
-        <!-- <div class="update-buttons" style="display: flex; flex-direction: column"> -->
-
-          <!-- <button class="ui button teal basic" style="justify-self: flex-end">
-            
-          </button> -->
-        <!-- </div> -->
-
+          </li> -->
+        <!-- </li> -->
+        </ol>
       </div>
     </div>
-  </section>
-  <!-- end step 2 content  -->
-  
-  <!-- step 3 content  -->
-  <section id="step-3-content" class="hidden">
-    <!-- step 3 instructions  -->
-    <div class="ui attached message">
-      <div class="header">
-        Step 3: Update Live Site
-      </div>
-      <ol class="ui list">
-        <li>
-          If you're satisfied with the preview site, simply click "Update Live Site"
-        </li>
-        <li>
-          You'll see a confirmation message when site has been updated
-        </li>
-        <li>
-          View the live site, and celebrate!
-        </li>
-      </ol>
-    </div>
-  </div>
-  <!-- end step 3 instructions  -->
-    <div class="ui raised segment instructions attached">
-      <div class="primary-content">
+
+      <!-- </div> -->
+
+      <div class="instruction-div">
+        <h2>Preview Test Site</h2>
+
         
-        <button class="ui violet button big"
-          onclick="alert('Congrats! You updated the site!')">
-          Update Live Site
-        </button>
-
       </div>
+
+      <div class="instruction-div">
+        <h2>Update Live Site</h2>
+
+        
+      </div>
+
     </div>
-  </section>
-  <!-- end step 3 content  -->
-
-</main>
-
+    <!-- end instructions div -->
+  </div>
+  <!-- end page div  -->
+</div>
 <script>
+  (async () => {
+    /* One-time Updates on page load */
 
-  $(document).ready(function() {
-    
-    // grabs all the "step" nodes
-    const allSteps = [...document.getElementsByClassName('step')];
+    /* Fetch and display ETL logs */
+    renderEtlLogs(await fetchEtlLogs());
 
-    // grab each individual step node
-    const step1 = document.querySelector('#step-1')
-    const step2 = document.querySelector('#step-2')
-    const step3 = document.querySelector('#step-3')
+    const rowsRes = await fetchPgRows();
+    const rows = rowsRes[0].get_database_numrows;
+    const spaceRes = await fetchPgSpace();
+    const space = spaceRes[0].get_database_size;
+    const timeRes = await fetchLastUpdate();
+    const time = new Date(timeRes).toLocaleString();
+    document.getElementById('database-rows').innerText = rows;
+    document.getElementById('database-space').innerText = space;
+    document.getElementById('last-update-time').innerText = time;
 
-    // shows the content for the active "step"
-    // this will be either hardcoded, or passed in from the route
-    allSteps.forEach((el) => { 
-      if ([...el.classList].includes('active')) {
-        $(`#${el.id}-content`).show();
-      } 
-    });
+    /* Continuous update on timer */
+    window.setInterval(async function () {
 
-  });
+      /* Fetch and display ETL status */
+      const statusArr = await fetchEtlStatus();
+      const status = statusArr[0];
+      renderEtlStatus(status);
 
-  function onStepClick(id) {
-    const step1 = document.querySelector('#step-1')
-    const step2 = document.querySelector('#step-2')
-    const step3 = document.querySelector('#step-3')
-    const allSteps = [...document.getElementsByClassName('step')]
+      /* Enable import to live site button if that should be an option */
+      const started = status.etl_started.toLowerCase();
+      const completed = status.etl_ran_to_completion.toLowerCase();
+      const minutes = parseInt(status.minutes_since_last_log);
+      const numrows = parseInt(status.etl_staging_1_num_rows);
+      if (started === 'true' && completed === 'true' && minutes < 60 * 48 && numrows > 1) {
+        const button = document.getElementById('import-live').disabled = false;
+      }
+      else {
+        const button = document.getElementById('import-live').disabled = true;
+      }
 
-    // remove all active classes and hide all content 
-    allSteps.forEach((el) => { 
-        el.classList.remove('active'); 
-        $(`#${el.id}-content`).hide();
-      });
-    
-    // add "active" class and show corresponding content
-    const selectedEl = document.getElementById(id);
-    selectedEl.classList.add('active');
-    $(`#${selectedEl.id}-content`).show();
-  }
-
-  function handleStepComplete(step, next) {
-    $(`#${step}`).addClass('completed').removeClass('active');
-    $(`#${step}-content`).hide();
-    $(`#${next}`).addClass('active');
-    $(`#${next}-content`).show();
-  }
-
-  async function handleImportComplete() {
-    alert('Preview data import in progress');
-
-    await setTimeout(function() {
-      var hasConfirmed = confirm(
-        'Preview data import complete! \n Press "okay" to continue to the next step')
-    }, 1000)
-
-    if (hasConfirmed === true) {
-      $('#step-1').addClass('completed').removeClass('active')
-      $('#step-1-content').hide();
-      // make active
-      $('#step-2').removeClass('disabled').addClass('active')
-      $('#step-2-content').show();
-    } else {
-      return 
-    }
-
-    // setTimeout(function() {
-      // mark complete
-      // $('#step-1').addClass('completed').removeClass('active')
-      // $('#step-1-content').hide();
-      // // make active
-      // $('#step-2').removeClass('disabled').addClass('active')
-      // $('#step-2-content').show();
-    // }, 1000)
-
-  }
-
-  // open preview site
-  function openPreviewSite() {
-    window.open("https://rosecityresource.streetroots.org", "_blank");
-  }
-
-  // go to final step 
-  function handlePreviewComplete() {
-    // mark complete
-    $('#step-2').addClass('completed').removeClass('active')
-    $('#step-2-content').hide();
-    // make active
-    $('#step-3').removeClass('disabled').addClass('active')
-    $('#step-3-content').show();
-  }
-
-  // function handleDataComplete() {
-  //   $('#step-1').addClass('completed').removeClass('active');
-  //   $('#step-2').addClass('active')
-    
-  //   selectedEl.classList.add('active');
-  //   $(`#${selectedEl.id}-content`).show();
-  // }
-
-
+    }, 5000)
+  })();
 </script>
-
 </body>
