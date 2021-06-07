@@ -138,7 +138,7 @@
         }
         if (jobEnd && jobEnd.length >= 1) {
           const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
-          document.getElementById('status').innerHTML = '<span>&#10004;&nbsp;Successfully imported to the Preview Site!</span><br/> <a href="' + previewPage + '"target="_blank">Click to View Preview Site</a>';
+          document.getElementById('preview-link').innerHTML = '<span>&#10004;&nbsp;Successfully imported to the Preview Site!</span><br/> <a href="' + previewPage + '"target="_blank">Click here to view Preview Site</a>';
           clearInterval(stagingInterval);
         }
       }, 4000)
@@ -313,7 +313,7 @@
     <!-- ALL main content goes here  -->
     <div class="ui attached segment" id="instructions-main">
 
-      <!-- overview  -->
+      <!-- OVERVIEW  -->
       <div class="instruction-div" id="instructions">
         <div class="inner-content">
 
@@ -340,7 +340,7 @@
 
       <div class="ui divider"></div>
 
-      <!-- import data  -->
+      <!-- STEP 1: IMPORT  -->
       <div class="instruction-div" id="step-1">
         <div class="inner-content" style="display: flex; flex-direction: column; align-items: center;">
 
@@ -374,7 +374,7 @@
             </span>
           </div>
           <!-- etl status  -->
-          <div id='etl-status' style='color:gray; border: 1px dashed lightgray; width: 100%; line-height: 1.5em; margin-bottom: 1em;'>&nbsp;
+          <div id='etl-status' style='color:gray; border: 1px dashed lightgray; width: 100%; margin-bottom: 1em;'>&nbsp;
           </div>
 
           <br />
@@ -398,31 +398,105 @@
       <!-- end import div  -->
       </div>
       
-    <div class="ui divider"></div>
+      <div class="ui divider"></div>
   
-    <!-- preview site  -->
+      <!-- STEP 2: PREVIEW  -->
       <div class="instruction-div" id="step-2">
-        <h2>Preview Test Site</h2>
+        <div class="inner-content" 
+          style="display: flex; flex-direction: column; align-items: center;">
+          <h2>Preview Test Site</h2>
+          <em>
+            Note: You must successfully complete Step One for this to work
+          </em>
 
-        
+          <!-- preview instructions  -->
+          <div class="ui message">
+            <ol class="ui list">
+              <li>
+                Click "Preview Site"
+                <ol class="spaced">
+                  <li value="+">
+                    You will be taken to a temporary version of RCR that displays the data you just imported from Airtable.
+                  </li>
+                  <li value="+">
+                    The preview site shows <em>exactly</em> how the the final site will look, if you continue with the update process
+                  </li>
+                  <li value="+">
+                    We recommend the site by performing searches and making sure you get the results that you expect
+                  </li>
+                </ol> 
+                </li>
+              </li>
+              <!-- "fixing data validation errors" -->
+              <!-- commented out for simplicity's sake  -->
+              <!-- <li>
+                <details closed>
+                  <summary>
+                    Review "Content Errors"
+                  </summary>
+                  <div>
+                    <ol class="spaced">
+                      <li value="-">
+                        If the automatic import process detected missing data fields, they will show up in the "Content Errors" section
+                      </li>
+                      <li value="-" class="strong">
+                        Fixing these errors is optional. You can still update the site.
+                      </li>
+                      <li value="-">
+                        To fix content errors:
+                        <ol>
+                          <li value="-">
+                            Go to Airtable and correct the data where indicated
+                          </li>
+                          <li value="-">
+                            Go back to the "Import Data" step on this dashboard
+                          </li>
+                          <li value="-">
+                            Follow the instructions to re-import the newly changed data 
+                          </li>
+                        </ol>
+                      </li>
+                  </ol> 
+                </div>
+              </details>
+              </li> -->
+              <li class="strong">
+                If anything looks incorrect, correct the data on Airtable and start the import process again
+              </li>
+              <li>
+                If you are satisfied with the preview site, continue to the next step
+              </li>
+            </ol>
+          </div>
+
+          <!-- SITE PREVIEW LINK -->
+          <div class="preview-div" style="margin-bottom: 1em; font-size: 1.5em; font-weight: bold;">
+            <span class="preview-link">
+              <!-- SITE PREVIEW LINK APPEARS HERE ONCE ETL PROCESS IS COMPLETE -->
+            </span>
+          </div>
+        </div>
+      <!-- end preview section  -->
       </div>
 
       <div class="ui divider"></div>
 
-      <!-- live site  -->
+      <!-- LIVE -->
       <div class="instruction-div" id="step-3">
-        <h2>Update Live Site</h2>
-        <button class="ui button teal disabled" 
-          id='import-live'   
-          onclick='production()'
-      >
-        Import Data to Live Site
-      </button>
-        
-      </div>
+        <div class="inner-content" 
+          style="display: flex; flex-direction: column; align-items: center;">
+          <h2>Update Live Site</h2>
 
+          <button class="ui button teal disabled" 
+            id='import-live'   
+            onclick='production()'>
+            Import Data to Live Site
+          </button>
+        
+        </div>
+      <!-- end instructions div -->
+      </div>
     </div>
-    <!-- end instructions div -->
   </div>
   <!-- end page div  -->
 </div>
@@ -466,10 +540,12 @@
 
     }, 5000)
   })();
-  $('.ui.sticky')
-  .sticky({
-    context: '#sticky-nav'
-  })
-;
+
+  // semantic jQuery for side navbar 
+  $('.ui .item').on('click', function() {
+      $('.ui .item').removeClass('active');
+      $(this).addClass('active');
+   }); 
+
 </script>
 </body>
