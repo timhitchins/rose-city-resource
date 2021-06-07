@@ -192,6 +192,7 @@
     #dashboard h2 {
       font-size: 1.5em;
       margin: .5em;
+      margin-top: 0;
     }
 
     #dashboard header {
@@ -256,11 +257,20 @@
       align-self: flex-start;
     }
 
+    #logs table {
+      margin-left: auto; 
+      margin-right: auto; 
+      font-size: 14px; 
+      font-family: monospace; 
+      border-spacing: 10px 0;
+    }
+
   </style>
 </head>
 <body>
 
   <div class='container' style="margin: 1em;" id="dashboard">
+
     <!-- header content -->
     <header>
       <h1
@@ -283,21 +293,21 @@
 
   <div id="page">
     <!-- navbar  -->
-    <nav class="sidebar">
-    <div class="ui vertical attached pointing menu">
-      <a class="active item" href="#instructions">
-        Overview
-      </a>
-      <a class="item" href="#step-1">
-        1. Import Data
-      </a>
-      <a class="item" href="#step-2">
-        2. Preview
-      </a>
-      <a class="item" href="#step-3">
-        3. Update Site
-      </a>
-    </div> 
+    <nav class="sidebar" style="position: sticky; top: 25vh">
+      <div class="ui vertical attached pointing menu">
+        <a class="active item" href="#instructions">
+          Overview
+        </a>
+        <a class="item" href="#step-1">
+          1. Import Data
+        </a>
+        <a class="item" href="#step-2">
+          2. Preview
+        </a>
+        <a class="item" href="#step-3">
+          3. Update Site
+        </a>
+      </div> 
     </nav>
 
     <!-- ALL main content goes here  -->
@@ -332,7 +342,7 @@
 
       <!-- import data  -->
       <div class="instruction-div" id="step-1">
-        <div class="inner-content" style="display: flex; flex-direction: column; align-items: center">
+        <div class="inner-content" style="display: flex; flex-direction: column; align-items: center;">
 
           <h2>Import Data</h2>
 
@@ -351,7 +361,7 @@
             </ol>
           </div>
           <!-- IMPORT BUTTON  -->
-          <button class="ui button violet center aligned"
+          <button class="ui button violet"
             onclick='staging()'>
             Import Data to Preview Site
           </button>
@@ -369,30 +379,27 @@
 
           <br />
           <div id="logs">
-
             <details open>
               <summary>Data Validation Errors</summary>
-              <table cellpadding='0' cellspacing='0'
-                style='margin-left:auto; margin-right:auto; font-size: 14px; font-family:monospace; border-spacing: 10px 0;'>
+              <table cellpadding='0' cellspacing='0'>
                 <tbody id='etl-validation'></tbody>
               </table>
             </details>
             <br>
             <details open>
               <summary>Logs</summary>
-              <table cellpadding='0' cellspacing='0'
-                style='margin-left:auto; margin-right:auto; font-size: 14px; font-family:monospace; border-spacing: 10px 0;'>
+              <table cellpadding='0' cellspacing='0'>
                 <tbody id='etl-log'></tbody>
               </table>
             </details>
-
           </div>
+
         </div>
       <!-- end import div  -->
-    </div>
+      </div>
       
     <div class="ui divider"></div>
-
+  
     <!-- preview site  -->
       <div class="instruction-div" id="step-2">
         <h2>Preview Test Site</h2>
@@ -459,5 +466,10 @@
 
     }, 5000)
   })();
+  $('.ui.sticky')
+  .sticky({
+    context: '#sticky-nav'
+  })
+;
 </script>
 </body>
