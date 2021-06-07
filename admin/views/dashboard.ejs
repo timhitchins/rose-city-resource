@@ -214,7 +214,7 @@
     #dashboard #update-div {
       border-radius: 5px; 
       margin: auto; 
-      width: 250px; 
+      max-width: 375px;
       padding: 10px 20px;
     }
 
@@ -225,18 +225,28 @@
       min-height: 75vh;
     }
 
+    .strong {
+      font-weight: bold;
+    }
+
+    #dashboard .instruction-div {
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center;
+    }
+
+    #dashboard button {
+      max-width: 350px;
+    }
+
+    #dashboard details {
+      align-self: flex-start;
+    }
+
   </style>
 </head>
 <body>
-  <% 
-    
-  let activeStep = "step-1";
-  let completedSteps = [];
-  let disabledSteps = ["step-2", "step-3"];
 
-  %>
-
-  <div class='container' style="margin: 1em" id="dashboard">
+  <div class='container' style="margin: 1em;" id="dashboard">
     <!-- header content -->
     <header>
       <h1
@@ -244,6 +254,9 @@
         <div class="content">
           <i class="sync icon"></i>
           Update Website Data
+          <div class="sub header">
+            Need more  help? Check out the <a href="/admin/guide"> user guide!</a>
+          </div>
         </div>
       </h1>
 
@@ -259,130 +272,110 @@
     <nav class="sidebar">
     <div class="ui vertical attached pointing menu">
       <a class="active item" href="#instructions">
-        Instructions
+        Overview
       </a>
-      <a class="item">
+      <a class="item" href="#step-1">
         1. Import Data
       </a>
-      <a class="item">
+      <a class="item" href="#step-2">
         2. Preview
       </a>
-      <a class="item">
+      <a class="item" href="#step-3">
         3. Update Site
       </a>
     </div> 
     </nav>
 
-    <!-- instruction div  -->
-    <div class="ui attached segment" id="instructions-main">
     <!-- main content goes here  -->
+    <div class="ui attached segment" id="instructions-main">
       <div class="instruction-div" id="instructions">
         <h2>Overview</h2>
-        <em>Note: before beginning the update process, ensure that all data on Airtable is complete and correct.</em>
+
         <div class="ui message">
-          Updating the RCR website data is a three part process.
-          This guide will walk you through each step. Here's an overview:
-          <ul class="ui list">
-            <li>First, you'll click a button that will get the RCR data from Airtable behind the scenes.</li>
-            <li>
-              Then, you'll look at a Preview Site that shows how the Rose City Resource guide would look, with the new data.
-            </li>
-            <li>
-              If you see errors at that step, you can correct them and start again.
-            </li>
-            <li>
-              Once you're satisfied with the Preview Site, you'll click another update the live site with the new data.
-            </li>
-            <li>
-              If you run into errors with the import process, contact your technical support contact.
-            </li>
-          </ul>
-
-          <p>
-
+          <p class="strong">
+            Before beginning the update process, ensure that all data on Airtable is complete and correct.
           </p>
+          <p>
+            Updating the RCR website data is a three part process.
+          </p>
+          <p>
+            This guide will walk you through each step. 
+          </p>
+          <p>
+            If you run into errors with the import process, contact your technical support person.
+          </p> 
         </div>
-
-        <br />
-        <button onclick='staging()'>Import Data to Preview Site</button>
-        <br />
-        <div class="preview-div">
-          <span class="preview-span" id='status'></span>
-        </div>
-        <br />
-        <button disabled id='import-live' onclick='production()'>Import Data to Live Site</button>
-        <br />
-        <br />
-        <div id='etl-status' style='color:gray; border: 1px dashed lightgray'>&nbsp;</div>
-        <br />
-        <details>
-          <summary>Data Validation Errors</summary>
-          <table cellpadding='0' cellspacing='0'
-            style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
-            <tbody id='etl-validation'></tbody>
-          </table>
-        </details>
-        <br>
-        <details>
-          <summary>Logs</summary>
-          <table cellpadding='0' cellspacing='0'
-            style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
-            <tbody id='etl-log'></tbody>
-          </table>
-        </details>
-
+      <!-- end overview  -->
       </div>
 
-      <div class="instruction-div">
-        <h2>Import Airtable Data</h2>
+      <div class="ui divider" style="margin-top: 1.5em; margin-bottom: 1em"></div>
+
+      <!-- import data  -->
+      <div class="instruction-div" id="step-1">
+        <h2>Import Data</h2>
 
         <div class="ui message">
+        <div class="header">
+          Step 1: Import Data from Airtable (5 minutes)
+        </div>
 
-          <div class="header">
-            Step 1: Import Data from Airtable (5 minutes)
-          </div>
-    
-          <ol class="ui list">
-            <li>Click "Import Data to Preview Site"</li>
-            <li>Wait for the process to complete (about 5 minutes)</li>
-            <li class="strong">If you see an error message in "Data Logs", copy the message and email it to your support contact</li>
-            <li>When the process is done, a message will appear with next steps</li>
-          <!-- <li>
-            <details open>
-              <summary>
-                Wait for the import process to complete (about 5 minutes)
-              </summary>
-              <div>
-                <ol class="spaced">
-                  <li value="-">
-                    You can view the import progress under "Data Logs"
-                  </li>
-                  <li value="-">
-                    A message will appear when the process is complete
-                  </li>
-                  <li value="-" class="strong">
-                    If you get an error, copy the error message and email it to your support contact
-                  </li>
-                </ol> 
-              </div>
-            </details>
-          </li> -->
-        <!-- </li> -->
+        <ol class="ui list">
+          <li>Click "Import Data to Preview Site"</li>
+          <li>Wait for the process to complete (about 5 minutes)</li>
+          <li class="strong">If you see an error message in "Data Logs," copy the message and email it to your support contact</li>
+          <li>When the process is done, a message will appear with next steps</li>
         </ol>
       </div>
+
+      <button class="ui button violet"
+        onclick='staging()'>
+        Import Data to Preview Site
+      </button>
+      <br />
+
+      <br />
+      <details open>
+        <summary>Data Validation Errors</summary>
+        <table cellpadding='0' cellspacing='0'
+          style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
+          <tbody id='etl-validation'></tbody>
+        </table>
+      </details>
+      <br>
+      <details open>
+        <summary>Logs</summary>
+        <table cellpadding='0' cellspacing='0'
+          style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
+          <tbody id='etl-log'></tbody>
+        </table>
+      </details>
     </div>
+    <div class="ui divider" style="margin-top: 1.5em; margin-bottom: 1em"></div>
 
-      <!-- </div> -->
-
-      <div class="instruction-div">
+    <!-- preview site  -->
+      <div class="instruction-div" id="step-2">
         <h2>Preview Test Site</h2>
-
+        <div class="preview-div">
+          <span class="preview-span" id='status'>
+            <em>Site preview link will appear here once the data import process is complete</em>
+          </span>
+        </div>
+        
+        <div id='etl-status' style='color:gray; border: 1px dashed lightgray'>&nbsp;</div>
         
       </div>
+      <div class="ui divider" style="margin-top: 1.5em; margin-bottom: 1em"></div>
 
-      <div class="instruction-div">
+
+      <!-- live site  -->
+      <div class="instruction-div" id="step-3">
         <h2>Update Live Site</h2>
-
+        <button class="ui button teal disabled" 
+        id='import-live'   
+        onclick='production()'
+      >
+        Import Data to Live Site
+      </button>
         
       </div>
 
