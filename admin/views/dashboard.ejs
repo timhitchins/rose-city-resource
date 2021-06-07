@@ -225,12 +225,26 @@
       min-height: 75vh;
     }
 
+    /* divs that hold the instructions  */
+    #dashboard .inner-content {
+      max-width: 650px; 
+      margin-top: 1em; 
+      margin-bottom: .5em;
+    }
+
+    #dashboard li {
+      margin: .25em;
+      line-height: 1.25em;
+    }
+
     .strong {
       font-weight: bold;
     }
 
     #dashboard .instruction-div {
-      display: flex; flex-direction: column; justify-content: center;
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center;
       align-items: center;
     }
 
@@ -286,9 +300,13 @@
     </div> 
     </nav>
 
-    <!-- main content goes here  -->
+    <!-- ALL main content goes here  -->
     <div class="ui attached segment" id="instructions-main">
+
+      <!-- overview  -->
       <div class="instruction-div" id="instructions">
+        <div class="inner-content">
+
         <h2>Overview</h2>
 
         <div class="ui message">
@@ -305,67 +323,84 @@
             If you run into errors with the import process, contact your technical support person.
           </p> 
         </div>
+
+        </div>
       <!-- end overview  -->
       </div>
 
-      <div class="ui divider" style="margin-top: 1.5em; margin-bottom: 1em"></div>
+      <div class="ui divider"></div>
 
       <!-- import data  -->
       <div class="instruction-div" id="step-1">
-        <h2>Import Data</h2>
+        <div class="inner-content" style="display: flex; flex-direction: column; align-items: center">
 
-        <div class="ui message">
-        <div class="header">
-          Step 1: Import Data from Airtable (5 minutes)
+          <h2>Import Data</h2>
+
+          <div class="ui message">
+            <div class="header">
+              Step 1: Import Data from Airtable (5 minutes)
+            </div>
+
+            <ol class="ui list">
+              <li>Click "Import Data to Preview Site"</li>
+              <li>Wait for the process to complete (about 5 minutes)</li>
+              <li class="strong">If you see an error message in "Data Logs," copy the message and email it to your support contact</li>
+              <li>When the process is done, a message will appear with next steps
+
+              </li>
+            </ol>
+          </div>
+          <!-- IMPORT BUTTON  -->
+          <button class="ui button violet center aligned"
+            onclick='staging()'>
+            Import Data to Preview Site
+          </button>
+          <br />
+
+        <!-- import progress info div  -->
+          <div class="preview-div" style="margin-bottom: 1em;">
+            <span class="preview-span" id='status'>
+
+            </span>
+          </div>
+          <!-- etl status  -->
+          <div id='etl-status' style='color:gray; border: 1px dashed lightgray; width: 100%; line-height: 1.5em; margin-bottom: 1em;'>&nbsp;
+          </div>
+
+          <br />
+          <div id="logs">
+
+            <details open>
+              <summary>Data Validation Errors</summary>
+              <table cellpadding='0' cellspacing='0'
+                style='margin-left:auto; margin-right:auto; font-size: 14px; font-family:monospace; border-spacing: 10px 0;'>
+                <tbody id='etl-validation'></tbody>
+              </table>
+            </details>
+            <br>
+            <details open>
+              <summary>Logs</summary>
+              <table cellpadding='0' cellspacing='0'
+                style='margin-left:auto; margin-right:auto; font-size: 14px; font-family:monospace; border-spacing: 10px 0;'>
+                <tbody id='etl-log'></tbody>
+              </table>
+            </details>
+
+          </div>
         </div>
-
-        <ol class="ui list">
-          <li>Click "Import Data to Preview Site"</li>
-          <li>Wait for the process to complete (about 5 minutes)</li>
-          <li class="strong">If you see an error message in "Data Logs," copy the message and email it to your support contact</li>
-          <li>When the process is done, a message will appear with next steps</li>
-        </ol>
-      </div>
-
-      <button class="ui button violet"
-        onclick='staging()'>
-        Import Data to Preview Site
-      </button>
-      <br />
-
-      <br />
-      <details open>
-        <summary>Data Validation Errors</summary>
-        <table cellpadding='0' cellspacing='0'
-          style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
-          <tbody id='etl-validation'></tbody>
-        </table>
-      </details>
-      <br>
-      <details open>
-        <summary>Logs</summary>
-        <table cellpadding='0' cellspacing='0'
-          style='margin-left:auto; margin-right:auto; font-size:16px; font-family:monospace; border-spacing: 10px 0;'>
-          <tbody id='etl-log'></tbody>
-        </table>
-      </details>
+      <!-- end import div  -->
     </div>
-    <div class="ui divider" style="margin-top: 1.5em; margin-bottom: 1em"></div>
+      
+    <div class="ui divider"></div>
 
     <!-- preview site  -->
       <div class="instruction-div" id="step-2">
         <h2>Preview Test Site</h2>
-        <div class="preview-div">
-          <span class="preview-span" id='status'>
-            <em>Site preview link will appear here once the data import process is complete</em>
-          </span>
-        </div>
-        
-        <div id='etl-status' style='color:gray; border: 1px dashed lightgray'>&nbsp;</div>
+
         
       </div>
-      <div class="ui divider" style="margin-top: 1.5em; margin-bottom: 1em"></div>
 
+      <div class="ui divider"></div>
 
       <!-- live site  -->
       <div class="instruction-div" id="step-3">
