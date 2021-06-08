@@ -47,12 +47,22 @@
         <div class="ui divider"></div>
         <!-- checkbox & submit button -->
         <div class="toggle-and-submit">
-          <div class="ui toggle checkbox" style="margin: 1em">
-            <input type="checkbox" tabindex="0" class="hidden" 
-              name="isEnabled" id="isEnabled" /> 
-            <label>Enable site banner</label>
-          </div><br />
+          <div class="two fields" style="display: flex; justify-content: space-between;">
 
+            <div class="ui toggle checkbox" style="margin: 1em">
+              <input type="checkbox" tabindex="0" class="hidden" 
+                name="isEnabled" id="isEnabled" /> 
+              <label>Enable site banner</label>
+            </div>
+
+            <div class="ui toggle checkbox teal" style="margin: 1em">
+              <input type="checkbox" tabindex="0" class="hidden" 
+                name="isDisabled" id="isDisabled" /> 
+              <label>Disable site banner</label>
+            </div>
+          </div>
+          
+          <br />
           <button class="ui button violet basic" type="submit">
             Update live site
           </button>
@@ -71,7 +81,7 @@
     let textBoxValue = document.getElementById('banner-html').value;
     let outputDiv = document.getElementById('output');
 
-    if (textBoxValue === "") { outputDiv.innerHTML = "<em>Enter text to see banner preview</em>" }
+    if ((textBoxValue === "") && (isEnabled === true)) { outputDiv.innerHTML = "<em>Enter text to see banner preview</em>" }
     outputDiv.innerHTML = textBoxValue;
   }
 
@@ -88,9 +98,10 @@
 
     const content = form.elements['content'].value.trim();
     const isEnabled = form.elements['isEnabled'].checked;
+    const isDisabled = form.elements['isDisabled'].checked;
 
     // check for data
-    if (content && isEnabled) { 
+    if ((content && isEnabled) || (!isEnabled && isDisabled)) { 
       // ask the user if they're sure
       if (confirmSubmit()) { 
 
@@ -100,7 +111,7 @@
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({content: content, isEnabled: isEnabled})
+            body: JSON.stringify({content: content, isEnabled: isEnabled, isDisabled: isDisabled})
           });
           const result = await rawResponse.text(); 
           // TODO: Kent - is there a better way to confirm success? or is this the best way to do it?
@@ -114,7 +125,7 @@
       } 
     } else {
       // if values are missing
-      alert("You must enter text content and click 'Enable site banner' to update the site. Please check your input and try again") 
+      alert("Some values are missing or incorrect. Please check your input and try again") 
     }
   });
 
