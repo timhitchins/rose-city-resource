@@ -138,7 +138,9 @@
         }
         if (jobEnd && jobEnd.length >= 1) {
           const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
-          document.getElementById('preview-link').innerHTML = '<span>&#10004;&nbsp;Successfully imported to the Preview Site!</span><br/> <a href="' + previewPage + '"target="_blank">Click here to view Preview Site</a>';
+          document.getElementById('preview-link').innerHTML =
+          '<span>&#10004;&nbsp;Successfully imported to the Preview Site!</span><br/>';
+          document.getElementById('preview-button').removeClass('disabled')
           clearInterval(stagingInterval);
         }
       }, 4000)
@@ -224,6 +226,7 @@
       margin-top: 0; 
       width: 100%; 
       min-height: 75vh;
+      margin-bottom: 1.5em;
     }
 
     /* divs that hold the instructions  */
@@ -379,7 +382,7 @@
 
           <br />
           <div id="logs">
-            <details open>
+            <details>
               <summary>Data Validation Errors</summary>
               <table cellpadding='0' cellspacing='0'>
                 <tbody id='etl-validation'></tbody>
@@ -404,7 +407,7 @@
       <div class="instruction-div" id="step-2">
         <div class="inner-content" 
           style="display: flex; flex-direction: column; align-items: center;">
-          <h2>Preview Test Site</h2>
+          <h2>Preview Site</h2>
           <em>
             Note: You must successfully complete Step One for this to work
           </em>
@@ -413,7 +416,7 @@
           <div class="ui message">
             <ol class="ui list">
               <li>
-                Click "Preview Site"
+                Click "View Preview Site"
                 <ol class="spaced">
                   <li value="+">
                     You will be taken to a temporary version of RCR that displays the data you just imported from Airtable.
@@ -427,39 +430,6 @@
                 </ol> 
                 </li>
               </li>
-              <!-- "fixing data validation errors" -->
-              <!-- commented out for simplicity's sake  -->
-              <!-- <li>
-                <details closed>
-                  <summary>
-                    Review "Content Errors"
-                  </summary>
-                  <div>
-                    <ol class="spaced">
-                      <li value="-">
-                        If the automatic import process detected missing data fields, they will show up in the "Content Errors" section
-                      </li>
-                      <li value="-" class="strong">
-                        Fixing these errors is optional. You can still update the site.
-                      </li>
-                      <li value="-">
-                        To fix content errors:
-                        <ol>
-                          <li value="-">
-                            Go to Airtable and correct the data where indicated
-                          </li>
-                          <li value="-">
-                            Go back to the "Import Data" step on this dashboard
-                          </li>
-                          <li value="-">
-                            Follow the instructions to re-import the newly changed data 
-                          </li>
-                        </ol>
-                      </li>
-                  </ol> 
-                </div>
-              </details>
-              </li> -->
               <li class="strong">
                 If anything looks incorrect, correct the data on Airtable and start the import process again
               </li>
@@ -471,10 +441,73 @@
 
           <!-- SITE PREVIEW LINK -->
           <div class="preview-div" style="margin-bottom: 1em; font-size: 1.5em; font-weight: bold;">
-            <span class="preview-link">
-              <!-- SITE PREVIEW LINK APPEARS HERE ONCE ETL PROCESS IS COMPLETE -->
+            <span id="preview-link">
+              <button onclick="openPreviewSite()" id="preview-button"
+                class="ui violet button disabled"
+                style="margin-top: 1em">
+                View Preview Site
+              </button>
             </span>
           </div>
+
+          <!-- <div class="ui message">
+            <ol class="ui list">
+              <li>
+                <span onclick="togglePreviewInstructions()">
+                  Click "Preview Site" <i class="icon angle down"></i>
+                </span>
+                <ol class="spaced" id="preview-instructions">
+                  <li value="+">
+                    You will be taken to a temporary version of RCR that displays the data you just imported from Airtable.
+                  </li>
+                  <li value="+">
+                    The preview site shows <em>exactly</em> how the the final site will look, if you continue with the update process
+                  </li>
+                  <li value="+" class="strong">
+                    If anything looks incorrect, correct the data on Airtable and start the import process again
+                  </li>
+                </ol> 
+                </li>
+              </li>
+              <li>
+                Test the preview site by performing searches and checking the content for errors
+              </li>
+              <li class="strong">
+                If anything looks incorrect, correct the data on Airtable and start the import process again
+              </li>
+              <li>
+                <span onclick="toggleValidationInstructions()">
+                  Review Data Validation Errors
+                  <i class="icon angle down"></i>
+                </span>
+                <ol class="spaced" id="validation-instructions">
+                  <li value="-">
+                    If the automatic import process detected missing data fields, they will show up in the Data Validation Errors section
+                  </li>
+                  <li value="-" class="strong">
+                    Fixing these errors is optional. You can still update the site.
+                  </li>
+                  <li value="-">
+                    To fix content errors:
+                    <ol>
+                      <li value="-">
+                        Go to Airtable and correct the data where indicated
+                      </li>
+                      <li value="-">
+                        Go back to the "Import Data" step on this dashboard
+                      </li>
+                      <li value="-">
+                        Follow the instructions to re-import the newly changed data 
+                      </li>
+                    </ol>
+                  </li>
+                  </ol> 
+              </li>
+              <li>
+                If you are satisfied with the preview site, continue to the next step
+              </li>
+            </ol>
+          </div> -->
         </div>
       <!-- end preview section  -->
       </div>
@@ -541,11 +574,27 @@
     }, 5000)
   })();
 
+  $('#preview-instructions').hide();
+  $('#validation-instructions').hide();
+
+
   // semantic jQuery for side navbar 
   $('.ui .item').on('click', function() {
       $('.ui .item').removeClass('active');
       $(this).addClass('active');
    }); 
+
+  function openPreviewSite() {
+    window.open("previewPage", "_blank");
+   }
+
+   const togglePreviewInstructions = () => {
+      $('#preview-instructions').toggle()
+    }
+
+  const toggleValidationInstructions = () => {
+    $('#validation-instructions').toggle()
+  }
 
 </script>
 </body>
