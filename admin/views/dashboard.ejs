@@ -36,7 +36,7 @@
       div.innerHTML =
         logs.map(L => {
           let dt = new Date(L.time_stamp);
-          return '<tr><td style="color: navy; min-width: 150px; border: none; padding:4">' + dt.toLocaleString() + '</td><td style="color:blue; border: none; padding:4;">' + L.message + '</td></tr>'
+          return '<tr><td style="color: navy; min-width: 150px; border: none; padding:4; white-space: nowrap;">' + dt.toLocaleString() + '</td><td style="color:blue; border: none; padding:4;">' + L.message + '</td></tr>'
         }).join('')
     }
 
@@ -74,7 +74,8 @@
               div.innerHTML = "<span>The preview data is empty. Please report this to the development team.</span>";
             }
             else {
-              div.innerHTML = "<span style='font-size: 20px; font-family: 'Courier New', Courier, monospace;'>The preview data is imported successfully and is ready to be imported to the live site.</span>";
+              div.innerHTML = "<span style='font-size: 14px; font-family: 'Courier New', Courier, monospace;'>The preview data is imported successfully and is ready to be imported to the live site.</span>";
+              $('#preview-button').removeClass('disabled')
             }
           }
         }
@@ -138,11 +139,11 @@
         }
         if (jobEnd && jobEnd.length >= 1) {
           const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
-          document.getElementById('status').innerHTML = '<span>&#10004;&nbsp;Successfully imported to the Preview Site!</span><br/><button onclick="openPreviewSite()" id="preview-button"class="ui violet button" style="margin-top: 1em">View Preview Site</button>';
+          document.getElementById('status').innerHTML = '<span>&#10004;&nbsp;Successfully imported to the Preview Site!</span><br/>';
+          $('#preview-button').removeClass('disabled')
           clearInterval(stagingInterval);
         }
       }, 4000)
-
     }
 
     async function production() {
@@ -153,6 +154,7 @@
       document.getElementById('status').innerText = 'Preparing to update production...';
 
       /* Trigger the production udpate process to start */
+      
       const status = await fetch('?' + new URLSearchParams({ action: 'runprod' }), { method: 'GET' })
         .catch(e => { document.getElementById('status').innerHTML = '<span>&#10008;&nbsp;Failed to start import process</span>'; })
 
@@ -322,9 +324,6 @@
         <h2>Overview</h2>
 
         <div class="ui message">
-          <!-- <p class="strong">
-            Before beginning the update process, ensure that all data on Airtable is complete and correct.
-          </p> -->
           <p>
             Updating the RCR website data is a three part process.
           </p>
@@ -427,9 +426,6 @@
 
           <!-- preview instructions  -->
           <div class="ui message">
-            <!-- <div class="header">
-              Step 2: Preview site and test for errors
-            </div> -->
             <ol class="ui list">
               <li>
                 <span onclick="togglePreviewInstructions()">
@@ -465,72 +461,13 @@
 
           <div class="preview-div" style="margin-bottom: 1em; font-size: 1.5em; font-weight: bold;">
             <span id="preview-span" id="status">
-              <button onclick="openPreviewSite()" id="preview-button"
-                class="ui violet button disabled"
-                style="margin-top: 1em">
-                View Preview Site
-              </button>
+            <button onclick="openPreviewSite()" id="preview-button"
+              class="ui violet button disabled"
+              style="margin-top: 1em">
+              View Preview Site
+            </button>
             </span>
           </div>
-
-          <!-- <div class="ui message">
-            <ol class="ui list">
-              <li>
-                <span onclick="togglePreviewInstructions()">
-                  Click "Preview Site" <i class="icon angle down"></i>
-                </span>
-                <ol class="spaced" id="preview-instructions">
-                  <li value="+">
-                    You will be taken to a temporary version of RCR that displays the data you just imported from Airtable.
-                  </li>
-                  <li value="+">
-                    The preview site shows <em>exactly</em> how the the final site will look, if you continue with the update process
-                  </li>
-                  <li value="+" class="strong">
-                    If anything looks incorrect, correct the data on Airtable and start the import process again
-                  </li>
-                </ol> 
-                </li>
-              </li>
-              <li>
-                Test the preview site by performing searches and checking the content for errors
-              </li>
-              <li class="strong">
-                If anything looks incorrect, correct the data on Airtable and start the import process again
-              </li>
-              <li>
-                <span onclick="toggleValidationInstructions()">
-                  Review Data Validation Errors
-                  <i class="icon angle down"></i>
-                </span>
-                <ol class="spaced" id="validation-instructions">
-                  <li value="-">
-                    If the automatic import process detected missing data fields, they will show up in the Data Validation Errors section
-                  </li>
-                  <li value="-" class="strong">
-                    Fixing these errors is optional. You can still update the site.
-                  </li>
-                  <li value="-">
-                    To fix content errors:
-                    <ol>
-                      <li value="-">
-                        Go to Airtable and correct the data where indicated
-                      </li>
-                      <li value="-">
-                        Go back to the "Import Data" step on this dashboard
-                      </li>
-                      <li value="-">
-                        Follow the instructions to re-import the newly changed data 
-                      </li>
-                    </ol>
-                  </li>
-                  </ol> 
-              </li>
-              <li>
-                If you are satisfied with the preview site, continue to the next step
-              </li>
-            </ol>
-          </div> -->
         </div>
       <!-- end preview section  -->
       </div>
@@ -570,7 +507,7 @@
               There's nothing else you need to do at this time.
             </li>
           </div>
-          <p style="text-align: center">
+          <p style="text-align: center" id="page-bottom">
             <a href="">Back to top</a>
           </p>
         </div>
@@ -593,7 +530,6 @@
     const space = spaceRes[0].get_database_size;
     const timeRes = await fetchLastUpdate();
     const time = new Date(timeRes.last_update).toLocaleString();
-    console.log(time, timeRes)
     document.getElementById('database-rows').innerText = rows;
     document.getElementById('database-space').innerText = space;
     document.getElementById('last-update-time').innerText = time;
@@ -612,10 +548,12 @@
       const minutes = parseInt(status.minutes_since_last_log);
       const numrows = parseInt(status.etl_staging_1_num_rows);
       if (started === 'true' && completed === 'true' && minutes < 60 * 48 && numrows > 1) {
-        const button = document.getElementById('import-live').removeClass('disabled')
+        // TODO: REPLACE THIS FOR PRODUCTION
+        // IT'S COMMENTED OUT DURING TESTING
+        // const button = $('#import-live').removeClass('disabled')
       }
       else {
-        const button = document.getElementById('import-live').addClass('disabled')
+        const button = $('#import-live').addClass('disabled')
       }
 
     }, 5000)
@@ -633,7 +571,8 @@
    }); 
 
   function openPreviewSite() {
-    window.open("previewPage", "_blank");
+    const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
+    window.open(previewPage, "_blank");
    }
 
    const toggleImportInstructions = () => {
@@ -649,11 +588,9 @@
   }
 
   /* these functions set the "active" side nav class on page scroll */
-
-  // TODO: why do these only fire once, and not on every scroll? 
-  
   $('#instructions')
   .visibility({
+    once: false,
     onTopPassed: () => {
       $('.ui .item').removeClass('active');
       $(`#step-1-nav-item`).addClass('active');
@@ -665,6 +602,7 @@
   })
   $('#step-1')
   .visibility({
+    once: false,
     onTopPassed: () => {
       $('.ui .item').removeClass('active');
       $(`#step-1-nav-item`).addClass('active');
@@ -677,6 +615,7 @@
 
   $('#step-2')
   .visibility({
+    once: false,
     onTopPassed: () => {
       $('.ui .item').removeClass('active');
       $(`#step-2-nav-item`).addClass('active');
@@ -686,9 +625,10 @@
       $(`#step-2-nav-item`).addClass('active');
     },
   })
-$('#step-3')
+$('#page-bottom')
   .visibility({
-    onTopPassed: () => {
+    once: false,
+    onBottomVisible: () => {
       $('.ui .item').removeClass('active');
       $(`#step-3-nav-item`).addClass('active');
     },
