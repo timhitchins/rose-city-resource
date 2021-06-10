@@ -233,7 +233,7 @@
       margin-top: 1em; 
       margin-bottom: .5em;
     }
-
+    
     #dashboard li {
       margin: .25em;
       line-height: 1.25em;
@@ -321,9 +321,9 @@
         <h2>Overview</h2>
 
         <div class="ui message">
-          <p class="strong">
+          <!-- <p class="strong">
             Before beginning the update process, ensure that all data on Airtable is complete and correct.
-          </p>
+          </p> -->
           <p>
             Updating the RCR website data is a three part process.
           </p>
@@ -331,7 +331,7 @@
             This guide will walk you through each step. 
           </p>
           <p>
-            If you run into errors with the import process, contact your technical support person.
+            If you run into errors, contact your technical support person.
           </p> 
         </div>
 
@@ -345,19 +345,31 @@
       <div class="instruction-div" id="step-1">
         <div class="inner-content" style="display: flex; flex-direction: column; align-items: center;">
 
-          <h2>Import Data</h2>
+          <h2>Step 1: Import Data (5 minutes)
+          </h2>
 
           <div class="ui message">
-            <div class="header">
-              Step 1: Import Data from Airtable (5 minutes)
-            </div>
-
             <ol class="ui list">
-              <li>Click "Import Data to Preview Site"</li>
-              <li>Wait for the process to complete (about 5 minutes)</li>
-              <li class="strong">If you see an error message in "Data Logs," copy the message and email it to your support contact</li>
-              <li>When the process is done, a message will appear with next steps
+              <span onClick="toggleImportInstructions()">
+              <li>Click "Import Data to Preview Site" 
+                <i class="icon angle down"></i>
+              </span>
 
+                <ul id="import-instructions">
+                  <li value="+">
+                    This will import your data from Airtable to a Rose City Resource test/preview site.
+                  </li>
+                  <li value="+">
+                    The process takes about 5 minutes
+                  </li>
+                  <li value="+">
+                    You can see the progress under "Logs"
+                  </li>
+                </ul>
+              </li>
+                
+              <li class="strong">If you get an error message, copy the message and email it to your support contact</li>
+              <li>When the import is complete, a message will appear with next steps
               </li>
             </ol>
           </div>
@@ -407,30 +419,33 @@
       <div class="instruction-div" id="step-2">
         <div class="inner-content" 
           style="display: flex; flex-direction: column; align-items: center;">
-          <h2>Preview Site</h2>
+          <h2>Step 2: Preview Site and Check for Errors</h2>
           <em>
             Note: You must successfully complete Step One for this to work
           </em>
 
           <!-- preview instructions  -->
           <div class="ui message">
-            <div class="header">
+            <!-- <div class="header">
               Step 2: Preview site and test for errors
-            </div>
+            </div> -->
             <ol class="ui list">
               <li>
-                Click "View Preview Site"
-                <ol class="spaced">
+                <span onclick="togglePreviewInstructions()">
+                  Click "View Preview Site"
+                  <i class="icon angle down"></i>
+                </span>
+                <ul class="spaced" id="preview-instructions">
                   <li value="+">
                     You will be taken to a temporary version of RCR that displays the data you just imported
                   </li>
                   <li value="+">
-                    The preview site shows <em>exactly</em> how the the final site will look
+                    The preview site shows how the the final site will look with the data you just imported
                   </li>
                   <li value="+">
                     We recommend you test the site by performing searches and looking through the results
                   </li>
-                </ol> 
+                </ul> 
                 </li>
               </li>
               <li class="strong">
@@ -583,6 +598,7 @@
 
   $('#preview-instructions').hide();
   $('#validation-instructions').hide();
+  $('#import-instructions').hide();
 
 
   // semantic jQuery for side navbar 
@@ -594,6 +610,10 @@
   function openPreviewSite() {
     window.open("previewPage", "_blank");
    }
+
+   const toggleImportInstructions = () => {
+      $('#import-instructions').toggle()
+    }
 
    const togglePreviewInstructions = () => {
       $('#preview-instructions').toggle()
