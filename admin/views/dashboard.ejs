@@ -229,7 +229,8 @@
 
     /* divs that hold the instructions  */
     #dashboard .inner-content {
-      max-width: 650px; 
+      width: 90%; 
+      max-width: 600px;
       margin-top: 1em; 
       margin-bottom: .5em;
     }
@@ -296,16 +297,16 @@
     <!-- navbar  -->
     <nav class="sidebar" style="position: sticky; top: 25vh">
       <div class="ui vertical attached pointing menu">
-        <a class="active item" href="#instructions">
+        <a class="active item" href="#instructions" id="instructions-nav-item">
           Overview
         </a>
-        <a class="item" href="#step-1">
+        <a class="item" href="#step-1" id="step-1-nav-item">
           1. Import Data
         </a>
-        <a class="item" href="#step-2">
+        <a class="item" href="#step-2" id="step-2-nav-item">
           2. Preview
         </a>
-        <a class="item" href="#step-3">
+        <a class="item" href="#step-3" id="step-3-nav-item">
           3. Update Site
         </a>
       </div> 
@@ -546,10 +547,10 @@
           </p>
           <div class="ui message">
             <li>
-              To update the live site, press"Import Data to Live Site"
+              To update the live site, press "Import Data to Live Site"
             </li>
             <li class="strong">
-              This will update the live site with the data you imported from Airtable in Step 1, and previewed on the test site in Step 2. 
+              This will update the live site with the data you imported in Step 1, and previewed in Step 2. 
             </li>
           </div>
 
@@ -646,6 +647,56 @@
   const toggleValidationInstructions = () => {
     $('#validation-instructions').toggle()
   }
+
+  /* these functions set the "active" side nav class on page scroll */
+
+  // TODO: why do these only fire once, and not on every scroll? 
+  
+  $('#instructions')
+  .visibility({
+    onTopPassed: () => {
+      $('.ui .item').removeClass('active');
+      $(`#step-1-nav-item`).addClass('active');
+    },
+    onTopPassedReverse: () => {
+      $('.ui .item').removeClass('active');
+      $(`#instructions-nav-item`).addClass('active');
+    },
+  })
+  $('#step-1')
+  .visibility({
+    onTopPassed: () => {
+      $('.ui .item').removeClass('active');
+      $(`#step-1-nav-item`).addClass('active');
+    },
+    onTopPassedReverse: () => {
+      $('.ui .item').removeClass('active');
+      $(`#step-1-nav-item`).addClass('active');
+    },
+  })
+
+  $('#step-2')
+  .visibility({
+    onTopPassed: () => {
+      $('.ui .item').removeClass('active');
+      $(`#step-2-nav-item`).addClass('active');
+    },
+    onTopPassedReverse: () => {
+      $('.ui .item').removeClass('active');
+      $(`#step-2-nav-item`).addClass('active');
+    },
+  })
+$('#step-3')
+  .visibility({
+    onTopPassed: () => {
+      $('.ui .item').removeClass('active');
+      $(`#step-3-nav-item`).addClass('active');
+    },
+    onTopPassedReverse: () => {
+      $('.ui .item').removeClass('active');
+      $(`#step-3-nav-item`).addClass('active');
+    },
+  })
 
 </script>
 </body>
