@@ -1,6 +1,5 @@
 <%- include('./partials/head'); %>
 <%- include ('./partials/navbar'); %>
-<%- include('./partials/styles'); %>
 <head>
   <script>
 
@@ -287,7 +286,7 @@
           </div>
         </div>
       </h1>
-
+      <!-- database stats  -->
       <div id="update-div" class="ui segment">
         <div><em>Live Site Last Update: <span id='last-update-time'>&nbsp;</span></em></div>
         <div><span>Database Rows in Use: </span><span id='database-rows'>&nbsp;</span><span> / 10,000</span></div>
@@ -559,10 +558,26 @@
     }, 5000)
   })();
 
+  /* logic for "View Preview Site" buttom" */
+  function openPreviewSite() {
+    const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
+    window.open(previewPage, "_blank");
+   }
+
+  /* jQuery to fake "accordion" functionality for dropdown instructions */ 
   $('#preview-instructions').hide();
   $('#validation-instructions').hide();
   $('#import-instructions').hide();
 
+  const toggleImportInstructions = () => {
+    $('#import-instructions').toggle()
+  }
+  const togglePreviewInstructions = () => {
+      $('#preview-instructions').toggle()
+    }
+  const toggleValidationInstructions = () => {
+    $('#validation-instructions').toggle()
+  }
 
   // semantic jQuery for side navbar 
   $('.ui .item').on('click', function() {
@@ -570,73 +585,55 @@
       $(this).addClass('active');
    }); 
 
-  function openPreviewSite() {
-    const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
-    window.open(previewPage, "_blank");
-   }
-
-   const toggleImportInstructions = () => {
-      $('#import-instructions').toggle()
-    }
-
-   const togglePreviewInstructions = () => {
-      $('#preview-instructions').toggle()
-    }
-
-  const toggleValidationInstructions = () => {
-    $('#validation-instructions').toggle()
-  }
-
   /* these functions set the "active" side nav class on page scroll */
   $('#instructions')
-  .visibility({
-    once: false,
-    onTopPassed: () => {
-      $('.ui .item').removeClass('active');
-      $(`#step-1-nav-item`).addClass('active');
-    },
-    onTopPassedReverse: () => {
-      $('.ui .item').removeClass('active');
-      $(`#instructions-nav-item`).addClass('active');
-    },
-  })
+    .visibility({
+      once: false,
+      onTopPassed: () => {
+        $('.ui .item').removeClass('active');
+        $(`#step-1-nav-item`).addClass('active');
+      },
+      onTopPassedReverse: () => {
+        $('.ui .item').removeClass('active');
+        $(`#instructions-nav-item`).addClass('active');
+      },
+    })
   $('#step-1')
-  .visibility({
-    once: false,
-    onTopPassed: () => {
-      $('.ui .item').removeClass('active');
-      $(`#step-1-nav-item`).addClass('active');
-    },
-    onTopPassedReverse: () => {
-      $('.ui .item').removeClass('active');
-      $(`#step-1-nav-item`).addClass('active');
-    },
-  })
-
+    .visibility({
+      once: false,
+      onTopPassed: () => {
+        $('.ui .item').removeClass('active');
+        $(`#step-1-nav-item`).addClass('active');
+      },
+      onTopPassedReverse: () => {
+        $('.ui .item').removeClass('active');
+        $(`#step-1-nav-item`).addClass('active');
+      },
+    })
   $('#step-2')
-  .visibility({
-    once: false,
-    onTopPassed: () => {
-      $('.ui .item').removeClass('active');
-      $(`#step-2-nav-item`).addClass('active');
-    },
-    onTopPassedReverse: () => {
-      $('.ui .item').removeClass('active');
-      $(`#step-2-nav-item`).addClass('active');
-    },
-  })
-$('#page-bottom')
-  .visibility({
-    once: false,
-    onBottomVisible: () => {
-      $('.ui .item').removeClass('active');
-      $(`#step-3-nav-item`).addClass('active');
-    },
-    onTopPassedReverse: () => {
-      $('.ui .item').removeClass('active');
-      $(`#step-3-nav-item`).addClass('active');
-    },
-  })
+    .visibility({
+      once: false,
+      onTopPassed: () => {
+        $('.ui .item').removeClass('active');
+        $(`#step-2-nav-item`).addClass('active');
+      },
+      onTopPassedReverse: () => {
+        $('.ui .item').removeClass('active');
+        $(`#step-2-nav-item`).addClass('active');
+      },
+    })
+  $('#page-bottom')
+    .visibility({
+      once: false,
+      onBottomVisible: () => {
+        $('.ui .item').removeClass('active');
+        $(`#step-3-nav-item`).addClass('active');
+      },
+      onTopPassedReverse: () => {
+        $('.ui .item').removeClass('active');
+        $(`#step-3-nav-item`).addClass('active');
+      },
+    })
 
 </script>
 </body>

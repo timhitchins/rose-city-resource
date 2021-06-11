@@ -221,7 +221,7 @@ module.exports = (app, pool) => {
 
   /* Dashboard (also currently home) */
   app.get("/admin/dashboard", userIsAdmin, (req, res) => {
-    res.render("../../admin/views/dashboard.ejs", { activeTab: "home" });
+    res.render("../../admin/views/dashboard.ejs", { activeTab: "data" });
   });   
 
   /* Home (also currently dashboard) */
