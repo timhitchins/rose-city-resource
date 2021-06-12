@@ -48,17 +48,18 @@
         <div class="toggle-and-submit">
           <div class="two fields" style="display: flex; justify-content: space-between;">
 
-            <div class="ui toggle checkbox" style="margin: 1em">
+            <div class="ui toggle checkbox" style="margin: 1em; display: flex">
+              <span>Disable site banner &nbsp &nbsp &nbsp</span>
               <input type="checkbox" tabindex="0" class="hidden" 
                 name="isEnabled" id="isEnabled" /> 
               <label>Enable site banner</label>
             </div>
-
-            <div class="ui toggle checkbox teal" style="margin: 1em">
+<!-- 
+            <div class="ui toggle checkbox" style="margin: 1em">
               <input type="checkbox" tabindex="0" class="hidden" 
                 name="isDisabled" id="isDisabled" /> 
               <label>Disable site banner</label>
-            </div>
+            </div> -->
           </div>
           
           <br />
@@ -97,10 +98,10 @@
 
     const content = form.elements['content'].value.trim();
     const isEnabled = form.elements['isEnabled'].checked;
-    const isDisabled = form.elements['isDisabled'].checked;
+    // const isDisabled = form.elements['isDisabled'].checked;
 
     // check for data
-    if ((content && isEnabled) || (!isEnabled && isDisabled)) { 
+    if ((content && isEnabled) || (!isEnabled)) { 
       // ask the user if they're sure
       if (confirmSubmit()) { 
 
@@ -110,7 +111,7 @@
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({content: content, isEnabled: isEnabled, isDisabled: isDisabled})
+            body: JSON.stringify({content: content, isEnabled: isEnabled})
           });
           const result = await rawResponse.text(); 
           // TODO: Kent - is there a better way to confirm success? or is this the best way to do it?

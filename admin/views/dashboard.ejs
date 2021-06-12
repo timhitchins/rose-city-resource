@@ -268,6 +268,13 @@
       border-spacing: 10px 0;
     }
 
+    #etl-status {
+      color:gray; 
+      border: 1px dashed lightgray; 
+      width: 100%; 
+      margin-bottom: 1em;
+    }
+
   </style>
 </head>
 <body>
@@ -313,7 +320,7 @@
       </div> 
     </nav>
 
-    <!-- ALL main content goes here  -->
+    <!-- primary site content goes here  -->
     <div class="ui attached segment" id="instructions-main">
 
       <!-- OVERVIEW  -->
@@ -386,7 +393,7 @@
             </span>
           </div>
           <!-- etl status  -->
-          <div id='etl-status' style='color:gray; border: 1px dashed lightgray; width: 100%; margin-bottom: 1em;'>&nbsp;
+          <div id='etl-status'>&nbsp;
           </div>
 
           <br />
@@ -637,3 +644,11 @@
 
 </script>
 </body>
+
+
+/* todo ht:
+- on preview button: 
+- check that it's a valid json schema
+- then send it to server
+
+*/
