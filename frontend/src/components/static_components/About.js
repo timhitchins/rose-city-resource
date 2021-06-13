@@ -1,5 +1,5 @@
 import React from "react";
-import * as srLogo from "./../../images/sr-logo-transparent-background.png";
+import srLogo from './../../images/sr-logo-transparent-background.png';
 import "./../../css/About.css";
 
 const About = (props) => (

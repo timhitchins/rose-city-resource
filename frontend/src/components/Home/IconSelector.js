@@ -17,7 +17,6 @@ const PrimaryIconsLarge = ({
   iconMap,
   searchData,
   selectedData,
-  submitSearch,
   path
 }) => {
   return (
@@ -54,10 +53,7 @@ const PrimaryIconsLarge = ({
                     search: queryBuilder([selection], []),
                   }}
                 >
-                  <div
-                    className="icon-dropdown-container"
-                    onClick={() => submitSearch(selection)}
-                  >
+                  <div className="icon-dropdown-container">
                     <div className="icon-dropdown-name">{`${selection}  (${selectedData[selection]})`}</div>
                   </div>
                 </Link>
@@ -77,7 +73,6 @@ PrimaryIconsLarge.propTypes = {
   iconMap: PropTypes.object.isRequired,
   searchData: PropTypes.object,
   selectedData: PropTypes.object,
-  submitSearch: PropTypes.func.isRequired,
 };
 
 /* Mobile display of main "Food," "Goods," etc icons */
@@ -163,7 +158,6 @@ const SecondaryIcons = ({
   selectedData,
   searchData,
   iconMap,
-  submitSearch,
   toggleBrowseContainer,
   isBrowseVisible,
 }) => {
@@ -221,9 +215,7 @@ const SecondaryIcons = ({
                     }}
                   >
                     <div
-                      className="icon-container"
-                      onClick={() => submitSearch(selection)}
-                    >
+                      className="icon-container">
                       <div className="icon-name">{`${selection}  (${selectedData[selection]})`}</div>
                     </div>
                   </Link>
@@ -244,7 +236,6 @@ SecondaryIcons.propTypes = {
   selectedData: PropTypes.object.isRequired,
   searchData: PropTypes.object.isRequired,
   iconMap: PropTypes.object.isRequired,
-  submitSearch: PropTypes.func.isRequired,
 };
 
 class Selectors extends React.PureComponent {
@@ -271,7 +262,6 @@ class Selectors extends React.PureComponent {
       selectedData,
       searchData,
       showDropdown,
-      submitSearch,
       path,
     } = this.props;
     //set these here to make the UI render quicker upon start
@@ -303,7 +293,6 @@ class Selectors extends React.PureComponent {
               navCategory={navCategory}
               searchData={searchData}
               selectedData={selectedData}
-              submitSearch={submitSearch}
               path={path}
               toggleBrowseContainer={this.toggleBrowseContainer}
               isBrowseVisible={isBrowseVisible}
@@ -329,7 +318,6 @@ class Selectors extends React.PureComponent {
               iconMap={iconMap}
               navCategory={navCategory}
               searchData={searchData}
-              submitSearch={submitSearch}
               toggleBrowseContainer={this.toggleBrowseContainer}
               isBrowseVisible={isBrowseVisible}
             />
@@ -340,7 +328,6 @@ class Selectors extends React.PureComponent {
               selectedData={selectedData}
               searchData={searchData}
               iconMap={iconMap}
-              submitSearch={submitSearch}
               toggleBrowseContainer={this.toggleBrowseContainer}
               isBrowseVisible={isBrowseVisible}
             />
@@ -362,7 +349,6 @@ Selectors.propTypes = {
   selectedData: PropTypes.object, //nedd to create validation HOC
   searchData: PropTypes.object.isRequired,
   showDropdown: PropTypes.bool.isRequired,
-  submitSearch: PropTypes.func.isRequired,
 };
 
 //All the state and methods live here and are passed down as props to all the specific components.
@@ -439,7 +425,6 @@ class IconSelector extends React.PureComponent {
           searchData={searchData}
           selectedItem={selectedItem}
           showDropdown={showDropdown}
-          submitSearch={this.submitSearch}
           path={path}
           isVisible={isVisible}
         />
