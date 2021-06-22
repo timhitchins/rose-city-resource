@@ -28,15 +28,12 @@
 
     <div class="ui form-container">
       <div class="container-content">
-      <div class="banner-info">
-        <strong>Instructions:</strong>
-        Enter the information you want displayed in the site banner, formatted using <a  href="https://www.w3schools.com/html/html_formatting.asp" target="_blank" rel="noreferrer">HTML</a>.
-      </div>
+
       <!-- HTML sample code  -->
       <div id="html-hints-div" 
-        style="margin: .5em 0em; color: #696969"
+        style="margin: .5em 0em; color: #696969; margin-top: 1.5em"
         class="ui segment">
-        <details open>
+        <details>
           <summary>Tips for styling your text with HTML
             <i class="ui icon question circle outline"></i>
           </summary>
@@ -51,7 +48,7 @@
                 <li>
                   For example: <span 
                   style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
-                  <strong>&lt;em&gt;</strong>Your text here<strong>&lt;em&gt;</strong>
+                  <strong>&lt;em&gt;</strong>Your text here<strong>&lt;/em&gt;</strong>
                   </span>
                 </li>
             </div>
@@ -64,7 +61,7 @@
               <li>
                 For example: <span 
                 style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
-                <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;strong&gt;</strong>
+                <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;/strong&gt;</strong>
                 </span>
               </li>
             </div>
@@ -72,7 +69,7 @@
             <div style="margin-left: 1em" class="ui message">
               <p class="hint-header"><strong>Links</strong></p>
               <p><strong>
-                If you want the banner to include a link, follow the steps below
+                If you want the banner to include a link:
               </strong>
               </p>
               <ol style="line-height: 2em">
@@ -94,23 +91,91 @@
                 </li> 
               </ol>
             </div>
+
             <div style="margin-left: 1em" class="ui message">
-              <p class="hint-header"><strong>Bold</strong></p>
+              <p class="hint-header"><strong>Background Color</strong></p>
               <p><strong>
-                If you want your text to be bold, wrap it in an &lt;strong&gt; tag</strong>
+                If you want to change the background color of the banner:</strong>
               </p>
+              <ol style="line-height: 2em">
+                <li>
+                  First, go to a color-picker site like <a href="https://htmlcolorcodes.com/" rel="no-referrer" target="_blank">htmlcolorcodes.com</a> and pick the color you want
+                </li>
+                <li>
+                  Copy the "hex code" of your color. Hint: It's 6 digits, and starts with a "#"
+                </li>
+                <li>
+                  Now, copy paste this code:<br>
+                  <span 
+                    style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                    <strong>
+                      &lt;span style="background-color: #000000"&gt;
+                    </strong>Your text here
+                    <strong>
+                      &lt;/span&gt;
+                    </strong>
+                  </span>
+                </li>
+                <li>
+                  Replace "000000" with the hex code you chose
+                </li>
+                <li>
+                  Replace "Your text here" with your text
+                </li>
+              </ol>
+            </div>
+
+
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Font Color</strong></p>
+              <p><strong>
+                If you want to change the font color in the banner:</strong>
+              </p>
+              <ol style="line-height: 2em">
+                <li>Follow the steps above to find the "hex code" of your font color</li>
                 <li>
                   For example: <span 
                   style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
                   <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;strong&gt;</strong>
                   </span>
                 </li>
+                <li>
+                 Copy paste this code:<br>
+                  <span 
+                    style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                    <strong>
+                      &lt;span style="color: #000000"&gt;
+                    </strong>Your text here
+                    <strong>
+                      &lt;/span&gt;
+                    </strong>
+                  </span>
+                </li>
+                <li>
+                  Replace "000000" with the hex code you chose
+                </li>
+                <li>
+                  Replace "Your text here" with your text
+                </li>
+              </ol>
             </div>
-
+            <!-- More examples  -->
+            <!-- <div style="margin-left: 1em" class="ui message"> -->
+            <!-- TODO: list some working samples here  -->
+              <!-- <li>
+                For example: <span 
+                style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;/strong&gt;</strong>
+                </span>
+              </li>
+            </div> -->
 
         </details>
       </div>
-
+      <div class="banner-info">
+        <strong>Instructions:</strong>
+        Enter the information you want displayed in the site banner, formatted using <a  href="https://www.w3schools.com/html/html_formatting.asp" target="_blank" rel="noreferrer">HTML</a>.
+      </div>
       <p></p>
   
       <!-- FORM  -->
