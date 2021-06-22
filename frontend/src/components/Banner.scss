@@ -22,4 +22,10 @@
 .default {
   background: $medium-grey;
   color: white;
+  border-bottom: 1px lightgrey solid;
+}
+
+.light {
+  background: white;
+  color: #393F48;
 }

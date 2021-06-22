@@ -1,6 +1,12 @@
 <%- include('./partials/head'); %>
 <%- include('./partials/navbar'); %>
 
+<style>
+  .hint-header {
+    /* margin-left: 2em; */
+    margin-bottom: 15em;
+  }
+</style>
 <!-- preview div  -->
 <div class="banner-preview banner-light">
   <div id="output">
@@ -26,13 +32,91 @@
         <strong>Instructions:</strong>
         Enter the information you want displayed in the site banner, formatted using <a  href="https://www.w3schools.com/html/html_formatting.asp" target="_blank" rel="noreferrer">HTML</a>.
       </div>
+      <!-- HTML sample code  -->
+      <div id="html-hints-div" 
+        style="margin: .5em 0em; color: #696969"
+        class="ui segment">
+        <details open>
+          <summary>Tips for styling your text with HTML
+            <i class="ui icon question circle outline"></i>
+          </summary>
+          <!-- Italic font  -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Italic</strong></p>
+              <p>
+                <strong>
+                  If you want your text to be italic, wrap it in an &lt;em&gt; tag
+                </strong>
+              </p>
+                <li>
+                  For example: <span 
+                  style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                  <strong>&lt;em&gt;</strong>Your text here<strong>&lt;em&gt;</strong>
+                  </span>
+                </li>
+            </div>
+            <!-- Bold  -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Bold</strong></p>
+              <p><strong>
+                If you want your text to be bold, wrap it in an &lt;strong&gt; tag</strong>
+              </p>
+              <li>
+                For example: <span 
+                style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;strong&gt;</strong>
+                </span>
+              </li>
+            </div>
+            <!-- Links  -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Links</strong></p>
+              <p><strong>
+                If you want the banner to include a link, follow the steps below
+              </strong>
+              </p>
+              <ol style="line-height: 2em">
+                <li>
+                  Copy this code, and paste it in the text box below:
+                </li>
+                <span 
+                  style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                  <strong>&lt;a href="www.somesite.com"&gt;</strong>Your text here<strong>&lt;/a&gt;</strong>
+                </span>
+                <li>
+                  Replace "Your text here" with your own text
+                </li>
+                <li>
+                  Replace "www.somesite.com" with the web address you want to link to
+                </li>
+                <li>
+                  Click, "Update preview" to see the results!
+                </li> 
+              </ol>
+            </div>
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Bold</strong></p>
+              <p><strong>
+                If you want your text to be bold, wrap it in an &lt;strong&gt; tag</strong>
+              </p>
+                <li>
+                  For example: <span 
+                  style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                  <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;strong&gt;</strong>
+                  </span>
+                </li>
+            </div>
+
+
+        </details>
+      </div>
+
       <p></p>
   
       <!-- FORM  -->
       <form class="ui form" id="form">
         <!-- textarea  -->
         <div class="field textarea-div">
-          <!-- <label>Banner content</label> -->
           <textarea 
             name="content"
             id="banner-html"
@@ -54,12 +138,6 @@
                 name="isEnabled" id="isEnabled" /> 
               <label>Enable site banner</label>
             </div>
-<!-- 
-            <div class="ui toggle checkbox" style="margin: 1em">
-              <input type="checkbox" tabindex="0" class="hidden" 
-                name="isDisabled" id="isDisabled" /> 
-              <label>Disable site banner</label>
-            </div> -->
           </div>
           
           <br />
@@ -131,3 +209,17 @@
 
 </script>
 </div>
+
+                <!-- <li><strong>&lt;strong&gt;</strong>Your text here<strong>&lt;strong&gt;</strong></li> -->
+                <!-- <p><strong>How to use: </strong></p>
+                <ul class="ui list"> 
+                <li>
+                  Copy the code in quotes and paste it in the text box below
+                </li>
+                <li>
+                  Replace "Your text here" with your own text
+                </li>
+                <li>
+                  Click, "Update preview" to see the results!
+                </li> -->
+              <!-- </ul> -->
