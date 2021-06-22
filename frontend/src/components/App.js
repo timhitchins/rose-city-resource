@@ -8,7 +8,7 @@ import Details from "./Details";
 import Nav from "./Nav";
 import Footer from "./static_components/Footer";
 import Banner from './Banner'
-import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import {
   getRecords,
   addUserDistancesToRecords,
@@ -22,14 +22,25 @@ import "../icons/iconsInit";
 import sanitizeHtml from 'sanitize-html'
 
 class App extends React.PureComponent {
-  //data lives in the top component.
-  state = {
-    navDrawerVisible: false,
-    records: null,
-    searchData: null,
-    savedDataId: [],
-    metaInformation: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      navDrawerVisible: false,
+      records: null,
+      searchData: null,
+      savedDataId: [],
+      metaInformation: {}
+    };
+
+    /* Attempt to convert an old RCR link to the new hash format */
+    /* This is a convenience for the user to be able to use old links */
+    const location = window.location;
+    const url = location.href;
+    if (!/#/.test(url)) {
+      const newLocation = '/#' + location.pathname + location.search;
+      window.location = newLocation;
+    }
+  }
 
   //state lisfted from
   //Cards to keep track of saved cards
@@ -92,15 +103,29 @@ class App extends React.PureComponent {
   };
 
   componentDidMount = async () => {
-    //package/revision data
     const meta = await getMetaInformation();
-    console.log('META INFORMATION', meta)
     if (meta) {
       const cleanHtml = sanitizeHtml(meta.site_banner_content, {
-        allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'p' ],
+        allowedTags: [
+          "address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+          "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+          "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+          "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+          "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+          "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+          "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img"
+        ],
+        disallowedTagsMode: 'discard',
         allowedAttributes: {
-          'a': [ 'href' ]
-        }
+          a: [ 'href', 'name', 'target' ],
+          img: [ 'src' ]
+        },
+        selfClosing: [ 'img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta' ],
+        allowedSchemes: [ 'http', 'https', 'ftp', 'mailto', 'tel' ],
+        allowedSchemesByTag: {},
+        allowedSchemesAppliedToAttributes: [ 'href', 'src', 'cite' ],
+        allowProtocolRelative: true,
+        enforceHtmlBoundary: false
       });
       this.bannerContent = cleanHtml;
       this.bannerEnabled = meta.site_banner_enabled
@@ -113,6 +138,7 @@ class App extends React.PureComponent {
 
   render() {
     const { records, searchData, savedDataId } = this.state;
+
     return (
       <React.Fragment>
         {!records ? (
