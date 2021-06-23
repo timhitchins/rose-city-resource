@@ -35,6 +35,7 @@
     "react-transition-group": "^4.4.2",
     "sanitize-html": "^2.4.0",
     "sass-loader": "^12.1.0",
+    "semantic-ui-css": "^2.4.1",
     "turf-point": "^2.0.1",
     "webfontloader": "^1.6.28"
   },

@@ -211,8 +211,9 @@ module.exports = (app, pool) => {
           allowedAttributes: {
             a: [ 'href', 'name', 'target' ],
             img: [ 'src' ],
-            div: [ 'style' ],
-            span: [ 'style' ]
+            div: [ 'style', 'class' ],
+            span: [ 'style', 'class' ],
+            i: [ 'style', 'class']
           },
           selfClosing: [ 'img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta' ],
           allowedSchemes: [ 'http', 'https', 'ftp', 'mailto', 'tel' ],

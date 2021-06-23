@@ -13,6 +13,7 @@ const Banner = (props) => {
   const markup = ({__html: bannerContent})
   console.log(markup)
   if (bannerEnabled && inputIsValid(bannerContent)) {
+
   return (
     <div className='banner-preview teal'
       dangerouslySetInnerHTML={markup}>
