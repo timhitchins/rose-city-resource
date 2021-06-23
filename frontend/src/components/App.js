@@ -20,6 +20,7 @@ import {
 } from "../utils/api";
 import "../icons/iconsInit";
 import sanitizeHtml from 'sanitize-html'
+import 'semantic-ui-css/semantic.min.css'
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -119,8 +120,9 @@ class App extends React.PureComponent {
         allowedAttributes: {
           a: [ 'href', 'name', 'target' ],
           img: [ 'src' ], 
-          div: [ 'style' ],
-          span: [ 'style' ]
+          div: [ 'style', 'class' ],
+          span: [ 'style', 'class' ],
+          i: [ 'style', 'class']
         },
         selfClosing: [ 'img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta' ],
         allowedSchemes: [ 'http', 'https', 'ftp', 'mailto', 'tel' ],
