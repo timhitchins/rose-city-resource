@@ -86,12 +86,38 @@
                 <li>
                   Replace "www.somesite.com" with the web address you want to link to
                 </li>
-                <li>
-                  Click, "Update preview" to see the results!
-                </li> 
               </ol>
             </div>
 
+            <!-- font color  -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Font Color</strong></p>
+              <p><strong>
+                If you want to change the font color in the banner:</strong>
+              </p>
+              <ol style="line-height: 2em">
+                <li>
+                  Use a color-picker tool like <a href="https://htmlcolorcodes.com/" rel="no-referrer" target="_blank">htmlcolorcodes.com</a> to choose your color
+                </li>
+                <li>
+                  Copy the "hex code" of your color. Hint: It's 6 digits, and starts with a "#"
+                </li>
+                <li>
+                  Copy paste this code, and replace "000000" with your hex code:<br>
+                  <span 
+                    style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                    <strong>
+                      &lt;div style="color: #000000"&gt;
+                    </strong>Your text here
+                    <strong>
+                      &lt;/div&gt;
+                    </strong>
+                  </span>
+                </li>
+              </ol>
+            </div>
+
+            <!-- background color -->
             <div style="margin-left: 1em" class="ui message">
               <p class="hint-header"><strong>Background Color</strong></p>
               <p><strong>
@@ -99,77 +125,23 @@
               </p>
               <ol style="line-height: 2em">
                 <li>
-                  First, go to a color-picker site like <a href="https://htmlcolorcodes.com/" rel="no-referrer" target="_blank">htmlcolorcodes.com</a> and pick the color you want
+                  Follow the steps above to find the "hex code" of your font color
                 </li>
                 <li>
-                  Copy the "hex code" of your color. Hint: It's 6 digits, and starts with a "#"
-                </li>
-                <li>
-                  Now, copy paste this code:<br>
+                  Copy paste this code, and replace "808080" with your hex code:<br>
                   <span 
                     style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
                     <strong>
-                      &lt;span style="background-color: #000000"&gt;
+                      &lt;div style="background-color: #808080; width: 100%; height: 3em; display: flex; justify-content: center; align-items: center;"&gt;
                     </strong>Your text here
                     <strong>
-                      &lt;/span&gt;
+                      &lt;/div&gt;
                     </strong>
                   </span>
                 </li>
-                <li>
-                  Replace "000000" with the hex code you chose
-                </li>
-                <li>
-                  Replace "Your text here" with your text
-                </li>
+                Note: this example has extra values, but the only thing you need to change is the background-color value. You can optionally add a font color or other CSS properties as desired.
               </ol>
             </div>
-
-
-            <div style="margin-left: 1em" class="ui message">
-              <p class="hint-header"><strong>Font Color</strong></p>
-              <p><strong>
-                If you want to change the font color in the banner:</strong>
-              </p>
-              <ol style="line-height: 2em">
-                <li>Follow the steps above to find the "hex code" of your font color</li>
-                <li>
-                  For example: <span 
-                  style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
-                  <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;strong&gt;</strong>
-                  </span>
-                </li>
-                <li>
-                 Copy paste this code:<br>
-                  <span 
-                    style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
-                    <strong>
-                      &lt;span style="color: #000000"&gt;
-                    </strong>Your text here
-                    <strong>
-                      &lt;/span&gt;
-                    </strong>
-                  </span>
-                </li>
-                <li>
-                  Replace "000000" with the hex code you chose
-                </li>
-                <li>
-                  Replace "Your text here" with your text
-                </li>
-              </ol>
-            </div>
-            <!-- More examples  -->
-            <!-- <div style="margin-left: 1em" class="ui message"> -->
-            <!-- TODO: list some working samples here  -->
-              <!-- <li>
-                For example: <span 
-                style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
-                <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;/strong&gt;</strong>
-                </span>
-              </li>
-            </div> -->
-
         </details>
       </div>
       <div class="banner-info">
