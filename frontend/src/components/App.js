@@ -118,7 +118,9 @@ class App extends React.PureComponent {
         disallowedTagsMode: 'discard',
         allowedAttributes: {
           a: [ 'href', 'name', 'target' ],
-          img: [ 'src' ]
+          img: [ 'src' ], 
+          div: [ 'style' ],
+          span: [ 'style' ]
         },
         selfClosing: [ 'img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta' ],
         allowedSchemes: [ 'http', 'https', 'ftp', 'mailto', 'tel' ],
