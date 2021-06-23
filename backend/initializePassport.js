@@ -3,6 +3,21 @@ const bcrypt = require ('bcrypt')
 
 async function initialize(passport, pool) {
 
+  /*
+  * @description A custom callback function that Passport will fire
+  * on initialization
+  * It takes in an email and password and queries Postgres
+  * to verify the credentials.
+  * It returns either a user object, that can be accessed via req.user,
+  * or an error message 
+
+  * Passport's default/mandatory parameters:
+  * @param {string} username - We use email instead of username
+  * @param {string} password - Password entered on the login form
+  * @param {function} done - Passport's version of "next"
+    *  We call it when we can return either: a server error, a user, or a user-friendly error message, such as incorrect credentials
+  */
+
   const authenticateUser = async (email, password, done) => {
     try {
       // Query the DB using the email address entered on the login screen
