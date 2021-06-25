@@ -79,7 +79,6 @@
           }
         }
       }
-
     }
 
     async function fetchDataValidationItems() {
@@ -275,6 +274,17 @@
       margin-bottom: 1em;
     }
 
+    .button-padding-large {
+      margin-top: 1em;   
+      margin-bottom: 1em;
+    }
+
+    .ui.message {
+      padding: 1.5em;
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
+
   </style>
 </head>
 <body>
@@ -380,11 +390,12 @@
             </ol>
           </div>
           <!-- IMPORT BUTTON  -->
-          <button class="ui button violet"
-            onclick='staging()'>
-            Import Data to Preview Site
-          </button>
-          <br />
+          <div class="button-padding-large">
+            <button class="ui button violet"
+              onclick='staging()'>
+              Import Data to Preview Site
+            </button>
+          </div>
 
         <!-- import progress info div  -->
           <div class="preview-div" style="margin-bottom: 1em;">
@@ -467,11 +478,15 @@
 
           <div class="preview-div" style="margin-bottom: 1em; font-size: 1.5em; font-weight: bold;">
             <span id="preview-span" id="status">
-            <button onclick="openPreviewSite()" id="preview-button"
-              class="ui violet button disabled"
-              style="margin-top: 1em">
-              View Preview Site
-            </button>
+
+            <div class="button-padding-large">
+              <button onclick="openPreviewSite()" id="preview-button"
+                class="ui violet button disabled"
+                style="margin-top: 1em">
+                View Preview Site
+              </button>
+            </div>
+
             </span>
           </div>
         </div>
@@ -496,12 +511,14 @@
               This will update the live site with the data you imported in Step 1, and previewed in Step 2. 
             </li>
           </div>
+          <div class="button-padding-large">
+            <button class="ui button teal disabled" 
+              id="import-live"   
+              onclick="production()">
+              Import Data to Live Site
+            </button>
+          </div>
 
-          <button class="ui button teal disabled" 
-            id='import-live'   
-            onclick='production()'>
-            Import Data to Live Site
-          </button>
           <div class="ui message">
             <li>
               If you got an error, copy the error message and email it to your technical support contact.
@@ -513,7 +530,7 @@
               There's nothing else you need to do at this time.
             </li>
           </div>
-          <p style="text-align: center" id="page-bottom">
+          <p style="text-align: center; margin-top: 3em" id="page-bottom">
             <a href="">Back to top</a>
           </p>
         </div>
