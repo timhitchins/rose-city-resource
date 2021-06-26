@@ -1,7 +1,42 @@
 <%- include('./partials/head'); %>
 <%- include ('./partials/navbar'); %>
+<style>
+  li {
+    margin-left: 2em;
+  }
 
-<div style="margin-top: 100px"></div>
-<!-- your html goes here  -->
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+  }
+</style>
 
-<h2>User Guide in progress</h2>
+<header>
+  <h1
+    class="ui header violet" style="margin: .5em; margin-bottom: 1em">
+    <div class="content">
+      <i class="book icon"></i>
+      User Guide
+      <!-- <div class="sub header">
+        Need more  help? Check out the <a href="/admin/guide"> user guide!</a>
+      </div> -->
+    </div>
+  </h1>
+
+  <main class="ui container">
+    <p style="text-align: center;"><strong>
+      Welcome to the new Rose City Resource Admin Panel!
+    </p></strong>
+
+    <p>This guide will show you how to:</p>
+    <ul class="ui list">
+      <li>Change your password</li>
+      <li>Create a new user</li>
+      <li>Add, edit, or remove the site banner</li>
+      <li>Update the live site data</li>
+    </ul>
+
+  </main>
+
+
