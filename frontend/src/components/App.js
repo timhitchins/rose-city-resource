@@ -104,6 +104,7 @@ class App extends React.PureComponent {
 
   componentDidMount = async () => {
     const meta = await getMetaInformation();
+    console.log('META', meta)
     if (meta) {
       const cleanHtml = sanitizeHtml(meta.site_banner_content, {
         allowedTags: [
@@ -131,6 +132,7 @@ class App extends React.PureComponent {
         enforceHtmlBoundary: false
       });
       this.bannerContent = cleanHtml;
+      console.log('CLEARN HTML', cleanHtml)
       this.bannerEnabled = meta.site_banner_enabled
       this.revisionDate = dateString(meta.last_update);
     }
