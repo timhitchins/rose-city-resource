@@ -7,8 +7,7 @@
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\""
   },
   "dependencies": {
-    "concurrently": "^6.0.2",
-    "dotenv": "^10.0.0",
-    "sanitize-html": "^2.3.3"
+    "concurrently": "^6.2.0",
+    "dotenv": "^10.0.0"
   }
 }
