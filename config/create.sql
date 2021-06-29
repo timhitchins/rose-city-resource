@@ -12,10 +12,6 @@ CREATE EXTENSION IF NOT EXISTS citext; -- Allows case-insensitive data columns s
 
 /* Contains data related to the production data set */
 CREATE TABLE IF NOT EXISTS production_meta (
-  last_update timestamp with time zone
-)
-
-CREATE TABLE IF NOT EXISTS test_meta (
   last_update timestamp with time zone,
   site_banner_enabled boolean,
   site_banner_content text

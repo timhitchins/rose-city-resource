@@ -1,9 +1,9 @@
 // /44a526eed258222515aa21eaffd14a96.png
 import L from 'leaflet';
-import greenMarker from './../images/green-marker.png';
-import redMarker from './../images/red-marker.png';
-import blueMarker from './../images/blue-marker.png';
-import shadowMarker from './../images/shadow-marker.png';
+import greenMarker from '../images/green-marker.png';
+import redMarker from '../images/red-marker.png';
+import blueMarker from '../images/blue-marker.png';
+import shadowMarker from '../images/shadow-marker.png';
 
 
 const iconAnchor = [22, 10];

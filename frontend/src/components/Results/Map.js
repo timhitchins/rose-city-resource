@@ -4,7 +4,7 @@ import Geocoder from "./Geocoder";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import MediaQuery from "react-responsive";
 import { mapDataBuilder } from "../../utils/api";
-import { greenLMarker, blueLMarker } from "./../../icons/mapIcons.js";
+import { greenLMarker, blueLMarker } from "../../icons/mapIcons.js";
 
 class Markers extends React.PureComponent {
   markers = [];
