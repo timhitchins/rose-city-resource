@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.1.9",
     "@turf/distance": "^6.4.0",
     "favicon": "0.0.2",
+    "font-awesome": "^4.7.0",
     "leaflet": "^1.7.1",
     "leaflet-control-geocoder": "^2.3.0",
     "leaflet.locatecontrol": "^0.73.0",
