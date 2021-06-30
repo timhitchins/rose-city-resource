@@ -229,7 +229,7 @@
         });
 
         const result = await rawResponse.json().catch(e => console.error(e))
-
+console.log('RESULT', result)
         // TODO: Kent - is there a better way to confirm success? or is this the best way to do it?
         if (result === '"Created"') {
           alert('Banner successfully updated!')

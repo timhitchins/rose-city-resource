@@ -227,7 +227,7 @@ module.exports = (app, pool) => {
         [cleanContent, isEnabled === true]);
       const successString = 'Created'
       res.setHeader('Cache-Control', 'no-cache');
-      res.json(successString)
+      res.json(JSON.stringify(successString))
 
     } catch (err) {
       console.error(err);
