@@ -9,6 +9,15 @@
     display: flex;
     flex-direction: column;
     justify-self: center;
+    align-items: center;
+  }
+
+  #page {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    font-size: 16px;
   }
 </style>
 
@@ -18,29 +27,30 @@
     <div class="content">
       <i class="book icon"></i>
       User Guide
-      <!-- <div class="sub header">
-        Need more  help? Check out the <a href="/admin/guide"> user guide!</a>
-      </div> -->
     </div>
   </h1>
 
   <main class="ui container">
-    <p style="text-align: center;"><strong>
-      Welcome to the new Rose City Resource Admin Panel!
-    </p></strong>
+    <div class="flex-container ui segment" id="page">
 
-    <p>This guide will show you how to:</p>
-    <ul class="ui list">
-      <li>Change your password</li>
-      <li>Create a new user</li>
-      <li>Add, edit, or remove the site banner</li>
-      <li>Update the live site data</li>
-    </ul>
-
-    <div class="guide-link">
-      <a href="https://docs.google.com/document/d/1_v9uEX5B3XhMPsea2retTEO9ub_8Vypq2xr9Wfir1RM/edit?usp=sharing" target="_blank">See the guide on Google Drive</a>
+    <div>
+      <p style="text-align: center;"><strong>
+        Welcome to the new Rose City Resource Admin Panel!
+      </p></strong>
+      <p>The user guide will show you how to:</p>
+      <ul class="ui list">
+        <li>Change your password</li>
+        <li>Create a new user</li>
+        <li>Add, edit, or remove the site banner</li>
+        <li>Update the live site data</li>
+      </ul>
     </div>
 
+
+    <div class="guide-link ui raised segment" style="font-size: 16px; padding: 1em; margin-top: 2em; margin-bottom: 2em;">
+      <a href="https://docs.google.com/document/d/1_v9uEX5B3XhMPsea2retTEO9ub_8Vypq2xr9Wfir1RM/edit?usp=sharing" target="_blank">View the guide on Google Drive</a>
+    </div>
+  </div>
   </main>
 
 

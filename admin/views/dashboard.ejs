@@ -565,15 +565,13 @@
       const status = statusArr[0];
       renderEtlStatus(status);
 
-      /* Enable import to live site button if that should be an option */
+      /* Enable import to live site button */
       const started = status.etl_started.toLowerCase();
       const completed = status.etl_ran_to_completion.toLowerCase();
       const minutes = parseInt(status.minutes_since_last_log);
       const numrows = parseInt(status.etl_staging_1_num_rows);
       if (started === 'true' && completed === 'true' && minutes < 60 * 48 && numrows > 1) {
-        // TODO: REPLACE THIS FOR PRODUCTION
-        // IT'S COMMENTED OUT DURING TESTING
-        // const button = $('#import-live').removeClass('disabled')
+        const button = $('#import-live').removeClass('disabled')
       }
       else {
         const button = $('#import-live').addClass('disabled')
@@ -584,6 +582,8 @@
 
   /* logic for "View Preview Site" buttom" */
   function openPreviewSite() {
+    const finalButton = document.getElementById('import-live');
+    finalButton.removeClass('disabled')
     const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
     window.open(previewPage, "_blank");
    }
