@@ -19,8 +19,12 @@
     align-items: center;
     font-size: 16px;
   }
-</style>
 
+  #page-wrapper {
+    padding: 2.5em;
+  }
+</style>
+<div id="page-wrapper">
 <header>
   <h1
     class="ui header violet" style="margin: .5em; margin-bottom: 1em">
@@ -37,20 +41,27 @@
       <p style="text-align: center;"><strong>
         Welcome to the new Rose City Resource Admin Panel!
       </p></strong>
-      <p>The user guide will show you how to:</p>
+      <iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/iD_tY-uqhwI" 
+        title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+      </iframe>
+      <div class="guide-link ui raised segment" style="font-size: 16px; padding: 1em; margin-top: 2em; margin-bottom: 2em; text-align: center">
+        <a href="https://docs.google.com/document/d/1_v9uEX5B3XhMPsea2retTEO9ub_8Vypq2xr9Wfir1RM/edit?usp=sharing" target="_blank">View the text guide on Google Drive</a>
+      </div>
+  
+      <p class="strong">The text guide will show you how to:</p>
       <ul class="ui list">
         <li>Change your password</li>
         <li>Create a new user</li>
         <li>Add, edit, or remove the site banner</li>
-        <li>Update the live site data</li>
+        <li>Upload, preview, and update the live site data</li>
+      </ul>
+      <p class="strong">The video guide will give you:</p>
+      <ul class="ui list">
+        <li>An in-depth walkthrough of the site update process</li>
+        <li>Practical tips and tricks for testing the site</li>
       </ul>
     </div>
-
-
-    <div class="guide-link ui raised segment" style="font-size: 16px; padding: 1em; margin-top: 2em; margin-bottom: 2em;">
-      <a href="https://docs.google.com/document/d/1_v9uEX5B3XhMPsea2retTEO9ub_8Vypq2xr9Wfir1RM/edit?usp=sharing" target="_blank">View the guide on Google Drive</a>
-    </div>
   </div>
-  </main>
-
-
+</main>
+</div>
