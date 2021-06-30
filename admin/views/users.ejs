@@ -1,0 +1,75 @@
+<%- include('./partials/head'); %>
+<%- include ('./partials/navbar'); %>
+
+<style type="text/css">
+  form{
+  width: 40%;
+  padding: 25px;
+  }
+  @media(max-width: 692px){
+  form{
+  width: 70%;
+  }
+  }
+  @media(max-width: 450px){
+  form{
+  width: 80%;
+  }
+  }
+</style>
+<p></p>
+<h1>Register New User</h1>
+<div class="centered-page">
+  <ul>
+    <% if (typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+    <li><%= error.message %></li>
+    <% }) %> <% } %>
+  </ul>
+  <form class="ui form" action="/admin/register" method="POST">
+    <div class="field">
+      <label for="name">First and Last Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="First and last name"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="email">Email: </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="password">Temporary Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="role">User Role:
+      <select name="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+    </label>
+    </div>
+    <div class="field">
+      <!-- <input type="submit" value="Create" /> -->
+      <button type="submit" class="ui button secondary basic">
+        Create
+      </button>
+      <a href="/admin/dashboard">Cancel</a>
+    </div>
+  </form>
+</div>

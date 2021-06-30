@@ -1,0 +1,80 @@
+<%- include('./partials/head'); %>
+
+<style type="text/css">
+  body {
+    background-color: #231935;
+  }
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  form {
+    padding: 25px;
+  }
+  #error-div {
+    color: white;
+  }
+</style>
+
+<section>
+  <div id="error-div">
+
+    <% if(error && error.length > 0) { %>
+      <div>
+        <%= error %>
+      </div>
+    <% } %>
+    <% if(message && message.length > 0) { %>
+      <div>
+        <%= message %>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="ui segment">
+
+  <h1 class="ui header secondary" style="margin-bottom: 0">
+    <div class="content">
+      Street Roots Login
+    </div>
+    <div class="sub header">
+      Admin Portal for the <a href="https://rosecityresource.streetroots.org/">Rose City Resource Guide</a>
+    </div>
+  </h1>
+
+  <form class="ui form segment" action="/admin/login" method="POST">
+
+    <div class="field">
+      <label>Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        required
+      />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+        required
+      />      
+    </div>
+    <button class="ui teal fluid button" type="submit">Login</button>
+    </form>
+    <div style="text-align: center; line-height: 1.5em">
+      <strong>This is an administrative page. </strong><br /> 
+      <a href="https://rosecityresource.streetroots.org/">
+        Click here to see the Rose City Resource Guide
+      </a>
+    </div>
+  </div>
+
+</section>

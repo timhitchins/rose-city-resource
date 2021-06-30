@@ -1,0 +1,124 @@
+<!-- primary stylesheet, which is imported and used in every ejs view template file  -->
+<!-- TODO: see if there is a more "DRY" way to make these styles accessible to ejs files, instead of importing it at the top of each one  -->
+<style>
+/* -------- GLOBAL styles ------------- */
+h1, h2, h3, h4, h5, h6 { text-align: center; }
+/* p, div { text-align: center; } */
+
+html { scroll-behavior: smooth; }
+
+.strong {
+  font-weight: bold;
+}
+
+/* ---------- BANNER styles ------------- */
+.banner-preview {
+  width: 100%; 
+  display: flex; 
+  text-align: center; 
+  justify-content: center; 
+  align-items: center; 
+  background: #E3E3D9; 
+  min-height: 3em;
+}
+
+.banner-teal {
+  background: #008a8f;
+  color: #2e3238;
+}
+
+.banner-default {
+  background: #85898e;
+  color: #2e3238;
+}
+
+.banner-light {
+  background: #F3F4F5;
+  color: #2e3238;
+}
+
+.page {
+  display: flex; flex-direction: column; align-items: center; line-height: 1.5em; margin-top: 3vh;
+}
+
+.banner-info {
+  margin-top: 1.5em; font-size: 1.15em; color: #696969;
+}
+
+.form-container {
+  max-width: 850px; height: 50%; display: flex; flex-direction: column;
+}
+
+.container-content {
+  padding: 0 .75em;
+}
+
+.textarea-div {
+  margin-top: .75em; margin-bottom: .75em;
+}
+
+
+.toggle-and-submit {
+  display: flex; flex-direction: column; justify-content: center;
+}
+
+#html-hints-div p {
+  margin: .25em 0;
+}
+
+/* ---------- NAVBAR styles ------------- */
+
+.custom-right {
+  display: flex; 
+  justify-content: center;
+}
+
+.custom-right-menu {
+  right: 0; display: flex; justify-content: flex-start;
+}
+
+/* ---------- DASHBOARD styles ------------- */
+
+#dashboard .instructions {
+  min-height: 45vh;
+}
+
+.hidden {
+  display: none;
+}
+
+#dashboard main {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: flex-start;
+  padding: 1em 2.5em;
+  
+}
+#dashboard .steps {
+  width: 300px;
+}
+
+/* segment styles  */
+.primary-content {
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+}
+
+.primary-content details {
+  margin-top: .5em;
+}
+
+/* ---------- LOGIN styles ------------- */
+
+/* Gen styles. this one is for forms, mostly*/
+
+.centered-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+</style>

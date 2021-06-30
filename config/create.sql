@@ -12,8 +12,26 @@ CREATE EXTENSION IF NOT EXISTS citext; -- Allows case-insensitive data columns s
 
 /* Contains data related to the production data set */
 CREATE TABLE IF NOT EXISTS production_meta (
-  last_update timestamp with time zone
+  last_update timestamp with time zone,
+  site_banner_enabled boolean,
+  site_banner_content text
 )
+
+DROP FUNCTION IF EXISTS set_site_banner;
+CREATE FUNCTION set_site_banner(in content character varying, in is_enabled boolean, out void) AS '
+  UPDATE public.production_meta 
+  SET site_banner_content = content, site_banner_enabled = is_enabled
+' LANGUAGE sql;
+
+DROP FUNCTION IF EXISTS get_site_banner_content;
+CREATE FUNCTION get_site_banner_content(out character varying) AS '
+  SELECT site_banner_content from public.production_meta;
+' LANGUAGE sql;
+
+DROP FUNCTION IF EXISTS get_site_banner_enabled;
+CREATE FUNCTION get_site_banner_enabled(out boolean) AS '
+  SELECT site_banner_enabled from public.production_meta;
+' LANGUAGE sql;
 
 /* Contains login credentials for the admin page */
 CREATE TABLE IF NOT EXISTS production_user (

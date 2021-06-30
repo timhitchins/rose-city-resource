@@ -1,0 +1,53 @@
+<%- include('./styles'); %>
+
+<nav>
+  <div class="ui menu">
+    <!-- home  -->
+    <a href="/admin/home" 
+      class="header item <%= activeTab==="home" ? 'active' : '' %> ">
+      <i class="ui icon home large teal"></i>
+      <strong>Rose City Resource Home</strong>
+    </a>
+    <!-- right menu  -->
+    <div class="right menu">
+      <a href="/admin/dashboard"
+        class="item right custom-right <%= activeTab==="data" ? 'active' : '' %> ">
+        <i class="ui icon sync"></i>Update Data
+      </a>
+      
+      <a href="/admin/banner"
+        class="item custom-right <%= activeTab==="banner" ? 'active' : '' %>">
+        <i class="ui icon pencil alternate"></i>Update Banner
+      </a>
+      <!-- dropdown  -->
+      <div class="ui pointing dropdown link item custom-right-menu">
+        More <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item" href="/admin/users">
+            <i class="ui icon users"></i> Manage users
+          </a>
+
+          <a class="item" href="/admin/guide">
+            <i class="ui icon book"></i>
+            User guide
+          </a>
+
+          <a class="item"  href="/admin/settings">
+            <i class="ui icon cog"></i> Settings
+          </a>
+          <a class="item" href="/admin/logout">
+            <i class="ui icon power off"></i> Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<script>
+  $('.ui.dropdown').dropdown('hide');
+
+  function isActive(str) {
+    if (str === activeTab) { return 'active' } 
+    else { return '' }
+  }
+</script>

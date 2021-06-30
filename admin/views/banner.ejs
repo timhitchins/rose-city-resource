@@ -1,0 +1,263 @@
+<%- include('./partials/head'); %>
+<%- include('./partials/navbar'); %>
+
+<style>
+  .hint-header {
+    /* margin-left: 2em; */
+    margin-bottom: 15em;
+  }
+</style>
+<!-- preview div  -->
+<div class="banner-preview banner-light">
+  <div id="output">
+    <em>Enter text to see banner preview</em>
+  </div>
+</div>
+
+<div class="page">
+  <!-- semantic ui header  -->
+  <h1 class="ui header violet" style="margin-bottom: 0">
+  <div class="content">
+    <i class="edit icon"></i>
+    Edit Banner
+  </div>
+  <div class="sub header">
+    <em>You can view the current site banner by visiting <a href="https://rosecityresource.streetroots.org/" target="_blank">the live site</a></em>
+  </div>
+  </h1>
+
+    <div class="ui form-container">
+      <div class="container-content">
+
+      <!-- HTML sample code  -->
+      <div id="html-hints-div" 
+        style="margin: .5em 0em; color: #696969; margin-top: 1.5em"
+        class="ui segment">
+        <details>
+          <summary>Tips for styling your text with HTML
+            <i class="ui icon question circle outline"></i>
+          </summary>
+          <!-- Italic font  -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Italic</strong></p>
+              <p>
+                <strong>
+                  If you want your text to be italic, wrap it in an &lt;em&gt; tag
+                </strong>
+              </p>
+                <li>
+                  For example: <span 
+                  style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                  <strong>&lt;em&gt;</strong>Your text here<strong>&lt;/em&gt;</strong>
+                  </span>
+                </li>
+            </div>
+            <!-- Bold  -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Bold</strong></p>
+              <p><strong>
+                If you want your text to be bold, wrap it in an &lt;strong&gt; tag</strong>
+              </p>
+              <li>
+                For example: <span 
+                style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                <strong>&lt;strong&gt;</strong>Your text here<strong>&lt;/strong&gt;</strong>
+                </span>
+              </li>
+            </div>
+            <!-- Links  -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Links</strong></p>
+              <p><strong>
+                If you want the banner to include a link:
+              </strong>
+              </p>
+              <ol style="line-height: 2em">
+                <li>
+                  Copy this code, and paste it in the text box below:
+                </li>
+                <span 
+                  style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                  <strong>&lt;a href="www.somesite.com"&gt;</strong>Your text here<strong>&lt;/a&gt;</strong>
+                </span>
+                <li>
+                  Replace "Your text here" with your own text
+                </li>
+                <li>
+                  Replace "www.somesite.com" with the web address you want to link to
+                </li>
+              </ol>
+            </div>
+
+            <!-- font color  -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Font Color</strong></p>
+              <p><strong>
+                If you want to change the font color in the banner:</strong>
+              </p>
+              <ol style="line-height: 2em">
+                <li>
+                  Use a color-picker tool like <a href="https://htmlcolorcodes.com/" rel="no-referrer" target="_blank">htmlcolorcodes.com</a> to choose your color
+                </li>
+                <li>
+                  Copy the "hex code" of your color. Hint: It's 6 digits, and starts with a "#"
+                </li>
+                <li>
+                  Copy paste this code, and replace "000000" with your hex code:<br>
+                  <span 
+                    style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                    <strong>
+                      &lt;div style="color: #000000"&gt;
+                    </strong>Your text here
+                    <strong>
+                      &lt;/div&gt;
+                    </strong>
+                  </span>
+                </li>
+              </ol>
+            </div>
+
+            <!-- background color -->
+            <div style="margin-left: 1em" class="ui message">
+              <p class="hint-header"><strong>Background Color</strong></p>
+              <p><strong>
+                If you want to change the background color of the banner:</strong>
+              </p>
+              <ol style="line-height: 2em">
+                <li>
+                  Follow the steps above to find the "hex code" of your font color
+                </li>
+                <li>
+                  Copy paste this code, and replace "808080" with your hex code:<br>
+                  <span 
+                    style="border: 1px solid grey; border-radius: 3px; background: #dcdcdc; padding: .15em">
+                    <strong>
+                      &lt;div style="background-color: #808080; width: 100vw; height: 3em; display: flex; justify-content: center; align-items: center;"&gt;
+                    </strong>This will make the background grey
+                    <strong>
+                      &lt;/div&gt;
+                    </strong>
+                  </span>
+                </li>
+                Note: this example has extra values, but the only thing you need to change is the background-color value. You can optionally add a font color or other CSS properties as desired.
+              </ol>
+            </div>
+        </details>
+      </div>
+      <div class="banner-info">
+        <strong>Instructions:</strong>
+        Enter the information you want displayed in the site banner, formatted using <a  href="https://www.w3schools.com/html/html_formatting.asp" target="_blank" rel="noreferrer">HTML</a>.
+      </div>
+      <p></p>
+  
+      <!-- FORM  -->
+      <form class="ui form" id="form">
+        <!-- textarea  -->
+        <div class="field textarea-div">
+          <textarea 
+            name="content"
+            id="banner-html"
+            aria-label="Input to enter HTML and text for the site banner" 
+            placeholder="Banner text...">
+          </textarea>
+        </div>
+
+        <button class="ui button violet fluid" type="button" onClick="showPreview()">Update preview</button>
+        
+        <div class="ui divider"></div>
+        <!-- checkbox & submit button -->
+        <div class="toggle-and-submit">
+          <div class="two fields" style="display: flex; justify-content: space-between;">
+
+            <div class="ui toggle checkbox" style="margin: 1em; display: flex">
+              <span>Disable site banner &nbsp &nbsp &nbsp</span>
+              <input type="checkbox" tabindex="0" class="hidden" 
+                name="isEnabled" id="isEnabled" /> 
+              <label>Enable site banner</label>
+            </div>
+          </div>
+          
+          <br />
+          <button class="ui button violet basic" type="submit">
+            Update live site
+          </button>
+        </div>
+        </div> 
+      </form> 
+    </div>
+  </div>
+
+<script>
+  $('.ui.checkbox')
+  .checkbox();
+
+  /* ---------- preview logic -------------- */
+  function showPreview() {
+    let textBoxValue = document.getElementById('banner-html').value;
+    let outputDiv = document.getElementById('output');
+
+    if ((textBoxValue === "") && (isEnabled === true)) { outputDiv.innerHTML = "<em>Enter text to see banner preview</em>" }
+    outputDiv.innerHTML = textBoxValue;
+  }
+
+  /* form submit helper fn */
+  function confirmSubmit() {
+    return confirm('This will update the banner on rosecityresource.streetroots.org. Are you sure you want to proceed?');
+  }
+
+  /* ---------- form submit -------------- */
+  let form  = document.getElementById('form');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const content = form.elements['content'].value.trim();
+    const isEnabled = form.elements['isEnabled'].checked;
+    // const isDisabled = form.elements['isDisabled'].checked;
+
+    // check for data
+    if ((content && isEnabled) || (!isEnabled)) { 
+      // ask the user if they're sure
+      if (confirmSubmit()) {
+
+        const rawResponse = await fetch('/admin/set-site-banner', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({content: content, isEnabled: isEnabled})
+        });
+
+        const result = await rawResponse.json().catch(e => console.error(e))
+console.log('RESULT', result)
+        // TODO: Kent - is there a better way to confirm success? or is this the best way to do it?
+        if (result === '"Created"') {
+          alert('Banner successfully updated!')
+        }
+        else {
+          alert('Something went wrong. Please try again')
+        }
+
+      }
+    } else {
+      // if values are missing
+      alert("Some values are missing or incorrect. Please check your input and try again") 
+    }
+  });
+
+</script>
+</div>
+
+                <!-- <li><strong>&lt;strong&gt;</strong>Your text here<strong>&lt;strong&gt;</strong></li> -->
+                <!-- <p><strong>How to use: </strong></p>
+                <ul class="ui list"> 
+                <li>
+                  Copy the code in quotes and paste it in the text box below
+                </li>
+                <li>
+                  Replace "Your text here" with your own text
+                </li>
+                <li>
+                  Click, "Update preview" to see the results!
+                </li> -->
+              <!-- </ul> -->
