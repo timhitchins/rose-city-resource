@@ -27,7 +27,7 @@ export async function inOutLocation() {
   return await getCurrentLocation({
     enableHighAccuracy: true,
     timeout: 5000,
-    maximumAge: 60000
+    maximumAge: 0 /* TODO: set to 60000 and update the location every 60 seconds (for users on mobile) */
   })
     .catch(e => {
       if (e.name === 'PositionError') {

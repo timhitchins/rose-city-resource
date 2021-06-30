@@ -11,7 +11,7 @@ import {
   cardSortByDistance,
   cardWebAddressFixer,
 } from "../../utils/api";
-import { greenLMarker } from "./../../icons/mapIcons";
+import { greenLMarker } from "../../icons/mapIcons";
 
 const DetailMap = (props) => {
   return (

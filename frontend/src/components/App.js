@@ -20,7 +20,6 @@ import {
 } from "../utils/api";
 import "../icons/iconsInit";
 import sanitizeHtml from 'sanitize-html'
-import 'semantic-ui-css/semantic.min.css'
 
 class App extends React.PureComponent {
   constructor(props) {

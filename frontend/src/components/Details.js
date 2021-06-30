@@ -2,7 +2,7 @@ import React from 'react';
 import queryString from 'query-string';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cards from './Results/Cards';
-import { cardDetailsFilter, directionsUrlBuilder } from './../utils/api';
+import { cardDetailsFilter, directionsUrlBuilder } from '../utils/api';
 
 class Details extends React.PureComponent {
   state = { cardDetailsData: null };
