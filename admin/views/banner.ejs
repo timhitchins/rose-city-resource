@@ -208,7 +208,7 @@
   /* ---------- form submit -------------- */
   let form  = document.getElementById('form');
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const content = form.elements['content'].value.trim();
@@ -218,26 +218,28 @@
     // check for data
     if ((content && isEnabled) || (!isEnabled)) { 
       // ask the user if they're sure
-      if (confirmSubmit()) { 
+      if (confirmSubmit()) {
 
-        (async () => {
-          const rawResponse = await fetch('/admin/set-site-banner', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({content: content, isEnabled: isEnabled})
-          });
-          const result = await rawResponse.text(); 
-          // TODO: Kent - is there a better way to confirm success? or is this the best way to do it?
-          if (result === "Created") {
-            alert('Banner successfully updated!')
-          }  else {
-            alert('Something went wrong. Please try again')
-          }
+        const rawResponse = await fetch('/admin/set-site-banner', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({content: content, isEnabled: isEnabled})
+        });
 
-        })();
-      } 
+        const result = String(await rawResponse.json().catch(e => console.error(e)))
+
+        console.log(result, typeof result)
+        // TODO: Kent - is there a better way to confirm success? or is this the best way to do it?
+        if (result === '"Created"') {
+          alert('Banner successfully updated!')
+        }
+        else {
+          alert('Something went wrong. Please try again')
+        }
+
+      }
     } else {
       // if values are missing
       alert("Some values are missing or incorrect. Please check your input and try again") 
