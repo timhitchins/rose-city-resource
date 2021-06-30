@@ -17,6 +17,7 @@ module.exports = (app, pool) => {
         }
 
         /* Return JSON to the client */
+        res.setHeader('Cache-Control', 'no-cache');
         await res.json(sqlres.rows[0]);
 
       });

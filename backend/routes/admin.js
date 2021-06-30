@@ -226,6 +226,7 @@ module.exports = (app, pool) => {
       await pool.query('SELECT set_site_banner($1, $2);',
         [cleanContent, isEnabled === true]);
       const successString = 'Created'
+      res.setHeader('Cache-Control', 'no-cache');
       res.json(JSON.stringify(successString))
 
     } catch (err) {
