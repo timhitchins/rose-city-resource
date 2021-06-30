@@ -230,6 +230,7 @@ module.exports = (app, pool) => {
         res.sendStatus(500);
       }
     }
+
     setSiteBanner()
   });
 
