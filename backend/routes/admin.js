@@ -227,7 +227,7 @@ module.exports = (app, pool) => {
         [cleanContent, isEnabled === true]);
       const successString = 'Created'
       res.setHeader('Cache-Control', 'no-cache');
-      res.json(JSON.stringify(successString))
+      res.json(successString)
 
     } catch (err) {
       console.error(err);
@@ -238,40 +238,48 @@ module.exports = (app, pool) => {
 
   /* Banner */
   app.get("/admin/banner", userIsAdmin, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render("../../admin/views/banner.ejs", { activeTab: "banner" });
   });  
 
   /* Dashboard (also currently home) */
   app.get("/admin/dashboard", userIsAdmin, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render("../../admin/views/dashboard.ejs", { activeTab: "data" });
   });   
 
   /* Home (also currently dashboard) */
   app.get("/admin/home", userIsAdmin, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render("../../admin/views/dashboard.ejs", { activeTab: "home" });
   });   
 
   /* User guide */
   app.get("/admin/guide", userIsAdmin, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render("../../admin/views/guide.ejs", { activeTab: "guide" });
   });  
 
   /* Login */
   app.get("/admin/login", userIsNotAuthenticated, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render("../../admin/views/login.ejs", { message: null });
   });
 
   /* Register new user (NOTE: this is an admin privilege only, and is intentionally *not* outward facing) */
   app.get('/admin/register', userIsAdmin, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render('../../admin/views/registerUser.ejs', { activeTab: "register"});
   });
 
   app.get('/admin/users', userIsAdmin, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render('../../admin/views/users.ejs', { activeTab: "users"});
   });
 
 
   app.get("/admin/dashboard-old", userIsAdmin, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render("../../admin/views/dashboard-old.ejs", { activeTab: "guide" });
   }); 
 
@@ -282,6 +290,7 @@ module.exports = (app, pool) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await pool.query('INSERT INTO production_user (name, role, email, password) VALUES ($1, $2, $3, $4)', [name, role, email, hashedPassword]
         );
+        res.setHeader('Cache-Control', 'no-cache');
         res.render('../../admin/views/users', { activeTab: 'users' });
       } catch (err) {
         console.error(err);
@@ -293,6 +302,7 @@ module.exports = (app, pool) => {
 
   /* Change password */
    app.get('/admin/settings', userIsAuthenticated, (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.render('../../admin/views/settings.ejs', { activeTab: "settings"});
   });
 
@@ -311,10 +321,12 @@ module.exports = (app, pool) => {
       bcrypt.hash(newPassword, 10)
       .then(hashedPassword => {
         changePassword(req.user.email, hashedPassword);
+        res.setHeader('Cache-Control', 'no-cache');
         res.redirect("/admin/dashboard");
       })
     }
     catch (e) {
+      res.setHeader('Cache-Control', 'no-cache');
       res.sendStatus(500);
     }
 
@@ -323,6 +335,7 @@ module.exports = (app, pool) => {
   /* Logout */
   app.get("/admin/logout", (req, res) => {
     req.logout();
+    res.setHeader('Cache-Control', 'no-cache');
     res.render("../../admin/views/login.ejs", { message: "You have logged out successfully" });
   });
 
@@ -338,6 +351,7 @@ module.exports = (app, pool) => {
   /* Passport middleware function to protect routes */
   function userIsNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
+      res.setHeader('Cache-Control', 'no-cache');
       return res.redirect("/admin/dashboard");
     }
     next();
@@ -348,6 +362,7 @@ module.exports = (app, pool) => {
     if (req.isAuthenticated()) {
       return next();
     }
+    res.setHeader('Cache-Control', 'no-cache');
     res.redirect("/admin/login");
   }
 
@@ -356,6 +371,7 @@ module.exports = (app, pool) => {
     if (req.isAuthenticated() && req.user.role === "admin") {
       return next();
     }
+    res.setHeader('Cache-Control', 'no-cache');
     res.redirect("/admin/dashboard");
   }
 

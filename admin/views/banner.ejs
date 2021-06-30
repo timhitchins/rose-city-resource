@@ -228,9 +228,8 @@
           body: JSON.stringify({content: content, isEnabled: isEnabled})
         });
 
-        const result = String(await rawResponse.json().catch(e => console.error(e)))
+        const result = await rawResponse.json().catch(e => console.error(e))
 
-        console.log(result, typeof result)
         // TODO: Kent - is there a better way to confirm success? or is this the best way to do it?
         if (result === '"Created"') {
           alert('Banner successfully updated!')
