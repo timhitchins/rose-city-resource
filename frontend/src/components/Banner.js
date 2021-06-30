@@ -6,21 +6,19 @@ const Banner = (props) => {
   
   const { bannerEnabled, bannerContent } = props;
 
-  const inputIsValid = (str) => {
-    return (str && str.length > 0 && typeof str === 'string')
+  const inputIsValid = str => {
+    return typeof str === 'string' && str.length > 0
   }
 
   const markup = ({__html: bannerContent})
-  console.log(markup)
-  if (bannerEnabled && inputIsValid(bannerContent)) {
+
+  if (bannerEnabled === true && inputIsValid(bannerContent)) {
 
   return (
-    <div className='banner-preview teal'
-      dangerouslySetInnerHTML={markup}>
-    </div> 
+    <div className='banner-preview teal' dangerouslySetInnerHTML={markup}></div> 
   )
   } else {
-  return null;
+    return null;
   }
 }
 
