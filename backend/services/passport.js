@@ -5,9 +5,7 @@ require('dotenv').config
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require ('bcrypt')
 
-passport.serializeUser((user, done) => {
-  done(null, user.id)
-})
+passport.serializeUser((user, done) => done(null, user.id))
 
 passport.deserializeUser(async (id, done) => {
   try {

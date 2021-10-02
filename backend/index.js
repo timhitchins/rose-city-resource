@@ -33,14 +33,14 @@ app.use(function(req, res, next) {
   next();
 });
 
-/* Config for auth and express session */
-// require('./services/expressSession')(app)
-// require('./services/passport') 
+/* Configure view templates, which form the HTML part of the admin and login pages */
+app.set("view engine", "ejs");
 
 /* Routes */
 require("./routes/query")(app, db);
 require("./routes/query-staging")(app, db);
 require("./routes/meta-information")(app, db);
+require("./routes/authRoutes")(app, db);
 require("./routes/admin")(app, db);
 
 /* Default handler for requests not handled by one of the above routes */

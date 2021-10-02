@@ -7,13 +7,6 @@ var sanitizeHtml = require('sanitize-html');
 
 module.exports = (app, pool) => {
 
-  /* Config for auth and express session */
-  require('../services/expressSession')(app)
-  require('../services/passport') 
-
-  /* Configure view templates, which form the HTML part of the admin and login pages */
-  app.set("view engine", "ejs");
-
   /* Default handler for the admin page */
   app.get(["/admin", "/admin/dashboard"], userIsAuthenticated, async (req, res, next) => {
     try {
