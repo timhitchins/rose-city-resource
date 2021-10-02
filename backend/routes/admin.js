@@ -1,32 +1,15 @@
 const keys = require("../../config/nodeKeys");
 const { spawn } = require('child_process');
 const passport = require("passport");
-const flash = require("express-flash");
-const session = require("express-session");
 const path = require('path');
 const bcrypt = require('bcrypt');
 var sanitizeHtml = require('sanitize-html');
 
 module.exports = (app, pool) => {
 
-  /* Configure Passport, the login mechanism for the admin page */
-  const initializePassport = require("../initializePassport");
-  initializePassport(passport, pool);
-  app.use(
-    session({
-      secret: 'secret',
-      resave: false,
-      saveUninitialized: false
-    })
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(flash());
-  app.use(function (req, res, next) {
-    res.locals.error = req.flash("error");
-    res.locals.success = req.flash("success")
-    next();
-  });
+  /* Config for auth and express session */
+  require('../services/expressSession')(app)
+  require('../services/passport') 
 
   /* Configure view templates, which form the HTML part of the admin and login pages */
   app.set("view engine", "ejs");

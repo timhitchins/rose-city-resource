@@ -24,6 +24,8 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
+    "connect-flash": "^0.1.1",
+    "connect-pg-simple": "^7.0.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
@@ -34,6 +36,7 @@
     "node-postgres": "^0.6.2",
     "nodemon": "^2.0.8",
     "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-local-roles": "^1.0.1",
     "pg": "^8.5.1",
