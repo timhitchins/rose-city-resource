@@ -1,5 +1,4 @@
 <!-- primary stylesheet, which is imported and used in every ejs view template file  -->
-<!-- TODO: see if there is a more "DRY" way to make these styles accessible to ejs files, instead of importing it at the top of each one  -->
 <style>
 /* -------- GLOBAL styles ------------- */
 
@@ -40,7 +39,6 @@ html, body {
 }
 
 h1, h2, h3, h4, h5, h6 { text-align: center; }
-/* p, div { text-align: center; } */
 
 html { scroll-behavior: smooth; }
 
@@ -75,15 +73,24 @@ html { scroll-behavior: smooth; }
 }
 
 .page {
-  display: flex; flex-direction: column; align-items: center; line-height: 1.5em; margin-top: 3vh;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  line-height: 1.5em; 
+  margin-top: 3vh;
 }
 
 .banner-info {
-  margin-top: 1.5em; font-size: 1.15em; color: #696969;
+  margin-top: 1.5em; 
+  font-size: 1.15em; 
+  color: #696969;
 }
 
 .form-container {
-  max-width: 850px; height: 50%; display: flex; flex-direction: column;
+  max-width: 850px; 
+  height: 50%; 
+  display: flex; 
+  flex-direction: column;
 }
 
 .container-content {
@@ -91,12 +98,15 @@ html { scroll-behavior: smooth; }
 }
 
 .textarea-div {
-  margin-top: .75em; margin-bottom: .75em;
+  margin-top: .75em; 
+  margin-bottom: .75em;
 }
 
 
 .toggle-and-submit {
-  display: flex; flex-direction: column; justify-content: center;
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
 }
 
 #html-hints-div p {
@@ -111,7 +121,9 @@ html { scroll-behavior: smooth; }
 }
 
 .custom-right-menu {
-  right: 0; display: flex; justify-content: flex-start;
+  right: 0; 
+  display: flex; 
+  justify-content: flex-start;
 }
 
 /* ---------- DASHBOARD styles ------------- */
@@ -135,7 +147,7 @@ html { scroll-behavior: smooth; }
   width: 300px;
 }
 
-/* segment styles  */
+/* Dashboard segment styles  */
 .primary-content {
   display: flex; 
   flex-direction: column;
@@ -149,7 +161,6 @@ html { scroll-behavior: smooth; }
 
 /* ---------- LOGIN styles ------------- */
 
-/* --------- login styles ----------- */
 #login-page {
   display:flex;
   flex-direction: column;
@@ -234,8 +245,8 @@ html { scroll-behavior: smooth; }
   padding:.5em;
 }
 
-#login-page button {
-  color:#f5f4f2;
+#forms-div button {
+  background-color:#4285F4;
 }
 
 #login-page .top-message {
@@ -248,12 +259,13 @@ html { scroll-behavior: smooth; }
 }
 
 #login-page .bottom-message a {
-  color:#098ca8;
+  color:#4285F4;
+  text-decoration: underline;
 }
 
 #divider-text {
   font-weight: 700;
-  color: #2A00A2;
+  color: #231935;
   font-size: 1.15em;
   padding: 5px;
 }
@@ -262,15 +274,6 @@ html { scroll-behavior: smooth; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-/* Gen styles. this one is for forms, mostly*/
-
-.centered-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 </style>
