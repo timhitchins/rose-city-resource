@@ -37,11 +37,13 @@ app.use(function(req, res, next) {
 app.set("view engine", "ejs");
 
 /* Routes */
+const adminRoutes = require('./routes/adminRoutes')
+
 require("./routes/query")(app, db);
 require("./routes/query-staging")(app, db);
 require("./routes/meta-information")(app, db);
 require("./routes/authRoutes")(app, db);
-require("./routes/admin")(app, db);
+app.use('/admin', adminRoutes)
 
 /* Default handler for requests not handled by one of the above routes */
 if (process.env.NODE_ENV === "production") {
