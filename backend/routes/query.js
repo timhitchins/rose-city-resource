@@ -1,4 +1,5 @@
 module.exports = (app, pool) => {
+
   app.get("/api/query", async (req, res, next) => {
     try {
 

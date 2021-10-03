@@ -1,0 +1,74 @@
+<%- include('./partials/head'); %>
+<%- include ('./partials/styles'); %>
+
+<!-- If Express sends an error or message, display it here  -->
+<span class="top-message">
+  <% if(error && error.length > 0) { %>
+    <div>
+      <%= error %>
+    </div>
+  <% } %>
+  <% if(message && message.length > 0) { %>
+    <div>
+      <%= message %>
+    </div>
+  <% } %>
+</span>
+
+<body id="login-page">
+  <div class="ui segment" id="login-segment">
+
+    <h2 class="ui right header">
+      Street Roots Staff Login
+      <div class="sub header">
+        Admin Panel for the Rose City Resource Guide
+      </div>
+    </h2>
+    
+    <div id="forms-div">
+    <!-- Google OAuth login  -->
+    <form class="ui form" action="/auth/google" method="POST" id="google-form">
+      <button class="ui blue button fluid large" type="submit">
+        <i class="ui icon google"></i>
+        Sign in with Google
+      </button>
+    </form>
+
+    <div id="dividers">
+      <div class="divider"></div>
+      <div id="divider-text">OR</div>
+      <div class="divider"></div>
+    </div>
+
+    <!-- Email/password form  -->
+    <form class="ui form" action="/admin/login" method="POST">
+      <h3>Login with email</h3>
+      <div class="field" style="margin-top: .5em">
+        <div class="ui left icon input">
+          <input type="email" name="email" id="email" aria-label="email" placeholder="Email">
+          <i class="user icon"></i>    
+        </div>
+      </div>
+      <div class="field" style="margin-top: .5em">
+        <div class="ui left icon input">
+          <input type="password" name="password" id="password" aria-label="password" placeholder="Password">
+          <i class="lock icon"></i>    
+        </div>
+      </div> 
+      <br />
+     <button class="ui blue button basic fluid" type="submit">
+        Log in with email and password
+      </button>
+    </form>
+  </div>
+
+  </div>
+
+  <!-- text below form  -->
+  <div class='bottom-message'>
+    This is an administrative page.<br />
+    <a href="<%= process.env.FRONTEND_URL %>">
+      Click here for the main site
+    </a>
+  </div>
+</body>
