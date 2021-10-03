@@ -160,15 +160,73 @@ html { scroll-behavior: smooth; }
   text-align: center;
 }
 
-#login-segment {
-  width: 55vw;
-  min-height: 45vh;
-  max-width: 500px;
-  padding: 25px;
-  padding-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+/* DESKTOP login form */
+@media(min-width: 650px) {
+
+    #login-segment {
+      height: 350px;
+      width: 70%;
+      min-width: 600px;
+      max-width: 650px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+
+    #login-page .divider {
+      border-left: 2px solid #d9d9d9;
+      height: 47%;
+    }
+
+    #login-page #dividers {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #horizontal-divider {
+      display: none;
+    }
+
+    #forms-div {
+      display: flex;
+      justify-content: space-around;
+      height: 275px;
+    }
+    
+}
+
+/* MOBILE login form */
+@media(max-width: 649px) {
+
+  #login-segment {
+      width: 90%;
+      min-width: 250px;
+      padding: 25px;
+    }
+
+    #login-page .divider {
+      border-bottom: 2px solid #d9d9d9;
+      width: 47%;
+    }
+
+    #horizontal-divider {
+      visibility: visible;
+    }
+
+    #login-page #dividers {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #forms-div {
+      display: flex;
+      flex-direction: column;
+    }
+
 }
 
 #login-page form {
@@ -191,6 +249,19 @@ html { scroll-behavior: smooth; }
 
 #login-page .bottom-message a {
   color:#098ca8;
+}
+
+#divider-text {
+  font-weight: 700;
+  color: #2A00A2;
+  font-size: 1.15em;
+  padding: 5px;
+}
+
+#google-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Gen styles. this one is for forms, mostly*/

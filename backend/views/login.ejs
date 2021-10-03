@@ -21,21 +21,28 @@
     <h2 class="ui right header">
       Street Roots Staff Login
       <div class="sub header">
-        Login to make changes to the Rose City Resource Guide
+        Admin Panel for the Rose City Resource Guide
       </div>
     </h2>
-
+    
+    <div id="forms-div">
     <!-- Google OAuth login  -->
-    <form class="ui form" action="/auth/google" method="POST">
-      <button class="ui button fluid pink" type="submit">
-        Login with Google
+    <form class="ui form" action="/auth/google" method="POST" id="google-form">
+      <button class="ui button fluid teal large" type="submit">
+        <i class="ui icon google"></i>
+        Sign in with Google
       </button>
     </form>
 
-    <div class="ui horizontal divider">Or</div>
+    <div id="dividers">
+      <div class="divider"></div>
+      <div id="divider-text">OR</div>
+      <div class="divider"></div>
+    </div>
 
     <!-- Email/password form  -->
     <form class="ui form" action="/admin/login" method="POST">
+      <h3>Login with email</h3>
       <div class="field" style="margin-top: .5em">
         <div class="ui left icon input">
           <input type="email" name="email" id="email" aria-label="email" placeholder="Email">
@@ -49,10 +56,11 @@
         </div>
       </div> 
       <br />
-     <button class="ui button basic fluid pink" type="submit">
+     <button class="ui button basic fluid teal" type="submit">
         Log in with email and password
       </button>
     </form>
+  </div>
 
   </div>
 

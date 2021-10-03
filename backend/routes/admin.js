@@ -3,14 +3,10 @@ const { spawn } = require('child_process');
 const path = require('path');
 const bcrypt = require('bcrypt');
 var sanitizeHtml = require('sanitize-html');
-const asyncHandler = require('express-async-handler')
 const pool = require('../db')
 
 module.exports = (app) => {
   
-  // Set the path to our "views" directory
-  app.set('views', path.join(__dirname, '../../admin/views'))
-
   /* Middleware to protect routes */
   // req.isAuthenticated is a Passport function
   function ensureLogin (req, res, next) {
