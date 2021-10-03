@@ -7,7 +7,9 @@ if (process.env.NODE_ENV === "production") {
     /* Heroku creates an environment variable called DATABASE_URL for postgres which is subject to change at any time by Heroku */
     /* This means we need to use the DATABASE_URL environment variable rather than hard-coding the connection string */
     /* That way, the application won't break when Heroku changes DATABASE_URL */
-    DATABASE_URL: process.env.DATABASE_URL
+    DATABASE_URL: process.env.DATABASE_URL,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET
   };
 } else {
   module.exports = {
@@ -17,6 +19,8 @@ if (process.env.NODE_ENV === "production") {
     /* The local development postgres connection string requires manually adding environment variables */
     /* The DATABASE_URL string can be found by logging into Heroku and navigating to the postgres add-on details */
     /* Use the 'env' command to verify that the terminal instance contains the DATABASE_URL environment variable */
-    DATABASE_URL: process.env.DATABASE_URL
+    DATABASE_URL: process.env.DATABASE_URL,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID_DEV,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET_DEV
   };
 }

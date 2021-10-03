@@ -4,6 +4,7 @@ const { updateOauthUser, getUserByLocalId, getUserByGoogleId, getUserByEmail } =
 require('dotenv').config
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require ('bcrypt')
+const keys = require('../../config/nodeKeys')
 
 passport.serializeUser((user, done) => done(null, user.id))
 
@@ -47,8 +48,8 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-    clientID: process.env.GOOGLE_CLIENT_ID_DEV,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET_DEV,
+    clientID: keys.GOOGLE_CLIENT_ID,
+    clientSecret: keys.GOOGLE_CLIENT_SECRET,
     callbackURL: `/auth/google/callback`,
     proxy: true
     }, 

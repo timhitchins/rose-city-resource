@@ -101,5 +101,5 @@ module.exports = {
   createOauthUser, 
   getUserByLocalId, 
   getUserByGoogleId, 
-  getUserByEmail 
+  getUserByEmail
 }

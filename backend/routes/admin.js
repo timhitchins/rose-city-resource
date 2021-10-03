@@ -1,14 +1,47 @@
 const keys = require("../../config/nodeKeys");
 const { spawn } = require('child_process');
-const passport = require("passport");
 const path = require('path');
 const bcrypt = require('bcrypt');
 var sanitizeHtml = require('sanitize-html');
+const asyncHandler = require('express-async-handler')
+const pool = require('../db')
 
-module.exports = (app, pool) => {
+module.exports = (app) => {
+  
+  // Set the path to our "views" directory
+  app.set('views', path.join(__dirname, '../../admin/views'))
+
+  /* Middleware to protect routes */
+  // req.isAuthenticated is a Passport function
+  function ensureLogin (req, res, next) {
+    res.setHeader('Cache-Control', 'no-cache')
+    if (req.isAuthenticated()) {
+      return next()
+    }
+    res.redirect('/admin/login')
+  }
+
+  function ensureNotLoggedIn (req, res, next) {
+    res.setHeader('Cache-Control', 'no-cache')
+    if (req.isAuthenticated()) {
+      return res.redirect('/admin/dashboard')
+    }
+    next();
+  }
+
+  /* For routes that should be accessible to admin users only */
+  /* Not currently in use */
+  function ensureAdmin(req, res, next) {
+    res.setHeader('Cache-Control', 'no-cache')
+    if (req.isAuthenticated() && req.user.role === 'admin') {
+      return next()
+    }
+    res.redirect('/admin/dashboard')
+  }
+
 
   /* Default handler for the admin page */
-  app.get(["/admin", "/admin/dashboard"], userIsAuthenticated, async (req, res, next) => {
+  app.get(["/admin", "/admin/dashboard"], ensureLogin, async (req, res, next) => {
     try {
 
       const { action } = req.query;
@@ -51,7 +84,7 @@ module.exports = (app, pool) => {
         return;
       }
       else {
-        res.render('../../admin/views/dashboard.ejs', { userData: req.user, activeTab: "data" });
+        res.render('dashboard', { userData: req.user, activeTab: "data" });
         return;
       }
 
@@ -169,7 +202,7 @@ module.exports = (app, pool) => {
   });
 
   /* Set the Site Banner */
-  app.post('/admin/set-site-banner', userIsAdmin, async (req, res, next) => {
+  app.post('/admin/set-site-banner', ensureLogin, async (req, res, next) => {
 
     try {
       const { content, isEnabled } = req.body;
@@ -213,61 +246,50 @@ module.exports = (app, pool) => {
   });
 
   /* Banner */
-  app.get("/admin/banner", userIsAdmin, (req, res) => {
+  app.get("/admin/banner", ensureLogin, (req, res) => {
     res.setHeader('Cache-Control', 'no-cache');
-    res.render("../../admin/views/banner.ejs", { activeTab: "banner" });
+    res.render('banner', { activeTab: 'banner' });
   });  
 
   /* Dashboard (also currently home) */
-  app.get("/admin/dashboard", userIsAdmin, (req, res) => {
+  app.get("/admin/dashboard", ensureLogin, (req, res) => {
     res.setHeader('Cache-Control', 'no-cache');
-    res.render("../../admin/views/dashboard.ejs", { activeTab: "data" });
+    res.render('dashboard', { activeTab: "data" });
   });   
 
   /* Home (also currently dashboard) */
-  app.get("/admin/home", userIsAdmin, (req, res) => {
+  app.get('/admin/home', ensureLogin, (req, res) => {
     res.setHeader('Cache-Control', 'no-cache');
-    res.render("../../admin/views/dashboard.ejs", { activeTab: "home" });
+    res.render('dashboard', { activeTab: 'home' });
   });   
 
   /* User guide */
-  app.get("/admin/guide", userIsAdmin, (req, res) => {
-    res.setHeader('Cache-Control', 'no-cache');
-    res.render("../../admin/views/guide.ejs", { activeTab: "guide" });
+  app.get('/admin/guide', ensureLogin, (req, res) => {
+    res.render('guide', { activeTab: 'guide' });
   });  
 
   /* Login */
-  app.get("/admin/login", userIsNotAuthenticated, (req, res) => {
-    res.setHeader('Cache-Control', 'no-cache');
-    res.render("../../admin/views/login.ejs", { message: null });
+  app.get('/admin/login', ensureNotLoggedIn, (req, res) => {
+    res.render('login', { message: null })
   });
 
   /* Register new user (NOTE: this is an admin privilege only, and is intentionally *not* outward facing) */
-  app.get('/admin/register', userIsAdmin, (req, res) => {
-    res.setHeader('Cache-Control', 'no-cache');
-    res.render('../../admin/views/registerUser.ejs', { activeTab: "register"});
+  app.get('/admin/register', ensureLogin, (req, res) => {
+    res.render('registerUser', { activeTab: 'register'});
   });
 
-  app.get('/admin/users', userIsAdmin, (req, res) => {
-    res.setHeader('Cache-Control', 'no-cache');
-    res.render('../../admin/views/users.ejs', { activeTab: "users"});
+  app.get('/admin/users', ensureLogin, (req, res) => {
+    res.render('users', { activeTab: 'users'});
   });
 
-
-  app.get("/admin/dashboard-old", userIsAdmin, (req, res) => {
-    res.setHeader('Cache-Control', 'no-cache');
-    res.render("../../admin/views/dashboard-old.ejs", { activeTab: "guide" });
-  }); 
-
-  app.post('/admin/register', userIsAdmin, (req, res) => {
+  app.post('/admin/register', ensureLogin, (req, res) => {
     const registerUser = async () => {
       try {
         const { name, role, email, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await pool.query('INSERT INTO production_user (name, role, email, password) VALUES ($1, $2, $3, $4)', [name, role, email, hashedPassword]
         );
-        res.setHeader('Cache-Control', 'no-cache');
-        res.render('../../admin/views/users', { activeTab: 'users' });
+        res.render('users', { activeTab: 'users' });
       } catch (err) {
         console.error(err);
         res.sendStatus(500);
@@ -277,79 +299,38 @@ module.exports = (app, pool) => {
   });
 
   /* Change password */
-   app.get('/admin/settings', userIsAuthenticated, (req, res) => {
-    res.setHeader('Cache-Control', 'no-cache');
-    res.render('../../admin/views/settings.ejs', { activeTab: "settings"});
+   app.get('/admin/settings', ensureLogin, (req, res) => {
+    res.render('settings', { activeTab: 'settings'});
   });
 
   /* Handle input from the change password form */
-  app.post('/admin/changePassword', userIsAuthenticated, (req, res) => {
-    const { newPass1, newPass2 } = req.body;
- 
-    let newPassword = '';
-    if (newPass1 !== newPass2) {
-      req.error('New passwords must match');
-    } else {
-      newPassword = newPass1;
-    }
-
+  app.post('/admin/changePassword', ensureLogin, (req, res) => {
     try {
-      bcrypt.hash(newPassword, 10)
+
+      const { newPass1, newPass2 } = req.body;
+  
+      if (newPass1 !== newPass2) {
+        return res.render('settings', { 
+          activeTab: 'settings', 
+          message: 'Passwords must match' 
+        }
+      )} 
+
+      bcrypt.hash(newPass1, 10)
       .then(hashedPassword => {
         changePassword(req.user.email, hashedPassword);
-        res.setHeader('Cache-Control', 'no-cache');
-        res.redirect("/admin/dashboard");
+        return res.render('settings', { 
+          activeTab: 'settings', 
+          message: 'Success! Your password has been updated' 
+        })
       })
     }
     catch (e) {
-      res.setHeader('Cache-Control', 'no-cache');
       res.sendStatus(500);
     }
 
   });
 
-  /* Logout */
-  app.get("/admin/logout", (req, res) => {
-    req.logout();
-    res.setHeader('Cache-Control', 'no-cache');
-    res.render("../../admin/views/login.ejs", { message: "You have logged out successfully" });
-  });
-
-  /* Handle input from the login form */
-  app.post("/admin/login",
-    passport.authenticate("local", {
-      successRedirect: "/admin/dashboard",
-      failureRedirect: "/admin/login",
-      failureFlash: true
-    })
-  );
-
-  /* Passport middleware function to protect routes */
-  function userIsNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      res.setHeader('Cache-Control', 'no-cache');
-      return res.redirect("/admin/dashboard");
-    }
-    next();
-  }
-
-  /* Passport middleware function to protect routes */
-  function userIsAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.setHeader('Cache-Control', 'no-cache');
-    res.redirect("/admin/login");
-  }
-
-  //this is for the "Create User" route, which should be accesible by logged-in Admin users only
-  function userIsAdmin(req, res, next) {
-    if (req.isAuthenticated() && req.user.role === "admin") {
-      return next();
-    }
-    res.setHeader('Cache-Control', 'no-cache');
-    res.redirect("/admin/dashboard");
-  }
 
   /* Clear all tables like public.etl_% */
   const clearTables = async () => {
