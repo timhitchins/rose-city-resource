@@ -72,59 +72,26 @@ class MapCard extends React.PureComponent {
       </div>
         <div className="card-header"><div className="card-listing" style={selectedListing === id ? selecteCardStyle : null}>{parsed.title}</div>
           <div className="spacer" />
-          {record.lat !== "" || record.lon !== "" ? (
-            <button
-              className="card-save-button"
-              data-tip="Show on map."
-              data-for="show-listing-tooltip"
+          {record.lat !== "" || record.lon !== "" &&
+            <button className="card-save-button" data-tip="Show on map." data-for="show-listing-tooltip"
               onClick={() => {
                 handleCardClick(cardRef, id);
                 updateListing(id, "card");
               }}
-            >
-                <FontAwesomeIcon
-                  icon="map-marker"
-                  size="sm"
-                  style={
-                    selectedListing === record.id ? { color: "#27a727" } : null
-                  }
-                />
-                Show
-                <ReactTooltip
-                  id="show-listing-tooltip"
-                  place="top"
-                  type="dark"
-                  effect="solid"
-                />
-              </button>
-            ) : null}
-            {!showMapDetail ? (
+              >
+              <FontAwesomeIcon icon="map-marker" size="sm" style={selectedListing === id ? { color: "#27a727" } : null}/>
+              Show
+              <ReactTooltip id="show-listing-tooltip" place="top" type="dark" effect="solid" />
+            </button>}
+            {/* only show "save" button on large screens  */}
+            {!showMapDetail &&
               <MediaQuery query="(min-width: 993px)">
-                <button
-                  className="card-save-button"
-                  data-tip="Save listing, print later."
-                  data-for="save-tooltip"
-                  onClick={() => handleCardSave(record.id)}
-                >
-                  <FontAwesomeIcon
-                    icon="save"
-                    size="sm"
-                    style={
-                      savedDataId.indexOf(record.id) > -1
-                        ? { color: "green" }
-                        : null
-                    }
-                  />
+                <button className="card-save-button" data-tip="Save listing, print later." data-for="save-tooltip" onClick={() => handleCardSave(id)}>
+                  <FontAwesomeIcon icon="save" size="sm" style={savedDataId.indexOf(id) > -1 ? { color: "green" } : null} />
                   Save
-                  <ReactTooltip
-                    id="save-tooltip"
-                    place="top"
-                    type="dark"
-                    effect="solid"
-                  />
+                  <ReactTooltip id="save-tooltip" place="top" type="dark" effect="solid" />
                 </button>
-              </MediaQuery>
-            ) : null}
+              </MediaQuery>}
           </div>
           <div className="card-street">
             {parsed.street != null && parsed.street !== '' ? (
@@ -132,48 +99,25 @@ class MapCard extends React.PureComponent {
                 {parsed.street} <br />
                 {parsed.city} <br />
                 {/* if the distance is not null then return it in the card */}
-                {record.distance !== null ? (
+                {record.distance !== null &&
                   <div className="card-distance">
-                    <FontAwesomeIcon
-                      className="card-map-marker"
-                      icon="map-marker"
-                      size="sm"
-                    />
-                    {`${Number(record.distance.toFixed(2))} miles`}
-                    <br />
-                  </div>
-                ) : null}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={"//www.google.com/maps/dir/" + record.directionsUrl}
-                >
-                  Get Directions
-                </a>
+                    <FontAwesomeIcon className="card-map-marker" icon="map-marker" size="sm" />
+                    {`${Number(record.distance.toFixed(2))} miles`} <br />
+                  </div>}
+                <a target="_blank" rel="noopener noreferrer" href={"//www.google.com/maps/dir/" + record.directionsUrl}>Get Directions</a>
               </div>
             ) : (
-                <div className="card-undisclosed">Undisclosed Location</div>
-              )}
+              <div className="card-undisclosed">Undisclosed Location</div>)}
           </div>
           <div className="covid-item covid-temp-listing">
-            {parsed.parsedCOVID === "TEMPORARY COVID RESPONSE SERVICE"
-              ? parsed.parsedCOVID
-              : null}
+            {parsed.COVID === "TEMPORARY COVID RESPONSE SERVICE" && parsed.COVID}
           </div>
           <div className="card-phone-container">
-            {parsed.phone ? (
+            {parsed.phone &&
               <div>
                 <FontAwesomeIcon icon={"phone"} className="phone-icon" />
-                {parsed.phone.map((phone, index) => {
-                  return (
-                    <div key={`${phone.phone}-${index}`} className="card-phone">
-                      <span>{`${phone.type}: `}</span>
-                      {phone.phone}
-                    </div>
-                  );
-                })}
-              </div>
-            ) : null}
+                {parsed.phone.map((phone, index) => <div key={`${phone.phone}-${index}`} className="card-phone"><span>{`${phone.type}: `}</span>{phone.phone}</div>)}
+              </div>}
           </div>
           <div className="card-web-container">
             {parsed.website ? (
@@ -200,13 +144,13 @@ class MapCard extends React.PureComponent {
               <div className="card-title-flex">
                 <div>Hours:</div>
                 <div className="covid-item">
-                  {parsed.parsedCOVID === "HOURS CHANGED DUE TO COVID"
-                    ? parsed.parsedCOVID
+                  {parsed.COVID === "HOURS CHANGED DUE TO COVID"
+                    ? parsed.COVID
                     : null}
                 </div>
               </div>
               <div className="card-content">
-                {parsed.parsedCOVID === "CLOSED DUE TO COVID" ? (
+                {parsed.COVID === "CLOSED DUE TO COVID" ? (
                   <div className="covid-item">CLOSED</div>
                 ) : (
                     parsed.hours
