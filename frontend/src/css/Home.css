@@ -81,7 +81,7 @@ red/orange: #FC3C3C
   float: left;
   width: 20%;
   padding: 10px;
-  background: #00adb5;
+  background: #2185D0;
   color: white;
   font-size: 17px;
   border: 1px solid #393e46;
@@ -92,12 +92,12 @@ red/orange: #FC3C3C
 
 .search-button:hover,
 .search-button:focus {
-  background: #008a8f;
+  background: #2185D0;
   outline: none;
 }
 
 .search-input:focus {
-  border: 1px solid #008a8f;
+  border: 1px solid #2185D0;
   outline: none;
 }
 
@@ -105,13 +105,13 @@ red/orange: #FC3C3C
 .advanced-search {
   min-width: 165px;
   text-align: right;
-  color: #00adb5;
+  color: #2185D0;
   align-self: flex-end;
 }
 
 .advanced-search:hover {
   cursor: pointer;
-  color: #008a8f;
+  color: #2185D0;
 }
 
 /* ------------------------------------------ */

@@ -13,6 +13,7 @@
 
 .card-map-container {
   display: flex;
+  margin: .25rem .5rem;
 }
 
 .map-details-container {
@@ -82,6 +83,7 @@
 
 .cards-container {
   margin-top: 5px;
+  margin-left: 1.5rem;
   grid-column: 1 / span 3;
   word-wrap: break-word;
   display: flex;
@@ -114,6 +116,7 @@
   grid-column: 1 / span 3;
   display: flex;
   justify-content: space-between;
+  color: #422B75;
 }
 
 .card-category {
@@ -155,12 +158,12 @@
 }
 
 .card-street > div > a {
-  color: #00adb5;
+  color: #2185D0;
 }
 
 .card-street > div > a:hover,
 .card-street > div > a:focus {
-  color: #008a8f;
+  color: #2185D0;
 }
 
 .card-distance {
@@ -198,7 +201,7 @@ on .card-phone-container*/
 .card-web-container {
   grid-column: 3 / span 1;
   padding: 10px;
-  color: #00adb5;
+  color: #2185D0;
 }
 
 .card-web-container > div > a {
@@ -237,7 +240,7 @@ on .card-phone-container*/
 }
 
 .covid-item {
-  color: red;
+  color: #422B75;
   font-weight: 500;
 }
 

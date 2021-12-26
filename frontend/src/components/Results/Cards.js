@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CountBar from "./CountBar";
 import { cardPhoneTextFilter, cardTextFilter, cardSortByDistance, cardWebAddressFixer, } from "../../utils/api";
 import { greenLMarker } from "../../icons/mapIcons";
-import { Container, Segment, Input, Card, Grid, Ref, Sticky } from "semantic-ui-react";
+import { Container, Segment, Input, Card, Grid, Ref, Sticky, Label } from "semantic-ui-react";
 
 const DetailMap = (props) => {
   return (
@@ -28,7 +28,7 @@ const style = {
 };
 
 const selecteCardStyle = {
-  color: "#27a727",
+  color: "#2185D0",
   fontWeight: "bolder",
 }
 
@@ -48,10 +48,12 @@ class MapCard extends React.PureComponent {
     const { record, selectedListing, updateListing, handleCardClick, handleCardSave,savedDataId, showMapDetail, } = this.props
     const { id } = record
     const { cardRef } = this
+    console.log(record)
 
     const parsed = {
       category: record.main_category,
       title: record.listing,
+      parentOrg: record.parent_organization,
       phone: cardPhoneTextFilter(record),
       website: cardWebAddressFixer(record.website),
       street: record.street !== null && record.street !== '' ? `${cardTextFilter(record.street)} ${cardTextFilter(
@@ -65,9 +67,10 @@ class MapCard extends React.PureComponent {
 
   return (
   <div className="card-map-container">
-    <div ref={cardRef} className="card-container" style={id === selectedListing ? style : null}>
+    <div ref={cardRef} className="card-container ui segment" style={id === selectedListing ? style : null}>
+
       <div className="card-header">
-        <div className="card-category">{parsed.category}</div>
+      <Label as='a' color='blue' fluid style={{ width: '50%', marginBottom: '.5rem' }} fluid attached ribbon>{parsed.category} {parsed.parentOrg && `/ ${parsed.parentOrg}`} </Label>
         {parsed.COVID === "CLOSED DUE TO COVID" && <div className="covid-item">{parsed.COVID}</div>}
       </div>
         <div className="card-header"><div className="card-listing" style={selectedListing === id ? selecteCardStyle : null}>{parsed.title}</div>
@@ -87,7 +90,7 @@ class MapCard extends React.PureComponent {
             {!showMapDetail &&
               <MediaQuery query="(min-width: 993px)">
                 <button className="card-save-button" data-tip="Save listing, print later." data-for="save-tooltip" onClick={() => handleCardSave(id)}>
-                  <FontAwesomeIcon icon="save" size="sm" style={savedDataId.indexOf(id) > -1 ? { color: "green" } : null} />
+                  <FontAwesomeIcon icon="save" size="sm" style={savedDataId.indexOf(id) > -1 ? { color: '#2185D0' } : null} />
                   Save
                   <ReactTooltip id="save-tooltip" place="top" type="dark" effect="solid" />
                 </button>
@@ -120,26 +123,18 @@ class MapCard extends React.PureComponent {
               </div>}
           </div>
           <div className="card-web-container">
-            {parsed.website ? (
+            {parsed.website &&
               <div>
                 <FontAwesomeIcon icon={"globe"} />
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={parsed.website}
-                >
-                  {" website"}
-                </a>
-              </div>
-            ) : null}
+                <a target="_blank" rel="noopener noreferrer" href={parsed.website}>{" website"}</a>
+              </div>}
           </div>
-          {!(parsed.description === "") ? (
+          {!(parsed.description === "") &&
             <div className="card-item">
               <div className="card-title">Service Description:</div>
               <div className="card-content">{parsed.description}</div>
-            </div>
-          ) : null}
-          {!(parsed.hours === "") ? (
+            </div>}
+          {!(parsed.hours === "") &&
             <div className="card-item">
               <div className="card-title-flex">
                 <div>Hours:</div>
@@ -156,8 +151,7 @@ class MapCard extends React.PureComponent {
                     parsed.hours
                   )}
               </div>
-            </div>
-          ) : null}
+            </div>}
         </div>
         {showMapDetail ? (
           <div className="map-details-container">

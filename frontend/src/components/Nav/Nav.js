@@ -4,6 +4,9 @@ import { NavLink } from "react-router-dom";
 import "./Nav.css";
 import srLogo from "./../../images/sr-logo-sm.png";
 import rcrLogo from "./../../images/rcr-logo.png";
+import rcrLogoBlue from "./../../images/rcr-logo-blue.png";
+import rcrLogoRed from "./../../images/rcr-logo-red.png";
+import rcrLogoTeal from "./../../images/rcr-logo-teal.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSSTransition } from "react-transition-group";
 
@@ -77,7 +80,7 @@ class Nav extends React.PureComponent {
                 to="/"
                 onClick={this.logoDrawerToggle}
               >
-                <img src={rcrLogo} alt="Rose City Resource Home" />
+                <img src={rcrLogoBlue} alt="Rose City Resource Home" />
               </NavLink>
             </div>
             <div className="spacer" />
