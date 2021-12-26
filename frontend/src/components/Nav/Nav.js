@@ -80,7 +80,7 @@ class Nav extends React.PureComponent {
                 to="/"
                 onClick={this.logoDrawerToggle}
               >
-                <img src={rcrLogoBlue} alt="Rose City Resource Home" />
+                <img src={rcrLogoTeal} alt="Rose City Resource Home" />
               </NavLink>
             </div>
             <div className="spacer" />

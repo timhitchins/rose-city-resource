@@ -70,7 +70,7 @@ class MapCard extends React.PureComponent {
     <div ref={cardRef} className="card-container ui segment" style={id === selectedListing ? style : null}>
 
       <div className="card-header">
-      <Label as='a' color='blue' fluid style={{ width: '50%', marginBottom: '.5rem' }} fluid attached ribbon>{parsed.category} {parsed.parentOrg && `/ ${parsed.parentOrg}`} </Label>
+      <Label as='a' color='teal' fluid style={{ width: '50%', marginBottom: '.5rem', backgroundColor: '#422B75', color: 'white' }} fluid attached ribbon>{parsed.category} {parsed.parentOrg && `/ ${parsed.parentOrg}`} </Label>
         {parsed.COVID === "CLOSED DUE TO COVID" && <div className="covid-item">{parsed.COVID}</div>}
       </div>
         <div className="card-header"><div className="card-listing" style={selectedListing === id ? selecteCardStyle : null}>{parsed.title}</div>

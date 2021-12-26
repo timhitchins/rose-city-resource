@@ -158,7 +158,7 @@
 }
 
 .card-street > div > a {
-  color: #2185D0;
+  color: #422B75;
 }
 
 .card-street > div > a:hover,
@@ -201,7 +201,7 @@ on .card-phone-container*/
 .card-web-container {
   grid-column: 3 / span 1;
   padding: 10px;
-  color: #2185D0;
+  color: #422B75;
 }
 
 .card-web-container > div > a {
