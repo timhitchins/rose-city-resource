@@ -13,12 +13,11 @@ red/orange: #FC3C3C
 
 html,
 body {
-  background-color: #faf9f8;
+  background-color: #CDCBC2 !important;
   margin: 0;
   font-family: Segoe UI, "Roboto", Oxygen-Sans, "Ubuntu", Cantarell,
     Helvetica Neue, sans-serif;
   box-sizing: border-box;
-  background-color: #85898e;
 }
 
 /* This is to make sure that 

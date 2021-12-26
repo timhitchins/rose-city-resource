@@ -8,8 +8,7 @@ const Footer = (props) => {
       <div className="footer">
         <div className="footer-container">
           <div className="revision-date">
-            Last Update: <br />
-            {props.revisionDate}
+            Last Update: {props.revisionDate}
           </div>
           <div className="spacer" />
           <div className="footer-item mac-logo">

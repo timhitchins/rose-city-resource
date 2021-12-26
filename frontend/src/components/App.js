@@ -1,15 +1,15 @@
-import React from "react";
-import Loading from "./static_components/Loading";
-import Home from "./Home/Home";
-import About from "./static_components/About";
-import SuggestEdit from "./static_components/SuggestEdit";
-import Results from "./Results/Results";
-import Details from "./Details";
-import Nav from "./Nav";
-import Footer from "./static_components/Footer";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import { getRecords, addUserDistancesToRecords, getMetaInformation, getCategorySearchData, getMainSearchData, dateString, getDatatableVersion, } from "../utils/api";
-import "../icons/iconsInit";
+import React from 'react'
+import Loading from './static_components/Loading'
+import Home from './Home/Home'
+import About from './static_components/About'
+import SuggestEdit from './static_components/SuggestEdit'
+import Results from './Results/Results'
+import Details from './Details'
+import Nav from './Nav'
+import Footer from './static_components/Footer'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { getRecords, addUserDistancesToRecords, getMetaInformation, getCategorySearchData, getMainSearchData, dateString, getDatatableVersion, } from '../utils/api'
+import '../icons/iconsInit'
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -52,8 +52,8 @@ class App extends React.PureComponent {
   };
   // build the searching data
   filterData = (records) => {
-    const generalCategories = getCategorySearchData(records, "general_category")
-    const parentCategories = getCategorySearchData(records, "parent_organization")
+    const generalCategories = getCategorySearchData(records, 'general_category')
+    const parentCategories = getCategorySearchData(records, 'parent_organization')
     const mainCategories = getMainSearchData(records);
     // return a new object with the search data
     return {
@@ -94,20 +94,20 @@ class App extends React.PureComponent {
         : (
           <Router>
             <div>
-              <div className="main-content">
+              <div className='main-content'>
                 {/* Alert users if they are viewing a preview version of the site  */}
-                {getDatatableVersion() === "staging" ? <div><center>This site is using preview data. To view production data, please close the tab and reload the site</center></div> : <React.Fragment />}
+                {getDatatableVersion() === 'staging' ? <div><center>This site is using preview data. To view production data, please close the tab and reload the site</center></div> : <React.Fragment />}
                 <Nav />
                 <Switch>
-                  <Route exact path="/" component={(props) => (
+                  <Route exact path='/' component={(props) => (
                     <Home
                       {...props}
                       records={records}
                       searchData={searchData} />)}
                   />
-                  <Route exact path="/about" component={About} />
-                  <Route exact path="/suggest-edit" component={SuggestEdit} />
-                  <Route path="/results" component={(props) => (
+                  <Route exact path='/about' component={About} />
+                  <Route exact path='/suggest-edit' component={SuggestEdit} />
+                  <Route path='/results' component={(props) => (
                     <Results
                       {...props}
                       records={records}
@@ -116,14 +116,14 @@ class App extends React.PureComponent {
                       handleSaveDelete={this.handleSaveDelete}
                       savedDataId={savedDataId} />)}
                   />
-                  <Route exact path="/details" component={(props) => (
+                  <Route exact path='/details' component={(props) => (
                     <Details
                       {...props}
                       records={records}
                       handleCardSave={this.handleCardSave}
                       savedDataId={savedDataId} />)}
                   />
-                  <Route path="/admin" render={() => window.location.href = [window.location.protocol, "//",  window.location.host.replace(/\d+/, "5000"), "/admin/dashboard",].join("")} />
+                  <Route path='/admin' render={() => window.location.href = [window.location.protocol, '//',  window.location.host.replace(/\d+/, '5000'), '/admin/dashboard',].join('')} />
                   {/* for all other routes */}
                   <Route render={() => <p>Not Found</p>} />
                 </Switch>

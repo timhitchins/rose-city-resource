@@ -7,7 +7,7 @@ import { CSSTransition } from "react-transition-group";
 import { objectKeyByValue, queryBuilder } from "../../utils/api.js";
 
 // font awesome icons color
-const iconColor = 'white';
+const iconColor = 'white'
 
 /* Desktop display of main "Food," "Goods," etc icons */
 const PrimaryIconsLarge = ({

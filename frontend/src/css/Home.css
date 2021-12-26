@@ -39,10 +39,12 @@ red/orange: #FC3C3C
 /* Basic Instructions */
 
 .basic-instructions {
-  color: #f8b500;
+  color: #CDCBC2;
   font-size: 1.75rem;
   padding-top: 1rem;
   max-width: 675px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  line-height: 2.5rem;
 }
 
 .instructions-span {
@@ -196,7 +198,7 @@ red/orange: #FC3C3C
 }
 
 .icon-name {
-  color: white;
+  color: #CDCBC2;
 }
 
 .category-plus {
@@ -260,7 +262,7 @@ red/orange: #FC3C3C
 
 .modal-box {
   padding: 20px;
-  background-color: #faf9f8;
+  background-color: #CDCBC2;
   border-radius: 5px;
   display: inline-block;
   margin: 1rem;
@@ -557,7 +559,7 @@ input[type='checkbox'] {
 
   .icon-dropdown-container {
     text-align: left;
-    border-top: 1px solid white;
+    border-top: 1px solid #CDCBC2;
     padding: 0.5rem;
     background: #393e46;
     cursor: pointer;
@@ -569,7 +571,7 @@ input[type='checkbox'] {
 
   .icon-dropdown-name {
     padding-left: 30px;
-    color: white;
+    color: #ecf0f1;
   }
 
   /* ----------------------------- */
