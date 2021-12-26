@@ -20,6 +20,7 @@ import {
 } from "../utils/api";
 import "../icons/iconsInit";
 import sanitizeHtml from 'sanitize-html'
+import TestCard from './TestCard'
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -184,6 +185,7 @@ class App extends React.PureComponent {
                   />
                   <Route exact path="/about" component={About} />
                   <Route exact path="/suggest-edit" component={SuggestEdit} />
+                  <Route exact path='/test' component={TestCard} />
                   <Route
                     path="/results"
                     component={(props) => (

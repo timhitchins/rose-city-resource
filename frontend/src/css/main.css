@@ -15,8 +15,8 @@ html,
 body {
   background-color: #CDCBC2 !important;
   margin: 0;
-  font-family: Segoe UI, "Roboto", Oxygen-Sans, "Ubuntu", Cantarell,
-    Helvetica Neue, sans-serif;
+  /* Semantic UI Defauls  */
+  font-family: 'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;
   box-sizing: border-box;
 }
 

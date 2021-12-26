@@ -5,29 +5,15 @@ import MediaQuery from "react-responsive";
 import { Map, TileLayer, Marker } from "react-leaflet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CountBar from "./CountBar";
-import {
-  cardPhoneTextFilter,
-  cardTextFilter,
-  cardSortByDistance,
-  cardWebAddressFixer,
-} from "../../utils/api";
+import { cardPhoneTextFilter, cardTextFilter, cardSortByDistance, cardWebAddressFixer, } from "../../utils/api";
 import { greenLMarker } from "../../icons/mapIcons";
+import { Container, Segment, Input, Card, Grid, Ref, Sticky } from "semantic-ui-react";
 
 const DetailMap = (props) => {
   return (
     <React.Fragment>
-      <Map
-        center={props.coords}
-        zoom={15}
-        scrollWheelZoom={true}
-        tap={true}
-        dragging={true}
-        touchZoom={true}
-      >
-        <TileLayer
-          attribution=""
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-        />
+      <Map center={props.coords} zoom={15} scrollWheelZoom={true} tap={true} dragging={true} touchZoom={true} >
+        <TileLayer attribution="" url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
         <Marker position={props.coords} icon={greenLMarker} />
       </Map>
     </React.Fragment>
@@ -41,7 +27,12 @@ const style = {
   boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5)",
 };
 
-class Card extends React.PureComponent {
+const selecteCardStyle = {
+  color: "#27a727",
+  fontWeight: "bolder",
+}
+
+class MapCard extends React.PureComponent {
   state = {
     selector: "location",
   };
@@ -54,68 +45,43 @@ class Card extends React.PureComponent {
   }
 
   render() {
-    const {
-      record,
-      selectedListing,
-      updateListing,
-      handleCardClick,
-      handleCardSave,
-      savedDataId,
-      showMapDetail,
-    } = this.props;
+    const { record, selectedListing, updateListing, handleCardClick, handleCardSave,savedDataId, showMapDetail, } = this.props
+    const { id } = record
+    const { cardRef } = this
 
-    const textMap = {
-      parsedCategory: record.main_category,
-      parsedListing: record.listing,
-      parsedPhone: cardPhoneTextFilter(record),
-      parsedWeb: cardWebAddressFixer(record.website),
-      parsedStreet: record.street !== null && record.street !== '' ? `${cardTextFilter(record.street)} ${cardTextFilter(
+    const parsed = {
+      category: record.main_category,
+      title: record.listing,
+      phone: cardPhoneTextFilter(record),
+      website: cardWebAddressFixer(record.website),
+      street: record.street !== null && record.street !== '' ? `${cardTextFilter(record.street)} ${cardTextFilter(
         record.street2
       )}`.trim() : '',
-      parsedCity: `${record.city}, OR ${record.postal_code}`,
-      parsedDescription: cardTextFilter(record.service_description),
-      parsedHours: cardTextFilter(record.hours),
-      parsedCOVID: cardTextFilter(record.covid_message),
+      city: `${record.city}, OR ${record.postal_code}`,
+      description: cardTextFilter(record.service_description),
+      hours: cardTextFilter(record.hours),
+      COVID: cardTextFilter(record.covid_message),
     };
 
-    return (
-      <div className="card-map-container">
-        <div
-          ref={this.cardRef}
-          className="card-container"
-          style={record.id === selectedListing ? style : null}
-        >
-          <div className="card-header">
-            <div className="card-category">{textMap.parsedCategory}</div>
-            {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
-              <div className="covid-item">{textMap.parsedCOVID}</div>
-            ) : null}
-          </div>
-          <div className="card-header">
-            <div
-              className="card-listing"
-              style={
-                selectedListing === record.id
-                  ? {
-                    color: "#27a727",
-                    fontWeight: "bolder",
-                  }
-                  : null
-              }
+  return (
+  <div className="card-map-container">
+    <div ref={cardRef} className="card-container" style={id === selectedListing ? style : null}>
+      <div className="card-header">
+        <div className="card-category">{parsed.category}</div>
+        {parsed.COVID === "CLOSED DUE TO COVID" && <div className="covid-item">{parsed.COVID}</div>}
+      </div>
+        <div className="card-header"><div className="card-listing" style={selectedListing === id ? selecteCardStyle : null}>{parsed.title}</div>
+          <div className="spacer" />
+          {record.lat !== "" || record.lon !== "" ? (
+            <button
+              className="card-save-button"
+              data-tip="Show on map."
+              data-for="show-listing-tooltip"
+              onClick={() => {
+                handleCardClick(cardRef, id);
+                updateListing(id, "card");
+              }}
             >
-              {textMap.parsedListing}
-            </div>
-            <div className="spacer" />
-            {record.lat !== "" || record.lon !== "" ? (
-              <button
-                className="card-save-button"
-                data-tip="Show on map."
-                data-for="show-listing-tooltip"
-                onClick={() => {
-                  handleCardClick(this.cardRef, record.id);
-                  updateListing(record.id, "card");
-                }}
-              >
                 <FontAwesomeIcon
                   icon="map-marker"
                   size="sm"
@@ -161,10 +127,10 @@ class Card extends React.PureComponent {
             ) : null}
           </div>
           <div className="card-street">
-            {textMap.parsedStreet != null && textMap.parsedStreet !== '' ? (
+            {parsed.street != null && parsed.street !== '' ? (
               <div>
-                {textMap.parsedStreet} <br />
-                {textMap.parsedCity} <br />
+                {parsed.street} <br />
+                {parsed.city} <br />
                 {/* if the distance is not null then return it in the card */}
                 {record.distance !== null ? (
                   <div className="card-distance">
@@ -190,15 +156,15 @@ class Card extends React.PureComponent {
               )}
           </div>
           <div className="covid-item covid-temp-listing">
-            {textMap.parsedCOVID === "TEMPORARY COVID RESPONSE SERVICE"
-              ? textMap.parsedCOVID
+            {parsed.parsedCOVID === "TEMPORARY COVID RESPONSE SERVICE"
+              ? parsed.parsedCOVID
               : null}
           </div>
           <div className="card-phone-container">
-            {textMap.parsedPhone ? (
+            {parsed.phone ? (
               <div>
                 <FontAwesomeIcon icon={"phone"} className="phone-icon" />
-                {textMap.parsedPhone.map((phone, index) => {
+                {parsed.phone.map((phone, index) => {
                   return (
                     <div key={`${phone.phone}-${index}`} className="card-phone">
                       <span>{`${phone.type}: `}</span>
@@ -210,40 +176,40 @@ class Card extends React.PureComponent {
             ) : null}
           </div>
           <div className="card-web-container">
-            {textMap.parsedWeb ? (
+            {parsed.website ? (
               <div>
                 <FontAwesomeIcon icon={"globe"} />
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={textMap.parsedWeb}
+                  href={parsed.website}
                 >
                   {" website"}
                 </a>
               </div>
             ) : null}
           </div>
-          {!(textMap.parsedDescription === "") ? (
+          {!(parsed.description === "") ? (
             <div className="card-item">
               <div className="card-title">Service Description:</div>
-              <div className="card-content">{textMap.parsedDescription}</div>
+              <div className="card-content">{parsed.description}</div>
             </div>
           ) : null}
-          {!(textMap.parsedHours === "") ? (
+          {!(parsed.hours === "") ? (
             <div className="card-item">
               <div className="card-title-flex">
                 <div>Hours:</div>
                 <div className="covid-item">
-                  {textMap.parsedCOVID === "HOURS CHANGED DUE TO COVID"
-                    ? textMap.parsedCOVID
+                  {parsed.parsedCOVID === "HOURS CHANGED DUE TO COVID"
+                    ? parsed.parsedCOVID
                     : null}
                 </div>
               </div>
               <div className="card-content">
-                {textMap.parsedCOVID === "CLOSED DUE TO COVID" ? (
+                {parsed.parsedCOVID === "CLOSED DUE TO COVID" ? (
                   <div className="covid-item">CLOSED</div>
                 ) : (
-                    textMap.parsedHours
+                    parsed.hours
                   )}
               </div>
             </div>
@@ -334,7 +300,7 @@ class Cards extends React.PureComponent {
         <CountBar savedDataId={savedDataId} data={data} />
 
         {cardSortByDistance(data).map((record, index) => (
-          <Card
+          <MapCard
             key={`${record.id}-${index}`}
             record={record}
             selectedListing={selectedListing}
