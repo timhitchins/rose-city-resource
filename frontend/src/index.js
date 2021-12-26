@@ -1,11 +1,12 @@
-import React from 'react';
-import { render } from 'react-dom';
-import WebFont from 'webfontloader';
-import App from './components/App';
-import './css/main.css';
-import 'leaflet/dist/leaflet.css'; //regular leaflet
-import 'react-leaflet-markercluster/dist/styles.min.css'; //markerCluster
-import 'leaflet-control-geocoder/dist/Control.Geocoder.css'; //geocoder
+import React from 'react'
+import ReactDOM from 'react-dom'
+import WebFont from 'webfontloader'
+import App from './components/App'
+import './css/main.css'
+import 'leaflet/dist/leaflet.css' //regular leaflet
+import 'react-leaflet-markercluster/dist/styles.min.css' //markerCluster
+import 'leaflet-control-geocoder/dist/Control.Geocoder.css' //geocoder
+import 'semantic-ui-css/semantic.min.css'
 
 // annoying hack to deal with webpack and marker icon
 import L from 'leaflet';
@@ -24,4 +25,4 @@ WebFont.load({
   }
 });
 
-render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
