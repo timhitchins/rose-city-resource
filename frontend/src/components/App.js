@@ -113,7 +113,7 @@ class App extends React.PureComponent {
           "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
           "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
           "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
-          "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img"
+          "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "details", "summary"
         ],
         disallowedTagsMode: 'discard',
         allowedAttributes: {
@@ -121,7 +121,12 @@ class App extends React.PureComponent {
           img: [ 'src' ], 
           div: [ 'style', 'class' ],
           span: [ 'style', 'class' ],
-          i: [ 'style', 'class']
+          i: [ 'style', 'class'],
+          details: [ 'style', 'class'],
+          summary: [ 'style', 'class'],
+          p: [ 'style', 'class'], 
+          ul: [ 'style', 'class'], 
+          li: [ 'style', 'class']
         },
         selfClosing: [ 'img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta' ],
         allowedSchemes: [ 'http', 'https', 'ftp', 'mailto', 'tel' ],
