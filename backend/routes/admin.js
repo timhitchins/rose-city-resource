@@ -194,7 +194,6 @@ module.exports = (app, pool) => {
 
   /* Set the Site Banner */
   app.post('/admin/set-site-banner', userIsAdmin, async (req, res, next) => {
-
     try {
       const { content, isEnabled } = req.body;
       const cleanContent = sanitizeHtml(content, {
@@ -205,7 +204,7 @@ module.exports = (app, pool) => {
           "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
           "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
           "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
-          "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img"
+          "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img", "summary", "details"
         ],
         disallowedTagsMode: 'discard',
         allowedAttributes: {
@@ -213,7 +212,12 @@ module.exports = (app, pool) => {
           img: [ 'src' ],
           div: [ 'style', 'class' ],
           span: [ 'style', 'class' ],
-          i: [ 'style', 'class']
+          i: [ 'style', 'class' ],
+          details: [ 'style', 'class'],
+          summary: [ 'style', 'class'],
+          p: [ 'style', 'class'],
+          ul: [ 'style', 'class'], 
+          li: [ 'style', 'class']
         },
         selfClosing: [ 'img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta' ],
         allowedSchemes: [ 'http', 'https', 'ftp', 'mailto', 'tel' ],
