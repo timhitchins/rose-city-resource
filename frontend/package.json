@@ -45,7 +45,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "postinstall": "npm run build",
-    "dev": "npm run start"
+    "dev": "PORT=3001 react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,4 +1,5 @@
 import { findDistance, inOutLocation } from "./distance";
+import { CONFIG } from '../apiConfig';
 
 let _datatableVersion = "";
 
@@ -6,16 +7,15 @@ let _datatableVersion = "";
 
 /* Get the time stamp of the last update to the production_data table */
 export async function getMetaInformation() {
-  const uri = "/api/meta-information";
-  const last_update = await fetch(uri)
-    .catch((e) => {
-      console.error(e);
+  const last_update = await fetch(CONFIG.META_URI)
+    .catch((error) => {
+      console.error(error);
       handleError();
     })
-    .then((r) => {
-      if (r.ok) {
-        return r.json().catch((e) => {
-          console.error(e);
+    .then((response) => {
+      if (response.ok) {
+        return response.json().catch((error) => {
+          console.error(error);
         });
       } else {
         console.error("Unable to connect to the server");
@@ -67,8 +67,8 @@ export async function addUserDistancesToRecords(records) {
 export async function getRecords() {
   const uri =
     getQueryStringParameterValue("datatable") === "staging"
-      ? "/api/query-staging"
-      : "/api/query";
+      ? CONFIG.QUERY_STAGING
+      : CONFIG.QUERY;
 
   try {
     const queryResponse = await fetch(uri);

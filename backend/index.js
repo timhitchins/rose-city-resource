@@ -84,7 +84,7 @@ if (process.env.NODE_ENV === "production") {
   app.use("*", express.static(frontEndPath, staticOptions))
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT);
 
-console.log(process.env.DATABASE_URL);
+app.get('/db', (req, res) => res.json({ url: process.env.DATABASE_URL}))

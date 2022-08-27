@@ -136,6 +136,7 @@
           document.getElementById('status').innerHTML = 'Import process is running...';
         }
         if (jobEnd && jobEnd.length >= 1) {
+          // preview URL
           const previewPage = [window.location.protocol, '//', window.location.host.replace(/\d+/, '3000'), '?datatable=staging'].join('');
           document.getElementById('status').innerHTML = '<span>&#10004;&nbsp;Successfully imported to the Preview Site!</span><br/>';
           $('#preview-button').removeClass('disabled')
