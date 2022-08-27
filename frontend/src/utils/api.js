@@ -67,8 +67,8 @@ export async function addUserDistancesToRecords(records) {
 export async function getRecords() {
   const uri =
     getQueryStringParameterValue("datatable") === "staging"
-      ? "/api/query-staging"
-      : "/api/query";
+      ? "https://rosecityresource.streetroots.org/api/query-staging"
+      : "https://rosecityresource.streetroots.org/api/query";
 
   try {
     const queryResponse = await fetch(uri);
