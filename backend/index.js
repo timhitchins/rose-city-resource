@@ -84,5 +84,5 @@ if (process.env.NODE_ENV === "production") {
   app.use("*", express.static(frontEndPath, staticOptions))
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT);
