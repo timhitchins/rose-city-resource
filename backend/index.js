@@ -48,8 +48,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/db', (req, res) => res.json({ url: process.env.DATABASE_URL}))
-
 /* Routes */
 require("./routes/query")(app, pool);
 require("./routes/query-staging")(app, pool);
